@@ -1,7 +1,7 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<fmt:bundle basename="i18n/text"> <%-- prefix="header"--%>
+<fmt:bundle basename="i18n/message"> <%-- prefix="header"--%>
     <fmt:setLocale value="en"/>
     <html>
     <head>

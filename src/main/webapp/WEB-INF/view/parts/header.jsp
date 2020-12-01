@@ -30,7 +30,7 @@
         <div class="header_button">
             <ul>
                 <li><a class="sign_up" onclick="openForm()"><fmt:message
-                        key="header.sign.in.or.registration.button"/></a></li>
+                        key="header.sign.in.or.sign.up.button"/></a></li>
             </ul>
         </div>
 
@@ -52,15 +52,12 @@
         <c:otherwise>
         <div class="header_greeting">
             <div class="user_greeting"><h4><fmt:message
-                    key="header.user.greetings"/>, ${sessionScope.authUser.getLogin()}!</h4></div>
-            <div class="user_points"><fmt:message key="header.user.points"/>
-                : ${sessionScope.authUser.getPoints()}</div>
+                    key="header.user.greetings"/> ${sessionScope.authUser.getLogin()}!</h4></div>
+            <div class="user_points"><fmt:message key="header.user.points"/> ${sessionScope.authUser.getPoints()}</div>
             <div class="log_out">
                 <a href="#" class="Log out"><fmt:message key="header.logout.button"/></a>
             </div>
         </div>
         </c:otherwise>
         </c:choose>
-
-
 </header>

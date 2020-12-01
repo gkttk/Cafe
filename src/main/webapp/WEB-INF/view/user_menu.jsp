@@ -33,7 +33,7 @@
                                 <!-- if user == USER -->
                                 <c:choose>
                                     <c:when test="${sessionScope.authUser.getRole == ADMIN}">
-                                        <button class="btn"><fmt:message key="user.menu.change.dish.button"/></button>
+                                        <button class="btn"><fmt:message key="user.menu.update.dish.button"/></button>
                                     </c:when>
                                     <c:otherwise>
                                         <button class="btn"><fmt:message key="user.menu.comments.button"/></button>
@@ -42,7 +42,8 @@
                                 <input type="checkbox" name="orderDishes" value="${dish.getId()}"/>
                             </div>
                         </c:forEach>
-                        <input form="form_content" type="submit" value="<fmt:message key="user.menu.make.order.button"/>"/>
+                        <input form="form_content" type="submit"
+                               value="<fmt:message key="user.menu.make.order.button"/>"/>
                     </form>
                 </div>
             </div>
