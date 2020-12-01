@@ -1,10 +1,12 @@
-<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
+<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<fmt:bundle basename="i18n/message"> <%-- prefix="header"--%>
-    <fmt:setLocale value="en"/>
+<fmt:setLocale value="by" scope="session"/>
+<fmt:bundle basename="i18n/message">
+
     <html>
     <head>
+        <meta charset="UTF-8">
         <title><fmt:message key="index.title"/></title>
         <link rel="stylesheet" type="text/css" href="static/css/reset.css"/>
         <link rel="stylesheet" type="text/css" href="static/css/common.css"/>
@@ -12,7 +14,8 @@
     </head>
     <body>
     <div class="wrapper">
-        <jsp:include page="WEB-INF/view/parts/header.jsp"/>
+        <%@ include file="WEB-INF/view/parts/header.jsp" %>
+
         <main>
             In urna felis dolor curabitur eleifend parturient. Nisi interdum accumsan penatibus vehicula orci mattis
             dignissim egestas fringilla tortor ligula ad? Turpis turpis amet mauris ultricies, semper posuere. Rhoncus
@@ -52,8 +55,10 @@
             vestibulum. Varius sodales vitae tristique. Nunc neque netus, quisque diam at placerat. Nulla habitasse
             suscipit vitae orci etiam torquent. Dolor vivamus nec venenatis.
         </main>
-        <jsp:include page="WEB-INF/view/parts/footer.jsp"/>
+        <%@ include file="WEB-INF/view/parts/footer.jsp" %>
     </div>
     </body>
+
 </fmt:bundle>
+
 </html>

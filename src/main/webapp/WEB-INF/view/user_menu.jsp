@@ -1,8 +1,8 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<fmt:bundle basename="i18n/text"> <%-- prefix="header"--%>
-    <fmt:setLocale value="en"/>
+<fmt:bundle basename="i18n/message">
+    <fmt:setLocale value="en" scope="session"/>
     <html>
     <head>
         <title><fmt:message key="user.menu.title"/></title>
@@ -12,7 +12,7 @@
     </head>
     <body>
     <div class="wrapper">
-        <jsp:include page="parts/header.jsp"/>
+        <%@ include file="parts/header.jsp" %>
         <main>
             <jsp:include page="parts/aside_menu.jsp"/>
             <div class="content">
@@ -48,7 +48,8 @@
                 </div>
             </div>
         </main>
-        <jsp:include page="parts/footer.jsp"/>
+        <%@ include file="parts/footer.jsp" %>
+
     </div>
     </body>
 </fmt:bundle>
