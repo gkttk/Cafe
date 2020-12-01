@@ -16,11 +16,11 @@
 
                 <button class="dropbtn"><fmt:message key="header.language.button"/></button>
                 <div class="dropdown-content">
-
-                    <a href="#"><fmt:message key="header.ru.button"/></a>
-                    <a href="#"><fmt:message key="header.en.button"/></a>
-                    <a href="#"><fmt:message key="header.by.button"/></a>
-
+                    <form action="${pageContext.request.contextPath}/controller" method="GET">
+                    <a href="${pageContext.request.contextPath}/controller?command=locale&lang=ru"><fmt:message key="header.ru.button"/></a>
+                    <a href="${pageContext.request.contextPath}/controller?command=locale&lang=en"><fmt:message key="header.en.button"/></a>
+                    <a href="${pageContext.request.contextPath}/controller?command=locale&lang=by"><fmt:message key="header.by.button"/></a>
+                    </form>
                 </div>
             </div>
         </div>
