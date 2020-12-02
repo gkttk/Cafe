@@ -1,4 +1,4 @@
-package com.github.gkttk.epam.model;
+package com.github.gkttk.epam.model.entities;
 
 import com.github.gkttk.epam.model.enums.UserRole;
 
@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class User extends Entity {
-    private final Long id;
+
     private final String login;
     private final String password;
     private final UserRole role;
@@ -15,7 +15,7 @@ public class User extends Entity {
     private final boolean active;
 
     public User(Long id, String login, String password, UserRole role, int points, BigDecimal money, boolean active) {
-        this.id = id;
+        super(id);
         this.login = login;
         this.password = password;
         this.role = role;
@@ -25,7 +25,7 @@ public class User extends Entity {
     }
 
     public Long getId() {
-        return id;
+        return super.getId();
     }
 
     public String getLogin() {
@@ -62,8 +62,8 @@ public class User extends Entity {
             return false;
         }
         User user = (User) o;
-        return active == user.active &&
-                Objects.equals(id, user.id) &&
+        return points == user.points &&
+                active == user.active &&
                 Objects.equals(login, user.login) &&
                 Objects.equals(password, user.password) &&
                 role == user.role &&
@@ -72,12 +72,12 @@ public class User extends Entity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, role, money, active);
+        return Objects.hash(login, password, role, points, money, active);
     }
 
     @Override
     public String toString() {
         return String.format("User id: %d, login: %s, password: %s, role: %s, points: %d, money: %f, is active: %b",
-                id, login, password, role.toString(), points, money, active);
+                getId(), login, password, role.toString(), points, money, active);
     }
 }

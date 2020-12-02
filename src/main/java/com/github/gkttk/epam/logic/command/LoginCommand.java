@@ -2,7 +2,7 @@ package com.github.gkttk.epam.logic.command;
 
 import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.model.CommandResult;
-import com.github.gkttk.epam.model.User;
+import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.enums.UserRole;
 
 import javax.servlet.http.HttpServletRequest;
