@@ -15,8 +15,9 @@
     <body>
     <div class="wrapper">
         <%@ include file="WEB-INF/view/parts/header.jsp" %>
-
+        ${requestScope.errorMessage}
         <main>
+            <c:set var="currentPage" value="INDEX" scope="session"/>
             In urna felis dolor curabitur eleifend parturient. Nisi interdum accumsan penatibus vehicula orci mattis
             dignissim egestas fringilla tortor ligula ad? Turpis turpis amet mauris ultricies, semper posuere. Rhoncus
             cras turpis rhoncus. Amet laoreet interdum justo commodo curabitur fames feugiat mi, imperdiet conubia.

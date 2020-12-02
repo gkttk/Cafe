@@ -16,10 +16,20 @@
 
                 <button class="dropbtn"><fmt:message key="header.language.button"/></button>
                 <div class="dropdown-content">
-                    <form action="${pageContext.request.contextPath}/controller" method="GET">
-                    <a href="${pageContext.request.contextPath}/controller?command=locale&lang=ru"><fmt:message key="header.ru.button"/></a>
-                    <a href="${pageContext.request.contextPath}/controller?command=locale&lang=en"><fmt:message key="header.en.button"/></a>
-                    <a href="${pageContext.request.contextPath}/controller?command=locale&lang=by"><fmt:message key="header.by.button"/></a>
+                    <form action="${pageContext.request.contextPath}/controller" method="POST">
+                        <input type="hidden" name="command" value="locale">
+                        <input type="hidden" name="lang" value="ru">
+                        <button type="submit"><fmt:message key="header.ru.button"/></button>
+                    </form>
+                    <form action="${pageContext.request.contextPath}/controller" method="POST">
+                        <input type="hidden" name="command" value="locale">
+                        <input type="hidden" name="lang" value="en">
+                        <button type="submit"><fmt:message key="header.en.button"/></button>
+                    </form>
+                    <form action="${pageContext.request.contextPath}/controller" method="POST">
+                        <input type="hidden" name="command" value="locale">
+                        <input type="hidden" name="lang" value="by">
+                        <button type="submit"><fmt:message key="header.by.button"/></button>
                     </form>
                 </div>
             </div>
@@ -36,10 +46,11 @@
 
         <div class="form-popup" id="myForm">
             <form class="form-container" action="${pageContext.request.contextPath}/controller" method="POST">
+                <input type="hidden" name="command" value="login">
                 <label for="login"><fmt:message key="header.login.label"/></label>
                 <input id="login" type="text" name="login" required>
                 <label for="psw"><fmt:message key="header.password.label"/></label>
-                <input id="psw" type="password" name="psw" required>
+                <input id="psw" type="password" name="password" required>
                 <div class="buttons">
                     <button type="submit" class="btn"><fmt:message key="header.sign.in.button"/></button>
                     <button type="submit" class="btn"><fmt:message key="header.sign.up.button"/></button>

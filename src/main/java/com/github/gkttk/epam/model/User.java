@@ -10,14 +10,16 @@ public class User extends Entity {
     private final String login;
     private final String password;
     private final UserRole role;
+    private final int points;
     private final BigDecimal money;
     private final boolean active;
 
-    public User(Long id, String login, String password, UserRole role, BigDecimal money, boolean active) {
+    public User(Long id, String login, String password, UserRole role, int points, BigDecimal money, boolean active) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.role = role;
+        this.points = points;
         this.money = money;
         this.active = active;
     }
@@ -38,6 +40,10 @@ public class User extends Entity {
         return role;
     }
 
+    public int getPoints() {
+        return points;
+    }
+
     public BigDecimal getMoney() {
         return money;
     }
@@ -49,10 +55,10 @@ public class User extends Entity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o){
+        if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()){
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         User user = (User) o;
@@ -71,7 +77,7 @@ public class User extends Entity {
 
     @Override
     public String toString() {
-        return String.format("User id: %d, login: %s, password: %s, role: %s, is active: %b",
-                id, login, password, role.toString(), active);
+        return String.format("User id: %d, login: %s, password: %s, role: %s, points: %d, money: %f, is active: %b",
+                id, login, password, role.toString(), points, money, active);
     }
 }

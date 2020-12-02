@@ -1,20 +1,21 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<fmt:setLocale value="${sessionScope.locale}" scope="session"/>
 <fmt:bundle basename="i18n/message">
-    <fmt:setLocale value="en" scope="session"/>
     <html>
     <head>
         <title><fmt:message key="user.menu.title"/></title>
-        <link rel="stylesheet" type="text/css" href="../../static/css/reset.css"/>
-        <link rel="stylesheet" type="text/css" href="../../static/css/common.css"/>
-        <script type="text/javascript" src="../../static/js/script.js"></script>
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/common.css"/>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/script.js"></script>
     </head>
     <body>
     <div class="wrapper">
         <%@ include file="parts/header.jsp" %>
         <main>
-            <jsp:include page="parts/aside_menu.jsp"/>
+            <c:set var="currentPage" value="MENU" scope="session"/>
+            <%@ include file="parts/aside_menu.jsp" %>
             <div class="content">
                 <div class="meal_types">
                     <button class="btn"><fmt:message key="user.menu.main.dishes.button"/></button>
