@@ -5,7 +5,6 @@ import com.github.gkttk.epam.dao.parsers.EntityParser;
 import com.github.gkttk.epam.model.entities.User;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Optional;
 
 public class UserDaoImpl extends AbstractDao<User> implements UserDao {

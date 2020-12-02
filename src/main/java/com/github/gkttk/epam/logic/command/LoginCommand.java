@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.util.Optional;
 
 public class LoginCommand implements Command {
 
@@ -29,10 +30,14 @@ public class LoginCommand implements Command {
 
         boolean isValid = userService.login(login, password);
 
-        if (isValid) {
-            User user = new User(1L, login, password, UserRole.ADMIN, 50, new BigDecimal(100), true);//todo
-            HttpSession session = request.getSession();
-            session.setAttribute("authUser", user);
+        if (isValid) {//todo
+            Optional<User> userByLogin = userService.getUserByLogin(login);
+            if (userByLogin.isPresent()) {
+                User user = userByLogin.get();
+                HttpSession session = request.getSession();
+                session.setAttribute("authUser", user);
+            }
+
             return new CommandResult(USER_PAGE, false);
         } else {
             request.setAttribute("errorMessage", ERROR_MESSAGE);

@@ -1,5 +1,9 @@
 package com.github.gkttk.epam.logic.command.factory;
 
+import com.github.gkttk.epam.connection.ConnectionPool;
+import com.github.gkttk.epam.dao.UserDaoImpl;
+import com.github.gkttk.epam.dao.mappers.UserRowMapper;
+import com.github.gkttk.epam.dao.parsers.UserParser;
 import com.github.gkttk.epam.logic.command.Command;
 import com.github.gkttk.epam.logic.command.LocaleCommand;
 import com.github.gkttk.epam.logic.command.LoginCommand;
@@ -14,7 +18,10 @@ public class CommandFactory {
                 return new LocaleCommand();
             }
             case "login":{
-                return new LoginCommand(new UserServiceImpl());
+                return new LoginCommand(new UserServiceImpl(
+                        new UserDaoImpl(ConnectionPool.getInstance().getConnection(),//todo !
+                        new UserRowMapper(),
+                        new UserParser())));
             }
             default: {
                 //todo log
