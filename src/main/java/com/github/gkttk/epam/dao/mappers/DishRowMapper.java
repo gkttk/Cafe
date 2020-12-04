@@ -2,6 +2,7 @@ package com.github.gkttk.epam.dao.mappers;
 
 import com.github.gkttk.epam.model.entities.Dish;
 import com.github.gkttk.epam.model.enums.DishTypes;
+
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +16,9 @@ public class DishRowMapper implements RowMapper<Dish> {
         DishTypes type = DishTypes.valueOf(typeName);
         BigDecimal cost = resultSet.getBigDecimal("cost");
 
-        return new Dish(id, name, type, cost);
+        String imageRef = resultSet.getString("image_ref");
+
+        return new Dish(id, name, type, cost, imageRef);
 
     }
 }

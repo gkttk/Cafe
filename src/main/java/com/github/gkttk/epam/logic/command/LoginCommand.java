@@ -1,13 +1,16 @@
 package com.github.gkttk.epam.logic.command;
 
 import com.github.gkttk.epam.exceptions.ServiceException;
+import com.github.gkttk.epam.logic.service.DishService;
 import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.model.CommandResult;
+import com.github.gkttk.epam.model.entities.Dish;
 import com.github.gkttk.epam.model.entities.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Optional;
 
 public class LoginCommand implements Command {
@@ -17,9 +20,12 @@ public class LoginCommand implements Command {
     private final static String ERROR_MESSAGE = "Invalid credentials";//todo
 
     private final UserService userService;
+    private final DishService dishService;
 
-    public LoginCommand(UserService userService) {
+
+    public LoginCommand(UserService userService, DishService dishService) {
         this.userService = userService;
+        this.dishService = dishService;
     }
 
     @Override
@@ -35,6 +41,8 @@ public class LoginCommand implements Command {
                 User user = userByLogin.get();
                 HttpSession session = request.getSession();
                 session.setAttribute("authUser", user);
+                List<Dish> allDishes = dishService.getAllDishes();
+                session.setAttribute("dishes", allDishes);
             }
 
             return new CommandResult(USER_PAGE, false);

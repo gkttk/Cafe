@@ -1,13 +1,15 @@
 package com.github.gkttk.epam.dao.helper;
 
 import com.github.gkttk.epam.connection.ConnectionProxy;
+import com.github.gkttk.epam.dao.DishDao;
+import com.github.gkttk.epam.dao.impl.DishDaoImpl;
 import com.github.gkttk.epam.dao.UserDao;
-import com.github.gkttk.epam.dao.UserDaoImpl;
+import com.github.gkttk.epam.dao.impl.UserDaoImpl;
 import com.github.gkttk.epam.exceptions.DaoException;
 
 import java.sql.SQLException;
 
-public class DaoHelper implements AutoCloseable{
+public class DaoHelper implements AutoCloseable {
 
     private final ConnectionProxy connection;
 
@@ -18,6 +20,11 @@ public class DaoHelper implements AutoCloseable{
     public UserDao createUserDao() {
         return new UserDaoImpl(connection);
     }
+
+    public DishDao createDishDao() {
+        return new DishDaoImpl(connection);
+    }
+
 
     public void startTransaction() throws DaoException {
         try {
@@ -52,10 +59,8 @@ public class DaoHelper implements AutoCloseable{
     }
 
 
-
-
     @Override
-    public void close(){
+    public void close() {
         connection.close();
     }
 }

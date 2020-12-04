@@ -13,6 +13,9 @@
         <script type="text/javascript" src="static/js/script.js"></script>
     </head>
     <body>
+    <c:if test="${sessionScope.authUser != null}">
+        <jsp:forward page="WEB-INF/view/user_menu.jsp"/>
+    </c:if>
     <div class="wrapper">
         <%@ include file="WEB-INF/view/parts/header.jsp" %>
         ${requestScope.errorMessage}

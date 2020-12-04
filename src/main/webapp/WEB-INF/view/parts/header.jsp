@@ -63,10 +63,17 @@
         <c:otherwise>
         <div class="header_greeting">
             <div class="user_greeting"><h4><fmt:message
-                    key="header.user.greetings"/> ${sessionScope.authUser.login}!</h4></div>
-            <div class="user_points"><fmt:message key="header.user.points"/> ${sessionScope.authUser.points}</div>
+                    key="header.user.greetings"/> ${sessionScope.authUser.login}!</h4>
+            </div>
+            <div class="user_points">
+                <fmt:message key="header.user.points"/> ${sessionScope.authUser.points}
+            </div>
             <div class="log_out">
-                <a href="#" class="Log out"><fmt:message key="header.logout.button"/></a>
+                <form method="POST" action="${pageContext.request.contextPath}/controller">
+                    <input type="hidden" name="command" value="logout">
+                    <button class="logout_btn" type="submit"><fmt:message key="header.logout.button"/></button>
+                        <%--    <a href="#" class="Log out"><fmt:message key="header.logout.button"/></a>--%>
+                </form>
             </div>
         </div>
         </c:otherwise>

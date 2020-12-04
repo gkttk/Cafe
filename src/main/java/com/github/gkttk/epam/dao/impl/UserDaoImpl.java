@@ -1,5 +1,7 @@
-package com.github.gkttk.epam.dao;
+package com.github.gkttk.epam.dao.impl;
 
+import com.github.gkttk.epam.dao.AbstractDao;
+import com.github.gkttk.epam.dao.UserDao;
 import com.github.gkttk.epam.dao.extractors.UserFieldExtractor;
 import com.github.gkttk.epam.dao.mappers.UserRowMapper;
 import com.github.gkttk.epam.exceptions.DaoException;

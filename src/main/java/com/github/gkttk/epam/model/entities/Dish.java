@@ -9,13 +9,16 @@ public class Dish extends Entity {
     private final String name;
     private final DishTypes type;
     private final BigDecimal cost;
+    private final String imgUrl;
 
 
-    public Dish(Long id, String name, DishTypes type, BigDecimal cost) {
+
+    public Dish(Long id, String name, DishTypes type, BigDecimal cost,String imgUrl) {
         super(id);
         this.name = name;
         this.type = type;
         this.cost = cost;
+        this.imgUrl = imgUrl;
     }
 
     public Long getId() {
@@ -32,6 +35,10 @@ public class Dish extends Entity {
 
     public BigDecimal getCost() {
         return cost;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
     }
 
     @Override
