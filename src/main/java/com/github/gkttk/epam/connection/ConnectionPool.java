@@ -1,54 +1,52 @@
 package com.github.gkttk.epam.connection;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import com.github.gkttk.epam.exceptions.ConnectionPoolException;
+
 import java.sql.SQLException;
 import java.util.ArrayDeque;
+import java.util.Queue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
-
-    private static final String URL = "jdbc:mysql://localhost:3306/epam_cafe?serverTimezone=UTC&useSSL=false";
-    private static final String LOGIN = "root";
-    private static final String PASSWORD = "admin";//todo
-
-    private static final AtomicBoolean isCreated = new AtomicBoolean(false);
-    private static final Lock lock = new ReentrantLock();
     private static ConnectionPool instance;
-    private ArrayDeque<ConnectionProxy> availableConnections;
-    private ArrayDeque<ConnectionProxy> usedConnections;
-    private static int MAX_START_CONNECTIONS = 10;
+    private static final AtomicBoolean isCreated = new AtomicBoolean(false);
 
-    //todo sqlexception in constructor
+    private final ConnectionFactory connectionFactory;
+
+    private static final Lock INSTANCE_LOCK = new ReentrantLock();
+    private final Lock connectionLock;
+
+
+    private Queue<ConnectionProxy> availableConnections;
+    private Queue<ConnectionProxy> usedConnections;
+    private final static int MAX_INIT_CONNECTIONS = 10;//todo property
+
     private ConnectionPool() {
+        connectionFactory = new ConnectionFactory();
+        connectionLock = new ReentrantLock();
 
-        availableConnections = new ArrayDeque<>(MAX_START_CONNECTIONS);
-        usedConnections = new ArrayDeque<>(MAX_START_CONNECTIONS);
+        availableConnections = new ArrayDeque<>(MAX_INIT_CONNECTIONS);
+        usedConnections = new ArrayDeque<>(MAX_INIT_CONNECTIONS);
 
-        for (int i = 0; i < MAX_START_CONNECTIONS; i++) {
-            ConnectionProxy connection = createConnection();
+        for (int i = 0; i < MAX_INIT_CONNECTIONS; i++) {
+            ConnectionProxy connection = connectionFactory.createConnection();
             availableConnections.add(connection);
         }
     }
 
 
     public static ConnectionPool getInstance() {
-        try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-            } catch (ClassNotFoundException e) {
-              throw new IllegalStateException("Can't get instance of Connection pool", e);//todo
-            }
         if (!isCreated.get()) {
             try {
-                lock.lock();
+                INSTANCE_LOCK.lock();
                 if (!isCreated.get()) {
                     instance = new ConnectionPool();
                     isCreated.set(true);
                 }
             } finally {
-                lock.unlock();
+                INSTANCE_LOCK.unlock();
             }
         }
         return instance;
@@ -56,29 +54,51 @@ public class ConnectionPool {
 
 
     private ConnectionProxy createConnection() {
-        try {
-            Connection connection = DriverManager.getConnection(URL, LOGIN, PASSWORD);
-            return new ConnectionProxy(connection);
-        } catch (SQLException e) {
-            throw new IllegalStateException("Can't create an instance of ConnectionPool", e);//todo
-        }
+        return connectionFactory.createConnection();
 
     }
 
-    public synchronized Connection getConnection() { //todo synchronized
+    public ConnectionProxy getConnection() {
         ConnectionProxy connection;
-        if (availableConnections.size() > 0) {
-            connection = availableConnections.getLast();
-        } else {
-            connection = createConnection();
+        try {
+            connectionLock.lock();
+            if (availableConnections.size() > 0) {
+                connection = availableConnections.poll();
+            } else {
+                connection = createConnection();
+            }
+            usedConnections.offer(connection);
+        } finally {
+            connectionLock.unlock();
         }
-        usedConnections.add(connection);
+
         return connection;
     }
 
-    public synchronized void releaseConnection(ConnectionProxy connection) {//todo synchronized
-        availableConnections.addLast(connection);
-        usedConnections.remove(connection);
+    public void releaseConnection(ConnectionProxy connection) {
+        if (usedConnections.contains(connection)) {
+            try {
+                connectionLock.lock();
+                availableConnections.offer(connection);
+                usedConnections.remove(connection);
+            } finally {
+                connectionLock.unlock();
+            }
+        }
+
+    }
+
+    public void destroy() throws ConnectionPoolException {
+        try {
+            for (ConnectionProxy connectionProxy : availableConnections) {
+                connectionProxy.closeConnection();
+            }
+            for (ConnectionProxy connectionProxy : usedConnections) {
+                connectionProxy.closeConnection();
+            }
+        } catch (SQLException e) {
+            throw new ConnectionPoolException("Can't close connection", e);
+        }
     }
 
 

@@ -9,8 +9,8 @@ import javax.servlet.http.HttpSession;
 
 public class LocaleCommand implements Command {
 
-   private final static String LANGUAGE_PARAMETER = "lang";
-   private final static String CURRENT_PAGE_PARAMETER = "currentPage";
+    private final static String LANGUAGE_PARAMETER = "lang";
+    private final static String CURRENT_PAGE_PARAMETER = "currentPage";
 
 
     @Override
@@ -20,7 +20,7 @@ public class LocaleCommand implements Command {
 
         HttpSession session = request.getSession();
         session.setAttribute("locale", lang);
-        String currentPageName = (String)session.getAttribute(CURRENT_PAGE_PARAMETER);
+        String currentPageName = (String) session.getAttribute(CURRENT_PAGE_PARAMETER);
 
         CurrentPages currentPage = CurrentPages.valueOf(currentPageName);
         String refForRedirect = currentPage.getReference();

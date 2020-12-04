@@ -14,6 +14,17 @@ public class ConnectionProxy implements Connection {
     }
 
     @Override
+    public void close() {
+        ConnectionPool.getInstance().releaseConnection(this);//todo
+    }
+
+    //default access for closing inner connection
+    void closeConnection() throws SQLException {
+        connection.close();
+    }
+
+
+    @Override
     public Statement createStatement() throws SQLException {
         return connection.createStatement();
     }
@@ -35,7 +46,7 @@ public class ConnectionProxy implements Connection {
 
     @Override
     public void setAutoCommit(boolean autoCommit) throws SQLException {
-            connection.setAutoCommit(autoCommit);
+        connection.setAutoCommit(autoCommit);
     }
 
     @Override
@@ -53,10 +64,6 @@ public class ConnectionProxy implements Connection {
         connection.rollback();
     }
 
-    @Override
-    public void close() throws SQLException {
-        ConnectionPool.getInstance().releaseConnection(this);//todo
-    }
 
     @Override
     public boolean isClosed() throws SQLException {
