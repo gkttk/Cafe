@@ -248,6 +248,16 @@ div.header_nav div.dropdown:hover .dropdown-content{
 }
 
 
+header div.header_buttons div.header_nav div.about form button{
+	background-color: rgba(1,1,1,0);
+	font-style:italic;
+	font-family: 'Caveat', cursive;
+	color: white;
+	border: none;
+	font-size: 100%;
+	cursor: pointer;
+}
+
 
 
 
@@ -402,7 +412,31 @@ main div.content div.menu_content form input[type=submit]{
     padding:10px;
 	}
 
+main div.user_conditions{
+	display: flex;
+	justify-content:space-around;
+}
 
+/*new*/
+button{
+	background-color: rgba(1,1,1,0);
+	font-style: italic;
+	font-family: 'Caveat', cursive;
+	color: white;
+	border: none;
+	font-size: 100%;
+	cursor: pointer;
+	padding:10px;
+}
+
+main div.users div.user_item{
+	display: flex;
+	justify-content:space-around;
+}
+
+main div.users div.user_item div{
+	align-self: center;
+}
 
 
 

@@ -14,6 +14,17 @@ public class User extends Entity {
     private final BigDecimal money;
     private final boolean active;
 
+    public User(String login, String password){
+        super(null);
+        this.login = login;
+        this.password = password;
+        this.role = UserRole.USER;
+        this.points = 20;
+        this.money = new BigDecimal(0);
+        this.active = true;
+
+    }
+
     public User(Long id, String login, String password, UserRole role, int points, BigDecimal money, boolean active) {
         super(id);
         this.login = login;

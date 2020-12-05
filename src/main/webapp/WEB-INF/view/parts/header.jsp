@@ -9,7 +9,12 @@
     <div class="header_buttons">
         <div class="header_nav">
             <div class="about">
-                <a href=""><fmt:message key="header.home.button"/></a>
+                <form method="post" action="${pageContext.request.contextPath}/controller">
+                    <button type="submit">
+                        <fmt:message key="header.home.button"/>
+                    </button>
+                </form>
+                <%--  <a href=""><fmt:message key="header.home.button"/></a>--%>
             </div>
 
             <div class="dropdown">
@@ -53,10 +58,16 @@
                 <input id="psw" type="password" name="password" required>
                 <div class="buttons">
                     <button type="submit" class="btn"><fmt:message key="header.sign.in.button"/></button>
-                    <button type="submit" class="btn"><fmt:message key="header.sign.up.button"/></button>
+                    <button form="registration_form" type="submit" class="btn">
+                        <fmt:message key="header.sign.up.button"/>
+                    </button>
                     <button type="submit" class="btn cancel" onclick="closeForm()">
                         <fmt:message key="header.close.form.button"/></button>
                 </div>
+            </form>
+
+            <form id="registration_form" action="${pageContext.request.contextPath}/controller" method="post">
+                <input type="hidden" name="command" value="registration_page">
             </form>
         </div>
         </c:when>

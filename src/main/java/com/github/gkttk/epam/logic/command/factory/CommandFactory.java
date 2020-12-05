@@ -1,12 +1,9 @@
 package com.github.gkttk.epam.logic.command.factory;
 
-import com.github.gkttk.epam.dao.helper.factory.DaoHelperFactory;
-import com.github.gkttk.epam.logic.command.Command;
-import com.github.gkttk.epam.logic.command.LocaleCommand;
-import com.github.gkttk.epam.logic.command.LoginCommand;
-import com.github.gkttk.epam.logic.command.LogoutCommand;
+import com.github.gkttk.epam.logic.command.*;
 import com.github.gkttk.epam.logic.service.impl.DishServiceImpl;
 import com.github.gkttk.epam.logic.service.impl.UserServiceImpl;
+import com.sun.org.apache.regexp.internal.RE;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,7 +13,22 @@ public class CommandFactory {
 
     public static Command createCommand(String commandName) {
         switch (commandName) {
-            case "logout":{
+            case "registration": {
+                return new RegistrationCommand(new UserServiceImpl());
+            }
+            case "registration_page": {
+                return new RegistrationGetPageCommand();
+            }
+            case "changeStatus": {
+                return new ChangeUserStatusCommand(new UserServiceImpl());
+            }
+            case "users": {
+                return new UsersCommand(new UserServiceImpl());
+            }
+            case "home": {
+                return new HomeCommand();
+            }
+            case "logout": {
                 return new LogoutCommand();
             }
             case "locale": {
@@ -31,7 +43,6 @@ public class CommandFactory {
             }
         }
     }
-
 
 
 }

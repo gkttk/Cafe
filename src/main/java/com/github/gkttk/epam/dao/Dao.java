@@ -12,7 +12,7 @@ public interface Dao<T extends Entity> {
 
     Optional<T> getById(Long id) throws DaoException;
 
-    void save(T entity) throws DaoException;
+    boolean save(T entity) throws DaoException;
 
     void removeById(Long id) throws DaoException;
 

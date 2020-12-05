@@ -39,7 +39,7 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
 
 
     @Override
-    public void save(T entity) throws DaoException {
+    public boolean save(T entity) throws DaoException {
         Map<String, Object> entityFields = fieldExtractor.extractFields(entity);
         Long id = entity.getId();
         String query;
@@ -56,9 +56,13 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
 
         try (PreparedStatement statement = createPrepareStatement(query, entityFieldValues)) {
             statement.executeUpdate();
+            return true;
         } catch (SQLException e) {
-            throw new DaoException("Can't save entity: " + entity.toString(), e);
+            return false;
+          //  throw new DaoException("Can't save entity: " + entity.toString(), e);//todo
+
         }
+
     }
 
     @Override
@@ -102,7 +106,7 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
     }
 
 
-    private PreparedStatement createPrepareStatement(String query, Object... params) throws SQLException {
+    protected PreparedStatement createPrepareStatement(String query, Object... params) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(query);
         fillPreparedStatement(statement, params);
         return statement;
@@ -155,6 +159,8 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
 
         return sbQuery.toString();
     }
+
+
 
     protected abstract String getTableName();
 
