@@ -24,8 +24,8 @@
                 </div>
 
                 <div class="menu_content">
-                    <form id="form_content" method="POST" action="#">
-
+                    <form id="form_content" method="POST" action="${pageContext.request.contextPath}/controller">
+                        <input type="hidden" name="command" value="makeOrderCommand"/>
                         <c:forEach var="dish" items="${sessionScope.dishes}">
                             <div class="menu_item">
                                 <img src="${dish.imgUrl}" alt="dish"/>

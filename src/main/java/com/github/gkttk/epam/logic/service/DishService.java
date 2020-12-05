@@ -9,4 +9,6 @@ public interface DishService {
 
     List<Dish> getAllDishes() throws ServiceException;
 
+    List<Dish> getDishesByIds(List<Long> ids) throws ServiceException;
+
 }

@@ -6,9 +6,9 @@
     <html>
     <head>
         <title><fmt:message key="make.order.title"/></title>
-        <link rel="stylesheet" type="text/css" href="../../static/css/reset.css"/>
-        <link rel="stylesheet" type="text/css" href="../../static/css/common.css"/>
-        <script type="text/javascript" src="../../static/js/script.js"></script>
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/reset.css"/>
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/common.css"/>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/script.js"></script>
     </head>
     <body>
     <div class="wrapper">
@@ -20,12 +20,14 @@
                 <h2><fmt:message key="make.order.your.order"/></h2>
                 <div class="menu_content">
                     <form id="form_content" method="POST" action="#">
+                        <c:forEach var="orderDish" items="${sessionScope.orderDishes}">
                         <div class="menu_item">
-                            <img src="../../static/images/dishes.jpg" alt="dish">
-                            <span>${orderDish.getName()}</span>
-                            <span>${orderDish.getCost()}</span>
+                            <img src="${orderDish.imgUrl}" alt="dish">
+                            <span>${orderDish.name}</span>
+                            <span>${orderDish.cost}</span>
                         </div>
-
+                        </c:forEach>
+                        <h2>Общая сумма заказа: ${sessionScope.orderCost}</h2>
                         <label for="date_input"><fmt:message key="make.order.date"/></label>
                         <input id="date_input" type="text" name="date" required><br/>
 

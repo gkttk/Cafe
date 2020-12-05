@@ -13,10 +13,13 @@ public class CommandFactory {
 
     public static Command createCommand(String commandName) {
         switch (commandName) {
+            case "makeOrderCommand":{
+                return new MakeOrderCommand(new DishServiceImpl());
+            }
             case "registration": {
                 return new RegistrationCommand(new UserServiceImpl());
             }
-            case "registration_page": {
+            case "registration_page": { //todo
                 return new RegistrationGetPageCommand();
             }
             case "changeStatus": {
