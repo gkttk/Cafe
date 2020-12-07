@@ -15,7 +15,7 @@ public class UsersCommand implements Command {
     private final static String USERS_PAGE = "/WEB-INF/view/users_page.jsp";
     private final static String USERS_ATTRIBUTE_KEY = "users";
     private final UserService userService;
-
+    private final static String CURRENT_PAGE_PARAMETER = "currentPage";
 
     public UsersCommand(UserService userService) {
         this.userService = userService;
@@ -27,6 +27,8 @@ public class UsersCommand implements Command {
         List<User> users = userService.getUsers();
         HttpSession session = request.getSession();
         session.setAttribute(USERS_ATTRIBUTE_KEY, users);
+
+        session.setAttribute(CURRENT_PAGE_PARAMETER, USERS_PAGE);
 
         return new CommandResult(USERS_PAGE, true);
 

@@ -141,10 +141,10 @@ header div.header_buttons ul{
 
 /* Добавить стили для контейнера формы */
 .form-container {
-	max-width: 235px;
+	max-width: 300px;
 	padding: 11px;
 
-	background-color: #696969;
+	background-color: #d2b753;
 	border-radius:10px;
 	position: inherit;
 	top:10px;
@@ -171,8 +171,7 @@ header div.header_buttons ul{
 
 /* Установите стиль для кнопки отправить/войти */
 .form-container .btn {
-	background-color: #4CAF50;
-	color: white;
+	background-color: #8a6545;
 	padding: 0px 1px;
 	border: none;
 	height:35px;
@@ -182,11 +181,12 @@ header div.header_buttons ul{
 	opacity: 0.8;
 	border-radius:10px;
 	text-align:center;
+	font-size:14px;
 }
 
 /* Добавить красный цвет фона для кнопки "Отмена" */
 .form-container .cancel {
-	background-color: red;
+	background-color: #3c3304;
 }
 
 /* Добавить некоторые эффекты наведения на кнопки */
@@ -287,6 +287,7 @@ header div.header_buttons div.header_nav div.about form button{
 
 /*main*/
 main{
+	padding: 15px;
 	width: 100%;
 	flex:1;
 	display: flex;
@@ -360,7 +361,7 @@ main div.content div.meal_types button{
 main div.content div.menu_content form div.menu_item{
 	display: flex;
 	flex-direction:row;
-	justify-content: space-between;
+	justify-content: space-around;
 	padding:10px;
 
 }
@@ -369,12 +370,11 @@ main div.content div.menu_content form div.menu_item span{
 	align-self:center;
 }
 
-main div.content div.menu_content form div.menu_item img{
-	width:150px;
-	 border-radius: 40%;
+
+* img{
+	width:220px;
+	border-radius: 40%;
 }
-
-
 
 
 
@@ -390,14 +390,11 @@ background-color: rgba(1,1,1,0);
 }
 
 
-
-
-
-main div.content div.menu_content form div.menu_item input[type=checkbox]{
+* input[type=checkbox]{
 	transform: scale(1.7);
-	 margin:10px;
-	 align-self: center;
+	margin:10px;
 }
+
 
 
 
@@ -426,7 +423,6 @@ button{
 	border: none;
 	font-size: 100%;
 	cursor: pointer;
-	padding:10px;
 }
 
 main div.users div.user_item{
@@ -460,7 +456,26 @@ main div.content > div > div > div > div.info_div > div.panel {
 }
 
 
+#customers {
+	width: 100%;
+}
 
+
+#customers td, #customers th {
+	padding: 8px;
+	vertical-align: middle;
+	text-align: center;
+	width: 180px;
+}
+
+
+#customers th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: center;
+	color: white;
+	border: none;
+}
 
 
 

@@ -12,7 +12,7 @@
     </head>
     <body>
     <div class="wrapper">
-        <c:set var="currentPage" value="USERS" scope="session"/>
+    <%--    <c:set var="currentPage" value="USERS" scope="session"/>--%>
         <%@ include file="parts/header.jsp" %>
         <main>
             <%@ include file="parts/aside_menu.jsp" %>

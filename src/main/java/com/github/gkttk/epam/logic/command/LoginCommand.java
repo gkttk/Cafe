@@ -43,9 +43,10 @@ public class LoginCommand implements Command {
                 session.setAttribute("authUser", user);
                 List<Dish> allDishes = dishService.getAllDishes();
                 session.setAttribute("dishes", allDishes);
+                session.setAttribute("currentPage", USER_PAGE);
             }
 
-            return new CommandResult(USER_PAGE, false);
+            return new CommandResult(USER_PAGE, true);
         } else {
             request.setAttribute("errorMessage", ERROR_MESSAGE);
             return new CommandResult(START_PAGE, false);

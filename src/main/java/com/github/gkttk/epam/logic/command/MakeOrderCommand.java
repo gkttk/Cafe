@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class MakeOrderCommand implements Command {
 
     private final static String MAKE_ORDER_PAGE = "/WEB-INF/view/make_order.jsp";
-
+    private final static String CURRENT_PAGE_PARAMETER = "currentPage";
 
     private final DishService dishService;
 
@@ -43,6 +43,7 @@ public class MakeOrderCommand implements Command {
         session.setAttribute("orderDishes", dishesByIds);
         session.setAttribute("orderCost", orderSum);
 
+        session.setAttribute(CURRENT_PAGE_PARAMETER, MAKE_ORDER_PAGE);
 
         return new CommandResult(MAKE_ORDER_PAGE, true);
     }

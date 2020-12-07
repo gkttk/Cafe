@@ -19,7 +19,7 @@ import java.io.IOException;
 public class Controller extends HttpServlet {
 
     private final static Logger LOGGER = LogManager.getLogger(Controller.class);
-    private final static String PAGE_ATTRIBUTE = "redirectPage";
+    private final static String PAGE_ATTRIBUTE = "currentPage";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {

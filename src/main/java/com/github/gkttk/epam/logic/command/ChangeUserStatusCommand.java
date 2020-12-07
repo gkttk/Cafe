@@ -47,10 +47,7 @@ public class ChangeUserStatusCommand implements Command {
         }
 
 
-        String currentPageName = (String) session.getAttribute(CURRENT_PAGE_PARAMETER);
-
-        CurrentPages currentPage = CurrentPages.valueOf(currentPageName);
-        String refForRedirect = currentPage.getReference();
+        String refForRedirect = (String) session.getAttribute(CURRENT_PAGE_PARAMETER);
 
         return new CommandResult(refForRedirect, true);
     }

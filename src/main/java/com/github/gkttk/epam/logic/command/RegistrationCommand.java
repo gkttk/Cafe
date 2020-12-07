@@ -6,6 +6,7 @@ import com.github.gkttk.epam.model.CommandResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class RegistrationCommand implements Command {
 
@@ -13,6 +14,7 @@ public class RegistrationCommand implements Command {
 
     private final UserService userService;
     private final static String ERROR_MESSAGE = "Can't register";//todo
+
 
     public RegistrationCommand(UserService userService) {
         this.userService = userService;

@@ -14,7 +14,7 @@ import java.util.List;
 public class MyOrdersPageCommand implements Command {
 
     private final static String MY_ORDERS_PAGE = "/WEB-INF/view/my_orders_page.jsp";
-
+    private final static String CURRENT_PAGE_PARAMETER = "currentPage";
     private final OrderService orderService;
 
     public MyOrdersPageCommand(OrderService orderService) {
@@ -33,6 +33,7 @@ public class MyOrdersPageCommand implements Command {
 
         session.setAttribute("orders", orders);
 
+        session.setAttribute(CURRENT_PAGE_PARAMETER, MY_ORDERS_PAGE);
 
         return new CommandResult(MY_ORDERS_PAGE, true);
 

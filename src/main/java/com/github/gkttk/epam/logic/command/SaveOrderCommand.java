@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class SaveOrderCommand implements Command {
 
     private final static String MENU_PAGE = "/WEB-INF/view/user_menu.jsp";
-
+    private final static String CURRENT_PAGE_PARAMETER = "currentPage";
     private final OrderService orderService;
 
     public SaveOrderCommand(OrderService orderService) {
@@ -48,6 +48,8 @@ public class SaveOrderCommand implements Command {
         orderService.makeOrder(order, dishIds);
 
         session.setAttribute("orderMessage", "Your order has been accepted");//todo i18n
+
+        session.setAttribute(CURRENT_PAGE_PARAMETER, MENU_PAGE);
 
         return new CommandResult(MENU_PAGE, true);
     }

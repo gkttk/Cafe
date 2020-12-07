@@ -11,7 +11,7 @@
         <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/script.js"></script>
     </head>
     <body>
-    <c:set var="currentPage" value="MENU" scope="session"/>
+<%--    <c:set var="currentPage" value="MENU" scope="session"/>--%>
     <div class="wrapper">
         <%@ include file="parts/header.jsp" %>
         <main>
@@ -19,6 +19,7 @@
             <div class="content">
                     ${sessionScope.orderMessage}
                 <div class="meal_types">
+                    <button class="btn">ВСЕ</button>
                     <button class="btn"><fmt:message key="user.menu.main.dishes.button"/></button>
                     <button class="btn"><fmt:message key="user.menu.salads.button"/></button>
                     <button class="btn"><fmt:message key="user.menu.beverages.button"/></button>
@@ -27,25 +28,37 @@
                 <div class="menu_content">
                     <form id="form_content" method="POST" action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="makeOrderCommand"/>
+
+                        <table id="customers">
+                            <tr>
+                                <th>Изображение</th>
+                                <th>Название</th>
+                                <th>Цена</th>
+                                <th colspan="2">
+                                    <input form="form_content" type="submit"
+                                           value="<fmt:message key="user.menu.make.order.button"/>"/>
+                                </th>
+                            </tr>
+
                         <c:forEach var="dish" items="${sessionScope.dishes}">
-                            <div class="menu_item">
-                                <img src="${dish.imgUrl}" alt="dish"/>
-                                <span>${dish.name}</span>
-                                <span>${dish.cost}</span>
-                                <!-- if user == USER -->
-                                <c:choose>
-                                    <c:when test="${sessionScope.authUser.role == 'ADMIN'}">
-                                        <button class="btn"><fmt:message key="user.menu.update.dish.button"/></button>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <button class="btn"><fmt:message key="user.menu.comments.button"/></button>
-                                    </c:otherwise>
-                                </c:choose>
-                                <input type="checkbox" name="orderDishes" value="${dish.id}"/>
-                            </div>
-                        </c:forEach>
-                        <input form="form_content" type="submit"
-                               value="<fmt:message key="user.menu.make.order.button"/>"/>
+                            <tr>
+                                <td><img src="${dish.imgUrl}" alt="dish"></td>
+                                <td>${dish.name}</td>
+                                <td>${dish.cost}</td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${sessionScope.authUser.role == 'ADMIN'}">
+                                            <button class="btn"><fmt:message key="user.menu.update.dish.button"/></button>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <button class="btn"><fmt:message key="user.menu.comments.button"/></button>
+                                        </c:otherwise>
+                                    </c:choose>
+                                   </td>
+                                <td><input type="checkbox" name="orderDishes" value="${dish.id}"/></td>
+                            </tr>
+                           </c:forEach>
+                        </table>
                     </form>
                 </div>
             </div>
