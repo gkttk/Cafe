@@ -11,12 +11,13 @@
         <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/script.js"></script>
     </head>
     <body>
+    <c:set var="currentPage" value="MENU" scope="session"/>
     <div class="wrapper">
         <%@ include file="parts/header.jsp" %>
         <main>
-            <c:set var="currentPage" value="MENU" scope="session"/>
             <%@ include file="parts/aside_menu.jsp" %>
             <div class="content">
+                    ${sessionScope.orderMessage}
                 <div class="meal_types">
                     <button class="btn"><fmt:message key="user.menu.main.dishes.button"/></button>
                     <button class="btn"><fmt:message key="user.menu.salads.button"/></button>

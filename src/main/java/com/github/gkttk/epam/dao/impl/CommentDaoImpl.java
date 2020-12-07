@@ -10,7 +10,7 @@ import java.sql.Connection;
 
 public class CommentDaoImpl extends AbstractDao<Comment> implements CommentDao {
 
-    private final static String TABLE_NAME = "comment";
+    private final static String TABLE_NAME = "comments";
 
     public CommentDaoImpl(Connection connection) {
         super(connection, new CommentRowMapper(), new CommentFieldExtractor());

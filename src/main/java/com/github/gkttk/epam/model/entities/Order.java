@@ -7,13 +7,20 @@ import java.util.Objects;
 public class Order extends Entity {
     private final BigDecimal cost;
     private final LocalDateTime time;
-    private boolean active;
+    private final boolean active;
+    private final Long userId;
 
-    public Order(Long id, BigDecimal cost, LocalDateTime time, boolean active) {
+    public Order(Long id, BigDecimal cost, LocalDateTime time, boolean active, Long userId) {
         super(id);
         this.cost = cost;
         this.time = time;
         this.active = active;
+        this.userId = userId;
+    }
+
+
+    public Long getUserId() {
+        return userId;
     }
 
     public Long getId() {
@@ -53,6 +60,6 @@ public class Order extends Entity {
 
     @Override
     public String toString() {
-        return String.format("Order id: %d, cost: %f, time: %Tc, is active: %b", getId(), cost, time, active);
+        return String.format("Order id: %d, cost: %f, time: %3$td-%3$tm-%3$tY %3$tH:%3$tM:%3$tS, is active: %b", getId(), cost, time, active);
     }
 }

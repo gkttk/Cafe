@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `epam_cafe`.`order` (
   INDEX `fk_order_user_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_order_user`
     FOREIGN KEY (`user_id`)
-    REFERENCES `epam_cafe`.`user` (`id`)
+    REFERENCES `epam_cafe`.users (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `epam_cafe`.`order_product` (
     ON UPDATE CASCADE,
   CONSTRAINT `fk_product`
     FOREIGN KEY (`product_id`)
-    REFERENCES `epam_cafe`.`dish` (`id`)
+    REFERENCES `epam_cafe`.dishes (`id`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
@@ -103,12 +103,12 @@ CREATE TABLE IF NOT EXISTS `epam_cafe`.`comment` (
   INDEX `fk_product_id_idx` (`dish_id` ASC) VISIBLE,
   CONSTRAINT `fk_user_id`
     FOREIGN KEY (`user_id`)
-    REFERENCES `epam_cafe`.`user` (`id`)
+    REFERENCES `epam_cafe`.users (`id`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT `fk_product_id`
     FOREIGN KEY (`dish_id`)
-    REFERENCES `epam_cafe`.`dish` (`id`)
+    REFERENCES `epam_cafe`.dishes (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;

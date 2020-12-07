@@ -5,15 +5,36 @@
     <h2><fmt:message key="aside.our.menu"/></h2>
     <c:set var="userRole" value="${sessionScope.authUser.role}"/>
     <ul>
-        <form>
-      <li><button class="btn"><fmt:message key="aside.menu"/></button></li>
-      <li><button class="btn"><fmt:message key="aside.my.orders"/></button></li>
-      <li><button class="btn"><fmt:message key="aside.comments"/></button></li>
+      <li>
+          <form method="post" action="${pageContext.request.contextPath}/controller">
+          <input type="hidden" name="command" value="menu"/>
+          <button type="submit" class="btn"><fmt:message key="aside.menu"/></button>
+      </form>
+      </li>
+      <li>
+          <form method="post" action="${pageContext.request.contextPath}/controller">
+          <input type="hidden" name="command" value="myOrders"/>
+          <button class="btn"><fmt:message key="aside.my.orders"/></button>
+          </form>
+      </li>
+      <li>
+          <form method="post" action="${pageContext.request.contextPath}/controller">
+              <input type="hidden" name="command" value="comments"/>
+          <button class="btn"><fmt:message key="aside.comments"/></button>
+          </form>
+      </li>
 
       <!-- if user == ADMIN -->
         <c:if test="${userRole.name() eq 'ADMIN'}">
-      <li><button type="submit" class="btn" formaction="${pageContext.request.contextPath}/controller?command=users" formmethod="post"><fmt:message key="aside.users"/></button></li>
-        </c:if>
-        </form>
+      <li>
+          <form method="post" action="${pageContext.request.contextPath}/controller">
+              <input type="hidden" name="command" value="users"/>
+              <button type="submit" class="btn">
+                  <fmt:message key="aside.users"/>
+              </button>
+          </form>
+        </li>
+            </c:if>
+
     </ul>
   </div>

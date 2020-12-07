@@ -1,14 +1,11 @@
 package com.github.gkttk.epam.dao;
 
-import com.github.gkttk.epam.dao.mappers.RowMapper;
 import com.github.gkttk.epam.dao.extractors.FieldExtractor;
+import com.github.gkttk.epam.dao.mappers.RowMapper;
 import com.github.gkttk.epam.exceptions.DaoException;
 import com.github.gkttk.epam.model.entities.Entity;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
 
 public abstract class AbstractDao<T extends Entity> implements Dao<T> {
@@ -38,8 +35,14 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
     }
 
 
+    private Long getKey(Statement statement) throws SQLException {
+        ResultSet generatedKeys = statement.getGeneratedKeys();
+        generatedKeys.next();
+        return generatedKeys.getLong(1);//todo
+    }
+
     @Override
-    public boolean save(T entity) throws DaoException {
+    public Long save(T entity) throws DaoException {//todo
         Map<String, Object> entityFields = fieldExtractor.extractFields(entity);
         Long id = entity.getId();
         String query;
@@ -51,15 +54,15 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
         } else {
             query = getUpdateQuery(entityFields);
         }
-        Object[] entityFieldValues= entityFields.values().stream().skip(1).toArray();
+        Object[] entityFieldValues = entityFields.values().stream().skip(1).toArray();
 
 
-        try (PreparedStatement statement = createPrepareStatement(query, entityFieldValues)) {
+        try (PreparedStatement statement = createPrepareStatementWithGeneratedKey(query, entityFieldValues)) {
+
             statement.executeUpdate();
-            return true;
+            return getKey(statement);
         } catch (SQLException e) {
-            return false;
-          //  throw new DaoException("Can't save entity: " + entity.toString(), e);//todo
+            throw new DaoException("Can't save entity: " + entity.toString(), e);
 
         }
 
@@ -79,7 +82,7 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
     protected Optional<T> getSingleResult(String query, Object... params) throws DaoException {
         Optional<T> result = Optional.empty();
         try (PreparedStatement prepareStatement = createPrepareStatement(query, params);
-             ResultSet resultSet = prepareStatement.executeQuery()) {//todo result set autocloseable
+             ResultSet resultSet = prepareStatement.executeQuery()) {
             if (resultSet.next()) {
                 T entity = rowMapper.map(resultSet);
                 result = Optional.of(entity);
@@ -94,7 +97,7 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
     protected List<T> getAllResults(String query, Object... params) throws DaoException {
         List<T> results = new ArrayList<>();
         try (PreparedStatement prepareStatement = createPrepareStatement(query, params);
-             ResultSet resultSet = prepareStatement.executeQuery()) {//todo resultset autocloseable
+             ResultSet resultSet = prepareStatement.executeQuery()) {
             while (resultSet.next()) {
                 T entity = rowMapper.map(resultSet);
                 results.add(entity);
@@ -110,12 +113,19 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
         PreparedStatement statement = connection.prepareStatement(query);
         fillPreparedStatement(statement, params);
         return statement;
-
     }
+
+    protected PreparedStatement createPrepareStatementWithGeneratedKey(String query, Object... params) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        fillPreparedStatement(statement, params);
+        return statement;
+    }
+
+
 
     private void fillPreparedStatement(PreparedStatement statement, Object... parameters) throws SQLException {
         for (int i = 0; i < parameters.length; i++) {
-            statement.setObject(i+1, parameters[i]);
+            statement.setObject(i + 1, parameters[i]);
         }
 
     }

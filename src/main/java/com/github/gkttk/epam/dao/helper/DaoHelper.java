@@ -2,8 +2,10 @@ package com.github.gkttk.epam.dao.helper;
 
 import com.github.gkttk.epam.connection.ConnectionProxy;
 import com.github.gkttk.epam.dao.DishDao;
+import com.github.gkttk.epam.dao.OrderDao;
 import com.github.gkttk.epam.dao.impl.DishDaoImpl;
 import com.github.gkttk.epam.dao.UserDao;
+import com.github.gkttk.epam.dao.impl.OrderDaoImpl;
 import com.github.gkttk.epam.dao.impl.UserDaoImpl;
 import com.github.gkttk.epam.exceptions.DaoException;
 
@@ -15,6 +17,10 @@ public class DaoHelper implements AutoCloseable {
 
     public DaoHelper(ConnectionProxy connection) {
         this.connection = connection;
+    }
+
+    public OrderDao createOrderDao() {
+        return new OrderDaoImpl(connection);
     }
 
     public UserDao createUserDao() {

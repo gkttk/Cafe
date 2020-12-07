@@ -13,6 +13,7 @@ public class OrderFieldExtractor implements FieldExtractor<Order> {
     private final static String COST_KEY = "cost";
     private final static String TIME_KEY = "time";
     private final static String ACTIVE_KEY = "active";
+    private final static String USER_ID_KEY = "user_id";
 
     @Override
     public Map<String, Object> extractFields(Order order) {
@@ -29,7 +30,10 @@ public class OrderFieldExtractor implements FieldExtractor<Order> {
         result.put(TIME_KEY, time);
 
         boolean active = order.isActive();
-        result.put(ACTIVE_KEY, time);
+        result.put(ACTIVE_KEY, active);
+
+        Long userId = order.getUserId();
+        result.put(USER_ID_KEY, userId);
 
         return result;
 

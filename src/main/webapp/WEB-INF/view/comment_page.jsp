@@ -15,21 +15,13 @@
 
         <%@ include file="parts/header.jsp" %>
         <main>
+            <%@ include file="parts/aside_menu.jsp" %>
             <div class="content">
-                <h2>Registration</h2>
+                <h2>COMMENT_PAGE</h2>
                 <div class="menu_content">
-                    <form id="form_content" method="POST" action="${pageContext.request.contextPath}/controller">
-                        <input type="hidden" name="command" value="registration"/>
-                        <label for="login_reg">Login</label>
-                        <input id="login_reg" type="text" name="login" required/>
-                        <label for="password_reg">Password</label>
-                        <input id="password_reg" type="password" name="password" required/>
-                      <button type="submit">Registrations</button>
-                    </form>
-                </div>
 
+                </div>
             </div>
-            
         </main>
         <%@ include file="parts/footer.jsp" %>
     </div>

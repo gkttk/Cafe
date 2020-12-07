@@ -82,7 +82,8 @@ public class UserServiceImpl implements UserService {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             UserDao userDao = daoHelper.createUserDao();
             User user = new User(login, password);
-            return userDao.save(user);
+            userDao.save(user);//todo
+            return true;
         } catch (DaoException e) {
             throw new ServiceException(String.format("Can't registration user with login: %s and password: %s",
                     login, password), e);

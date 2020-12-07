@@ -438,6 +438,33 @@ main div.users div.user_item div{
 	align-self: center;
 }
 
+/* Style the buttons that are used to open and close the accordion panel */
+body > div > main > div.content > div > div > div > div.info_div > button.accordion {
+	cursor: pointer;
+	border: none;
+	outline: none;
+	transition: 0.4s;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .accordion:hover {
+	background-color: #C72;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+main div.content > div > div > div > div.info_div > div.panel {
+	padding: 0 18px;
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.2s ease-out;
+}
+
+
+
+
+
+
+
 
 
 
@@ -450,8 +477,6 @@ footer{
 
 	align-items: center;
 	display:flex;
-	margin-top:auto;
-	align-items: center;
 }
 
 

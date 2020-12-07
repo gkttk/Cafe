@@ -17,8 +17,10 @@ import java.util.StringJoiner;
 
 public class DishDaoImpl extends AbstractDao<Dish> implements DishDao {
 
-    private final static String TABLE_NAME = "dish";
-    private final static String FIND_ALL_BY_IDS = "SELECT * FROM dish WHERE id IN ";
+    private final static String TABLE_NAME = "dishes";
+    private final static String FIND_ALL_BY_IDS = "SELECT * FROM dishes WHERE id IN ";
+    private final static String FIND_ALL_BY_ORDER_ID = "SELECT d.name, d.type from dishes d" +
+            " JOIN orders_dishes od on d.id = ?";
 
     public DishDaoImpl(Connection connection) {
         super(connection, new DishRowMapper(), new DishFieldExtractor());
@@ -28,6 +30,16 @@ public class DishDaoImpl extends AbstractDao<Dish> implements DishDao {
     protected String getTableName() {
         return TABLE_NAME;
     }
+
+
+    @Override
+    public List<Dish> findDishesByOrderId(Long orderId) throws DaoException {
+        return getAllResults(FIND_ALL_BY_ORDER_ID, orderId);
+
+
+
+    }
+
 
     @Override
     public List<Dish> findDishesByIds(List<Long> ids) throws DaoException {
@@ -53,4 +65,6 @@ public class DishDaoImpl extends AbstractDao<Dish> implements DishDao {
 
         return dishes;
     }
+
+
 }

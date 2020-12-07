@@ -1,6 +1,7 @@
 package com.github.gkttk.epam.dao.mappers;
 
 import com.github.gkttk.epam.model.entities.Order;
+
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +16,8 @@ public class OrderRowMapper implements RowMapper<Order> {
         Timestamp timestamp = resultSet.getTimestamp("time");
         LocalDateTime time = timestamp.toLocalDateTime();
         boolean active = resultSet.getBoolean("active");
+        long user_id = resultSet.getLong("user_id");
 
-        return new Order(id, cost, time, active);
+        return new Order(id, cost, time, active, user_id);
     }
 }
