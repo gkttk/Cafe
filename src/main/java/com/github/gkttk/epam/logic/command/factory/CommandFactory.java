@@ -14,6 +14,9 @@ public class CommandFactory {
 
     public static Command createCommand(String commandName) {
         switch (commandName) {
+            case "cancelDish":{
+                return new CancelDishCommand();
+            }
             case "saveOrder":{
                 return new SaveOrderCommand(new OrderServiceImpl());
             }

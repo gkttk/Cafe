@@ -12,13 +12,17 @@
     </head>
     <body>
     <div class="wrapper">
-    <%--    <c:set var="currentPage" value="USERS" scope="session"/>--%>
         <%@ include file="parts/header.jsp" %>
         <main>
             <%@ include file="parts/aside_menu.jsp" %>
 
             <div class="content">
                 <div class="user_conditions">
+                    <div>
+                        <form method="post" action="#">
+                            <button type="submit">ВСЕ</button>
+                        </form>
+                    </div>
                     <div>
                         <form method="post" action="#">
                             <button type="submit"><fmt:message key="users.page.active"/></button>
@@ -32,41 +36,85 @@
                 </div>
 
                 <div class="users">
+                    <table id="customers">
+                        <tr>
+                            <th>Логин</th>
+                            <th>Баллы</th>
+                            <th>Роль</th>
+                            <th>Активность</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <c:forEach var="user" items="${sessionScope.users}">
+                            <tr>
+                                <td>${user.login}</td>
+                                <td>${user.points}</td>
+                                <td>${user.role}</td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${user.active}">
+                                            Активен
+                                        </c:when>
+                                        <c:otherwise>
+                                            Заблокирован
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td>
+                                    <form method="post" action="${pageContext.request.contextPath}/controller">
+                                        <input type="hidden" name="userId" value="${user.id}">
+                                        <input type="hidden" name="active" value="false">
+                                        <input type="hidden" name="command" value="changeStatus">
+                                        <button type="submit"><fmt:message key="users.page.block"/></button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method="post" action="${pageContext.request.contextPath}/controller">
+                                        <input type="hidden" name="userId" value="${user.id}">
+                                        <input type="hidden" name="active" value="true">
+                                        <input type="hidden" name="command" value="changeStatus">
+                                        <button type="submit"><fmt:message key="users.page.unblock"/></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </table>
 
-                    <c:forEach var="user" items="${sessionScope.users}">
-                    <div class="user_item">
-                        <div>${user.login}</div>
-                        <div>${user.points}</div>
-                        <div>${user.role}</div>
-                        <div>
-                            <c:choose>
-                                <c:when test="${user.active}">
-                                    <fmt:message key="users.page.active"/>
-                                </c:when>
-                                <c:otherwise>
-                                    <fmt:message key="users.page.blocked"/>
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
-                        <div>
-                            <form method="post" action="${pageContext.request.contextPath}/controller">
-                                <input type="hidden" name="userId" value="${user.id}">
-                                <input type="hidden" name="active" value="false">
-                                <input type="hidden" name="command" value="changeStatus">
-                                <button type="submit"><fmt:message key="users.page.block"/></button>
-                            </form>
-                        </div>
 
-                        <div>
-                            <form method="post" action="${pageContext.request.contextPath}/controller">
-                                <input type="hidden" name="userId" value="${user.id}">
-                                <input type="hidden" name="active" value="true">
-                                <input type="hidden" name="command" value="changeStatus">
-                                <button type="submit"><fmt:message key="users.page.unblock"/></button>
-                            </form>
-                        </div>
-                    </div>
-                    </c:forEach>
+                        <%--       <c:forEach var="user" items="${sessionScope.users}">
+                               <div class="user_item">
+                                   <div>${user.login}</div>
+                                   <div>${user.points}</div>
+                                   <div>${user.role}</div>
+                                   <div>
+                                       <c:choose>
+                                           <c:when test="${user.active}">
+                                               <fmt:message key="users.page.active"/>
+                                           </c:when>
+                                           <c:otherwise>
+                                               <fmt:message key="users.page.blocked"/>
+                                           </c:otherwise>
+                                       </c:choose>
+                                   </div>
+                                   <div>
+                                       <form method="post" action="${pageContext.request.contextPath}/controller">
+                                           <input type="hidden" name="userId" value="${user.id}">
+                                           <input type="hidden" name="active" value="false">
+                                           <input type="hidden" name="command" value="changeStatus">
+                                           <button type="submit"><fmt:message key="users.page.block"/></button>
+                                       </form>
+                                   </div>
+
+                                   <div>
+                                       <form method="post" action="${pageContext.request.contextPath}/controller">
+                                           <input type="hidden" name="userId" value="${user.id}">
+                                           <input type="hidden" name="active" value="true">
+                                           <input type="hidden" name="command" value="changeStatus">
+                                           <button type="submit"><fmt:message key="users.page.unblock"/></button>
+                                       </form>
+                                   </div>
+                               </div>
+                               </c:forEach>--%>
                 </div>
             </div>
         </main>

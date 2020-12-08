@@ -293,6 +293,12 @@ main{
 	display: flex;
 }
 
+main * input[type="text"]{
+	padding: 6px 20px;
+	border-radius: 4px;
+}
+
+
 main div.side_menu{
 	flex-basis:20%;
 	border:1px solid black;
@@ -435,7 +441,7 @@ main div.users div.user_item div{
 }
 
 /* Style the buttons that are used to open and close the accordion panel */
-body > div > main > div.content > div > div > div > div.info_div > button.accordion {
+#customers * button.accordion {
 	cursor: pointer;
 	border: none;
 	outline: none;
@@ -448,7 +454,7 @@ body > div > main > div.content > div > div > div > div.info_div > button.accord
 }
 
 /* Style the accordion panel. Note: hidden by default */
-main div.content > div > div > div > div.info_div > div.panel {
+#customers * div.panel {
 	padding: 0 18px;
 	max-height: 0;
 	overflow: hidden;

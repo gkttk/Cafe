@@ -12,14 +12,69 @@
     </head>
     <body>
     <div class="wrapper">
-
         <%@ include file="parts/header.jsp" %>
+
         <main>
             <%@ include file="parts/aside_menu.jsp" %>
             <div class="content">
                 <h2>MY_ORDER_PAGE</h2>
                 <div class="menu_content">
-                    <div class="users">
+                    <table id="customers">
+                        <tr>
+                            <th>Идентификатор</th>
+                            <th>Стоимость</th>
+                            <th>Время</th>
+                            <th>Активность</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <c:forEach var="order" items="${sessionScope.orders}">
+                            <tr>
+                                <td>${order.id}</td>
+                                <td>${order.cost}</td>
+                                <td>${order.time}</td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${order.active}">
+                                            Активен
+                                        </c:when>
+                                        <c:otherwise>
+                                            Закрыт
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td>
+                                    <button class="accordion" onclick="openPanel()">Информация</button>
+                                    <div class="panel">
+                                        <div>
+                                            Выпадающий блок
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <form method="post" action="#">
+                                        <button type="submit">Отмена</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <%--<div class="users">
                         <c:forEach var="order" items="${sessionScope.orders}">
                             <div class="user_item">
                                 <div>${order.id}</div>
@@ -42,7 +97,7 @@
                                 </div>
                             </div>
                         </c:forEach>
-                    </div>
+                    </div>--%>
                 </div>
             </div>
             <script>

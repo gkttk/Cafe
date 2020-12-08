@@ -15,29 +15,47 @@
 
         <%@ include file="parts/header.jsp" %>
         <main>
-            <jsp:include page="parts/aside_menu.jsp"/>
+            <%@ include file="parts/aside_menu.jsp" %>
             <div class="content">
-                <h2><fmt:message key="make.order.your.order"/></h2>
+                <h2>Общая сумма заказа: ${sessionScope.orderCost}</h2>
                 <div class="menu_content">
-                    <form id="form_content" method="POST" action="${pageContext.request.contextPath}/controller">
+
+
                         <input type="hidden" name="command" value="saveOrder"/>
 
-                        <input form="form_content" type="submit"
-                               value="<fmt:message key="user.menu.make.order.button"/>"/>
-
-                        <c:forEach var="orderDish" items="${sessionScope.orderDishes}">
-                        <div class="menu_item">
-                            <img src="${orderDish.imgUrl}" alt="dish">
-                            <span>${orderDish.name}</span>
-                            <span>${orderDish.cost}</span>
-                        </div>
-                        </c:forEach>
-                        <h2>Общая сумма заказа: ${sessionScope.orderCost}</h2>
                         <label for="date_input"><fmt:message key="make.order.date"/></label>
-                        <input id="date_input" type="text" name="date" pattern="\d{2}-\d{2}-\d{4}\s\d{2}:\d{2}" required><br/>
+                        <input form="form_content" id="date_input" type="text" name="date" pattern="\d{2}-\d{2}-\d{4}\s\d{2}:\d{2}"
+                               required><br/>
 
+                        <table id="customers">
+                            <tr>
+                                <th>Изображение</th>
+                                <th>Название</th>
+                                <th>Цена</th>
+                                <th></th>
+                                <th>
+                                    <form id="form_content" method="POST" action="${pageContext.request.contextPath}/controller">
+                                    <button type="submit"><fmt:message key="user.menu.make.order.button"/></button>
+                                    </form>
+                                </th>
+                            </tr>
 
-                    </form>
+                            <c:forEach var="orderDish" items="${sessionScope.orderDishes}">
+                                <tr>
+                                    <td><img src="${orderDish.imgUrl}" alt="dish"></td>
+                                    <td>${orderDish.name}</td>
+                                    <td>${orderDish.cost}</td>
+                                    <td></td>
+                                    <td>
+                                        <form method="post" action="${pageContext.request.contextPath}/controller">
+                                            <input type="hidden" name="command" value="cancelDish"/>
+                                            <input type="hidden" name="dishId" value="${orderDish.id}"/>
+                                            <button type="submit">Отмена</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </table>
                 </div>
 
             </div>

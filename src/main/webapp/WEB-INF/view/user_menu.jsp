@@ -24,7 +24,7 @@
                     <button class="btn"><fmt:message key="user.menu.salads.button"/></button>
                     <button class="btn"><fmt:message key="user.menu.beverages.button"/></button>
                 </div>
-
+                        <p style="text-align: center">${requestScope.errorMessage}</p>
                 <div class="menu_content">
                     <form id="form_content" method="POST" action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="makeOrderCommand"/>

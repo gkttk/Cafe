@@ -18,6 +18,7 @@ public class MakeOrderCommand implements Command {
 
     private final static String MAKE_ORDER_PAGE = "/WEB-INF/view/make_order.jsp";
     private final static String CURRENT_PAGE_PARAMETER = "currentPage";
+    private final static String ERROR_MESSAGE = "You chose nothing!";//todo
 
     private final DishService dishService;
 
@@ -31,6 +32,13 @@ public class MakeOrderCommand implements Command {
         HttpSession session = request.getSession();
 
         String[] dish_ids = request.getParameterValues("orderDishes");
+        if(dish_ids == null){
+            request.setAttribute("errorMessage", ERROR_MESSAGE);
+            String currentPage = (String)session.getAttribute(CURRENT_PAGE_PARAMETER);
+
+            return new CommandResult(currentPage, false);
+        }
+
         List<Long> ids = Arrays.stream(dish_ids).map(Long::parseLong).collect(Collectors.toList());
         List<Dish> dishesByIds = dishService.getDishesByIds(ids);
 

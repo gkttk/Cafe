@@ -4,7 +4,6 @@ import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.User;
-import com.github.gkttk.epam.model.enums.CurrentPages;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +22,8 @@ public class ChangeUserStatusCommand implements Command {
     public ChangeUserStatusCommand(UserService userService) {
         this.userService = userService;
     }
-//todo refactor
+
+    //todo refactor
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         String userIdParameter = request.getParameter(USER_ID_PARAMETER);
@@ -35,14 +35,24 @@ public class ChangeUserStatusCommand implements Command {
         HttpSession session = request.getSession();
 
         Optional<User> userOptional = userService.getUserById(userId);
-        if(userOptional.isPresent() && userOptional.get().isActive() != isActive){
+        if (userOptional.isPresent() && userOptional.get().isActive() != isActive) {
             userService.setUserStatus(userId, isActive);
-            List<User> attribute = (List<User>)session.getAttribute(USERS_ATTRIBUTE_KEY);
-            if(attribute != null){
-                attribute.removeIf(user -> user.getId() == userId);
+            List<User> attribute = (List<User>) session.getAttribute(USERS_ATTRIBUTE_KEY);
+            if (attribute != null) {
+                Optional<User> first = attribute.stream().filter(user -> user.getId() == userId).findFirst();
+                if (first.isPresent()) {
+                    User user = first.get();
+                    int index = attribute.indexOf(user);
+                    attribute.remove(user);
+
+                    Optional<User> updatedUser = userService.getUserById(userId);
+                    attribute.add(index, updatedUser.get());
+                    session.setAttribute(USERS_ATTRIBUTE_KEY, attribute);
+                }
+              /*  attribute.removeIf(user -> user.getId() == userId);
                 Optional<User> updatedUser = userService.getUserById(userId);
                 attribute.add(updatedUser.get());
-                session.setAttribute(USERS_ATTRIBUTE_KEY, attribute);
+                session.setAttribute(USERS_ATTRIBUTE_KEY, attribute);*/
             }
         }
 
