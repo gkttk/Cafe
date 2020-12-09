@@ -1,13 +1,11 @@
 package com.github.gkttk.epam.logic.command;
 
+import com.github.gkttk.epam.controller.handler.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.DishService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Dish;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
@@ -27,14 +25,13 @@ public class MakeOrderCommand implements Command {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
+    public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
 
-        HttpSession session = request.getSession();
 
-        String[] dish_ids = request.getParameterValues("orderDishes");
+        String[] dish_ids = requestDataHolder.getRequestParameters("orderDishes");
         if(dish_ids == null){
-            request.setAttribute("errorMessage", ERROR_MESSAGE);
-            String currentPage = (String)session.getAttribute(CURRENT_PAGE_PARAMETER);
+            requestDataHolder.putRequestAttribute("errorMessage", ERROR_MESSAGE);
+            String currentPage = (String) requestDataHolder.getSessionAttribute(CURRENT_PAGE_PARAMETER);
 
             return new CommandResult(currentPage, false);
         }
@@ -48,10 +45,10 @@ public class MakeOrderCommand implements Command {
             orderSum = sumOptional.get();
         }
 
-        session.setAttribute("orderDishes", dishesByIds);
-        session.setAttribute("orderCost", orderSum);
+        requestDataHolder.putSessionAttribute("orderDishes", dishesByIds);
+        requestDataHolder.putSessionAttribute("orderCost", orderSum);
 
-        session.setAttribute(CURRENT_PAGE_PARAMETER, MAKE_ORDER_PAGE);
+        requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAMETER, MAKE_ORDER_PAGE);
 
         return new CommandResult(MAKE_ORDER_PAGE, true);
     }

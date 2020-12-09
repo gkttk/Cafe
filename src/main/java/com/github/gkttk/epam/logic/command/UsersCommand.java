@@ -1,13 +1,11 @@
 package com.github.gkttk.epam.logic.command;
 
+import com.github.gkttk.epam.controller.handler.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.User;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class UsersCommand implements Command {
@@ -22,13 +20,12 @@ public class UsersCommand implements Command {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
+    public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
 
         List<User> users = userService.getUsers();
-        HttpSession session = request.getSession();
-        session.setAttribute(USERS_ATTRIBUTE_KEY, users);
+        requestDataHolder.putSessionAttribute(USERS_ATTRIBUTE_KEY, users);
 
-        session.setAttribute(CURRENT_PAGE_PARAMETER, USERS_PAGE);
+        requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAMETER, USERS_PAGE);
 
         return new CommandResult(USERS_PAGE, true);
 

@@ -1,14 +1,12 @@
 package com.github.gkttk.epam.logic.command;
 
+import com.github.gkttk.epam.controller.handler.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.OrderService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Order;
 import com.github.gkttk.epam.model.entities.User;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class MyOrdersPageCommand implements Command {
@@ -22,18 +20,17 @@ public class MyOrdersPageCommand implements Command {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
+    public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
 
-        HttpSession session = request.getSession();
-        User authUser = (User)session.getAttribute("authUser");
+        User authUser = (User) requestDataHolder.getSessionAttribute("authUser");
         Long userId = authUser.getId();
 
 
         List<Order> orders = orderService.getAllOrdersByUserId(userId);
 
-        session.setAttribute("orders", orders);
+        requestDataHolder.putSessionAttribute("orders", orders);
 
-        session.setAttribute(CURRENT_PAGE_PARAMETER, MY_ORDERS_PAGE);
+        requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAMETER, MY_ORDERS_PAGE);
 
         return new CommandResult(MY_ORDERS_PAGE, true);
 

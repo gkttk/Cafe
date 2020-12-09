@@ -1,5 +1,6 @@
 package com.github.gkttk.epam.logic.command;
 
+import com.github.gkttk.epam.controller.handler.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.DishService;
 import com.github.gkttk.epam.logic.service.UserService;
@@ -7,9 +8,6 @@ import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Dish;
 import com.github.gkttk.epam.model.entities.User;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,9 +27,9 @@ public class LoginCommand implements Command {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
+    public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
+        String login = requestDataHolder.getRequestParameter("login");
+        String password = requestDataHolder.getRequestParameter("password");
 
         boolean isValid = userService.login(login, password);
 
@@ -39,16 +37,15 @@ public class LoginCommand implements Command {
             Optional<User> userByLogin = userService.getUserByLogin(login);
             if (userByLogin.isPresent()) {
                 User user = userByLogin.get();
-                HttpSession session = request.getSession();
-                session.setAttribute("authUser", user);
+                requestDataHolder.putSessionAttribute("authUser", user);
                 List<Dish> allDishes = dishService.getAllDishes();
-                session.setAttribute("dishes", allDishes);
-                session.setAttribute("currentPage", USER_PAGE);
+                requestDataHolder.putSessionAttribute("dishes", allDishes);
+                requestDataHolder.putSessionAttribute("currentPage", USER_PAGE);
             }
 
             return new CommandResult(USER_PAGE, true);
         } else {
-            request.setAttribute("errorMessage", ERROR_MESSAGE);
+            requestDataHolder.putRequestAttribute("errorMessage", ERROR_MESSAGE);
             return new CommandResult(START_PAGE, false);
         }
 

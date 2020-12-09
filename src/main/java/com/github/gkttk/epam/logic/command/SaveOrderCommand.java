@@ -1,5 +1,6 @@
 package com.github.gkttk.epam.logic.command;
 
+import com.github.gkttk.epam.controller.handler.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.OrderService;
 import com.github.gkttk.epam.model.CommandResult;
@@ -7,9 +8,6 @@ import com.github.gkttk.epam.model.entities.Dish;
 import com.github.gkttk.epam.model.entities.Order;
 import com.github.gkttk.epam.model.entities.User;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -27,19 +25,18 @@ public class SaveOrderCommand implements Command {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
+    public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
 
-        HttpSession session = request.getSession();
-        List<Dish> orderDishes = (List<Dish>) session.getAttribute("orderDishes");
+        List<Dish> orderDishes = (List<Dish>) requestDataHolder.getSessionAttribute("orderDishes");
         List<Long> dishIds = orderDishes.stream().map(Dish::getId).collect(Collectors.toList());
 
 
-        BigDecimal orderCost = (BigDecimal) session.getAttribute("orderCost");
+        BigDecimal orderCost = (BigDecimal) requestDataHolder.getSessionAttribute("orderCost");
 
-        User authUser = (User) session.getAttribute("authUser");
+        User authUser = (User) requestDataHolder.getSessionAttribute("authUser");
         Long userId = authUser.getId();
 
-        String date = request.getParameter("date");
+        String date = requestDataHolder.getRequestParameter("date");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         LocalDateTime dateTime = LocalDateTime.parse(date, formatter);
 
@@ -47,9 +44,9 @@ public class SaveOrderCommand implements Command {
 
         orderService.makeOrder(order, dishIds);
 
-        session.setAttribute("orderMessage", "Your order has been accepted");//todo i18n
+        requestDataHolder.putSessionAttribute("orderMessage", "Your order has been accepted");//todo i18n
 
-        session.setAttribute(CURRENT_PAGE_PARAMETER, MENU_PAGE);
+        requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAMETER, MENU_PAGE);
 
         return new CommandResult(MENU_PAGE, true);
     }

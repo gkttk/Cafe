@@ -1,6 +1,7 @@
 package com.github.gkttk.epam.controller;
 
 import com.github.gkttk.epam.connection.ConnectionPool;
+import com.github.gkttk.epam.controller.handler.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ConnectionPoolException;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.command.Command;
@@ -38,17 +39,23 @@ public class Controller extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            Command command = getCommand(request);
+        RequestDataHolder requestDataHolder = new RequestDataHolder(request);
 
-            CommandResult commandResult = command.execute(request, response);
+        try {
+            Command command = getCommand(requestDataHolder);
+            CommandResult commandResult = command.execute(requestDataHolder);
+            requestDataHolder.fillRequest(request);
+
+            String url = commandResult.getUrl();
+
             if (commandResult.isRedirect()) {
-                String url = commandResult.getUrl();
-                HttpSession session = request.getSession();
-                session.setAttribute(PAGE_ATTRIBUTE, url);
+                if(!requestDataHolder.isSessionValid()){
+                    request.getSession().invalidate();
+                }//todo invalidate only for redirect
+                request.getSession().setAttribute(PAGE_ATTRIBUTE, url);
                 response.sendRedirect(request.getRequestURL().toString());
             } else {
-                request.getRequestDispatcher(commandResult.getUrl()).forward(request, response);
+                request.getRequestDispatcher(url).forward(request, response);
             }
 
         } catch (ServiceException e) {
@@ -60,10 +67,10 @@ public class Controller extends HttpServlet {
         }
     }
 
-    private Command getCommand(HttpServletRequest request) throws ServletException {
-        String commandName = request.getParameter("command");
+    private Command getCommand(RequestDataHolder requestDataHolder) throws ServletException {
+        String commandName = requestDataHolder.getRequestParameter("command");
         if (commandName == null) {
-            throw new ServletException("Can't find command name in request");
+            throw new ServletException("Can't find command name in RequestDataHandler");
         }
         Commands commandEnum = Commands.valueOf(commandName);
         return commandEnum.getCommand();

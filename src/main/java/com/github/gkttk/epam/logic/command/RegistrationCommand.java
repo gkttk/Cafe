@@ -1,12 +1,9 @@
 package com.github.gkttk.epam.logic.command;
 
+import com.github.gkttk.epam.controller.handler.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.model.CommandResult;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 public class RegistrationCommand implements Command {
 
@@ -21,16 +18,16 @@ public class RegistrationCommand implements Command {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
+    public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
+        String login = requestDataHolder.getRequestParameter("login");
+        String password = requestDataHolder.getRequestParameter("password");
 
         boolean isRegistered = userService.registration(login, password);//todo boolean
 
         if(isRegistered){
             return new CommandResult(START_PAGE, true);
         }else {
-            request.setAttribute("errorMessage", ERROR_MESSAGE);
+            requestDataHolder.putRequestAttribute("errorMessage", ERROR_MESSAGE);
             return new CommandResult(START_PAGE, false);
         }
 

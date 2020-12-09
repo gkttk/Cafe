@@ -1,11 +1,7 @@
 package com.github.gkttk.epam.logic.command;
 
+import com.github.gkttk.epam.controller.handler.RequestDataHolder;
 import com.github.gkttk.epam.model.CommandResult;
-import com.github.gkttk.epam.model.enums.CurrentPages;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 public class LocaleCommand implements Command {
 
@@ -15,17 +11,16 @@ public class LocaleCommand implements Command {
 
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
+    public CommandResult execute(RequestDataHolder requestDataHolder) {
 
-        String lang = request.getParameter(LANGUAGE_PARAMETER);
+        String lang = requestDataHolder.getRequestParameter(LANGUAGE_PARAMETER);
 
-        HttpSession session = request.getSession();
-        session.setAttribute("locale", lang);
+        requestDataHolder.putSessionAttribute("locale", lang);
 
-        String refForRedirect = (String) session.getAttribute(CURRENT_PAGE_PARAMETER);
+        String refForRedirect = (String) requestDataHolder.getSessionAttribute(CURRENT_PAGE_PARAMETER);
         if(refForRedirect == null){
             refForRedirect = START_PAGE;
-            session.setAttribute(CURRENT_PAGE_PARAMETER, START_PAGE);
+            requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAMETER, START_PAGE);
         }
 
         return new CommandResult(refForRedirect, true);

@@ -35,6 +35,7 @@
                                 <th></th>
                                 <th>
                                     <form id="form_content" method="POST" action="${pageContext.request.contextPath}/controller">
+                                        <input type="hidden" name="command" value="SAVE_ORDER"/>
                                     <button type="submit"><fmt:message key="user.menu.make.order.button"/></button>
                                     </form>
                                 </th>
