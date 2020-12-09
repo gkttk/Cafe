@@ -484,6 +484,62 @@ main div.users div.user_item div{
 }
 
 
+body > div > main > div.content > div.menu_content > div{
+	display: flex;
+	justify-content:space-between;
+	margin-left:20px;
+}
+
+
+body > div > main > div.content > div.menu_content > div > div.user_info > h3{
+	text-align:center;
+
+}
+
+body > div > main > div.content > div.menu_content > div > div.user_info > img{
+	width:125px;
+	height: 135px;
+	border-radius:25%;
+
+}
+
+body > div > main > div.content > div.menu_content > div > div.comment_info{
+	display: flex;
+	flex-grow:1;
+	justify-content: space-around;
+}
+
+
+body > div > main > div.content > div.menu_content > div > div.comment_info > div.comment_text{
+	flex-grow: 1;
+	padding-top: 23px;
+	margin-right: 10px;
+	margin-left: 10px;
+	overflow-wrap: anywhere;
+	border-bottom: 1px solid burlywood;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+body > div > main > div.content > div.menu_content > div > div.comment_info > div.comment_text > div.date{
+	font-size:15px;
+}
+
+body > div > main > div.content > div.menu_content > div > div.comment_info > div.comment_rating{
+	display: flex;
+	flex-flow: column;
+	flex-basis: 10%;
+	font-size: 30px;
+	font-style: italic;
+	align-items: center;
+	margin-right: 15px;
+}
+
+
+
+
+
 
 
 

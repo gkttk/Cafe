@@ -17,8 +17,37 @@
         <main>
             <%@ include file="parts/aside_menu.jsp" %>
             <div class="content">
-                <h2>COMMENT_PAGE</h2>
+                <div class="meal_types">
+                    <button class="btn">По рейтингу</button>
+                    <button class="btn">Новые</button>
+                </div>
                 <div class="menu_content">
+
+                    <c:forEach var="dishComment" items="${sessionScope.dishComments}">
+                        <div class="comment_item">
+
+                            <div class="user_info">
+                                <h3>Имя</h3>
+                                <img src="${pageContext.request.contextPath}/static/images/not_found.png" alt="avatar"/>
+                            </div>
+
+                            <div class="comment_info">
+
+                                <div class="comment_text">
+                                    <div>${dishComment.text}</div>
+                                    <div class="date">${dishComment.creationDate}</div>
+                                </div>
+
+                                <div class="comment_rating">
+                                    <button>+</button>
+                                    <span>${dishComment.rating}</span>
+                                    <button>-</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </c:forEach>
+
 
                 </div>
             </div>

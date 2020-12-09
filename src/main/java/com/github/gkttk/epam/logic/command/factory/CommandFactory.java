@@ -2,6 +2,7 @@ package com.github.gkttk.epam.logic.command.factory;
 
 import com.github.gkttk.epam.dao.impl.OrderDaoImpl;
 import com.github.gkttk.epam.logic.command.*;
+import com.github.gkttk.epam.logic.service.impl.CommentServiceImpl;
 import com.github.gkttk.epam.logic.service.impl.DishServiceImpl;
 import com.github.gkttk.epam.logic.service.impl.OrderServiceImpl;
 import com.github.gkttk.epam.logic.service.impl.UserServiceImpl;
@@ -14,6 +15,10 @@ public class CommandFactory {
 
     public static Command createCommand(String commandName) {
         switch (commandName) {
+            case "dishComments":{
+                return new DishCommentsCommand(new CommentServiceImpl());
+            }
+
             case "cancelDish":{
                 return new CancelDishCommand();
             }
@@ -21,7 +26,7 @@ public class CommandFactory {
                 return new SaveOrderCommand(new OrderServiceImpl());
             }
             case "comments": {
-                return new CommentsPageCommand();
+                return new CommentsPageCommand(new CommentServiceImpl());
             }
             case "myOrders": {
                 return new MyOrdersPageCommand(new OrderServiceImpl());

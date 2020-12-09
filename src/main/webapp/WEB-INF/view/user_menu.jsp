@@ -51,7 +51,11 @@
                                             <button class="btn"><fmt:message key="user.menu.update.dish.button"/></button>
                                         </c:when>
                                         <c:otherwise>
-                                            <button class="btn"><fmt:message key="user.menu.comments.button"/></button>
+                                            <form id="dish_comments_form" method="POST" action="${pageContext.request.contextPath}/controller">
+                                                <input type="hidden" name="command" value="dishComments"/>
+                                                <input type="hidden" name="dishId" value="${dish.id}"/>
+                                                <button form="dish_comments_form" type="submit" class="btn"><fmt:message key="user.menu.comments.button"/></button>
+                                            </form>
                                         </c:otherwise>
                                     </c:choose>
                                    </td>
