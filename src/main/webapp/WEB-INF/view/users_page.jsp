@@ -64,7 +64,7 @@
                                     <form method="post" action="${pageContext.request.contextPath}/controller">
                                         <input type="hidden" name="userId" value="${user.id}">
                                         <input type="hidden" name="active" value="false">
-                                        <input type="hidden" name="command" value="changeStatus">
+                                        <input type="hidden" name="command" value="CHANGE_STATUS">
                                         <button type="submit"><fmt:message key="users.page.block"/></button>
                                     </form>
                                 </td>
@@ -72,7 +72,7 @@
                                     <form method="post" action="${pageContext.request.contextPath}/controller">
                                         <input type="hidden" name="userId" value="${user.id}">
                                         <input type="hidden" name="active" value="true">
-                                        <input type="hidden" name="command" value="changeStatus">
+                                        <input type="hidden" name="command" value="CHANGE_STATUS">
                                         <button type="submit"><fmt:message key="users.page.unblock"/></button>
                                     </form>
                                 </td>
@@ -80,41 +80,6 @@
                         </c:forEach>
                     </table>
 
-
-                        <%--       <c:forEach var="user" items="${sessionScope.users}">
-                               <div class="user_item">
-                                   <div>${user.login}</div>
-                                   <div>${user.points}</div>
-                                   <div>${user.role}</div>
-                                   <div>
-                                       <c:choose>
-                                           <c:when test="${user.active}">
-                                               <fmt:message key="users.page.active"/>
-                                           </c:when>
-                                           <c:otherwise>
-                                               <fmt:message key="users.page.blocked"/>
-                                           </c:otherwise>
-                                       </c:choose>
-                                   </div>
-                                   <div>
-                                       <form method="post" action="${pageContext.request.contextPath}/controller">
-                                           <input type="hidden" name="userId" value="${user.id}">
-                                           <input type="hidden" name="active" value="false">
-                                           <input type="hidden" name="command" value="changeStatus">
-                                           <button type="submit"><fmt:message key="users.page.block"/></button>
-                                       </form>
-                                   </div>
-
-                                   <div>
-                                       <form method="post" action="${pageContext.request.contextPath}/controller">
-                                           <input type="hidden" name="userId" value="${user.id}">
-                                           <input type="hidden" name="active" value="true">
-                                           <input type="hidden" name="command" value="changeStatus">
-                                           <button type="submit"><fmt:message key="users.page.unblock"/></button>
-                                       </form>
-                                   </div>
-                               </div>
-                               </c:forEach>--%>
                 </div>
             </div>
         </main>

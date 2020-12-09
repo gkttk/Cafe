@@ -9,6 +9,7 @@ import com.github.gkttk.epam.logic.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+//todo delete
 public class CommandFactory {
 
     private final static Logger LOGGER = LogManager.getLogger(CommandFactory.class);
@@ -34,7 +35,7 @@ public class CommandFactory {
             case "menu": {
                 return new MenuPageCommand();
             }
-            case "makeOrderCommand": {
+            case "makeOrderCommand": {//formorder
                 return new MakeOrderCommand(new DishServiceImpl());
             }
             case "registration": {

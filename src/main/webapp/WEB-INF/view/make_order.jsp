@@ -21,7 +21,7 @@
                 <div class="menu_content">
 
 
-                        <input type="hidden" name="command" value="saveOrder"/>
+                        <input type="hidden" name="command" value="SAVE_ORDER"/>
 
                         <label for="date_input"><fmt:message key="make.order.date"/></label>
                         <input form="form_content" id="date_input" type="text" name="date" pattern="\d{2}-\d{2}-\d{4}\s\d{2}:\d{2}"
@@ -48,7 +48,7 @@
                                     <td></td>
                                     <td>
                                         <form method="post" action="${pageContext.request.contextPath}/controller">
-                                            <input type="hidden" name="command" value="cancelDish"/>
+                                            <input type="hidden" name="command" value="CANCEL_DISH"/>
                                             <input type="hidden" name="dishId" value="${orderDish.id}"/>
                                             <button type="submit">Отмена</button>
                                         </form>

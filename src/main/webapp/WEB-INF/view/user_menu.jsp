@@ -27,7 +27,7 @@
                         <p style="text-align: center">${requestScope.errorMessage}</p>
                 <div class="menu_content">
                     <form id="form_content" method="POST" action="${pageContext.request.contextPath}/controller">
-                        <input type="hidden" name="command" value="makeOrderCommand"/>
+                        <input type="hidden" name="command" value="FORM_ORDER"/>
 
                         <table id="customers">
                             <tr>
@@ -52,7 +52,7 @@
                                         </c:when>
                                         <c:otherwise>
                                             <form id="dish_comments_form" method="POST" action="${pageContext.request.contextPath}/controller">
-                                                <input type="hidden" name="command" value="dishComments"/>
+                                                <input type="hidden" name="command" value="DISH_COMMENTS"/>
                                                 <input type="hidden" name="dishId" value="${dish.id}"/>
                                                 <button form="dish_comments_form" type="submit" class="btn"><fmt:message key="user.menu.comments.button"/></button>
                                             </form>

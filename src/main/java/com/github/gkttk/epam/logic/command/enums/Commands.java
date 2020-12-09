@@ -1,0 +1,37 @@
+package com.github.gkttk.epam.logic.command.enums;
+
+import com.github.gkttk.epam.logic.command.*;
+import com.github.gkttk.epam.logic.service.impl.CommentServiceImpl;
+import com.github.gkttk.epam.logic.service.impl.DishServiceImpl;
+import com.github.gkttk.epam.logic.service.impl.OrderServiceImpl;
+import com.github.gkttk.epam.logic.service.impl.UserServiceImpl;
+
+public enum Commands {
+    LOGIN(new LoginCommand(new UserServiceImpl(), new DishServiceImpl())),
+    LOCALE(new LocaleCommand()),
+    LOGOUT(new LogoutCommand()),
+    HOME(new HomeCommand()),
+    USERS(new UsersCommand(new UserServiceImpl())),
+    CHANGE_STATUS(new ChangeUserStatusCommand(new UserServiceImpl())),
+    REGISTRATION_PAGE(new RegistrationGetPageCommand()),
+    REGISTRATION(new RegistrationCommand(new UserServiceImpl())),
+    FORM_ORDER(new MakeOrderCommand(new DishServiceImpl())),
+    MENU(new MenuPageCommand()),
+    MY_ORDERS(new MyOrdersPageCommand(new OrderServiceImpl())),
+    COMMENTS(new CommentsPageCommand(new CommentServiceImpl())),
+    SAVE_ORDER(new SaveOrderCommand(new OrderServiceImpl())),
+    CANCEL_DISH(new CancelDishCommand()),
+    DISH_COMMENTS(new DishCommentsCommand(new CommentServiceImpl()));//todo not working, need dto
+
+
+    Commands(Command command) {
+        this.command = command;
+    }
+
+    private Command command;
+
+    public Command getCommand(){
+        return command;
+    }
+
+}

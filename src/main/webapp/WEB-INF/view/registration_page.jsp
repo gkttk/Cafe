@@ -19,7 +19,7 @@
                 <h2>Registration</h2>
                 <div class="menu_content">
                     <form id="form_content" method="POST" action="${pageContext.request.contextPath}/controller">
-                        <input type="hidden" name="command" value="registration"/>
+                        <input type="hidden" name="command" value="REGISTRATION"/>
                         <label for="login_reg">Login</label>
                         <input id="login_reg" type="text" name="login" required/>
                         <label for="password_reg">Password</label>

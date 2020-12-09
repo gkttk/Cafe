@@ -4,8 +4,8 @@ import com.github.gkttk.epam.connection.ConnectionPool;
 import com.github.gkttk.epam.exceptions.ConnectionPoolException;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.command.Command;
-import com.github.gkttk.epam.logic.command.factory.CommandFactory;
 import com.github.gkttk.epam.model.CommandResult;
+import com.github.gkttk.epam.logic.command.enums.Commands;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,11 +35,12 @@ public class Controller extends HttpServlet {
     }
 
 
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-        String commandName = request.getParameter("command");
         try {
-            Command command = CommandFactory.createCommand(commandName);
+            Command command = getCommand(request);
+
             CommandResult commandResult = command.execute(request, response);
             if (commandResult.isRedirect()) {
                 String url = commandResult.getUrl();
@@ -58,6 +59,18 @@ public class Controller extends HttpServlet {
             LOGGER.warn("Can't forward/redirect from doPost()", e);
         }
     }
+
+    private Command getCommand(HttpServletRequest request) throws ServletException {
+        String commandName = request.getParameter("command");
+        if (commandName == null) {
+            throw new ServletException("Can't find command name in request");
+        }
+        Commands commandEnum = Commands.valueOf(commandName);
+        return commandEnum.getCommand();
+    }
+
+
+
 
 
     @Override
