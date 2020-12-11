@@ -11,7 +11,7 @@
         <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/script.js"></script>
     </head>
     <body>
-<%--    <c:set var="currentPage" value="MENU" scope="session"/>--%>
+
     <div class="wrapper">
         <%@ include file="parts/header.jsp" %>
         <main>
@@ -19,26 +19,42 @@
             <div class="content">
                     ${sessionScope.orderMessage}
                 <div class="meal_types">
-                    <button class="btn">ВСЕ</button>
-                    <button class="btn"><fmt:message key="user.menu.main.dishes.button"/></button>
-                    <button class="btn"><fmt:message key="user.menu.salads.button"/></button>
-                    <button class="btn"><fmt:message key="user.menu.beverages.button"/></button>
+                    <form method="POST" action="${pageContext.request.contextPath}/controller">
+                        <input type="hidden" name="command" value="SORT_DISHES"/>
+                        <button class="btn"><fmt:message key="user.menu.all.dishes"/></button>
+                    </form>
+                    <form method="POST" action="${pageContext.request.contextPath}/controller">
+                        <input type="hidden" name="command" value="SORT_DISHES"/>
+                        <input type="hidden" name="dishType" value="SOUP"/>
+                        <button type="submit" class="btn"><fmt:message key="user.menu.soups.button"/></button>
+                    </form>
+                    <form method="POST" action="${pageContext.request.contextPath}/controller">
+                        <input type="hidden" name="command" value="SORT_DISHES"/>
+                        <input type="hidden" name="dishType" value="SALAD"/>
+                        <button class="btn"><fmt:message key="user.menu.salads.button"/></button>
+                    </form>
+                    <form method="POST" action="${pageContext.request.contextPath}/controller">
+                        <input type="hidden" name="command" value="SORT_DISHES"/>
+                        <input type="hidden" name="dishType" value="BEVERAGE"/>
+                        <button class="btn"><fmt:message key="user.menu.beverages.button"/></button>
+                    </form>
                 </div>
-                        <p style="text-align: center">${requestScope.errorMessage}</p>
+                <p style="text-align: center">${requestScope.errorMessage}</p>
                 <div class="menu_content">
-                    <form id="form_content" method="POST" action="${pageContext.request.contextPath}/controller">
-                        <input type="hidden" name="command" value="FORM_ORDER"/>
-
-                        <table id="customers">
-                            <tr>
-                                <th>Изображение</th>
-                                <th>Название</th>
-                                <th>Цена</th>
-                                <th colspan="2">
+                    <table id="customers">
+                        <tr>
+                            <th><fmt:message key="user.menu.dish.image"/></th>
+                            <th><fmt:message key="user.menu.dish.title"/></th>
+                            <th><fmt:message key="user.menu.dish.price"/></th>
+                            <th colspan="2">
+                                <form id="form_content" method="POST"
+                                      action="${pageContext.request.contextPath}/controller">
+                                    <input type="hidden" name="command" value="FORM_ORDER"/>
                                     <input form="form_content" type="submit"
                                            value="<fmt:message key="user.menu.make.order.button"/>"/>
-                                </th>
-                            </tr>
+                                </form>
+                            </th>
+                        </tr>
 
                         <c:forEach var="dish" items="${sessionScope.dishes}">
                             <tr>
@@ -48,22 +64,31 @@
                                 <td>
                                     <c:choose>
                                         <c:when test="${sessionScope.authUser.role == 'ADMIN'}">
-                                            <button class="btn"><fmt:message key="user.menu.update.dish.button"/></button>
+                                            <button class="btn"><fmt:message
+                                                    key="user.menu.update.dish.button"/></button>
                                         </c:when>
                                         <c:otherwise>
-                                            <form id="dish_comments_form" method="POST" action="${pageContext.request.contextPath}/controller">
+                                            <form id="dish_comments_form" method="POST"
+                                                  action="${pageContext.request.contextPath}/controller">
                                                 <input type="hidden" name="command" value="DISH_COMMENTS"/>
                                                 <input type="hidden" name="dishId" value="${dish.id}"/>
-                                                <button form="dish_comments_form" type="submit" class="btn"><fmt:message key="user.menu.comments.button"/></button>
+                                                <button form="dish_comments_form" type="submit" class="btn">
+                                                    <fmt:message key="user.menu.comments.button"/></button>
                                             </form>
                                         </c:otherwise>
                                     </c:choose>
-                                   </td>
-                                <td><input type="checkbox" name="orderDishes" value="${dish.id}"/></td>
+                                </td>
+                                <td>
+                                    <form method="POST" action="${pageContext.request.contextPath}/controller">
+                                        <input type="hidden" name="command" value="TO_BASKET"/>
+                                        <input type="hidden" name="dishId" value="${dish.id}">
+                                        <button type="submit"><fmt:message key="user.menu.to.bucket"/></button>
+                                    </form>
+                                </td>
                             </tr>
-                           </c:forEach>
-                        </table>
-                    </form>
+                        </c:forEach>
+                    </table>
+
                 </div>
             </div>
         </main>

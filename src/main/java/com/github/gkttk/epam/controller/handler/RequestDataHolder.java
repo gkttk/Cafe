@@ -41,7 +41,10 @@ public class RequestDataHolder {
     }
 
     public String getRequestParameter(String key) {
-        return requestParameters.get(key)[0];
+        if(requestParameters.get(key) != null){
+            return requestParameters.get(key)[0];
+        }
+        return null;
     }
 
 

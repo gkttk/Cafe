@@ -17,7 +17,7 @@
         <main>
             <%@ include file="parts/aside_menu.jsp" %>
             <div class="content">
-                <h2>Общая сумма заказа: ${sessionScope.orderCost}</h2>
+                <h2><fmt:message key="make.order.total.amount"/> ${sessionScope.orderCost}</h2>
                 <div class="menu_content">
 
 
@@ -29,9 +29,9 @@
 
                         <table id="customers">
                             <tr>
-                                <th>Изображение</th>
-                                <th>Название</th>
-                                <th>Цена</th>
+                                <th><fmt:message key="user.menu.dish.image"/></th>
+                                <th><fmt:message key="user.menu.dish.title"/></th>
+                                <th><fmt:message key="user.menu.dish.price"/></th>
                                 <th></th>
                                 <th>
                                     <form id="form_content" method="POST" action="${pageContext.request.contextPath}/controller">
@@ -41,7 +41,8 @@
                                 </th>
                             </tr>
 
-                            <c:forEach var="orderDish" items="${sessionScope.orderDishes}">
+
+                            <c:forEach var="orderDish" items="${sessionScope.basket}">
                                 <tr>
                                     <td><img src="${orderDish.imgUrl}" alt="dish"></td>
                                     <td>${orderDish.name}</td>
@@ -51,7 +52,7 @@
                                         <form method="post" action="${pageContext.request.contextPath}/controller">
                                             <input type="hidden" name="command" value="CANCEL_DISH"/>
                                             <input type="hidden" name="dishId" value="${orderDish.id}"/>
-                                            <button type="submit">Отмена</button>
+                                            <button type="submit"><fmt:message key="make.order.cancel"/></button>
                                         </form>
                                     </td>
                                 </tr>

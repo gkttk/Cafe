@@ -32,7 +32,7 @@ public class CommandFactory {
                 return new MenuPageCommand();
             }
             case "makeOrderCommand": {//formorder
-                return new MakeOrderCommand(new DishServiceImpl());
+                return new MakeOrderCommand();
             }
             case "registration": {
                 return new RegistrationCommand(new UserServiceImpl());

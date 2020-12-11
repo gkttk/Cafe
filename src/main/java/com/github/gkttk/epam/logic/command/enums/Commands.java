@@ -12,13 +12,15 @@ public enum Commands {
     CHANGE_STATUS(new ChangeUserStatusCommand(new UserServiceImpl())),
     REGISTRATION_PAGE(new RegistrationGetPageCommand()),
     REGISTRATION(new RegistrationCommand(new UserServiceImpl())),
-    FORM_ORDER(new MakeOrderCommand(new DishServiceImpl())),
+    FORM_ORDER(new MakeOrderCommand()),
     MENU(new MenuPageCommand()),
     MY_ORDERS(new MyOrdersPageCommand(new OrderServiceImpl())),
     COMMENTS(new CommentsPageCommand(new CommentServiceImpl(), new UserCommentRatingServiceImpl())),
     SAVE_ORDER(new SaveOrderCommand(new OrderServiceImpl())),
     CANCEL_DISH(new CancelDishCommand()),
     RATE_COMMENT(new RateCommentCommand(new CommentServiceImpl(), new UserCommentRatingServiceImpl())),
+    SORT_DISHES(new SortDishesCommand(new DishServiceImpl())),
+    TO_BASKET(new AddToBasketCommand(new DishServiceImpl())),
 
     DISH_COMMENTS(new DishCommentsCommand(new CommentServiceImpl()));//todo not working, need dto
 
