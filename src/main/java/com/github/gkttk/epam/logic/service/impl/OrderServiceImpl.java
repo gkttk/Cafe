@@ -35,6 +35,7 @@ public class OrderServiceImpl implements OrderService {
         } finally {
             try {
                 daoHelper.endTransaction();
+                daoHelper.close();
             } catch (DaoException e) {
                 throw new ServiceException(String.format("Can't endTransaction() in makeOrder with order: %s, user_id: %d",
                         order.toString(), userId), e);

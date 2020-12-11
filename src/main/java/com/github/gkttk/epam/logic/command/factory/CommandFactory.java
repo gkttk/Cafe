@@ -1,11 +1,7 @@
 package com.github.gkttk.epam.logic.command.factory;
 
-import com.github.gkttk.epam.dao.impl.OrderDaoImpl;
 import com.github.gkttk.epam.logic.command.*;
-import com.github.gkttk.epam.logic.service.impl.CommentServiceImpl;
-import com.github.gkttk.epam.logic.service.impl.DishServiceImpl;
-import com.github.gkttk.epam.logic.service.impl.OrderServiceImpl;
-import com.github.gkttk.epam.logic.service.impl.UserServiceImpl;
+import com.github.gkttk.epam.logic.service.impl.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,7 +23,7 @@ public class CommandFactory {
                 return new SaveOrderCommand(new OrderServiceImpl());
             }
             case "comments": {
-                return new CommentsPageCommand(new CommentServiceImpl());
+                return new CommentsPageCommand(new CommentServiceImpl(), new UserCommentRatingServiceImpl());
             }
             case "myOrders": {
                 return new MyOrdersPageCommand(new OrderServiceImpl());

@@ -534,6 +534,7 @@ body > div > main > div.content > div.menu_content > div > div.comment_info > di
 	font-style: italic;
 	align-items: center;
 	margin-right: 15px;
+	justify-content: center;
 }
 
 

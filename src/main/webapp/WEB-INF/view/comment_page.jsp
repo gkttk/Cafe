@@ -23,6 +23,7 @@
                 </div>
                 <div class="menu_content">
 
+                    <c:set var="estimatesMap" value="${sessionScope.estimates}"/>
                     <c:forEach var="dishComment" items="${sessionScope.dishComments}">
                         <div class="comment_item">
 
@@ -39,9 +40,32 @@
                                 </div>
 
                                 <div class="comment_rating">
-                                    <button>+</button>
+                                    <c:set var = "estimate" value="${estimatesMap.get(dishComment.id)}"/>
+                                    <div>
+                                    <c:if test="${(empty estimate) || (estimate == 'DISLIKE')}">
+                                        <form action="${pageContext.request.contextPath}/controller" method="POST">
+                                            <input type="hidden" name="command" value="RATE_COMMENT"/>
+                                            <input type="hidden" name="commentId" value="${dishComment.id}"/>
+                                            <input type="hidden" name="rating" value="${dishComment.rating}"/>
+                                            <input type="hidden" name="estimate" value="LIKE"/>
+                                            <button type="submit">+</button>
+                                        </form>
+                                    </c:if>
+                                    </div>
+                                    <div>
                                     <span>${dishComment.rating}</span>
+                                        </div>
+                                    <div>
+                                    <c:if test="${(empty estimate) || (estimate == 'LIKE')}">
+                                        <form action="${pageContext.request.contextPath}/controller" method="POST">
+                                            <input type="hidden" name="command" value="RATE_COMMENT"/>
+                                            <input type="hidden" name="commentId" value="${dishComment.id}"/>
+                                            <input type="hidden" name="rating" value="${dishComment.rating}"/>
+                                            <input type="hidden" name="estimate" value="DISLIKE"/>
                                     <button>-</button>
+                                        </form>
+                                    </c:if>
+                                    </div>
                                 </div>
 
                             </div>

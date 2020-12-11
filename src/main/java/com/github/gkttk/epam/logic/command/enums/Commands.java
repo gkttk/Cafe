@@ -1,10 +1,7 @@
 package com.github.gkttk.epam.logic.command.enums;
 
 import com.github.gkttk.epam.logic.command.*;
-import com.github.gkttk.epam.logic.service.impl.CommentServiceImpl;
-import com.github.gkttk.epam.logic.service.impl.DishServiceImpl;
-import com.github.gkttk.epam.logic.service.impl.OrderServiceImpl;
-import com.github.gkttk.epam.logic.service.impl.UserServiceImpl;
+import com.github.gkttk.epam.logic.service.impl.*;
 
 public enum Commands {
     LOGIN(new LoginCommand(new UserServiceImpl(), new DishServiceImpl())),
@@ -18,9 +15,11 @@ public enum Commands {
     FORM_ORDER(new MakeOrderCommand(new DishServiceImpl())),
     MENU(new MenuPageCommand()),
     MY_ORDERS(new MyOrdersPageCommand(new OrderServiceImpl())),
-    COMMENTS(new CommentsPageCommand(new CommentServiceImpl())),
+    COMMENTS(new CommentsPageCommand(new CommentServiceImpl(), new UserCommentRatingServiceImpl())),
     SAVE_ORDER(new SaveOrderCommand(new OrderServiceImpl())),
     CANCEL_DISH(new CancelDishCommand()),
+    RATE_COMMENT(new RateCommentCommand(new CommentServiceImpl(), new UserCommentRatingServiceImpl())),
+
     DISH_COMMENTS(new DishCommentsCommand(new CommentServiceImpl()));//todo not working, need dto
 
 
