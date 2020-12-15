@@ -1,7 +1,7 @@
-package com.github.gkttk.epam.dao.impl;
+package com.github.gkttk.epam.dao.entity.impl;
 
-import com.github.gkttk.epam.dao.AbstractDao;
-import com.github.gkttk.epam.dao.UserCommentRatingDao;
+import com.github.gkttk.epam.dao.entity.AbstractDao;
+import com.github.gkttk.epam.dao.entity.UserCommentRatingDao;
 import com.github.gkttk.epam.dao.extractors.UserCommentRatingFieldExtractor;
 import com.github.gkttk.epam.dao.mappers.UserCommentRatingRowMapper;
 import com.github.gkttk.epam.exceptions.DaoException;
@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class UserCommentRatingDaoImpl extends AbstractDao<UserCommentRating> implements UserCommentRatingDao {
@@ -26,6 +25,9 @@ public class UserCommentRatingDaoImpl extends AbstractDao<UserCommentRating> imp
     private final static String INSERT_QUERY = "INSERT INTO " + TABLE_NAME + " VALUES(?,?,?)";
 
     private final static String SELECT_BY_COMMENT_ID_QUERY = "SELECT * FROM " + TABLE_NAME + " WHERE comment_id = ?";
+    private final static String SELECT_BY_USER_ID_AND_DISH_ID_QUERY ="SELECT uc.user_id, uc.comment_id, uc.estimate" +
+            " from users_comments_rating AS uc JOIN comments AS c on uc.comment_id = c.id WHERE uc.user_id = ? AND c.dish_id = ?";
+
 
     public UserCommentRatingDaoImpl(Connection connection) {
         super(connection, new UserCommentRatingRowMapper(), new UserCommentRatingFieldExtractor());
@@ -37,6 +39,11 @@ public class UserCommentRatingDaoImpl extends AbstractDao<UserCommentRating> imp
         return TABLE_NAME;
     }
 
+
+    @Override
+    public List<UserCommentRating> findAllByUserIdAndDishId(Long userId, Long dishId) throws DaoException {
+        return getAllResults(SELECT_BY_USER_ID_AND_DISH_ID_QUERY, userId, dishId);
+    }
 
     @Override
     public List<UserCommentRating> findAllByUserId(Long userId) throws DaoException {

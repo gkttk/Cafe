@@ -1,6 +1,6 @@
 package com.github.gkttk.epam.logic.service.impl;
 
-import com.github.gkttk.epam.dao.UserCommentRatingDao;
+import com.github.gkttk.epam.dao.entity.UserCommentRatingDao;
 import com.github.gkttk.epam.dao.helper.DaoHelper;
 import com.github.gkttk.epam.dao.helper.factory.DaoHelperFactory;
 import com.github.gkttk.epam.exceptions.DaoException;
@@ -13,6 +13,17 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserCommentRatingServiceImpl implements UserCommentRatingService {
+
+    @Override
+    public List<UserCommentRating> getAllByUserIdAndDishId(Long userId, Long dishId) throws ServiceException {
+        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
+            UserCommentRatingDao userCommentRatingDao = daoHelper.createUserCommentRatingDao();
+            return userCommentRatingDao.findAllByUserIdAndDishId(userId,dishId);
+        } catch (DaoException e) {
+            throw new ServiceException(String.format("Can't getAllByUserIdAndDishId() with userId: %d, dishId: %d",
+                    userId, dishId), e);
+        }
+    }
 
     @Override
     public List<UserCommentRating> getAllByUserId(Long userId) throws ServiceException {

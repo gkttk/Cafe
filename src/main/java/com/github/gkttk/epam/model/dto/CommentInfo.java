@@ -1,4 +1,4 @@
-package com.github.gkttk.epam.model.entities.dto;
+package com.github.gkttk.epam.model.dto;
 
 import com.github.gkttk.epam.model.entities.Entity;
 
@@ -13,8 +13,8 @@ public class CommentInfo extends Entity {
     private final String userImageRef;
 
 
-    public CommentInfo(Long id, String text, int rating, LocalDateTime creationDate, String userLogin, String userImageRef) {
-        super(id);
+    public CommentInfo(Long commentId, String text, int rating, LocalDateTime creationDate, String userLogin, String userImageRef) {
+        super(commentId);
         this.text = text;
         this.rating = rating;
         this.creationDate = creationDate;
@@ -22,6 +22,10 @@ public class CommentInfo extends Entity {
         this.userImageRef = userImageRef;
     }
 
+
+    public Long getId() {
+        return super.getId();
+    }
 
     public String getText() {
         return text;

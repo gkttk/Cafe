@@ -62,26 +62,26 @@
                                 <td>${dish.name}</td>
                                 <td>${dish.cost}</td>
                                 <td>
-                                    <c:choose>
+                                  <%--  <c:choose>
                                         <c:when test="${sessionScope.authUser.role == 'ADMIN'}">
                                             <button class="btn"><fmt:message
                                                     key="user.menu.update.dish.button"/></button>
                                         </c:when>
-                                        <c:otherwise>
-                                            <form id="dish_comments_form" method="POST"
+                                        <c:otherwise>--%>
+                                            <form method="POST"
                                                   action="${pageContext.request.contextPath}/controller">
                                                 <input type="hidden" name="command" value="DISH_COMMENTS"/>
                                                 <input type="hidden" name="dishId" value="${dish.id}"/>
-                                                <button form="dish_comments_form" type="submit" class="btn">
+                                                <button type="submit" class="btn">
                                                     <fmt:message key="user.menu.comments.button"/></button>
                                             </form>
-                                        </c:otherwise>
-                                    </c:choose>
+                                <%--        </c:otherwise>
+                                    </c:choose>--%>
                                 </td>
                                 <td>
                                     <form method="POST" action="${pageContext.request.contextPath}/controller">
                                         <input type="hidden" name="command" value="TO_BASKET"/>
-                                        <input type="hidden" name="dishId" value="${dish.id}">
+                                        <input type="hidden" name="dishId" value="${dish.id}"/>
                                         <button type="submit"><fmt:message key="user.menu.to.bucket"/></button>
                                     </form>
                                 </td>

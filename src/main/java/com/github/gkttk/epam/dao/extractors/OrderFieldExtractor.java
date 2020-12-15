@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class OrderFieldExtractor implements FieldExtractor<Order> {
+public class    OrderFieldExtractor implements FieldExtractor<Order> {
 
     private final static String ID_KEY = "id";
     private final static String COST_KEY = "cost";

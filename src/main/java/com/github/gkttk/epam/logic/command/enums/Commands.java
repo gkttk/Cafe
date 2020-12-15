@@ -21,8 +21,8 @@ public enum Commands {
     RATE_COMMENT(new RateCommentCommand(new CommentServiceImpl(), new UserCommentRatingServiceImpl())),
     SORT_DISHES(new SortDishesCommand(new DishServiceImpl())),
     TO_BASKET(new AddToBasketCommand(new DishServiceImpl())),
-
-    DISH_COMMENTS(new DishCommentsCommand(new CommentServiceImpl()));//todo not working, need dto
+    DISH_COMMENTS(new DishCommentsCommand(new CommentServiceImpl(), new UserCommentRatingServiceImpl())),
+    ADD_COMMENT(new AddCommentCommand(new CommentServiceImpl()));
 
 
     Commands(Command command) {

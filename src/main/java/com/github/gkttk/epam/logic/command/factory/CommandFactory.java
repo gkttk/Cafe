@@ -13,7 +13,7 @@ public class CommandFactory {
     public static Command createCommand(String commandName) {
         switch (commandName) {
             case "dishComments":{
-                return new DishCommentsCommand(new CommentServiceImpl());
+                return new DishCommentsCommand(new CommentServiceImpl(), new UserCommentRatingServiceImpl());
             }
 
             case "cancelDish":{

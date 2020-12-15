@@ -538,6 +538,37 @@ body > div > main > div.content > div.menu_content > div > div.comment_info > di
 }
 
 
+body > div > main > div.content > div.menu_content > div:nth-child(2){
+	display:flex;
+	justify-content: flex-start;
+}
+
+
+body > div > main > div.content > div.menu_content > div:nth-child(2) > button{
+
+	align-self: baseline;
+}
+
+#commentDiv{
+	width: 50%;
+	display: none;
+
+
+}
+
+#commentDiv > form{
+	display: flex;
+	flex-direction:column;
+}
+
+
+
+#commentDiv > form > textarea{
+	height:150px;
+	border-radius:15px;
+	margin-left: 5px;
+	border:none;
+}
 
 
 

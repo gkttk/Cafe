@@ -35,6 +35,7 @@ public class CommentsPageCommand implements Command {
         User authUser = (User)requestDataHolder.getSessionAttribute("authUser");
         Long userId = authUser.getId();
 
+        //todo add getAllByUserIdAndDishId
         List<UserCommentRating> commentEstimates = userCommentRatingService.getAllByUserId(userId);
 
         Map<Long, CommentEstimate> userEstimates = new HashMap<>();

@@ -1,5 +1,6 @@
-package com.github.gkttk.epam.dao;
+package com.github.gkttk.epam.dao.entity;
 
+import com.github.gkttk.epam.dao.Dao;
 import com.github.gkttk.epam.dao.extractors.FieldExtractor;
 import com.github.gkttk.epam.dao.mappers.RowMapper;
 import com.github.gkttk.epam.exceptions.DaoException;

@@ -9,6 +9,8 @@ public class CommentFieldExtractor implements FieldExtractor<Comment> {
 
     private final static String ID_KEY = "id";
     private final static String TEXT_KEY = "text";
+    private final static String USER_ID_KEY = "user_id";
+    private final static String DISH_ID_KEY = "dish_id";
 
     @Override
     public Map<String, Object> extractFields(Comment comment) {
@@ -20,6 +22,12 @@ public class CommentFieldExtractor implements FieldExtractor<Comment> {
 
         String text = comment.getText();
         result.put(TEXT_KEY, text);
+
+        Long userId = comment.getUserId();
+        result.put(USER_ID_KEY, userId);
+
+        Long dishId = comment.getDishId();
+        result.put(DISH_ID_KEY, dishId);
 
         return result;
 

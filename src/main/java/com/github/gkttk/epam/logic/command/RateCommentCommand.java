@@ -5,6 +5,7 @@ import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.UserCommentRatingService;
 import com.github.gkttk.epam.logic.service.impl.CommentServiceImpl;
 import com.github.gkttk.epam.model.CommandResult;
+import com.github.gkttk.epam.model.dto.CommentInfo;
 import com.github.gkttk.epam.model.entities.Comment;
 import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.entities.UserCommentRating;
@@ -20,6 +21,7 @@ public class RateCommentCommand implements Command {
     private final CommentServiceImpl commentService;
     private final UserCommentRatingService userCommentRatingService;
     private final static String COMMENTS_PAGE = "/WEB-INF/view/comment_page.jsp";
+
 
     public RateCommentCommand(CommentServiceImpl commentService, UserCommentRatingService userCommentRatingService) {
         this.commentService = commentService;
@@ -65,11 +67,12 @@ public class RateCommentCommand implements Command {
 
 
     private void renewSessionData(Long userId, Long commentId, RequestDataHolder requestDataHolder) throws ServiceException {
-        List<Comment> dishComments = (List<Comment>) requestDataHolder.getSessionAttribute("dishComments");
-        Optional<Comment> commentOpt = commentService.getById(commentId);
+        List<CommentInfo> dishComments = (List<CommentInfo>) requestDataHolder.getSessionAttribute("dishComments");
+
+        Optional<CommentInfo> commentOpt = commentService.getById(commentId);
         if (commentOpt.isPresent()) {
-            dishComments.removeIf(comment -> comment.getId().equals(commentId));
-            Comment comment = commentOpt.get();
+            dishComments.removeIf(commentInfo -> commentInfo.getId().equals(commentId));
+            CommentInfo comment = commentOpt.get();
             dishComments.add(comment);
         }
         dishComments.sort((firstComm, secondComm) -> (int) (firstComm.getId() - secondComm.getId()));

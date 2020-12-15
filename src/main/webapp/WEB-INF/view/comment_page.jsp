@@ -22,14 +22,43 @@
                     <button class="btn">Новые</button>
                 </div>
                 <div class="menu_content">
+                    <script>
+
+                        function openCommentForm(){
+                            if (document.getElementById("commentDiv").style.display == "none") {
+                                document.getElementById("commentDiv").style.display = "block";
+                            }else{
+                                document.getElementById("commentDiv").style.display = "none";
+                            }
+                        }
+                    </script>
+
+
+                    <div>
+                        <button onclick="openCommentForm()">Оставить комментарий</button>
+                        <div id="commentDiv">
+                            <form action="#" method="POST">
+                                <input type="hidden" name="command" value="ADD_COMMENT"/>
+                                <textarea name="commentText"></textarea>
+                                <button type="submit">Отправить</button>
+                            </form>
+
+                        </div>
+                    </div>
+
+
+
+
+
+
 
                     <c:set var="estimatesMap" value="${sessionScope.estimates}"/>
                     <c:forEach var="dishComment" items="${sessionScope.dishComments}">
                         <div class="comment_item">
 
                             <div class="user_info">
-                                <h3>Имя</h3>
-                                <img src="${pageContext.request.contextPath}/static/images/not_found.png" alt="avatar"/>
+                                <h3>${dishComment.userLogin}</h3>
+                                <img src="${pageContext.request.contextPath}/${dishComment.userImageRef}" alt="avatar"/>
                             </div>
 
                             <div class="comment_info">
@@ -62,7 +91,7 @@
                                             <input type="hidden" name="commentId" value="${dishComment.id}"/>
                                             <input type="hidden" name="rating" value="${dishComment.rating}"/>
                                             <input type="hidden" name="estimate" value="DISLIKE"/>
-                                    <button>-</button>
+                                    <button type="submit">-</button>
                                         </form>
                                     </c:if>
                                     </div>

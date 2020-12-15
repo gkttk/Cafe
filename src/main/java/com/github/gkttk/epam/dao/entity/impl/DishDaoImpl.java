@@ -1,7 +1,7 @@
-package com.github.gkttk.epam.dao.impl;
+package com.github.gkttk.epam.dao.entity.impl;
 
-import com.github.gkttk.epam.dao.AbstractDao;
-import com.github.gkttk.epam.dao.DishDao;
+import com.github.gkttk.epam.dao.entity.AbstractDao;
+import com.github.gkttk.epam.dao.entity.DishDao;
 import com.github.gkttk.epam.dao.extractors.DishFieldExtractor;
 import com.github.gkttk.epam.dao.mappers.DishRowMapper;
 import com.github.gkttk.epam.exceptions.DaoException;
@@ -13,7 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.StringJoiner;
 
 public class DishDaoImpl extends AbstractDao<Dish> implements DishDao {

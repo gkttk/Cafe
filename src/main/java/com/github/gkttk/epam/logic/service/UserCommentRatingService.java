@@ -9,6 +9,9 @@ import java.util.Optional;
 
 public interface UserCommentRatingService {
 
+
+    List<UserCommentRating> getAllByUserIdAndDishId(Long userId, Long dishId) throws ServiceException;
+
     List<UserCommentRating> getAllByUserId(Long userId) throws ServiceException;
 
     boolean checkCommentWasEvaluated(Long userId, Long commentId) throws ServiceException;

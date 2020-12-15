@@ -1,8 +1,10 @@
 package com.github.gkttk.epam.dao.helper;
 
 import com.github.gkttk.epam.connection.ConnectionProxy;
-import com.github.gkttk.epam.dao.*;
-import com.github.gkttk.epam.dao.impl.*;
+import com.github.gkttk.epam.dao.dto.CommentInfoDao;
+import com.github.gkttk.epam.dao.dto.impl.CommentInfoDaoImpl;
+import com.github.gkttk.epam.dao.entity.*;
+import com.github.gkttk.epam.dao.entity.impl.*;
 import com.github.gkttk.epam.exceptions.DaoException;
 
 import java.sql.SQLException;
@@ -18,6 +20,11 @@ public class DaoHelper implements AutoCloseable {
 
     public UserCommentRatingDao createUserCommentRatingDao() {
         return new UserCommentRatingDaoImpl(connection);
+    }
+
+
+    public CommentInfoDao createCommentInfoDao(){
+        return new CommentInfoDaoImpl(connection);
     }
 
     public CommentDao createCommentDao() {

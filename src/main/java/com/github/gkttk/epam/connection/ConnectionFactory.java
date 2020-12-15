@@ -58,7 +58,7 @@ public class ConnectionFactory {
         }
     }
 
-    public ConnectionProxy createConnection() {
+    public ConnectionProxy createConnection() {//todo return Connection(in ConnectionPool wrap into ConnectionProxy)
         try {
             Connection connection = DriverManager.getConnection(url, login, password);
             return new ConnectionProxy(connection);

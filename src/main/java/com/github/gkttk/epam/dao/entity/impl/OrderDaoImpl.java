@@ -1,7 +1,7 @@
-package com.github.gkttk.epam.dao.impl;
+package com.github.gkttk.epam.dao.entity.impl;
 
-import com.github.gkttk.epam.dao.AbstractDao;
-import com.github.gkttk.epam.dao.OrderDao;
+import com.github.gkttk.epam.dao.entity.AbstractDao;
+import com.github.gkttk.epam.dao.entity.OrderDao;
 import com.github.gkttk.epam.dao.extractors.OrderFieldExtractor;
 import com.github.gkttk.epam.dao.mappers.OrderRowMapper;
 import com.github.gkttk.epam.exceptions.DaoException;
@@ -9,7 +9,6 @@ import com.github.gkttk.epam.model.entities.Order;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 

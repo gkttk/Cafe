@@ -1,7 +1,7 @@
-package com.github.gkttk.epam.dao.impl;
+package com.github.gkttk.epam.dao.entity.impl;
 
-import com.github.gkttk.epam.dao.AbstractDao;
-import com.github.gkttk.epam.dao.CommentDao;
+import com.github.gkttk.epam.dao.entity.AbstractDao;
+import com.github.gkttk.epam.dao.entity.CommentDao;
 import com.github.gkttk.epam.dao.extractors.CommentFieldExtractor;
 import com.github.gkttk.epam.dao.mappers.CommentRowMapper;
 import com.github.gkttk.epam.exceptions.DaoException;
@@ -28,6 +28,7 @@ public class CommentDaoImpl extends AbstractDao<Comment> implements CommentDao {
     @Override
     public List<Comment> findAllByDishId(Long dishId) throws DaoException {
         return getAllResults(GET_ALL_BY_DISH_ID_QUERY, dishId);
+
     }
 
     @Override

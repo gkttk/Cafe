@@ -1,5 +1,6 @@
-package com.github.gkttk.epam.dao;
+package com.github.gkttk.epam.dao.entity;
 
+import com.github.gkttk.epam.dao.Dao;
 import com.github.gkttk.epam.exceptions.DaoException;
 import com.github.gkttk.epam.model.entities.UserCommentRating;
 import com.github.gkttk.epam.model.enums.CommentEstimate;
@@ -7,7 +8,10 @@ import com.github.gkttk.epam.model.enums.CommentEstimate;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserCommentRatingDao extends Dao<UserCommentRating>{
+public interface UserCommentRatingDao extends Dao<UserCommentRating> {
+
+
+    List<UserCommentRating> findAllByUserIdAndDishId(Long userId, Long dishId) throws DaoException;
 
     List<UserCommentRating> findAllByUserId(Long userId) throws DaoException;
 

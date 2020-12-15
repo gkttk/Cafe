@@ -7,10 +7,20 @@ public class Comment extends Entity {
     private final String text;
     private final int rating;
     private final LocalDateTime creationDate;
-    private final int userId;
-    private final int dishId;
+    private final Long userId;
+    private final Long dishId;
 
-    public Comment(Long id, String text, int rating, LocalDateTime creationDate, int userId, int dishId) {
+
+    public Comment(Long id, String text, Long userId, Long dishId){
+        super(id);
+        this.text = text;
+        this.userId = userId;
+        this.dishId = dishId;
+        this.rating = 0;
+        this.creationDate = null;
+    }
+
+    public Comment(Long id, String text, int rating, LocalDateTime creationDate, Long userId, Long dishId) {
         super(id);
         this.text = text;
         this.rating = rating;
@@ -31,11 +41,11 @@ public class Comment extends Entity {
         return creationDate;
     }
 
-    public int getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public int getDishId() {
+    public Long getDishId() {
         return dishId;
     }
 

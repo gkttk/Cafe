@@ -6,7 +6,6 @@
 
     <html>
     <head>
-        <meta charset="UTF-8">
         <title><fmt:message key="index.title"/></title>
         <link rel="stylesheet" type="text/css" href="static/css/reset.css"/>
         <link rel="stylesheet" type="text/css" href="static/css/common.css"/>
@@ -20,7 +19,6 @@
         <%@ include file="WEB-INF/view/parts/header.jsp" %>
         ${requestScope.errorMessage}
         <main>
-       <%--  <c:set var="currentPage" value="index.jsp" scope="session"/>--%>
             In urna felis dolor curabitur eleifend parturient. Nisi interdum accumsan penatibus vehicula orci mattis
             dignissim egestas fringilla tortor ligula ad? Turpis turpis amet mauris ultricies, semper posuere. Rhoncus
             cras turpis rhoncus. Amet laoreet interdum justo commodo curabitur fames feugiat mi, imperdiet conubia.
