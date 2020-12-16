@@ -18,7 +18,7 @@ public class UserCommentRatingServiceImpl implements UserCommentRatingService {
     public List<UserCommentRating> getAllByUserIdAndDishId(Long userId, Long dishId) throws ServiceException {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             UserCommentRatingDao userCommentRatingDao = daoHelper.createUserCommentRatingDao();
-            return userCommentRatingDao.findAllByUserIdAndDishId(userId,dishId);
+            return userCommentRatingDao.findAllByUserIdAndDishId(userId, dishId);
         } catch (DaoException e) {
             throw new ServiceException(String.format("Can't getAllByUserIdAndDishId() with userId: %d, dishId: %d",
                     userId, dishId), e);
@@ -68,28 +68,6 @@ public class UserCommentRatingServiceImpl implements UserCommentRatingService {
         } catch (DaoException e) {
             throw new ServiceException(String.format("Can't evaluateComment with userId: %d, commentId: %d",
                     userId, commentId), e);
-        }
-    }
-
-    @Override
-    public Optional<UserCommentRating> getByUserIdAndCommentId(Long userId, Long commentId) throws ServiceException {
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            UserCommentRatingDao userCommentRatingDao = daoHelper.createUserCommentRatingDao();
-            return userCommentRatingDao.getByUserIdAndCommentId(userId, commentId);
-        } catch (DaoException e) {
-            throw new ServiceException(String.format("Can't getByUserIdAndCommentId() with userId: %d, commentId: %d",
-                    userId, commentId), e);
-        }
-    }
-
-    @Override
-    public List<UserCommentRating> getAllByCommentId(Long commentId) throws ServiceException {
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            UserCommentRatingDao userCommentRatingDao = daoHelper.createUserCommentRatingDao();
-            return userCommentRatingDao.findAllByUserId(commentId);
-        } catch (DaoException e) {
-            throw new ServiceException(String.format("Can't getAllByCommentId() with commentId: %d",
-                    commentId), e);
         }
     }
 

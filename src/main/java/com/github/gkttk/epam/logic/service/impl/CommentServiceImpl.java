@@ -20,29 +20,14 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> getAll() throws ServiceException {
-        List<Comment> comments = new ArrayList<>();
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             CommentDao commentDao = daoHelper.createCommentDao();
-            comments = commentDao.findAll();
+            return commentDao.findAll();
         } catch (DaoException e) {
             throw new ServiceException("Can't getAll()", e);
         }
-
-        return comments;
     }
 
-  /*  @Override
-    public List<Comment> getAllByDishId(Long dishId) throws ServiceException {
-        List<Comment> comments = new ArrayList<>();
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            CommentDao commentDao = daoHelper.createCommentDao();
-            comments = commentDao.findAllByDishId(dishId);
-        } catch (DaoException e) {
-            throw new ServiceException("Can't getAll()", e);
-        }
-
-        return comments;
-    }*/
 
     @Override
     public List<CommentInfo> getAllByDishId(Long dishId) throws ServiceException {

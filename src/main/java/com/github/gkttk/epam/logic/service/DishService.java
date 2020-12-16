@@ -11,8 +11,6 @@ public interface DishService {
 
     List<Dish> getAllDishes() throws ServiceException;
 
-    List<Dish> getDishesByIds(List<Long> ids) throws ServiceException;
-
     List<Dish> getDishesByType(DishTypes type) throws ServiceException;
 
     Optional<Dish> getDishById(Long dishId) throws ServiceException;

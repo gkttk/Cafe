@@ -6,6 +6,17 @@
 
 
   <filter>
+    <filter-name>BlockFilter</filter-name>
+    <filter-class>com.github.gkttk.epam.filters.BlockFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>BlockFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+
+  <filter>
     <filter-name>EncodingFilter</filter-name>
     <filter-class>com.github.gkttk.epam.filters.EncodingFilter</filter-class>
   </filter>

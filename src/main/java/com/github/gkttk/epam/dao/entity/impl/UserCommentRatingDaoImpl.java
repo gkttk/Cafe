@@ -18,14 +18,11 @@ public class UserCommentRatingDaoImpl extends AbstractDao<UserCommentRating> imp
 
     private final static String TABLE_NAME = "users_comments_rating";
     private final static String FIND_ALL_BY_USER_ID = "SELECT * FROM " + TABLE_NAME + " WHERE user_id = ?";
-    private final static String UPDATE_ESTIMATE_QUERY = "UPDATE " + TABLE_NAME + " SET estimate = ? WHERE comment_id = ?";
-
     private final static String REMOVE_BY_USER_ID_AND_COMMENT_ID_QUERY = "DELETE FROM " + TABLE_NAME + " WHERE user_id = ? AND comment_id = ?";
     private final static String SELECT_BY_USER_ID_AND_COMMENT_ID_QUERY = "SELECT * FROM " + TABLE_NAME + " WHERE user_id = ? AND comment_id = ?";
     private final static String INSERT_QUERY = "INSERT INTO " + TABLE_NAME + " VALUES(?,?,?)";
 
-    private final static String SELECT_BY_COMMENT_ID_QUERY = "SELECT * FROM " + TABLE_NAME + " WHERE comment_id = ?";
-    private final static String SELECT_BY_USER_ID_AND_DISH_ID_QUERY ="SELECT uc.user_id, uc.comment_id, uc.estimate" +
+    private final static String SELECT_BY_USER_ID_AND_DISH_ID_QUERY = "SELECT uc.user_id, uc.comment_id, uc.estimate" +
             " from users_comments_rating AS uc JOIN comments AS c on uc.comment_id = c.id WHERE uc.user_id = ? AND c.dish_id = ?";
 
 
@@ -50,17 +47,6 @@ public class UserCommentRatingDaoImpl extends AbstractDao<UserCommentRating> imp
         return getAllResults(FIND_ALL_BY_USER_ID, userId);
     }
 
-    @Override
-    public void updateEstimate(CommentEstimate estimate, Long commentId) throws DaoException {
-        try (PreparedStatement statement = createPrepareStatement(UPDATE_ESTIMATE_QUERY, estimate.name(), commentId)) {
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new DaoException(String.format("Can't updateEstimate with estimate: %s, commentId: %d",
-                    estimate.name(), commentId), e);
-        }
-
-
-    }
 
     @Override
     public void removeByUserIdAndCommentId(Long userId, Long commentId) throws DaoException {
@@ -80,13 +66,6 @@ public class UserCommentRatingDaoImpl extends AbstractDao<UserCommentRating> imp
 
     }
 
-    @Override
-    public List<UserCommentRating> findAllByCommentId(Long commentId) throws DaoException {
-        return getAllResults(SELECT_BY_COMMENT_ID_QUERY, commentId);
-
-
-    }
-
 
     @Override
     public Long save(UserCommentRating entity) throws DaoException {
@@ -96,8 +75,8 @@ public class UserCommentRatingDaoImpl extends AbstractDao<UserCommentRating> imp
         CommentEstimate estimate = entity.getEstimate();
 
 
-        try(PreparedStatement statement = createPrepareStatement(INSERT_QUERY,
-                userId, commentId, estimate.name())){
+        try (PreparedStatement statement = createPrepareStatement(INSERT_QUERY,
+                userId, commentId, estimate.name())) {
             statement.executeUpdate();
             return -1L;//todo stub
 

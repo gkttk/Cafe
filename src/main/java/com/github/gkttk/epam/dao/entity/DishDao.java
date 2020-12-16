@@ -11,7 +11,6 @@ public interface DishDao extends Dao<Dish> {
 
     List<Dish> findDishesByIds(List<Long> ids) throws DaoException;
 
-    List<Dish> findDishesByOrderId(Long orderId) throws DaoException;
 
     List<Dish> findDishesByType(String dishType) throws DaoException;
 

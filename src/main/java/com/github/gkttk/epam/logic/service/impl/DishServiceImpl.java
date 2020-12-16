@@ -18,28 +18,12 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public List<Dish> getAllDishes() throws ServiceException {
-        List<Dish> dishes = new ArrayList<>();
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             DishDao dishDao = daoHelper.createDishDao();
-            dishes = dishDao.findAll();
+            return dishDao.findAll();
         } catch (DaoException e) {
             throw new ServiceException("Can't getAllDishes()", e);
         }
-
-        return dishes;
-    }
-
-    @Override
-    public List<Dish> getDishesByIds(List<Long> ids) throws ServiceException {
-        List<Dish> dishes = new ArrayList<>();
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            DishDao dishDao = daoHelper.createDishDao();
-            dishes = dishDao.findDishesByIds(ids);
-        } catch (DaoException e) {
-            throw new ServiceException(String.format("Can't get dishes by ids with ids: %s", ids.toString()), e);
-        }
-
-        return dishes;
     }
 
     @Override

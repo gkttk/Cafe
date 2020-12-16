@@ -15,21 +15,12 @@ import java.util.List;
 public class CommentDaoImpl extends AbstractDao<Comment> implements CommentDao {
 
     private final static String TABLE_NAME = "comments";
-
-    private final static String GET_ALL_BY_DISH_ID_QUERY = "SELECT c.id, c.text, c.rating, c.creation_date, u.login, u.image_ref" +
-            " from comments as c join users as u on c.user_id = u.id where dish_id = ?";
-
     private final static String UPDATE_RATING_QUERY = "UPDATE " + TABLE_NAME + " SET rating = ? WHERE id = ?";
 
     public CommentDaoImpl(Connection connection) {
         super(connection, new CommentRowMapper(), new CommentFieldExtractor());
     }
 
-    @Override
-    public List<Comment> findAllByDishId(Long dishId) throws DaoException {
-        return getAllResults(GET_ALL_BY_DISH_ID_QUERY, dishId);
-
-    }
 
     @Override
     public void updateRating(int newRating, Long commentId) throws DaoException {

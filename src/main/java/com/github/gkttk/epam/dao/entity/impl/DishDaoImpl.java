@@ -19,10 +19,7 @@ public class DishDaoImpl extends AbstractDao<Dish> implements DishDao {
 
     private final static String TABLE_NAME = "dishes";
     private final static String FIND_ALL_BY_IDS = "SELECT * FROM dishes WHERE id IN ";
-    private final static String FIND_ALL_BY_ORDER_ID = "SELECT d.name, d.type from dishes d" +
-            " JOIN orders_dishes od on d.id = ?";
     private final static String FIND_BY_TYPE = "SELECT * from " + TABLE_NAME + " WHERE type = ?";
-
 
     public DishDaoImpl(Connection connection) {
         super(connection, new DishRowMapper(), new DishFieldExtractor());
@@ -35,17 +32,9 @@ public class DishDaoImpl extends AbstractDao<Dish> implements DishDao {
 
 
     @Override
-    public List<Dish> findDishesByOrderId(Long orderId) throws DaoException {
-        return getAllResults(FIND_ALL_BY_ORDER_ID, orderId);
-
-
-    }
-
-    @Override
     public List<Dish> findDishesByType(String dishType) throws DaoException {
         return getAllResults(FIND_BY_TYPE, dishType);
     }
-
 
 
 
@@ -69,7 +58,6 @@ public class DishDaoImpl extends AbstractDao<Dish> implements DishDao {
         } catch (SQLException e) {
             throw new DaoException(String.format("Can't get Dishes with ids: %s", ids.toString()), e);
         }
-
 
         return dishes;
     }

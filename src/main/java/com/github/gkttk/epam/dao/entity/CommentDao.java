@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface CommentDao extends Dao<Comment> {
 
-    List<Comment> findAllByDishId(Long dishId) throws DaoException;
-
     void updateRating(int newRating, Long commentId) throws DaoException;
 
 }

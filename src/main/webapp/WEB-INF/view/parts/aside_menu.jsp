@@ -17,12 +17,12 @@
           <button class="btn"><fmt:message key="aside.my.orders"/></button>
           </form>
       </li>
-      <li>
+   <%--   <li>
           <form method="post" action="${pageContext.request.contextPath}/controller">
               <input type="hidden" name="command" value="COMMENTS"/>
           <button class="btn"><fmt:message key="aside.comments"/></button>
           </form>
-      </li>
+      </li>--%>
 
       <!-- if user == ADMIN -->
         <c:if test="${userRole.name() eq 'ADMIN'}">

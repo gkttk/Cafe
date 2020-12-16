@@ -50,7 +50,6 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
 
         Object[] entityFieldValues = entityFields.values().stream().skip(1).toArray();
         PreparedStatement statement = null;
-        Long resultId;
         try {
             /*insert*/
             if (id == null) {
