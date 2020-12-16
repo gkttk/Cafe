@@ -86,8 +86,9 @@ public class CancelOrderCommand implements Command {
         UserRole role = oldAuthUser.getRole();
         BigDecimal money = oldAuthUser.getMoney();
         boolean active = oldAuthUser.isActive();
+        String imageRef = oldAuthUser.getImageRef();
 
-        return new User(userId, login, password, role, newPoints, money, active);
+        return new User(userId, login, password, role, newPoints, money, active, imageRef);
 
 
     }

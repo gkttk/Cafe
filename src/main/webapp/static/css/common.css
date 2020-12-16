@@ -88,11 +88,38 @@ div.header_nav{
   		flex-basis:63%;
   		padding: 5px;
   		display: flex;
-  		flex-direction:column;
-
-
-
+	  flex-direction: row;
 }
+
+body > div > header > div.header_buttons > div.header_greeting > div.avatar > img{
+	width: 80px;
+	height: 90px;
+}
+
+
+body > div > header > div.header_buttons > div.header_greeting > div.avatar{
+	flex-basis:20%;
+}
+
+body > div > header > div.header_buttons > div.header_greeting > div.info{
+	display: flex;
+	flex-grow: 1;
+	flex-direction: column;
+	justify-content: space-between;
+	padding-left: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 div.header_greeting div.user_greeting{
 	padding-left:28px;
@@ -108,6 +135,10 @@ div.header_greeting div.log_out{
 	flex-grow: 1;
 	align-self:flex-end;
 	padding-right:17px;
+	height: 100%;
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-end;
 }
 
 

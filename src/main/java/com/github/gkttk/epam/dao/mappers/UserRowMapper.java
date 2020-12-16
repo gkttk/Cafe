@@ -19,6 +19,8 @@ public class UserRowMapper implements RowMapper<User> {
         BigDecimal money = resultSet.getBigDecimal("money");
         boolean active = resultSet.getBoolean("active");
 
-        return new User(id, login, password, role, points, money, active);
+        String imageRef = resultSet.getString("image_ref");
+
+        return new User(id, login, password, role, points, money, active, imageRef);
     }
 }

@@ -13,6 +13,7 @@ public class User extends Entity {
     private final int points;
     private final BigDecimal money;
     private final boolean active;
+    private final String imageRef;
 
     public User(String login, String password){
         super(null);
@@ -22,10 +23,10 @@ public class User extends Entity {
         this.points = 20;
         this.money = new BigDecimal(0);
         this.active = true;
-
+        this.imageRef = "static/images/users/not_found.jpg";//todo common
     }
 
-    public User(Long id, String login, String password, UserRole role, int points, BigDecimal money, boolean active) {
+    public User(Long id, String login, String password, UserRole role, int points, BigDecimal money, boolean active, String imageRef) {
         super(id);
         this.login = login;
         this.password = password;
@@ -33,6 +34,7 @@ public class User extends Entity {
         this.points = points;
         this.money = money;
         this.active = active;
+        this.imageRef = imageRef;
     }
 
     public Long getId() {
@@ -63,13 +65,17 @@ public class User extends Entity {
         return active;
     }
 
+    public String getImageRef() {
+        return imageRef;
+    }
+
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
+        if (this == o){
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (o == null || getClass() != o.getClass()){
             return false;
         }
         User user = (User) o;
@@ -78,12 +84,13 @@ public class User extends Entity {
                 Objects.equals(login, user.login) &&
                 Objects.equals(password, user.password) &&
                 role == user.role &&
-                Objects.equals(money, user.money);
+                Objects.equals(money, user.money) &&
+                Objects.equals(imageRef, user.imageRef);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(login, password, role, points, money, active);
+        return Objects.hash(login, password, role, points, money, active, imageRef);
     }
 
     @Override

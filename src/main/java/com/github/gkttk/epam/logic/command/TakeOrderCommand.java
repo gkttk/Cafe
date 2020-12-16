@@ -85,8 +85,10 @@ public class TakeOrderCommand implements Command {
         String password = oldAuthUser.getPassword();
         UserRole role = oldAuthUser.getRole();
         boolean active = oldAuthUser.isActive();
+        String imageRef = oldAuthUser.getImageRef();
 
-        return new User(userId, login, password, role, newPoints, newMoney, active);
+
+        return new User(userId, login, password, role, newPoints, newMoney, active, imageRef);
 
 
     }
