@@ -81,11 +81,13 @@
             <div class="user_points">
                 <fmt:message key="header.user.points"/> ${sessionScope.authUser.points}
             </div>
+            <div class="user_points">
+                Деньги на счете: ${sessionScope.authUser.money}
+            </div>
             <div class="log_out">
                 <form method="POST" action="${pageContext.request.contextPath}/controller">
                     <input type="hidden" name="command" value="LOGOUT">
                     <button class="logout_btn" type="submit"><fmt:message key="header.logout.button"/></button>
-                        <%--    <a href="#" class="Log out"><fmt:message key="header.logout.button"/></a>--%>
                 </form>
             </div>
         </div>

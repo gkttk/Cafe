@@ -48,25 +48,35 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
         Long id = entity.getId();
         String query;
 
-        /*insert*/
-        if (id == null) {
-            query = getSaveQuery(entityFields);
-            /*update*/
-        } else {
-            query = getUpdateQuery(entityFields);
-        }
         Object[] entityFieldValues = entityFields.values().stream().skip(1).toArray();
-
-
-        try (PreparedStatement statement = createPrepareStatementWithGeneratedKey(query, entityFieldValues)) {
-
-            statement.executeUpdate();
-            return getKey(statement);
+        PreparedStatement statement = null;
+        Long resultId;
+        try {
+            /*insert*/
+            if (id == null) {
+                query = getSaveQuery(entityFields);
+                statement = createPrepareStatementWithGeneratedKey(query, entityFieldValues);
+                statement.executeUpdate();
+                return getKey(statement);
+                /*update*/
+            } else {
+                query = getUpdateQuery(entityFields);
+                statement = createPrepareStatement(query, entityFieldValues);
+                statement.executeUpdate();
+                return -1L; //todo stub
+            }
         } catch (SQLException e) {
             throw new DaoException("Can't save entity: " + entity.toString(), e);
 
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    throw new DaoException("Can't close statement with entity" + entity.toString(), e);
+                }
+            }
         }
-
     }
 
     @Override
@@ -121,7 +131,6 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
         fillPreparedStatement(statement, params);
         return statement;
     }
-
 
 
     private void fillPreparedStatement(PreparedStatement statement, Object... parameters) throws SQLException {

@@ -440,7 +440,7 @@ main div.users div.user_item div{
 	align-self: center;
 }
 
-/* Style the buttons that are used to open and close the accordion panel */
+/*!* Style the buttons that are used to open and close the accordion panel *!
 #customers * button.accordion {
 	cursor: pointer;
 	border: none;
@@ -448,18 +448,18 @@ main div.users div.user_item div{
 	transition: 0.4s;
 }
 
-/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+!* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) *!
 .active, .accordion:hover {
 	background-color: #C72;
 }
 
-/* Style the accordion panel. Note: hidden by default */
+!* Style the accordion panel. Note: hidden by default *!
 #customers * div.panel {
 	padding: 0 18px;
 	max-height: 0;
 	overflow: hidden;
 	transition: max-height 0.2s ease-out;
-}
+}*/
 
 
 #customers {

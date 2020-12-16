@@ -17,7 +17,7 @@
         <main>
             <%@ include file="parts/aside_menu.jsp" %>
             <div class="content">
-                <h2>MY_ORDER_PAGE</h2>
+                <h2>${requestScope.noMoneyErrorMessage}</h2>
                 <div class="menu_content">
                     <table id="customers">
                         <tr>
@@ -44,17 +44,22 @@
                                     </c:choose>
                                 </td>
                                 <td>
-                                    <button class="accordion" onclick="openPanel()">Информация</button>
-                                    <div class="panel">
-                                        <div>
-                                            Выпадающий блок
-                                        </div>
-                                    </div>
+                                    <c:if test="${order.active}">
+                                    <form method="POST" action="${pageContext.request.contextPath}/controller">
+                                        <input type="hidden" name="command" value="TAKE_ORDER"/>
+                                       <input type="hidden" name="orderId" value="${order.id}"/>
+                                        <button type="submit">
+                                            Забрать заказ
+                                        </button>
+                                    </form>
+                                    </c:if>
                                 </td>
                                 <td>
+                                    <c:if test="${order.active}">
                                     <form method="post" action="#">
                                         <button type="submit">Отмена</button>
                                     </form>
+                                    </c:if>
                                 </td>
                             </tr>
                         </c:forEach>
