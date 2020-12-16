@@ -56,7 +56,11 @@
                                 </td>
                                 <td>
                                     <c:if test="${order.active}">
-                                    <form method="post" action="#">
+
+
+                                        <form method="POST" action="${pageContext.request.contextPath}/controller">
+                                            <input type="hidden" name="command" value="CANCEL_ORDER"/>
+                                            <input type="hidden" name="orderId" value="${order.id}"/>
                                         <button type="submit">Отмена</button>
                                     </form>
                                     </c:if>

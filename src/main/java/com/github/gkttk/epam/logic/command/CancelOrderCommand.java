@@ -13,27 +13,24 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public class TakeOrderCommand implements Command {
-
+public class CancelOrderCommand implements Command {
 
     private final OrderService orderService;
     private final static String MY_ORDERS_PAGE = "/WEB-INF/view/my_orders_page.jsp";
-    private final static int BONUS = 15;
+    private final static int PENALTY = 10;
 
-
-    public TakeOrderCommand(OrderService orderService) {
+    public CancelOrderCommand(OrderService orderService) {
         this.orderService = orderService;
     }
+
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
 
         User authUser = (User) requestDataHolder.getSessionAttribute("authUser");
-        BigDecimal userMoney = authUser.getMoney();
+        int userPoints = authUser.getPoints();
 
-        int points = authUser.getPoints();
-        int newUserPoints = points + BONUS;
-
+        int newUserPoints = userPoints - PENALTY;
 
         String orderIdParam = requestDataHolder.getRequestParameter("orderId");
         long orderId = Long.parseLong(orderIdParam);
@@ -46,22 +43,10 @@ public class TakeOrderCommand implements Command {
 
         if (updateOrderOpt.isPresent()) {
             Order order = updateOrderOpt.get();
-            Long id = order.getId();
-            BigDecimal orderCost = order.getCost();
-            LocalDateTime time = order.getTime();
-            boolean newActive = false;
-            Long userId = order.getUserId();
+            boolean newStatus = false;
 
-            if (userMoney.compareTo(orderCost) < 0) {
-                requestDataHolder.putRequestAttribute("noMoneyErrorMessage", "Not enough money!");
-                return new CommandResult(MY_ORDERS_PAGE, false);
-            }
-
-            BigDecimal newUserMoney = userMoney.subtract(orderCost);
-
-            User newUser = getUserWithNewMoneyAndNewPoints(authUser, newUserMoney, newUserPoints);
-
-            Order newOrder = new Order(id, orderCost, time, newActive, userId);
+            Order newOrder = getOrderWithNewStatus(order, newStatus);
+            User newUser = getUserWithNewPoints(authUser, newUserPoints);
 
             orderService.takeOrder(newOrder, newUser);
 
@@ -75,18 +60,34 @@ public class TakeOrderCommand implements Command {
 
         }
 
+
+
         return new CommandResult(MY_ORDERS_PAGE, true);
+
     }
 
 
-    private User getUserWithNewMoneyAndNewPoints(User oldAuthUser, BigDecimal newMoney, int newPoints) {
+
+    private Order getOrderWithNewStatus(Order oldOrder, boolean newCondition){
+        Long id = oldOrder.getId();
+        BigDecimal orderCost = oldOrder.getCost();
+        LocalDateTime time = oldOrder.getTime();
+        Long userId = oldOrder.getUserId();
+
+
+        return new Order(id, orderCost, time, newCondition, userId);
+
+    }
+
+    private User getUserWithNewPoints(User oldAuthUser, int newPoints) {
         Long userId = oldAuthUser.getId();
         String login = oldAuthUser.getLogin();
         String password = oldAuthUser.getPassword();
         UserRole role = oldAuthUser.getRole();
+        BigDecimal money = oldAuthUser.getMoney();
         boolean active = oldAuthUser.isActive();
 
-        return new User(userId, login, password, role, newPoints, newMoney, active);
+        return new User(userId, login, password, role, newPoints, money, active);
 
 
     }

@@ -23,7 +23,8 @@ public enum Commands {
     TO_BASKET(new AddToBasketCommand(new DishServiceImpl())),
     DISH_COMMENTS(new DishCommentsCommand(new CommentServiceImpl(), new UserCommentRatingServiceImpl())),
     ADD_COMMENT(new AddCommentCommand(new CommentServiceImpl())),
-    TAKE_ORDER(new TakeOrderCommand(new OrderServiceImpl()));
+    TAKE_ORDER(new TakeOrderCommand(new OrderServiceImpl())),
+    CANCEL_ORDER(new CancelOrderCommand(new OrderServiceImpl()));
 
 
     Commands(Command command) {
