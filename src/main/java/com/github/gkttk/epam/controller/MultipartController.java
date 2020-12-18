@@ -3,6 +3,7 @@ package com.github.gkttk.epam.controller;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.logic.service.impl.UserServiceImpl;
+import com.github.gkttk.epam.logic.validator.UserPasswordValidator;
 import com.github.gkttk.epam.model.entities.User;
 
 import javax.servlet.ServletException;

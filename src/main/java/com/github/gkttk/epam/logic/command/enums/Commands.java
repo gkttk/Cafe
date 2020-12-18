@@ -2,13 +2,14 @@ package com.github.gkttk.epam.logic.command.enums;
 
 import com.github.gkttk.epam.logic.command.*;
 import com.github.gkttk.epam.logic.service.impl.*;
+import com.github.gkttk.epam.logic.validator.UserPasswordValidator;
 
 public enum Commands {
     LOGIN(new LoginCommand(new UserServiceImpl(), new DishServiceImpl())),
     LOCALE(new LocaleCommand()),
     LOGOUT(new LogoutCommand()),
     HOME(new HomeCommand()),
-    USERS(new UsersCommand(new UserServiceImpl())),
+    USERS(new UsersPageCommand(new UserServiceImpl())),
     CHANGE_STATUS(new ChangeUserStatusCommand(new UserServiceImpl())),
     REGISTRATION_PAGE(new RegistrationGetPageCommand()),
     REGISTRATION(new RegistrationCommand(new UserServiceImpl())),

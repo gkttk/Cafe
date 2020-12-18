@@ -24,13 +24,13 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
 
 
     @Override
-    public List<T> findAll() throws DaoException {
+    public List<T> findAll() throws DaoException { //+
         String query = "SELECT * FROM " + getTableName();
         return getAllResults(query);
     }
 
     @Override
-    public Optional<T> getById(Long id) throws DaoException {
+    public Optional<T> findById(long id) throws DaoException {  //+
         String query = "SELECT * FROM " + getTableName() + " WHERE id = ?";
         return getSingleResult(query, id);
     }

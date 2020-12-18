@@ -2,6 +2,7 @@ package com.github.gkttk.epam.logic.command.factory;
 
 import com.github.gkttk.epam.logic.command.*;
 import com.github.gkttk.epam.logic.service.impl.*;
+import com.github.gkttk.epam.logic.validator.UserPasswordValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,7 +45,7 @@ public class CommandFactory {
                 return new ChangeUserStatusCommand(new UserServiceImpl());
             }
             case "users": {
-                return new UsersCommand(new UserServiceImpl());
+                return new UsersPageCommand(new UserServiceImpl());
             }
             case "home": {
                 return new HomeCommand();

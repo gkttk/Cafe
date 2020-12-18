@@ -6,55 +6,36 @@ import com.github.gkttk.epam.dao.helper.factory.DaoHelperFactory;
 import com.github.gkttk.epam.exceptions.DaoException;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.UserService;
+import com.github.gkttk.epam.logic.validator.Validator;
+import com.github.gkttk.epam.logic.validator.factory.ValidatorFactory;
 import com.github.gkttk.epam.model.entities.User;
 
 import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
 
-
     @Override
-    public boolean login(String login, String password) throws ServiceException {
+    public Optional<User> login(String login, String password) throws ServiceException {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             UserDao userDao = daoHelper.createUserDao();
-            Optional<User> userOptional = userDao.findByLogin(login);
-            if (userOptional.isPresent()) {
-                User user = userOptional.get();
-                boolean active = user.isActive();
-                boolean isPasswordValid = checkPassword(userOptional.get(), password);
-                return active && isPasswordValid;
-            }
-            return false;
+            return userDao.findByLoginAndPassword(login, password);
         } catch (DaoException e) {
-            throw new ServiceException(String.format("Can't login() with login: %s, password: %s",
+            throw new ServiceException(String.format("Can't login(login, password) with login: %s, password: %s",
                     login, password), e);
         }
-    }
+    }//+
 
     @Override
-    public Optional<User> getUserById(Long id) throws ServiceException {
+    public Optional<User> getUserById(long id) throws ServiceException {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             UserDao userDao = daoHelper.createUserDao();
-            return userDao.getById(id);
+            return userDao.findById(id);
         } catch (DaoException e) {
-            throw new ServiceException(String.format("Can't getUserById() with id: %d", id), e);
+            throw new ServiceException(String.format("Can't getUserById(id) with id: %d", id), e);
         }
-    }
-
-    @Override
-    public Optional<User> getUserByLogin(String login) throws ServiceException {
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            UserDao userDao = daoHelper.createUserDao();
-            return userDao.findByLogin(login);
-        } catch (DaoException e) {
-            throw new ServiceException(String.format("Can't getUserByLogin() with login: %s", login), e);
-        }
-
-    }
+    }//+
 
     @Override
     public List<User> getUsers() throws ServiceException {
@@ -62,33 +43,69 @@ public class UserServiceImpl implements UserService {
             UserDao userDao = daoHelper.createUserDao();
             return userDao.findAll();
         } catch (DaoException e) {
-            throw new ServiceException("Can't getUsers().", e);
+            throw new ServiceException("Can't getUsers()", e);
         }
-    }
+    } //+
+
 
     @Override
-    public void setUserStatus(Long userId, boolean status) throws ServiceException {
+    public Optional<User> changeUserStatus(long userId, boolean newStatus) throws ServiceException { //+
+        Optional<User> result = Optional.empty();
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             UserDao userDao = daoHelper.createUserDao();
-            userDao.updateUserActiveById(userId, status);
+            Optional<User> userOpt = userDao.findById(userId);
+            if (userOpt.isPresent()) {
+                User userFromDb = userOpt.get();
+                if (!compareStatuses(userFromDb, newStatus)) {
+                    User user = userFromDb.changeActive(newStatus); //todo need entity which can change fields of entities
+                    userDao.save(user);
+                    result = Optional.of(user);
+                }
+            }
         } catch (DaoException e) {
-            throw new ServiceException(String.format("Can't set status %b for user with id %d", status, userId), e);
+            throw new ServiceException(String.format("Can't setUserStatus(userId, newStatus) with userId %d, newStatus: %b",
+                    userId, newStatus), e);
         }
-    }
+
+        return result;
+    }//+
 
     @Override
     public boolean registration(String login, String password) throws ServiceException {
+        Validator userLoginValidator = ValidatorFactory.getUserLoginValidator();
+        Validator userPasswordValidator = ValidatorFactory.getUserPasswordValidator();
+
+        boolean isLoginValid = userLoginValidator.validate(login);
+        boolean isPasswordValid = userPasswordValidator.validate(password);
+
+        if (!isLoginValid || !isPasswordValid) {
+            return false;
+        }
+
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             UserDao userDao = daoHelper.createUserDao();
             User user = new User(login, password);
-            userDao.save(user);//todo
+            userDao.save(user);
             return true;
         } catch (DaoException e) {
-            throw new ServiceException(String.format("Can't registration user with login: %s and password: %s",
+            throw new ServiceException(String.format("Can't registration(login, password) with login: %s and password: %s",
                     login, password), e);
-
         }
-    }
+    } //+
+
+
+
+  /*  @Override
+    public Optional<User> getUserByLogin(String login) throws ServiceException {
+        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
+            UserDao userDao = daoHelper.createUserDao();
+            return userDao.findByLoginAndPassword(login);
+        } catch (DaoException e) {
+            throw new ServiceException(String.format("Can't getUserByLogin() with login: %s", login), e);
+        }
+
+    }*/
+
 
     @Override
     public void changeAvatar(User user, String imageRef) throws ServiceException {
@@ -106,13 +123,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public void removeOldImage(String imagePath) {
         File file = new File(imagePath);
-        if(file.exists()){
+        if (file.exists()) {
             file.delete();
         }
     }
 
-    private boolean checkPassword(User user, String password) {
-        return user.getPassword().equals(password);
-    }
+
+    private boolean compareStatuses(User userFromDb, boolean newStatus) {
+        boolean userFromDbStatus = userFromDb.isActive();
+        return userFromDbStatus == newStatus;
+    } //+
+
 
 }

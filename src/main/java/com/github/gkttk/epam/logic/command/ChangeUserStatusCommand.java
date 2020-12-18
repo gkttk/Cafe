@@ -9,47 +9,53 @@ import com.github.gkttk.epam.model.entities.User;
 import java.util.List;
 import java.util.Optional;
 
-public class ChangeUserStatusCommand implements Command {
+public class ChangeUserStatusCommand implements Command { //+
 
-    private final static String IS_ACTIVE_PARAMETER = "active";
-    private final static String USER_ID_PARAMETER = "userId";
-    private final static String CURRENT_PAGE_PARAMETER = "currentPage";
-    private final static String USERS_ATTRIBUTE_KEY = "users";
+    private final static String USER_ID_PARAM = "userId";
+    private final static String IS_ACTIVE_PARAM = "active";
+    private final static String USERS_ATTR = "users";
+    private final static String CURRENT_PAGE_PARAM = "currentPage";
+
     private final UserService userService;
 
     public ChangeUserStatusCommand(UserService userService) {
         this.userService = userService;
     }
 
-    //todo refactor
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
-        String userIdParameter = requestDataHolder.getRequestParameter(USER_ID_PARAMETER);
-        long userId = Long.parseLong(userIdParameter);
+        String userIdStr = requestDataHolder.getRequestParameter(USER_ID_PARAM);
+        long userId = Long.parseLong(userIdStr);
 
-        String isActiveParameter = requestDataHolder.getRequestParameter(IS_ACTIVE_PARAMETER);
-        boolean isActive = Boolean.parseBoolean(isActiveParameter);
+        String isActiveParam = requestDataHolder.getRequestParameter(IS_ACTIVE_PARAM);
+        boolean newActiveStatus = Boolean.parseBoolean(isActiveParam);
 
+        Optional<User> userOpt = userService.changeUserStatus(userId, newActiveStatus);
 
-        Optional<User> userOptional = userService.getUserById(userId);
-        if (userOptional.isPresent() && userOptional.get().isActive() != isActive) {
-            userService.setUserStatus(userId, isActive);
-            List<User> attribute = (List<User>) requestDataHolder.getSessionAttribute(USERS_ATTRIBUTE_KEY);
-            if (attribute != null) {
-                Optional<User> changingUserOpt = attribute.stream().filter(user -> user.getId() == userId).findFirst();
-                if (changingUserOpt.isPresent()) {
-                    User changingUser = changingUserOpt.get();
-                    int index = attribute.indexOf(changingUser);
-                    attribute.remove(changingUser);
-                    Optional<User> updatedUser = userService.getUserById(userId);
-                    attribute.add(index, updatedUser.get());
-                    requestDataHolder.putSessionAttribute(USERS_ATTRIBUTE_KEY, attribute);
-                }
-            }
-        }
+        userOpt.ifPresent(user -> renewSessionData(user, requestDataHolder));
 
-        String refForRedirect = (String) requestDataHolder.getSessionAttribute(CURRENT_PAGE_PARAMETER);
-
+        String refForRedirect = (String) requestDataHolder.getSessionAttribute(CURRENT_PAGE_PARAM);
         return new CommandResult(refForRedirect, true);
+
+    }
+
+
+    private void renewSessionData(User changedUser, RequestDataHolder requestDataHolder) {
+        long userId = changedUser.getId();
+        List<User> users = (List<User>) requestDataHolder.getSessionAttribute(USERS_ATTR);
+        if (users != null) {
+            Optional<User> userFromSessionOpt = users.stream()
+                    .filter(user -> user.getId() == userId)
+                    .findFirst();
+
+            if (userFromSessionOpt.isPresent()) {
+                User userFromSession = userFromSessionOpt.get();
+                int indexOfUser = users.indexOf(userFromSession);
+                users.remove(userFromSession);
+                users.add(indexOfUser, changedUser);
+                requestDataHolder.putSessionAttribute(USERS_ATTR, users);
+            }
+
+        }
     }
 }

@@ -17,8 +17,15 @@
     </c:if>
     <div class="wrapper">
         <%@ include file="WEB-INF/view/parts/header.jsp" %>
-        ${requestScope.errorMessage}
-            ${requestScope.blockedUserMessage}
+
+        <p>
+            <c:if test="${not empty requestScope.errorMessage}">
+                <fmt:message key="${requestScope.errorMessage}"/>
+            </c:if>
+                ${requestScope.blockedUserMessage}
+        </p>
+
+
         <main>
             In urna felis dolor curabitur eleifend parturient. Nisi interdum accumsan penatibus vehicula orci mattis
             dignissim egestas fringilla tortor ligula ad? Turpis turpis amet mauris ultricies, semper posuere. Rhoncus

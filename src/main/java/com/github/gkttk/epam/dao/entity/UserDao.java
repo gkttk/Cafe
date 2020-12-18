@@ -8,7 +8,8 @@ import java.util.Optional;
 
 public interface UserDao extends Dao<User> {
 
-    Optional<User> findByLogin(String login) throws DaoException;
-    void updateUserActiveById(Long id, boolean status) throws DaoException;
+    Optional<User> findByLoginAndPassword(String login, String password) throws DaoException;//+
+
+   /* void updateUserStatusById(long id, boolean newStatus) throws DaoException; //+*/
 
 }

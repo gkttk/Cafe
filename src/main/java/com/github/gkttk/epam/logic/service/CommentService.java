@@ -11,7 +11,7 @@ public interface CommentService {
 
     List<Comment> getAll() throws ServiceException;
 
-    List<CommentInfo> getAllByDishId(Long dishId) throws ServiceException; //was <Comment>
+    List<CommentInfo> getAllByDishId(Long dishId) throws ServiceException;
 
     void changeCommentRating(int newRating, Long commentId) throws ServiceException;
 

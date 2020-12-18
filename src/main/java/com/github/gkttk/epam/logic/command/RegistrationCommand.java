@@ -5,13 +5,16 @@ import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.model.CommandResult;
 
-public class RegistrationCommand implements Command {
+public class RegistrationCommand implements Command { //+
+
+    private final static String LOGIN_PARAM = "login";
+    private final static String PASSWORD_PARAM = "password";
 
     private final static String START_PAGE = "index.jsp";
+    private final static String ERROR_MESSAGE_ATTR = "errorMessage";
+    private final static String ERROR_MESSAGE = "error.message.registration";
 
     private final UserService userService;
-    private final static String ERROR_MESSAGE = "Can't register";//todo
-
 
     public RegistrationCommand(UserService userService) {
         this.userService = userService;
@@ -19,18 +22,17 @@ public class RegistrationCommand implements Command {
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
-        String login = requestDataHolder.getRequestParameter("login");
-        String password = requestDataHolder.getRequestParameter("password");
+        String login = requestDataHolder.getRequestParameter(LOGIN_PARAM);
+        String password = requestDataHolder.getRequestParameter(PASSWORD_PARAM);
 
-        boolean isRegistered = userService.registration(login, password);//todo boolean
+        boolean isRegistered = userService.registration(login, password);
 
-        if(isRegistered){
+        if (isRegistered) {
             return new CommandResult(START_PAGE, true);
-        }else {
-            requestDataHolder.putRequestAttribute("errorMessage", ERROR_MESSAGE);
+        } else {
+            requestDataHolder.putRequestAttribute(ERROR_MESSAGE_ATTR, ERROR_MESSAGE);
             return new CommandResult(START_PAGE, false);
         }
-
 
     }
 }

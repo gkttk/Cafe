@@ -69,6 +69,20 @@ public class User extends Entity {
         return imageRef;
     }
 
+
+    public User changeActive(boolean newStatus){
+        return new User(
+                this.getId(),
+                this.login,
+                this.password,
+                this.role,
+                this.points,
+                this.money,
+                newStatus,
+                this.imageRef
+        );
+    }
+
     public User changeImageRef(String newImageRef) {
         return new User(
                 this.getId(),
