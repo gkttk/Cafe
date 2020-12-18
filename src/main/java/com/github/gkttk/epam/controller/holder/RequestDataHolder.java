@@ -1,4 +1,4 @@
-package com.github.gkttk.epam.controller.handler;
+package com.github.gkttk.epam.controller.holder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

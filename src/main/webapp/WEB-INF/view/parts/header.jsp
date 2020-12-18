@@ -91,6 +91,21 @@
            </span>
             </div>
             <div class="log_out">
+
+                <button onclick="showChangeAvatarForm()">
+                    Сменить аватар
+                </button>
+
+                <div id="changeAvatarForm">
+                <form method="POST" action="${pageContext.request.contextPath}/upload" enctype="multipart/form-data">
+                    <input type="file" name="newAvatar" accept="image/*" required/>
+                    <button class="logout_btn" type="submit" >
+                        Сменить аватар
+                    </button>
+                </form>
+                </div>
+
+
                 <form method="POST" action="${pageContext.request.contextPath}/controller">
                     <input type="hidden" name="command" value="LOGOUT">
                     <button class="logout_btn" type="submit"><fmt:message key="header.logout.button"/></button>
@@ -99,5 +114,7 @@
         </div>
         </c:otherwise>
         </c:choose>
-        </fmt:bundle>
+
+
+</fmt:bundle>
 </header>

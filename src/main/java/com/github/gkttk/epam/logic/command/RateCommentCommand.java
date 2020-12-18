@@ -1,12 +1,11 @@
 package com.github.gkttk.epam.logic.command;
 
-import com.github.gkttk.epam.controller.handler.RequestDataHolder;
+import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.UserCommentRatingService;
 import com.github.gkttk.epam.logic.service.impl.CommentServiceImpl;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.dto.CommentInfo;
-import com.github.gkttk.epam.model.entities.Comment;
 import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.entities.UserCommentRating;
 import com.github.gkttk.epam.model.enums.CommentEstimate;

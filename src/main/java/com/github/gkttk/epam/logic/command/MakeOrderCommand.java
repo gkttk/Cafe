@@ -1,16 +1,12 @@
 package com.github.gkttk.epam.logic.command;
 
-import com.github.gkttk.epam.controller.handler.RequestDataHolder;
-import com.github.gkttk.epam.exceptions.ServiceException;
-import com.github.gkttk.epam.logic.service.DishService;
+import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Dish;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class MakeOrderCommand implements Command {
 

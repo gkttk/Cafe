@@ -20,7 +20,7 @@
         <log4j.core>2.11.2</log4j.core>
         <mysql.connector.version>8.0.22</mysql.connector.version>
         <jstl.version>1.2</jstl.version>
-        <javax.servlet.version>2.5</javax.servlet.version>
+        <javax.servlet.version>4.0.1</javax.servlet.version>
         <junit.jupiter.version>5.7.0</junit.jupiter.version>
 
     </properties>
@@ -53,7 +53,7 @@
 
         <dependency>
             <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
+            <artifactId>javax.servlet-api</artifactId>
             <version>${javax.servlet.version}</version>
             <scope>provided</scope>
         </dependency>

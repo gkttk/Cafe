@@ -1,6 +1,6 @@
 package com.github.gkttk.epam.logic.command;
 
-import com.github.gkttk.epam.controller.handler.RequestDataHolder;
+import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.model.CommandResult;
 
 public class HomeCommand implements Command {

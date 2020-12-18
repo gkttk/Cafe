@@ -69,6 +69,18 @@ public class User extends Entity {
         return imageRef;
     }
 
+    public User changeImageRef(String newImageRef) {
+        return new User(
+                this.getId(),
+                this.login,
+                this.password,
+                this.role,
+                this.points,
+                this.money,
+                this.active,
+                newImageRef
+        );
+    }
 
     @Override
     public boolean equals(Object o) {

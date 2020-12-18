@@ -19,4 +19,8 @@ public interface UserService {
 
     boolean registration(String login, String password) throws ServiceException;
 
+    void changeAvatar(User user, String imageRef) throws ServiceException;
+
+    void removeOldImage(String imagePath);
+
 }

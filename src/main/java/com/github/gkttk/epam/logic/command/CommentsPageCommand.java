@@ -1,6 +1,6 @@
 package com.github.gkttk.epam.logic.command;
 
-import com.github.gkttk.epam.controller.handler.RequestDataHolder;
+import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.CommentService;
 import com.github.gkttk.epam.logic.service.UserCommentRatingService;
@@ -10,11 +10,9 @@ import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.entities.UserCommentRating;
 import com.github.gkttk.epam.model.enums.CommentEstimate;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class CommentsPageCommand implements Command {
 

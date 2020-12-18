@@ -1,13 +1,12 @@
 package com.github.gkttk.epam.logic.command;
 
-import com.github.gkttk.epam.controller.handler.RequestDataHolder;
+import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.DishService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Dish;
 import com.github.gkttk.epam.model.enums.DishTypes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SortDishesCommand implements Command {

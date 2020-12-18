@@ -16,6 +16,7 @@ public class UserFieldExtractor implements FieldExtractor<User> {
     private final static String POINTS_KEY = "points";
     private final static String MONEY_KEY = "money";
     private final static String ACTIVE_KEY = "active";
+    private final static String IMAGE_REF_KEY = "image_ref";
 
     @Override
     public Map<String, Object> extractFields(User user) {
@@ -43,6 +44,10 @@ public class UserFieldExtractor implements FieldExtractor<User> {
 
         boolean active = user.isActive();
         result.put(ACTIVE_KEY, active);
+
+
+        String imageRef = user.getImageRef();
+        result.put(IMAGE_REF_KEY, imageRef);
 
         return result;
 

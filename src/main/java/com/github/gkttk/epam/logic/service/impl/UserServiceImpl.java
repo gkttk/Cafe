@@ -8,6 +8,9 @@ import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.model.entities.User;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,6 +85,27 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(String.format("Can't registration user with login: %s and password: %s",
                     login, password), e);
 
+        }
+    }
+
+    @Override
+    public void changeAvatar(User user, String imageRef) throws ServiceException {
+        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
+            UserDao userDao = daoHelper.createUserDao();
+            User newUser = user.changeImageRef(imageRef);
+            userDao.save(newUser);
+        } catch (DaoException e) {
+            throw new ServiceException(String.format("Can't changeAvatar user with user: %s and imageRef: %s",
+                    user.toString(), imageRef), e);
+
+        }
+    }
+
+    @Override
+    public void removeOldImage(String imagePath) {
+        File file = new File(imagePath);
+        if(file.exists()){
+            file.delete();
         }
     }
 

@@ -1,7 +1,7 @@
 package com.github.gkttk.epam.controller;
 
 import com.github.gkttk.epam.connection.ConnectionPool;
-import com.github.gkttk.epam.controller.handler.RequestDataHolder;
+import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ConnectionPoolException;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.command.Command;
