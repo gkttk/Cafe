@@ -6,14 +6,16 @@
 
 
   <filter>
-    <filter-name>BlockFilter</filter-name>
-    <filter-class>com.github.gkttk.epam.filters.BlockFilter</filter-class>
+    <filter-name>AuthorizationFilter</filter-name>
+    <filter-class>com.github.gkttk.epam.filters.AuthorizationFilter</filter-class>
+
   </filter>
 
   <filter-mapping>
-    <filter-name>BlockFilter</filter-name>
-    <url-pattern>/*</url-pattern>
+    <filter-name>AuthorizationFilter</filter-name>
+    <url-pattern>/controller</url-pattern>
   </filter-mapping>
+
 
 
   <filter>

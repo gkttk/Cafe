@@ -19,18 +19,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean login(String login, String password) throws ServiceException {
-        boolean isValid = false;
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             UserDao userDao = daoHelper.createUserDao();
             Optional<User> userOptional = userDao.findByLogin(login);
             if (userOptional.isPresent()) {
-                isValid = checkPassword(userOptional.get(), password);
+                User user = userOptional.get();
+                boolean active = user.isActive();
+                boolean isPasswordValid = checkPassword(userOptional.get(), password);
+                return active && isPasswordValid;
             }
+            return false;
         } catch (DaoException e) {
             throw new ServiceException(String.format("Can't login() with login: %s, password: %s",
                     login, password), e);
         }
-        return isValid;
     }
 
     @Override
