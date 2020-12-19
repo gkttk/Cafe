@@ -130,7 +130,7 @@ public class UserServiceImpl implements UserService {
 
 
     private boolean compareStatuses(User userFromDb, boolean newStatus) {
-        boolean userFromDbStatus = userFromDb.isActive();
+        boolean userFromDbStatus = userFromDb.isBlocked();
         return userFromDbStatus == newStatus;
     } //+
 

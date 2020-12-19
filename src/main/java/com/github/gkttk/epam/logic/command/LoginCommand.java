@@ -39,7 +39,7 @@ public class LoginCommand implements Command { //+
 
         Optional<User> userOpt = userService.login(login, password);
 
-        if (userOpt.isPresent() && userOpt.get().isActive()) {
+        if (userOpt.isPresent() && !userOpt.get().isBlocked()) {
             User user = userOpt.get();  //todo maybe set password = null?
             requestDataHolder.putSessionAttribute(AUTH_USER_ATTR, user);
 

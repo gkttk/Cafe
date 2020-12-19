@@ -8,7 +8,6 @@ import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.dto.CommentInfo;
 import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.entities.UserCommentRating;
-import com.github.gkttk.epam.model.enums.CommentEstimate;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +26,11 @@ public class RateCommentCommand implements Command {
         this.userCommentRatingService = userCommentRatingService;
     }
 
+
+    private int changeRating(int oldRating, boolean isLiked){
+        return isLiked ? ++oldRating : --oldRating;
+    }
+
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
 
@@ -38,14 +42,14 @@ public class RateCommentCommand implements Command {
         long commentId = Long.parseLong(commentIdStr);
 
         String estimateStr = requestDataHolder.getRequestParameter("estimate");
-        CommentEstimate estimate = CommentEstimate.valueOf(estimateStr);
+        boolean isLiked = Boolean.parseBoolean(estimateStr);
 
 
         String commentRatingStr = requestDataHolder.getRequestParameter("rating");
         int commentRating = Integer.parseInt(commentRatingStr);
 
 
-        int newRating = estimate.changeRating(commentRating);
+        int newRating = changeRating(commentRating, isLiked);
 
 
         boolean isEvaluated = userCommentRatingService.checkCommentWasEvaluated(userId, commentId);
@@ -53,7 +57,7 @@ public class RateCommentCommand implements Command {
             userCommentRatingService.remove(userId, commentId);
 
         } else {
-            userCommentRatingService.evaluateComment(userId, commentId, estimate);
+            userCommentRatingService.evaluateComment(userId, commentId, isLiked);
         }
 
         commentService.changeCommentRating(newRating, commentId);
@@ -81,12 +85,12 @@ public class RateCommentCommand implements Command {
 
         List<UserCommentRating> commentEstimates = userCommentRatingService.getAllByUserId(userId);
 
-        Map<Long, CommentEstimate> userEstimates = new HashMap<>();
+        Map<Long, Boolean> userEstimates = new HashMap<>();
 
         for (UserCommentRating userCommentRating : commentEstimates) {
             Long commentId1 = userCommentRating.getCommentId();
-            CommentEstimate estimate = userCommentRating.getEstimate();
-            userEstimates.put(commentId1, estimate);
+            Boolean isLiked = userCommentRating.isLiked();
+            userEstimates.put(commentId1, isLiked);
         }
 
         requestDataHolder.putSessionAttribute("estimates", userEstimates);

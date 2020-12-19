@@ -12,7 +12,7 @@ import java.util.Optional;
 public class ChangeUserStatusCommand implements Command { //+
 
     private final static String USER_ID_PARAM = "userId";
-    private final static String IS_ACTIVE_PARAM = "active";
+    private final static String IS_BLOCKED_PARAM = "blocked";
     private final static String USERS_ATTR = "users";
     private final static String CURRENT_PAGE_PARAM = "currentPage";
 
@@ -27,10 +27,10 @@ public class ChangeUserStatusCommand implements Command { //+
         String userIdStr = requestDataHolder.getRequestParameter(USER_ID_PARAM);
         long userId = Long.parseLong(userIdStr);
 
-        String isActiveParam = requestDataHolder.getRequestParameter(IS_ACTIVE_PARAM);
-        boolean newActiveStatus = Boolean.parseBoolean(isActiveParam);
+        String isBlockedParam = requestDataHolder.getRequestParameter(IS_BLOCKED_PARAM);
+        boolean isBlocked = Boolean.parseBoolean(isBlockedParam);
 
-        Optional<User> userOpt = userService.changeUserStatus(userId, newActiveStatus);
+        Optional<User> userOpt = userService.changeUserStatus(userId, isBlocked);
 
         userOpt.ifPresent(user -> renewSessionData(user, requestDataHolder));
 

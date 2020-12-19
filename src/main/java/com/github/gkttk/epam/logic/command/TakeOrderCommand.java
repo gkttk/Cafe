@@ -6,6 +6,7 @@ import com.github.gkttk.epam.logic.service.OrderService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Order;
 import com.github.gkttk.epam.model.entities.User;
+import com.github.gkttk.epam.model.enums.OrderStatus;
 import com.github.gkttk.epam.model.enums.UserRole;
 
 import java.math.BigDecimal;
@@ -45,12 +46,14 @@ public class TakeOrderCommand implements Command {
                 .findFirst();
 
         if (updateOrderOpt.isPresent()) {
+
             Order order = updateOrderOpt.get();
             Long id = order.getId();
             BigDecimal orderCost = order.getCost();
-            LocalDateTime time = order.getTime();
-            boolean newActive = false;
+            LocalDateTime time = order.getDate();
+            OrderStatus status = OrderStatus.RETRIEVED;
             Long userId = order.getUserId();
+
 
             if (userMoney.compareTo(orderCost) < 0) {
                 requestDataHolder.putRequestAttribute("noMoneyErrorMessage", "Not enough money!");
@@ -61,7 +64,7 @@ public class TakeOrderCommand implements Command {
 
             User newUser = getUserWithNewMoneyAndNewPoints(authUser, newUserMoney, newUserPoints);
 
-            Order newOrder = new Order(id, orderCost, time, newActive, userId);
+            Order newOrder = new Order(id, orderCost, time, status, userId);
 
             orderService.takeOrder(newOrder, newUser);
 
@@ -84,7 +87,7 @@ public class TakeOrderCommand implements Command {
         String login = oldAuthUser.getLogin();
         String password = oldAuthUser.getPassword();
         UserRole role = oldAuthUser.getRole();
-        boolean active = oldAuthUser.isActive();
+        boolean active = oldAuthUser.isBlocked();
         String imageRef = oldAuthUser.getImageRef();
 
 

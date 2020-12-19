@@ -12,7 +12,7 @@ public class User extends Entity {
     private final UserRole role;
     private final int points;
     private final BigDecimal money;
-    private final boolean active;
+    private final boolean blocked;
     private final String imageRef;
 
     public User(String login, String password){
@@ -22,18 +22,18 @@ public class User extends Entity {
         this.role = UserRole.USER;
         this.points = 20;
         this.money = new BigDecimal(0);
-        this.active = true;
+        this.blocked = false;
         this.imageRef = "static/images/users/not_found.jpg";//todo common
     }
 
-    public User(Long id, String login, String password, UserRole role, int points, BigDecimal money, boolean active, String imageRef) {
+    public User(Long id, String login, String password, UserRole role, int points, BigDecimal money, boolean blocked, String imageRef) {
         super(id);
         this.login = login;
         this.password = password;
         this.role = role;
         this.points = points;
         this.money = money;
-        this.active = active;
+        this.blocked = blocked;
         this.imageRef = imageRef;
     }
 
@@ -61,8 +61,8 @@ public class User extends Entity {
         return money;
     }
 
-    public boolean isActive() {
-        return active;
+    public boolean isBlocked() {
+        return blocked;
     }
 
     public String getImageRef() {
@@ -91,7 +91,7 @@ public class User extends Entity {
                 this.role,
                 this.points,
                 this.money,
-                this.active,
+                this.blocked,
                 newImageRef
         );
     }
@@ -106,7 +106,7 @@ public class User extends Entity {
         }
         User user = (User) o;
         return points == user.points &&
-                active == user.active &&
+                blocked == user.blocked &&
                 Objects.equals(login, user.login) &&
                 Objects.equals(password, user.password) &&
                 role == user.role &&
@@ -116,12 +116,12 @@ public class User extends Entity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(login, password, role, points, money, active, imageRef);
+        return Objects.hash(login, password, role, points, money, blocked, imageRef);
     }
 
     @Override
     public String toString() {
-        return String.format("User id: %d, login: %s, password: %s, role: %s, points: %d, money: %f, is active: %b",
-                getId(), login, password, role.toString(), points, money, active);
+        return String.format("User id: %d, login: %s, password: %s, role: %s, points: %d, money: %f, is blocked: %b",
+                getId(), login, password, role.name(), points, money, blocked);
     }
 }

@@ -6,7 +6,6 @@ import com.github.gkttk.epam.dao.extractors.UserCommentRatingFieldExtractor;
 import com.github.gkttk.epam.dao.mappers.UserCommentRatingRowMapper;
 import com.github.gkttk.epam.exceptions.DaoException;
 import com.github.gkttk.epam.model.entities.UserCommentRating;
-import com.github.gkttk.epam.model.enums.CommentEstimate;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,7 +21,7 @@ public class UserCommentRatingDaoImpl extends AbstractDao<UserCommentRating> imp
     private final static String SELECT_BY_USER_ID_AND_COMMENT_ID_QUERY = "SELECT * FROM " + TABLE_NAME + " WHERE user_id = ? AND comment_id = ?";
     private final static String INSERT_QUERY = "INSERT INTO " + TABLE_NAME + " VALUES(?,?,?)";
 
-    private final static String SELECT_BY_USER_ID_AND_DISH_ID_QUERY = "SELECT uc.user_id, uc.comment_id, uc.estimate" +
+    private final static String SELECT_BY_USER_ID_AND_DISH_ID_QUERY = "SELECT uc.user_id, uc.comment_id, uc.liked" +
             " from users_comments_rating AS uc JOIN comments AS c on uc.comment_id = c.id WHERE uc.user_id = ? AND c.dish_id = ?";
 
 
@@ -72,11 +71,10 @@ public class UserCommentRatingDaoImpl extends AbstractDao<UserCommentRating> imp
 
         Long userId = entity.getUserId();
         Long commentId = entity.getCommentId();
-        CommentEstimate estimate = entity.getEstimate();
-
+        boolean isLiked = entity.isLiked();
 
         try (PreparedStatement statement = createPrepareStatement(INSERT_QUERY,
-                userId, commentId, estimate.name())) {
+                userId, commentId, isLiked)) {
             statement.executeUpdate();
             return -1L;//todo stub
 

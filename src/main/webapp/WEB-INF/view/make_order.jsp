@@ -19,8 +19,6 @@
             <div class="content">
                 <h2><fmt:message key="make.order.total.amount"/> ${sessionScope.orderCost}</h2>
                 <div class="menu_content">
-
-
                         <input type="hidden" name="command" value="SAVE_ORDER"/>
 
                         <label for="date_input"><fmt:message key="make.order.date"/></label>

@@ -7,7 +7,6 @@ import com.github.gkttk.epam.exceptions.DaoException;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.UserCommentRatingService;
 import com.github.gkttk.epam.model.entities.UserCommentRating;
-import com.github.gkttk.epam.model.enums.CommentEstimate;
 
 import java.util.List;
 import java.util.Optional;
@@ -60,10 +59,10 @@ public class UserCommentRatingServiceImpl implements UserCommentRatingService {
     }
 
     @Override
-    public void evaluateComment(Long userId, Long commentId, CommentEstimate estimate) throws ServiceException {
+    public void evaluateComment(Long userId, Long commentId, boolean isLiked) throws ServiceException {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             UserCommentRatingDao userCommentRatingDao = daoHelper.createUserCommentRatingDao();
-            UserCommentRating userCommentRating = new UserCommentRating(userId, commentId, estimate);
+            UserCommentRating userCommentRating = new UserCommentRating(userId, commentId, isLiked);
             userCommentRatingDao.save(userCommentRating);
         } catch (DaoException e) {
             throw new ServiceException(String.format("Can't evaluateComment with userId: %d, commentId: %d",

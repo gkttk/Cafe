@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
-    private final static String UPDATE_USER_STATUS_QUERY = "UPDATE users SET active = ? WHERE id = ?"; //+
+    private final static String UPDATE_USER_STATUS_QUERY = "UPDATE users SET blocked = ? WHERE id = ?"; //+
 
     private final static String TABLE_NAME = "users";
     private final static String FIND_BY_LOGIN_AND_PASSWORD_QUERY = "SELECT * FROM users WHERE login = ? AND password = ?";

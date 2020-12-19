@@ -1,18 +1,19 @@
 package com.github.gkttk.epam.dao.extractors;
 
 import com.github.gkttk.epam.model.entities.Order;
+import com.github.gkttk.epam.model.enums.OrderStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class    OrderFieldExtractor implements FieldExtractor<Order> {
+public class OrderFieldExtractor implements FieldExtractor<Order> {
 
     private final static String ID_KEY = "id";
     private final static String COST_KEY = "cost";
-    private final static String TIME_KEY = "time";
-    private final static String ACTIVE_KEY = "active";
+    private final static String DATE_KEY = "date";
+    private final static String STATUS_KEY = "status";
     private final static String USER_ID_KEY = "user_id";
 
     @Override
@@ -26,11 +27,12 @@ public class    OrderFieldExtractor implements FieldExtractor<Order> {
         BigDecimal cost = order.getCost();
         result.put(COST_KEY, cost);
 
-        LocalDateTime time = order.getTime();
-        result.put(TIME_KEY, time);
+        LocalDateTime date = order.getDate();
+        result.put(DATE_KEY, date);
 
-        boolean active = order.isActive();
-        result.put(ACTIVE_KEY, active);
+        OrderStatus orderStatus = order.getStatus();
+        String orderStatusName = orderStatus.name();
+        result.put(STATUS_KEY, orderStatusName);
 
         Long userId = order.getUserId();
         result.put(USER_ID_KEY, userId);

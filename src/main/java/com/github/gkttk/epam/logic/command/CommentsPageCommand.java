@@ -8,7 +8,6 @@ import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Comment;
 import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.entities.UserCommentRating;
-import com.github.gkttk.epam.model.enums.CommentEstimate;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,12 +35,12 @@ public class CommentsPageCommand implements Command {
         //todo add getAllByUserIdAndDishId
         List<UserCommentRating> commentEstimates = userCommentRatingService.getAllByUserId(userId);
 
-        Map<Long, CommentEstimate> userEstimates = new HashMap<>();
+        Map<Long, Boolean> userEstimates = new HashMap<>();
 
         for (UserCommentRating userCommentRating: commentEstimates){
             Long commentId = userCommentRating.getCommentId();
-            CommentEstimate estimate = userCommentRating.getEstimate();
-            userEstimates.put(commentId, estimate);
+            Boolean isLiked = userCommentRating.isLiked();
+            userEstimates.put(commentId, isLiked);
         }
 
         requestDataHolder.putSessionAttribute("estimates", userEstimates);

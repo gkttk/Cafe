@@ -50,7 +50,7 @@ public class SaveOrderCommand implements Command {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
         LocalDateTime dateTime = LocalDateTime.parse(date, formatter);
 
-        Order order = new Order(null, orderCost, dateTime, true, userId);
+        Order order = new Order(null, orderCost, dateTime, userId);
 
         orderService.makeOrder(order, dishIds);
 

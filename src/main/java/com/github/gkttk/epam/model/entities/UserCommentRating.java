@@ -1,20 +1,18 @@
 package com.github.gkttk.epam.model.entities;
 
-import com.github.gkttk.epam.model.enums.CommentEstimate;
-
 import java.util.Objects;
 
 public class UserCommentRating extends Entity {
 
     private final Long userId;
     private final Long commentId;
-    private final CommentEstimate estimate;
+    private final boolean liked;
 
-    public UserCommentRating(Long userId, Long commentId, CommentEstimate estimate) {
+    public UserCommentRating(Long userId, Long commentId, boolean liked) {
         super(3 * userId + commentId);//todo stub
         this.userId = userId;
         this.commentId = commentId;
-        this.estimate = estimate;
+        this.liked = liked;
     }
 
 
@@ -26,26 +24,26 @@ public class UserCommentRating extends Entity {
         return commentId;
     }
 
-    public CommentEstimate getEstimate() {
-        return estimate;
+    public boolean isLiked() {
+        return liked;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o){
+        if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()){
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         UserCommentRating that = (UserCommentRating) o;
-        return Objects.equals(userId, that.userId) &&
-                Objects.equals(commentId, that.commentId) &&
-                estimate == that.estimate;
+        return liked == that.liked &&
+                Objects.equals(userId, that.userId) &&
+                Objects.equals(commentId, that.commentId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, commentId, estimate);
+        return Objects.hash(userId, commentId, liked);
     }
 }

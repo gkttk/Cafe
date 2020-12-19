@@ -32,11 +32,17 @@
                             <tr>
                                 <td>${order.id}</td>
                                 <td>${order.cost}</td>
-                                <td>${order.time}</td>
+                                <td>${order.date}</td>
                                 <td>
                                     <c:choose>
-                                        <c:when test="${order.active}">
+                                        <c:when test="${order.status == 'ACTIVE'}">
                                             Активен
+                                        </c:when>
+                                        <c:when test="${order.status == 'RETRIEVED'}">
+                                            Выдан
+                                        </c:when>
+                                        <c:when test="${order.status == 'CANCELLED'}">
+                                            Отменен
                                         </c:when>
                                         <c:otherwise>
                                             Закрыт
@@ -44,7 +50,7 @@
                                     </c:choose>
                                 </td>
                                 <td>
-                                    <c:if test="${order.active}">
+                                    <c:if test="${order.status == 'ACTIVE'}">
                                     <form method="POST" action="${pageContext.request.contextPath}/controller">
                                         <input type="hidden" name="command" value="TAKE_ORDER"/>
                                        <input type="hidden" name="orderId" value="${order.id}"/>
@@ -55,9 +61,7 @@
                                     </c:if>
                                 </td>
                                 <td>
-                                    <c:if test="${order.active}">
-
-
+                                    <c:if test="${order.status == 'ACTIVE'}">
                                         <form method="POST" action="${pageContext.request.contextPath}/controller">
                                             <input type="hidden" name="command" value="CANCEL_ORDER"/>
                                             <input type="hidden" name="orderId" value="${order.id}"/>
@@ -68,45 +72,6 @@
                             </tr>
                         </c:forEach>
                     </table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    <%--<div class="users">
-                        <c:forEach var="order" items="${sessionScope.orders}">
-                            <div class="user_item">
-                                <div>${order.id}</div>
-                                <div>${order.cost}</div>
-                                <div>${order.time}</div>
-                                <div>${order.active}</div>
-                                <div class="info_div">
-                                        <button class="accordion" onclick="openPanel()">Информация</button>
-                                    <div class="panel">
-                                        <div>
-                                            Выпадающий блок
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <form method="post" action="#">
-                                        <button type="submit">Отмена</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </c:forEach>
-                    </div>--%>
                 </div>
             </div>
             <script>

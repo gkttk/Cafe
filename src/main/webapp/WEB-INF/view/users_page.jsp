@@ -52,18 +52,18 @@
                                 <td>${user.role}</td>
                                 <td>
                                     <c:choose>
-                                        <c:when test="${user.active}">
-                                            Активен
+                                        <c:when test="${user.blocked}">
+                                            Заблокирован
                                         </c:when>
                                         <c:otherwise>
-                                            Заблокирован
+                                            Активен
                                         </c:otherwise>
                                     </c:choose>
                                 </td>
                                 <td>
                                     <form method="post" action="${pageContext.request.contextPath}/controller">
                                         <input type="hidden" name="userId" value="${user.id}">
-                                        <input type="hidden" name="active" value="false">
+                                        <input type="hidden" name="blocked" value="true">
                                         <input type="hidden" name="command" value="CHANGE_STATUS">
                                         <button type="submit"><fmt:message key="users.page.block"/></button>
                                     </form>
@@ -71,7 +71,7 @@
                                 <td>
                                     <form method="post" action="${pageContext.request.contextPath}/controller">
                                         <input type="hidden" name="userId" value="${user.id}">
-                                        <input type="hidden" name="active" value="true">
+                                        <input type="hidden" name="blocked" value="false">
                                         <input type="hidden" name="command" value="CHANGE_STATUS">
                                         <button type="submit"><fmt:message key="users.page.unblock"/></button>
                                     </form>

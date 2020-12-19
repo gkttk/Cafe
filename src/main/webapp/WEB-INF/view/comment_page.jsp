@@ -71,7 +71,7 @@
                                 <div class="comment_rating">
                                     <c:set var = "estimate" value="${estimatesMap.get(dishComment.id)}"/>
                                     <div>
-                                    <c:if test="${(empty estimate) || (estimate == 'DISLIKE')}">
+                                    <c:if test="${(empty estimate) || (estimate == false)}">
                                         <form action="${pageContext.request.contextPath}/controller" method="POST">
                                             <input type="hidden" name="command" value="RATE_COMMENT"/>
                                             <input type="hidden" name="commentId" value="${dishComment.id}"/>
@@ -85,7 +85,7 @@
                                     <span>${dishComment.rating}</span>
                                         </div>
                                     <div>
-                                    <c:if test="${(empty estimate) || (estimate == 'LIKE')}">
+                                    <c:if test="${(empty estimate) || (estimate == true)}">
                                         <form action="${pageContext.request.contextPath}/controller" method="POST">
                                             <input type="hidden" name="command" value="RATE_COMMENT"/>
                                             <input type="hidden" name="commentId" value="${dishComment.id}"/>

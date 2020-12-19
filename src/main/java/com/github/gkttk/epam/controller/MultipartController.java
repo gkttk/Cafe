@@ -93,34 +93,6 @@ private final static String DEFAULT_IMAGE_REF = "static/images/users/not_found.j
             userByIdOpt.ifPresent(user -> request.getSession().setAttribute(AUTH_USER_ATTRIBUTE_KEY, user));
 
 
-/*//todo different servlet
-            String filePath = UPLOAD_DIR + File.separator + generatedFileName;
-            File downloadFile = new File(filePath);
-            FileInputStream inStream = new FileInputStream(downloadFile);
-
-            String mimeType = getServletContext().getMimeType(filePath);
-            if (mimeType == null) {
-                mimeType = "application/octet-stream";
-            }
-
-            response.setContentType(mimeType);
-            response.setContentLength((int) downloadFile.length());
-
-            String headerKey = "Content-Disposition";
-            String headerValue = String.format("attachment; filename=\"%s\"", downloadFile.getName());
-            response.setHeader(headerKey, headerValue);
-
-            OutputStream outStream = response.getOutputStream();
-            byte[] buffer1 = new byte[4096];
-            int bytesRead = -1;
-
-            while ((bytesRead = inStream.read(buffer1)) != -1) {
-                outStream.write(buffer, 0, bytesRead);
-            }
-
-            inStream.close();
-            outStream.close();*/
-
 
 
             redirect(getServletContext().getContextPath() + "/controller", response);

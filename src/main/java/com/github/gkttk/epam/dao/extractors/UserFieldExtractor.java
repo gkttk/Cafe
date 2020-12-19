@@ -15,7 +15,7 @@ public class UserFieldExtractor implements FieldExtractor<User> {
     private final static String ROLE_KEY = "role";
     private final static String POINTS_KEY = "points";
     private final static String MONEY_KEY = "money";
-    private final static String ACTIVE_KEY = "active";
+    private final static String BLOCKED_KEY = "blocked";
     private final static String IMAGE_REF_KEY = "image_ref";
 
     @Override
@@ -33,7 +33,7 @@ public class UserFieldExtractor implements FieldExtractor<User> {
         result.put(PASSWORD_KEY, password);
 
         UserRole role = user.getRole();
-        String roleName = role.toString();
+        String roleName = role.name();
         result.put(ROLE_KEY, roleName);
 
         int points = user.getPoints();
@@ -42,8 +42,8 @@ public class UserFieldExtractor implements FieldExtractor<User> {
         BigDecimal money = user.getMoney();
         result.put(MONEY_KEY, money);
 
-        boolean active = user.isActive();
-        result.put(ACTIVE_KEY, active);
+        boolean isBlocked = user.isBlocked();
+        result.put(BLOCKED_KEY, isBlocked);
 
 
         String imageRef = user.getImageRef();

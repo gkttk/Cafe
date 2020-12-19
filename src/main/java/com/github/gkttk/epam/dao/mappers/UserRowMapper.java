@@ -17,10 +17,10 @@ public class UserRowMapper implements RowMapper<User> {
         UserRole role = UserRole.valueOf(roleName);
         int points = resultSet.getInt("points");
         BigDecimal money = resultSet.getBigDecimal("money");
-        boolean active = resultSet.getBoolean("active");
+        boolean isBlocked = resultSet.getBoolean("blocked");
 
         String imageRef = resultSet.getString("image_ref");
 
-        return new User(id, login, password, role, points, money, active, imageRef);
+        return new User(id, login, password, role, points, money, isBlocked, imageRef);
     }
 }

@@ -6,6 +6,7 @@ import com.github.gkttk.epam.logic.service.OrderService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Order;
 import com.github.gkttk.epam.model.entities.User;
+import com.github.gkttk.epam.model.enums.OrderStatus;
 import com.github.gkttk.epam.model.enums.UserRole;
 
 import java.math.BigDecimal;
@@ -43,7 +44,8 @@ public class CancelOrderCommand implements Command {
 
         if (updateOrderOpt.isPresent()) {
             Order order = updateOrderOpt.get();
-            boolean newStatus = false;
+
+            OrderStatus newStatus = OrderStatus.CANCELLED;
 
             Order newOrder = getOrderWithNewStatus(order, newStatus);
             User newUser = getUserWithNewPoints(authUser, newUserPoints);
@@ -68,14 +70,14 @@ public class CancelOrderCommand implements Command {
 
 
 
-    private Order getOrderWithNewStatus(Order oldOrder, boolean newCondition){
+    private Order getOrderWithNewStatus(Order oldOrder, OrderStatus newStatus){
         Long id = oldOrder.getId();
         BigDecimal orderCost = oldOrder.getCost();
-        LocalDateTime time = oldOrder.getTime();
+        LocalDateTime time = oldOrder.getDate();
         Long userId = oldOrder.getUserId();
 
 
-        return new Order(id, orderCost, time, newCondition, userId);
+        return new Order(id, orderCost, time, newStatus, userId);
 
     }
 
@@ -85,7 +87,7 @@ public class CancelOrderCommand implements Command {
         String password = oldAuthUser.getPassword();
         UserRole role = oldAuthUser.getRole();
         BigDecimal money = oldAuthUser.getMoney();
-        boolean active = oldAuthUser.isActive();
+        boolean active = oldAuthUser.isBlocked();
         String imageRef = oldAuthUser.getImageRef();
 
         return new User(userId, login, password, role, newPoints, money, active, imageRef);
