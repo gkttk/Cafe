@@ -19,8 +19,8 @@ public class UserRowMapper implements RowMapper<User> {
         BigDecimal money = resultSet.getBigDecimal("money");
         boolean isBlocked = resultSet.getBoolean("blocked");
 
-        String imageRef = resultSet.getString("image_ref");
+        String imgBase64 = resultSet.getString("img_base64");
 
-        return new User(id, login, password, role, points, money, isBlocked, imageRef);
+        return new User(id, login, password, role, points, money, isBlocked, imgBase64);
     }
 }

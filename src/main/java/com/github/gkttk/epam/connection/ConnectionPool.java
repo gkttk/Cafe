@@ -2,6 +2,7 @@ package com.github.gkttk.epam.connection;
 
 import com.github.gkttk.epam.exceptions.ConnectionPoolException;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayDeque;
 import java.util.Queue;
@@ -31,8 +32,9 @@ public class ConnectionPool {
         usedConnections = new ArrayDeque<>(MAX_INIT_CONNECTIONS);
 
         for (int i = 0; i < MAX_INIT_CONNECTIONS; i++) {
-            ConnectionProxy connection = connectionFactory.createConnection();
-            availableConnections.add(connection);
+            Connection connection = connectionFactory.createConnection();
+            ConnectionProxy proxy = new ConnectionProxy(connection);
+            availableConnections.add(proxy);
         }
     }
 
@@ -54,7 +56,8 @@ public class ConnectionPool {
 
 
     private ConnectionProxy createConnection() {
-        return connectionFactory.createConnection();
+        Connection connection = connectionFactory.createConnection();
+        return new ConnectionProxy(connection);
 
     }
 

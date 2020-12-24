@@ -76,12 +76,12 @@
         <c:otherwise>
         <div class="header_greeting">
             <div class="avatar">
-                <img src="${authUser.imageRef}" alt="123"/>
+                <img src="data:image/jpeg;base64,${authUser.imageRef}" alt="avatar"/>
             </div>
 
             <div class="info">
             <span><fmt:message
-                    key="header.user.greetings"/> ${sessionScope.authUser.login}!</h4>
+                    key="header.user.greetings"/> ${sessionScope.authUser.login}!
            </span>
             <span>
                 <fmt:message key="header.user.points"/> ${sessionScope.authUser.points}

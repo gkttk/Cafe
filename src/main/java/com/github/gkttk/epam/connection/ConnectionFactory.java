@@ -53,15 +53,14 @@ public class ConnectionFactory {
         try {
             Class.forName(driverName);
         } catch (ClassNotFoundException e) {
-            LOGGER.error("Can't load class with with name {} .", driverName, e);
+            LOGGER.error("Can't load driver with name {} .", driverName, e);
             throw new ConnectionFactoryException("Can't load class with with name " + driverName, e);
         }
     }
 
-    public ConnectionProxy createConnection() {//todo return Connection(in ConnectionPool wrap into ConnectionProxy)
+    public Connection createConnection() {//todo return Connection(in ConnectionPool wrap into ConnectionProxy)
         try {
-            Connection connection = DriverManager.getConnection(url, login, password);
-            return new ConnectionProxy(connection);
+            return DriverManager.getConnection(url, login, password);
         } catch (SQLException e) {
             LOGGER.error("Can't create a connection with url: {}.", url, e);
             throw new ConnectionFactoryException(String.format("Can't create a connection with" +

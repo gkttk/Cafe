@@ -16,7 +16,7 @@ public class UserFieldExtractor implements FieldExtractor<User> {
     private final static String POINTS_KEY = "points";
     private final static String MONEY_KEY = "money";
     private final static String BLOCKED_KEY = "blocked";
-    private final static String IMAGE_REF_KEY = "image_ref";
+    private final static String IMG_BASE64_KEY = "img_base64";
 
     @Override
     public Map<String, Object> extractFields(User user) {
@@ -47,7 +47,7 @@ public class UserFieldExtractor implements FieldExtractor<User> {
 
 
         String imageRef = user.getImageRef();
-        result.put(IMAGE_REF_KEY, imageRef);
+        result.put(IMG_BASE64_KEY, imageRef);
 
         return result;
 
