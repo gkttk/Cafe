@@ -23,6 +23,18 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
     }
 
 
+    protected int rowCount(String query, Object...params) throws DaoException {
+        try (PreparedStatement prepareStatement = createPrepareStatement(query,params);
+             ResultSet resultSet = prepareStatement.executeQuery()) {
+            if(resultSet.next()){
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Can't get rowCount() with " + query, e);
+        }
+        return 0;//todo
+    }
+
     @Override
     public List<T> findAll() throws DaoException { //+
         String query = "SELECT * FROM " + getTableName();

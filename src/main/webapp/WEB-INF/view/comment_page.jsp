@@ -48,6 +48,18 @@
 
 
 
+        <ul>
+            <c:forEach var="page" begin="1" end="${sessionScope.pageCount}">
+                <li>
+                <form method="post" action="${pageContext.request.contextPath}/controller">
+                    <input type="hidden" name="command" value="DISH_COMMENTS"/>
+                    <input type="hidden" name="currentPage" value="${page}">
+                    <button type="submit" >${page}</button>
+                </form>
+                </li>
+            </c:forEach>
+
+        </ul>
 
 
 
@@ -58,7 +70,7 @@
 
                             <div class="user_info">
                                 <h3>${dishComment.userLogin}</h3>
-                                <img src="${pageContext.request.contextPath}/${dishComment.userImageRef}" alt="avatar"/>
+                                <img src="data:image/jpeg;base64,${dishComment.userAvatarBase64}" alt="avatar"/>
                             </div>
 
                             <div class="comment_info">
@@ -76,7 +88,7 @@
                                             <input type="hidden" name="command" value="RATE_COMMENT"/>
                                             <input type="hidden" name="commentId" value="${dishComment.id}"/>
                                             <input type="hidden" name="rating" value="${dishComment.rating}"/>
-                                            <input type="hidden" name="estimate" value="LIKE"/>
+                                            <input type="hidden" name="estimate" value="true"/>
                                             <button type="submit">+</button>
                                         </form>
                                     </c:if>
@@ -90,7 +102,7 @@
                                             <input type="hidden" name="command" value="RATE_COMMENT"/>
                                             <input type="hidden" name="commentId" value="${dishComment.id}"/>
                                             <input type="hidden" name="rating" value="${dishComment.rating}"/>
-                                            <input type="hidden" name="estimate" value="DISLIKE"/>
+                                            <input type="hidden" name="estimate" value="false"/>
                                     <button type="submit">-</button>
                                         </form>
                                     </c:if>

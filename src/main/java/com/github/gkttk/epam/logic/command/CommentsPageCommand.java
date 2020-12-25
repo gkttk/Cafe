@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//todo mb this class is no used
 public class CommentsPageCommand implements Command {
 
     private final static String COMMENTS_PAGE = "/WEB-INF/view/comment_page.jsp";

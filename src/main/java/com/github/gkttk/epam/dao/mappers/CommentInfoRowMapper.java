@@ -18,7 +18,7 @@ public class CommentInfoRowMapper implements RowMapper<CommentInfo> {
         Timestamp timestamp = resultSet.getTimestamp("creation_date");
         LocalDateTime dateTime = timestamp.toLocalDateTime();
         String login = resultSet.getString("login");
-        String imageRef = resultSet.getString("image_ref");
+        String imageRef = resultSet.getString("img_base64");
 
 
         return new CommentInfo(id, text, rating, dateTime, login, imageRef);

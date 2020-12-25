@@ -639,7 +639,12 @@ body > div > p{
 	display: flex;
 	flex-direction: column;
 	height: 100%;
-	width: 30%;
+}
+
+body > div > main > div.content > div.menu_content > ul{
+	display: flex;
+	width: 40%;
+	justify-content: space-around;
 }
 
 

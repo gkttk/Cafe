@@ -34,7 +34,7 @@ public class CommentInfoFieldExtractor implements FieldExtractor<CommentInfo> {
         String login = commentInfo.getUserLogin();
         result.put(LOGIN_KEY, login);
 
-        String imageRef = commentInfo.getUserImageRef();
+        String imageRef = commentInfo.getUserAvatarBase64();
         result.put(IMAGE_REF_KEY, imageRef);
 
         return result;

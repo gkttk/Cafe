@@ -16,6 +16,8 @@ public class CommentDaoImpl extends AbstractDao<Comment> implements CommentDao {
 
     private final static String TABLE_NAME = "comments";
     private final static String UPDATE_RATING_QUERY = "UPDATE " + TABLE_NAME + " SET rating = ? WHERE id = ?";
+    private final static String ROW_COUNT_BY_DISH_ID_QUERY = "SELECT COUNT(*) FROM " + TABLE_NAME + " WHERE dish_id = ?";
+
 
     public CommentDaoImpl(Connection connection) {
         super(connection, new CommentRowMapper(), new CommentFieldExtractor());
@@ -31,6 +33,11 @@ public class CommentDaoImpl extends AbstractDao<Comment> implements CommentDao {
           throw new DaoException(String.format("Can't updateRating with newRating: %d, commentId: %d",
                   newRating, commentId),e);
         }
+    }
+
+    @Override
+    public int rowCountForDishId(long dishId) throws DaoException {
+        return rowCount(ROW_COUNT_BY_DISH_ID_QUERY, dishId);
     }
 
     @Override

@@ -10,4 +10,8 @@ public interface CommentDao extends Dao<Comment> {
 
     void updateRating(int newRating, Long commentId) throws DaoException;
 
+    int rowCountForDishId(long dishId) throws DaoException;
+
+
+
 }

@@ -18,6 +18,9 @@ import java.util.Optional;
 public class CommentServiceImpl implements CommentService {
 
 
+    private final static int DEFAULT_LIMIT_ON_PAGE = 5;
+
+
     @Override
     public List<Comment> getAll() throws ServiceException {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
@@ -27,6 +30,7 @@ public class CommentServiceImpl implements CommentService {
             throw new ServiceException("Can't getAll()", e);
         }
     }
+
 
 
     @Override
@@ -74,6 +78,39 @@ public class CommentServiceImpl implements CommentService {
         } catch (DaoException e) {
             throw new ServiceException(String.format("Can't addComment() with userId: %d, dishId: %d",
                     userId, dishId), e);
+        }
+    }
+
+    @Override
+    public List<CommentInfo> getAllByDishIdPagination(long dishId, int currentPage) throws ServiceException {
+
+        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
+            CommentInfoDao commentInfoDao = daoHelper.createCommentInfoDao();
+            CommentDao commentDao = daoHelper.createCommentDao();
+
+            int commentsCount = commentDao.rowCountForDishId(dishId);
+            int offset = (currentPage - 1) * DEFAULT_LIMIT_ON_PAGE;
+            int limit = DEFAULT_LIMIT_ON_PAGE;
+
+            if(commentsCount - offset < limit){
+                limit = commentsCount - offset;
+            }
+
+            return commentInfoDao.findAllByDishIdPagination(dishId, limit, offset);
+        } catch (DaoException e) {
+            throw new ServiceException(String.format("Can't getAllByDishIdPagination(dishId, currentPage) with dishId: %d," +
+                    " currentPage: %d", dishId, currentPage), e);
+        }
+    }
+
+    @Override
+    public int getPageCount(long dishId) throws ServiceException {
+        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
+            CommentDao commentDao = daoHelper.createCommentDao();
+            int commentCount = commentDao.rowCountForDishId(dishId);
+            return (int)Math.ceil(((double)commentCount / DEFAULT_LIMIT_ON_PAGE));
+        } catch (DaoException e) {
+            throw new ServiceException("Can't getCommentsCount()", e);
         }
     }
 

@@ -30,19 +30,25 @@ public class DishCommentsCommand implements Command {
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
 
-        User authUser = (User)requestDataHolder.getSessionAttribute("authUser");
+        User authUser = (User) requestDataHolder.getSessionAttribute("authUser");
         Long userId = authUser.getId();
 
         String dishIdParam = requestDataHolder.getRequestParameter(DISH_ID_PARAMETER);
-        Long dishId = Long.parseLong(dishIdParam);
+        long dishId;
+        if(dishIdParam == null){
+            dishId = (Long) requestDataHolder.getSessionAttribute("dishId");
+        }else {
+             dishId = Long.parseLong(dishIdParam);
+            requestDataHolder.putSessionAttribute("dishId", dishId);
+        }//todo
 
-        requestDataHolder.putSessionAttribute("dishId", dishId);//todo
 
-        List<UserCommentRating> commentEstimates = userCommentRatingService.getAllByUserIdAndDishId(userId,dishId);
+
+        List<UserCommentRating> commentEstimates = userCommentRatingService.getAllByUserIdAndDishId(userId, dishId);
 
         Map<Long, Boolean> userEstimates = new HashMap<>();
 
-        for (UserCommentRating userCommentRating: commentEstimates){
+        for (UserCommentRating userCommentRating : commentEstimates) {
             Long commentId = userCommentRating.getCommentId();
             Boolean isLiked = userCommentRating.isLiked();
             userEstimates.put(commentId, isLiked);
@@ -51,8 +57,23 @@ public class DishCommentsCommand implements Command {
         requestDataHolder.putSessionAttribute("estimates", userEstimates);
 
 
+        String currentPageParam = requestDataHolder.getRequestParameter("currentPage");
+        int currentPage;
+        if (currentPageParam != null) {
+            currentPage = Integer.parseInt(currentPageParam);
+        } else {
+            currentPage = 1;
+        }
 
-        List<CommentInfo> comments = commentService.getAllByDishId(dishId);
+
+
+        int pageCount = commentService.getPageCount(dishId);
+        requestDataHolder.putSessionAttribute("pageCount", pageCount);
+
+        List<CommentInfo> comments = commentService.getAllByDishIdPagination(dishId, currentPage);
+
+
+        /* List<CommentInfo> comments = commentService.getAllByDishId(dishId);*/
         requestDataHolder.putSessionAttribute(COMMENTS_ATTRIBUTE, comments);
 
         requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAMETER, COMMENTS_PAGE);

@@ -17,4 +17,6 @@ public interface Dao<T extends Entity> {
     void removeById(Long id) throws DaoException;
 
 
+
+
 }

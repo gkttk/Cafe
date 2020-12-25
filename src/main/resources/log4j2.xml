@@ -21,8 +21,7 @@
     <Loggers>
         <Root level="trace" additivity="true">
             <AppenderRef ref="LogToConsole" level="info"/>
-            <AppenderRef ref="LogToConsole" level="warn"/>
-            <AppenderRef ref="LogToRollingFile" level="error"/>
+            <AppenderRef ref="LogToRollingFile" level="warn"/>
         </Root>
 
     </Loggers>
