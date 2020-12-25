@@ -2,6 +2,7 @@ package com.github.gkttk.epam.logic.service;
 
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.model.entities.User;
+import com.github.gkttk.epam.model.enums.UserStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,4 +30,6 @@ public interface UserService {
 
     void removeOldImage(String imagePath);
 
+    List<User> getUsersByStatus(UserStatus userStatus) throws ServiceException;
 }
+

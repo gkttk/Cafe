@@ -9,6 +9,7 @@ import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.logic.validator.Validator;
 import com.github.gkttk.epam.logic.validator.factory.ValidatorFactory;
 import com.github.gkttk.epam.model.entities.User;
+import com.github.gkttk.epam.model.enums.UserStatus;
 
 import java.io.File;
 import java.util.List;
@@ -116,7 +117,6 @@ public class UserServiceImpl implements UserService {
         } catch (DaoException e) {
             throw new ServiceException(String.format("Can't changeAvatar user with user: %s and imageRef: %s",
                     user.toString(), imageRef), e);
-
         }
     }
 
@@ -126,6 +126,19 @@ public class UserServiceImpl implements UserService {
         if (file.exists()) {
             file.delete();
         }
+    }
+
+    @Override
+    public List<User> getUsersByStatus(UserStatus userStatus) throws ServiceException {
+        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
+            UserDao userDao = daoHelper.createUserDao();
+            boolean isBlocked = userStatus.isBlocked();
+            return userDao.findAllByStatus(isBlocked);
+        } catch (DaoException e) {
+            throw new ServiceException(String.format("Can't getUsersByStatus() with userStatus: %s",
+                    userStatus.name()), e);
+        }
+
     }
 
 

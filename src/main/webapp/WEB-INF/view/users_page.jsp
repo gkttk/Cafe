@@ -19,17 +19,22 @@
             <div class="content">
                 <div class="user_conditions">
                     <div>
-                        <form method="post" action="#">
+                        <form action="${pageContext.request.contextPath}/controller" method="POST">
+                            <input type="hidden" name="command" value="SORT_USERS"/>
                             <button type="submit">ВСЕ</button>
                         </form>
                     </div>
                     <div>
-                        <form method="post" action="#">
+                        <form action="${pageContext.request.contextPath}/controller" method="POST">
+                            <input type="hidden" name="command" value="SORT_USERS"/>
+                            <input type="hidden" name="userStatus" value="ACTIVE"/>
                             <button type="submit"><fmt:message key="users.page.active"/></button>
                         </form>
                     </div>
                     <div>
-                        <form method="post" action="#">
+                        <form action="${pageContext.request.contextPath}/controller" method="POST">
+                            <input type="hidden" name="command" value="SORT_USERS"/>
+                            <input type="hidden" name="userStatus" value="BLOCKED"/>
                             <button type="submit"><fmt:message key="users.page.blocked"/></button>
                         </form>
                     </div>
