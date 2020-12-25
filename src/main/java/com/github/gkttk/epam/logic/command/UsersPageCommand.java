@@ -4,6 +4,7 @@ import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.model.CommandResult;
+import com.github.gkttk.epam.model.dto.UserInfo;
 import com.github.gkttk.epam.model.entities.User;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class UsersPageCommand implements Command { //+
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
 
-        List<User> users = userService.getUsers();
+        List<UserInfo> users = userService.getUsers();
         requestDataHolder.putSessionAttribute(USERS_ATTR, users);
 
         requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, USERS_PAGE);

@@ -4,6 +4,7 @@ import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.model.CommandResult;
+import com.github.gkttk.epam.model.dto.UserInfo;
 import com.github.gkttk.epam.model.entities.User;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class ChangeUserStatusCommand implements Command { //+
         String isBlockedParam = requestDataHolder.getRequestParameter(IS_BLOCKED_PARAM);
         boolean isBlocked = Boolean.parseBoolean(isBlockedParam);
 
-        Optional<User> userOpt = userService.changeUserStatus(userId, isBlocked);
+        Optional<UserInfo> userOpt = userService.changeUserStatus(userId, isBlocked);
 
         userOpt.ifPresent(user -> renewSessionData(user, requestDataHolder));
 
@@ -40,16 +41,16 @@ public class ChangeUserStatusCommand implements Command { //+
     }
 
 
-    private void renewSessionData(User changedUser, RequestDataHolder requestDataHolder) {
+    private void renewSessionData(UserInfo changedUser, RequestDataHolder requestDataHolder) {
         long userId = changedUser.getId();
-        List<User> users = (List<User>) requestDataHolder.getSessionAttribute(USERS_ATTR);
+        List<UserInfo> users = (List<UserInfo>) requestDataHolder.getSessionAttribute(USERS_ATTR);
         if (users != null) {
-            Optional<User> userFromSessionOpt = users.stream()
+            Optional<UserInfo> userFromSessionOpt = users.stream()
                     .filter(user -> user.getId() == userId)
                     .findFirst();
 
             if (userFromSessionOpt.isPresent()) {
-                User userFromSession = userFromSessionOpt.get();
+                UserInfo userFromSession = userFromSessionOpt.get();
                 int indexOfUser = users.indexOf(userFromSession);
                 users.remove(userFromSession);
                 users.add(indexOfUser, changedUser);

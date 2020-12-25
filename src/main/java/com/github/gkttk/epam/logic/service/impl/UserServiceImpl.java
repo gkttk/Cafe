@@ -1,5 +1,6 @@
 package com.github.gkttk.epam.logic.service.impl;
 
+import com.github.gkttk.epam.dao.dto.UserInfoDao;
 import com.github.gkttk.epam.dao.entity.UserDao;
 import com.github.gkttk.epam.dao.helper.DaoHelper;
 import com.github.gkttk.epam.dao.helper.factory.DaoHelperFactory;
@@ -8,6 +9,7 @@ import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.logic.validator.Validator;
 import com.github.gkttk.epam.logic.validator.factory.ValidatorFactory;
+import com.github.gkttk.epam.model.dto.UserInfo;
 import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.enums.UserStatus;
 
@@ -39,10 +41,10 @@ public class UserServiceImpl implements UserService {
     }//+
 
     @Override
-    public List<User> getUsers() throws ServiceException {
+    public List<UserInfo> getUsers() throws ServiceException {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            UserDao userDao = daoHelper.createUserDao();
-            return userDao.findAll();
+            UserInfoDao userInfoDao = daoHelper.createUserInfoDao();
+            return userInfoDao.findAll();
         } catch (DaoException e) {
             throw new ServiceException("Can't getUsers()", e);
         }
@@ -50,17 +52,17 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Optional<User> changeUserStatus(long userId, boolean newStatus) throws ServiceException { //+
-        Optional<User> result = Optional.empty();
+    public Optional<UserInfo> changeUserStatus(long userId, boolean newStatus) throws ServiceException { //+
+        Optional<UserInfo> result = Optional.empty();
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            UserDao userDao = daoHelper.createUserDao();
-            Optional<User> userOpt = userDao.findById(userId);
-            if (userOpt.isPresent()) {
-                User userFromDb = userOpt.get();
-                if (!compareStatuses(userFromDb, newStatus)) {
-                    User user = userFromDb.changeActive(newStatus); //todo need entity which can change fields of entities
-                    userDao.save(user);
-                    result = Optional.of(user);
+            UserInfoDao userInfoDao = daoHelper.createUserInfoDao();
+            Optional<UserInfo> userInfoOpt = userInfoDao.findById(userId);
+            if (userInfoOpt.isPresent()) {
+                UserInfo userInfoFromDb = userInfoOpt.get();
+                if (!compareStatuses(userInfoFromDb, newStatus)) {
+                    UserInfo userInfo  = userInfoFromDb.changeActive(newStatus); //todo need entity which can change fields of entities
+                    userInfoDao.save(userInfo);
+                    result = Optional.of(userInfo);
                 }
             }
         } catch (DaoException e) {
@@ -129,11 +131,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUsersByStatus(UserStatus userStatus) throws ServiceException {
+    public List<UserInfo> getUsersByStatus(UserStatus userStatus) throws ServiceException {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            UserDao userDao = daoHelper.createUserDao();
+            UserInfoDao userInfoDao = daoHelper.createUserInfoDao();
             boolean isBlocked = userStatus.isBlocked();
-            return userDao.findAllByStatus(isBlocked);
+            return userInfoDao.findAllByStatus(isBlocked);
         } catch (DaoException e) {
             throw new ServiceException(String.format("Can't getUsersByStatus() with userStatus: %s",
                     userStatus.name()), e);
@@ -142,7 +144,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    private boolean compareStatuses(User userFromDb, boolean newStatus) {
+    private boolean compareStatuses(UserInfo userFromDb, boolean newStatus) {
         boolean userFromDbStatus = userFromDb.isBlocked();
         return userFromDbStatus == newStatus;
     } //+

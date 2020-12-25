@@ -11,8 +11,5 @@ public interface UserDao extends Dao<User> {
 
     Optional<User> findByLoginAndPassword(String login, String password) throws DaoException;//+
 
-    List<User> findAllByStatus(boolean isBlocked) throws DaoException;
-
-    /* void updateUserStatusById(long id, boolean newStatus) throws DaoException; //+*/
 
 }

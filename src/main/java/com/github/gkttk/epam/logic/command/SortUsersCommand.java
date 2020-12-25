@@ -4,6 +4,7 @@ import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.model.CommandResult;
+import com.github.gkttk.epam.model.dto.UserInfo;
 import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.enums.UserStatus;
 
@@ -24,7 +25,7 @@ public class SortUsersCommand implements Command {
 
         String userStatusParam = requestDataHolder.getRequestParameter(USER_STATUS_PARAM);
 
-        List<User> users;
+        List<UserInfo> users;
         if (userStatusParam != null){
             UserStatus userStatus = UserStatus.valueOf(userStatusParam);
             users = userService.getUsersByStatus(userStatus);
