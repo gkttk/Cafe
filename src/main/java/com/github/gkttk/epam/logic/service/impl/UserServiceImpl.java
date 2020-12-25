@@ -9,6 +9,8 @@ import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.logic.validator.Validator;
 import com.github.gkttk.epam.logic.validator.factory.ValidatorFactory;
+import com.github.gkttk.epam.model.builder.UserBuilder;
+import com.github.gkttk.epam.model.builder.UserInfoBuilder;
 import com.github.gkttk.epam.model.dto.UserInfo;
 import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.enums.UserStatus;
@@ -60,7 +62,9 @@ public class UserServiceImpl implements UserService {
             if (userInfoOpt.isPresent()) {
                 UserInfo userInfoFromDb = userInfoOpt.get();
                 if (!compareStatuses(userInfoFromDb, newStatus)) {
-                    UserInfo userInfo  = userInfoFromDb.changeActive(newStatus); //todo need entity which can change fields of entities
+                    UserInfoBuilder builder = userInfoFromDb.builder();
+                    builder.setBlocked(newStatus);
+                    UserInfo userInfo = builder.build();
                     userInfoDao.save(userInfo);
                     result = Optional.of(userInfo);
                 }
@@ -114,7 +118,9 @@ public class UserServiceImpl implements UserService {
     public void changeAvatar(User user, String imageRef) throws ServiceException {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             UserDao userDao = daoHelper.createUserDao();
-            User newUser = user.changeImageRef(imageRef);
+            UserBuilder userBuilder = user.builder();
+            userBuilder.setImageRef(imageRef);
+            User newUser = userBuilder.build();
             userDao.save(newUser);
         } catch (DaoException e) {
             throw new ServiceException(String.format("Can't changeAvatar user with user: %s and imageRef: %s",

@@ -1,5 +1,6 @@
 package com.github.gkttk.epam.model.entities;
 
+import com.github.gkttk.epam.model.builder.UserBuilder;
 import com.github.gkttk.epam.model.enums.UserRole;
 
 import java.math.BigDecimal;
@@ -18,7 +19,7 @@ public class User extends Entity {
     private final boolean blocked;
     private final String imageRef;
 
-    public User(String login, String password){
+    public User(String login, String password) {
         super(null);
         this.login = login;
         this.password = password;
@@ -73,38 +74,16 @@ public class User extends Entity {
     }
 
 
-    public User changeActive(boolean newStatus){
-        return new User(
-                this.getId(),
-                this.login,
-                this.password,
-                this.role,
-                this.points,
-                this.money,
-                newStatus,
-                this.imageRef
-        );
-    }
-
-    public User changeImageRef(String newImageRef) {
-        return new User(
-                this.getId(),
-                this.login,
-                this.password,
-                this.role,
-                this.points,
-                this.money,
-                this.blocked,
-                newImageRef
-        );
+    public UserBuilder builder() {
+        return new UserBuilder(this);
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o){
+        if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()){
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         User user = (User) o;

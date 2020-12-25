@@ -1,5 +1,6 @@
 package com.github.gkttk.epam.model.dto;
 
+import com.github.gkttk.epam.model.builder.UserInfoBuilder;
 import com.github.gkttk.epam.model.entities.Entity;
 import com.github.gkttk.epam.model.enums.UserRole;
 
@@ -21,6 +22,10 @@ public class UserInfo extends Entity {
         this.blocked = blocked;
     }
 
+    public UserInfoBuilder builder() {
+        return new UserInfoBuilder(this);
+    }
+
     public String getLogin() {
         return login;
     }
@@ -36,16 +41,6 @@ public class UserInfo extends Entity {
 
     public boolean isBlocked() {
         return blocked;
-    }
-
-    public UserInfo changeActive(boolean newStatus) {
-        return new UserInfo(
-                this.getId(),
-                this.login,
-                this.role,
-                this.points,
-                newStatus
-        );
     }
 
 
