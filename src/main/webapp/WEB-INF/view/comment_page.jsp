@@ -18,8 +18,19 @@
             <%@ include file="parts/aside_menu.jsp" %>
             <div class="content">
                 <div class="meal_types">
-                    <button class="btn">По рейтингу</button>
-                    <button class="btn">Новые</button>
+                    <form method="post" action="${pageContext.request.contextPath}/controller">
+                        <input type="hidden" name="command" value="DISH_COMMENTS"/>
+                        <input type="hidden" name="currentPage" value="${sessionScope.currentPagePagination}">
+                        <input type="hidden" name="sortType" value="NEW">
+                        <button class="btn">Новые</button>
+                    </form>
+                    <form method="post" action="${pageContext.request.contextPath}/controller">
+                        <input type="hidden" name="command" value="DISH_COMMENTS"/>
+                        <input type="hidden" name="currentPage" value="${sessionScope.currentPagePagination}">
+                        <input type="hidden" name="sortType" value="DATE">
+                        <button class="btn">По рейтингу</button>
+                    </form>
+
                 </div>
                 <div class="menu_content">
                     <script>
@@ -58,10 +69,7 @@
                 </form>
                 </li>
             </c:forEach>
-
         </ul>
-
-
 
 
                     <c:set var="estimatesMap" value="${sessionScope.estimates}"/>

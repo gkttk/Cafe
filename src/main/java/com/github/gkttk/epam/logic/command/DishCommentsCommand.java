@@ -8,6 +8,7 @@ import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.dto.CommentInfo;
 import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.entities.UserCommentRating;
+import com.github.gkttk.epam.model.enums.SortTypes;
 
 import java.util.HashMap;
 import java.util.List;
@@ -65,15 +66,24 @@ public class DishCommentsCommand implements Command {
             currentPage = 1;
         }
 
+        requestDataHolder.putSessionAttribute("currentPagePagination", currentPage);//todo
+
 
 
         int pageCount = commentService.getPageCount(dishId);
-        requestDataHolder.putSessionAttribute("pageCount", pageCount);
+        requestDataHolder.putSessionAttribute("pageCount", pageCount);//todo requesrt
 
-        List<CommentInfo> comments = commentService.getAllByDishIdPagination(dishId, currentPage);
+        String sortTypeParam = requestDataHolder.getRequestParameter("sortType");
+        if (sortTypeParam == null){
+            sortTypeParam = "NEW";
+        }
+
+        SortTypes sortType = SortTypes.valueOf(sortTypeParam);
 
 
-        /* List<CommentInfo> comments = commentService.getAllByDishId(dishId);*/
+        List<CommentInfo> comments = commentService.getAllByDishIdPagination(dishId, currentPage, sortType);
+
+
         requestDataHolder.putSessionAttribute(COMMENTS_ATTRIBUTE, comments);
 
         requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAMETER, COMMENTS_PAGE);

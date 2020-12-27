@@ -14,6 +14,8 @@ public interface CommentInfoDao {
     Optional<CommentInfo> findByCommentId(Long commentId) throws DaoException;
 
 
-    List<CommentInfo> findAllByDishIdPagination(long dishId,int limit, int offset) throws DaoException;
+    List<CommentInfo> findAllByDishIdOrderRatingPagination(long dishId, int limit, int offset) throws DaoException;
+
+    List<CommentInfo> findAllByDishIdOrderDatePagination(long dishId, int limit, int offset) throws DaoException;
 
 }

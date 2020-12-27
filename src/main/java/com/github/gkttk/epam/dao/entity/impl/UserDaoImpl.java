@@ -17,6 +17,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
     private final static String TABLE_NAME = "users";
     private final static String FIND_BY_LOGIN_AND_PASSWORD_QUERY = "SELECT * FROM users WHERE login = ? AND password = ?";
+    private final static String FIND_BY_LOGIN_QUERY = "SELECT * FROM users WHERE login = ?";
 
 
     public UserDaoImpl(Connection connection) {
@@ -27,6 +28,11 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     public Optional<User> findByLoginAndPassword(String login, String password) throws DaoException {
         return getSingleResult(FIND_BY_LOGIN_AND_PASSWORD_QUERY, login, password);
     }//+
+
+    @Override
+    public Optional<User> findByLogin(String login) throws DaoException {
+        return getSingleResult(FIND_BY_LOGIN_QUERY, login); //todo maybe exists
+    }
 
 
     @Override

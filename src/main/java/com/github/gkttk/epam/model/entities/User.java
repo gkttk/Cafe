@@ -38,7 +38,12 @@ public class User extends Entity {
         this.points = points;
         this.money = money;
         this.blocked = blocked;
-        this.imageRef = imageRef;
+        if (imageRef != null) {
+            this.imageRef = imageRef;
+        } else {
+            this.imageRef = DEFAULT_AVATAR_BASE64;
+        }
+
     }
 
     public Long getId() {
