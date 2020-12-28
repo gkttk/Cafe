@@ -7,14 +7,13 @@ import com.github.gkttk.epam.model.CommandResult;
 
 public class RegistrationCommand implements Command { //+
 
+    private final UserService userService;
+
     private final static String LOGIN_PARAM = "login";
     private final static String PASSWORD_PARAM = "password";
-
     private final static String START_PAGE = "index.jsp";
     private final static String ERROR_MESSAGE_ATTR = "errorMessage";
     private final static String ERROR_MESSAGE = "error.message.registration";
-
-    private final UserService userService;
 
     public RegistrationCommand(UserService userService) {
         this.userService = userService;

@@ -6,23 +6,24 @@ import com.github.gkttk.epam.model.CommandResult;
 public class LocaleCommand implements Command {
 
     private final static String START_PAGE = "index.jsp";
-    private final static String LANGUAGE_PARAMETER = "lang";
-    private final static String CURRENT_PAGE_PARAMETER = "currentPage";
+    private final static String LANGUAGE_PARAM = "lang";
+    private final static String CURRENT_PAGE_PARAM = "currentPage";
+    private final static String LOCALE_ATTR = "locale";
 
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) {
 
-        String lang = requestDataHolder.getRequestParameter(LANGUAGE_PARAMETER);
+        String lang = requestDataHolder.getRequestParameter(LANGUAGE_PARAM);
 
-        requestDataHolder.putSessionAttribute("locale", lang);
+        requestDataHolder.putSessionAttribute(LOCALE_ATTR, lang);
 
-        String refForRedirect = (String) requestDataHolder.getSessionAttribute(CURRENT_PAGE_PARAMETER);
-        if(refForRedirect == null){
-            refForRedirect = START_PAGE;
-            requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAMETER, START_PAGE);
+        String redirectPage = (String) requestDataHolder.getSessionAttribute(CURRENT_PAGE_PARAM);
+        if (redirectPage == null) {
+            redirectPage = START_PAGE;
+            requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, START_PAGE);
         }
 
-        return new CommandResult(refForRedirect, true);
+        return new CommandResult(redirectPage, true);
     }
 }

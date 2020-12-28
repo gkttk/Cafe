@@ -3,96 +3,62 @@ package com.github.gkttk.epam.logic.command;
 import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.OrderService;
+import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Order;
 import com.github.gkttk.epam.model.entities.User;
-import com.github.gkttk.epam.model.enums.OrderStatus;
-import com.github.gkttk.epam.model.enums.UserRole;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 public class CancelOrderCommand implements Command {
 
     private final OrderService orderService;
+    private final UserService userService;
+
+    private final static String AUTH_USER_ATTR = "authUser";
+    private final static String ORDER_ID_PARAM = "orderId";
+    private final static String ORDERS_ATTR = "orders";
     private final static String MY_ORDERS_PAGE = "/WEB-INF/view/my_orders_page.jsp";
-    private final static int PENALTY = 10;
 
-    public CancelOrderCommand(OrderService orderService) {
+    public CancelOrderCommand(OrderService orderService, UserService userService) {
         this.orderService = orderService;
+        this.userService = userService;
     }
-
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
 
-        User authUser = (User) requestDataHolder.getSessionAttribute("authUser");
-        int userPoints = authUser.getPoints();
-
-        int newUserPoints = userPoints - PENALTY;
-
-        String orderIdParam = requestDataHolder.getRequestParameter("orderId");
+        String orderIdParam = requestDataHolder.getRequestParameter(ORDER_ID_PARAM);
         long orderId = Long.parseLong(orderIdParam);
 
-        List<Order> orders = (List<Order>) requestDataHolder.getSessionAttribute("orders");
+        User authUser = (User) requestDataHolder.getSessionAttribute(AUTH_USER_ATTR);
 
-        Optional<Order> updateOrderOpt = orders.stream()
-                .filter(order -> order.getId().equals(orderId))
-                .findFirst();
-
-        if (updateOrderOpt.isPresent()) {
-            Order order = updateOrderOpt.get();
-
-            OrderStatus newStatus = OrderStatus.CANCELLED;
-
-            Order newOrder = getOrderWithNewStatus(order, newStatus);
-            User newUser = getUserWithNewPoints(authUser, newUserPoints);
-
-            orderService.takeOrder(newOrder, newUser);
-
-            orders.remove(order);
-            orders.add(newOrder);
-
-            requestDataHolder.putSessionAttribute("orders", orders);
-
-
-            requestDataHolder.putSessionAttribute("authUser", newUser);
-
+        Optional<Order> cancelledOrder = getCancelledOrder(requestDataHolder, orderId);
+        if (cancelledOrder.isPresent()) {
+            Order order = cancelledOrder.get();
+            orderService.cancelOrder(order, authUser);
         }
 
-
+        renewSession(requestDataHolder, authUser);
 
         return new CommandResult(MY_ORDERS_PAGE, true);
-
     }
 
-
-
-    private Order getOrderWithNewStatus(Order oldOrder, OrderStatus newStatus){
-        Long id = oldOrder.getId();
-        BigDecimal orderCost = oldOrder.getCost();
-        LocalDateTime time = oldOrder.getDate();
-        Long userId = oldOrder.getUserId();
-
-
-        return new Order(id, orderCost, time, newStatus, userId);
-
+    private Optional<Order> getCancelledOrder(RequestDataHolder requestDataHolder, long orderId) {
+        List<Order> orders = (List<Order>) requestDataHolder.getSessionAttribute(ORDERS_ATTR);
+        return orders.stream()
+                .filter(order -> order.getId().equals(orderId))
+                .findFirst();
     }
 
-    private User getUserWithNewPoints(User oldAuthUser, int newPoints) {
-        Long userId = oldAuthUser.getId();
-        String login = oldAuthUser.getLogin();
-        String password = oldAuthUser.getPassword();
-        UserRole role = oldAuthUser.getRole();
-        BigDecimal money = oldAuthUser.getMoney();
-        boolean active = oldAuthUser.isBlocked();
-        String imageRef = oldAuthUser.getImageRef();
+    private void renewSession(RequestDataHolder requestDataHolder, User authUser) throws ServiceException {
+        long userId = authUser.getId();
+        Optional<User> newAuthUserOpt = userService.getById(userId);
+        newAuthUserOpt.ifPresent(user -> requestDataHolder.putSessionAttribute(AUTH_USER_ATTR, user));
 
-        return new User(userId, login, password, role, newPoints, money, active, imageRef);
-
-
+        List<Order> userOrders = orderService.getAllByUserId(userId);
+        requestDataHolder.putSessionAttribute(ORDERS_ATTR, userOrders);
     }
 
 

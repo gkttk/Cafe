@@ -11,9 +11,9 @@ import java.util.Optional;
 public interface UserService {
     Optional<User> login(String login, String password) throws ServiceException; //+
 
-    Optional<User> getUserById(long id) throws ServiceException;//+
+    Optional<User> getById(long id) throws ServiceException;//+
 
-    List<UserInfo> getUsers() throws ServiceException; //+
+    List<UserInfo> getAll() throws ServiceException; //+
 
     Optional<UserInfo> changeUserStatus(long userId, boolean status) throws ServiceException;//+
 
@@ -31,6 +31,6 @@ public interface UserService {
 
     void removeOldImage(String imagePath);
 
-    List<UserInfo> getUsersByStatus(UserStatus userStatus) throws ServiceException;
+    List<UserInfo> getByStatus(UserStatus userStatus) throws ServiceException;
 }
 

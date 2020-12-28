@@ -23,10 +23,32 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
     }
 
 
-    protected int rowCount(String query, Object...params) throws DaoException {
-        try (PreparedStatement prepareStatement = createPrepareStatement(query,params);
+    protected List<T> getAllResults(String query, Object... params) throws DaoException {
+        List<T> results = new ArrayList<>();
+        try (PreparedStatement prepareStatement = createPrepareStatement(query, params);
              ResultSet resultSet = prepareStatement.executeQuery()) {
-            if(resultSet.next()){
+            while (resultSet.next()) {
+                T entity = rowMapper.map(resultSet);
+                results.add(entity);
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Can't getAllResults() with query: " + query, e);
+        }
+        return results;
+    }
+
+
+    @Override
+    public List<T> findAll() throws DaoException { //+
+        String query = "SELECT * FROM " + getTableName();
+        return getAllResults(query);
+    }
+
+
+    protected int rowCount(String query, Object... params) throws DaoException {
+        try (PreparedStatement prepareStatement = createPrepareStatement(query, params);
+             ResultSet resultSet = prepareStatement.executeQuery()) {
+            if (resultSet.next()) {
                 return resultSet.getInt(1);
             }
         } catch (SQLException e) {
@@ -35,11 +57,6 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
         return 0;//todo
     }
 
-    @Override
-    public List<T> findAll() throws DaoException { //+
-        String query = "SELECT * FROM " + getTableName();
-        return getAllResults(query);
-    }
 
     @Override
     public Optional<T> findById(long id) throws DaoException {  //+
@@ -113,21 +130,6 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
             throw new DaoException("Can't getSingleResult() with query: " + query, e);
         }
         return result;
-    }
-
-
-    protected List<T> getAllResults(String query, Object... params) throws DaoException {
-        List<T> results = new ArrayList<>();
-        try (PreparedStatement prepareStatement = createPrepareStatement(query, params);
-             ResultSet resultSet = prepareStatement.executeQuery()) {
-            while (resultSet.next()) {
-                T entity = rowMapper.map(resultSet);
-                results.add(entity);
-            }
-        } catch (SQLException e) {
-            throw new DaoException("Can't getAllResults() with query: " + query, e);
-        }
-        return results;
     }
 
 

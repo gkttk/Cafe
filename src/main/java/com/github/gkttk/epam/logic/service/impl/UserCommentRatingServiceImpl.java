@@ -1,5 +1,6 @@
 package com.github.gkttk.epam.logic.service.impl;
 
+import com.github.gkttk.epam.dao.entity.CommentDao;
 import com.github.gkttk.epam.dao.entity.UserCommentRatingDao;
 import com.github.gkttk.epam.dao.helper.DaoHelper;
 import com.github.gkttk.epam.dao.helper.factory.DaoHelperFactory;
@@ -34,12 +35,12 @@ public class UserCommentRatingServiceImpl implements UserCommentRatingService {
         }
     }
 
-    @Override
-    public boolean checkCommentWasEvaluated(Long userId, Long commentId) throws ServiceException {
+
+    private boolean checkCommentWasEvaluated(Long userId, Long commentId) throws ServiceException {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             UserCommentRatingDao userCommentRatingDao = daoHelper.createUserCommentRatingDao();
-            Optional<UserCommentRating> optional = userCommentRatingDao.getByUserIdAndCommentId(userId, commentId);
-            return optional.isPresent();
+            Optional<UserCommentRating> evaluateOpt = userCommentRatingDao.getByUserIdAndCommentId(userId, commentId);
+            return evaluateOpt.isPresent();
         } catch (DaoException e) {
             throw new ServiceException(String.format("Can't checkCommentWasEvaluated with userId: %d, commentId: %d",
                     userId, commentId), e);
@@ -47,7 +48,6 @@ public class UserCommentRatingServiceImpl implements UserCommentRatingService {
 
     }
 
-    @Override
     public void remove(Long userId, Long commentId) throws ServiceException {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             UserCommentRatingDao userCommentRatingDao = daoHelper.createUserCommentRatingDao();
@@ -58,16 +58,47 @@ public class UserCommentRatingServiceImpl implements UserCommentRatingService {
         }
     }
 
+    //todo catch in finally
     @Override
-    public void evaluateComment(Long userId, Long commentId, boolean isLiked) throws ServiceException {
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            UserCommentRatingDao userCommentRatingDao = daoHelper.createUserCommentRatingDao();
-            UserCommentRating userCommentRating = new UserCommentRating(userId, commentId, isLiked);
-            userCommentRatingDao.save(userCommentRating);
-        } catch (DaoException e) {
-            throw new ServiceException(String.format("Can't evaluateComment with userId: %d, commentId: %d",
-                    userId, commentId), e);
+    public void evaluateComment(long userId, long commentId, int commentRating, boolean isLiked) throws ServiceException {
+
+        boolean wasEvaluated = checkCommentWasEvaluated(userId, commentId);
+
+        if (wasEvaluated) {
+            remove(userId, commentId);
+        } else {
+            int newRating = isLiked ? ++commentRating : --commentRating;
+            DaoHelper daoHelper = DaoHelperFactory.createDaoHelper();
+            try {
+                UserCommentRatingDao userCommentRatingDao = daoHelper.createUserCommentRatingDao();
+                CommentDao commentDao = daoHelper.createCommentDao();
+                daoHelper.startTransaction();
+                UserCommentRating userCommentRating = new UserCommentRating(userId, commentId, isLiked);
+                userCommentRatingDao.save(userCommentRating);
+                commentDao.updateRating(newRating, commentId);
+                daoHelper.commit();
+            } catch (DaoException e) {
+                try {
+                    daoHelper.rollback();
+                } catch (DaoException ex) {
+                    throw new ServiceException(String.format("Can't rollback() in evaluateComment(userId, commentId, " +
+                            "commentRating, isLiked) with userId: %d, commentId: %d, commentRating: %d, " +
+                            "isLiked: %b", userId, commentId, commentRating, isLiked), ex);
+                }
+            } finally {
+                try {
+                    daoHelper.endTransaction();
+                    daoHelper.close();
+                } catch (DaoException exception) {
+                    throw new ServiceException(String.format("Can't endTransaction() in evaluateComment(userId, commentId, " +
+                            "commentRating, isLiked) with userId: %d, commentId: %d, commentRating: %d, " +
+                            "isLiked: %b", userId, commentId, commentRating, isLiked), exception);
+                }
+
+            }
         }
+
+
     }
 
 

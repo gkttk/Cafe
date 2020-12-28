@@ -72,7 +72,7 @@ public class MultipartController extends HttpServlet {
     }
 
     private void renewSession(long userId, HttpServletRequest request) throws ServiceException {
-        Optional<User> userByIdOpt = userService.getUserById(userId);
+        Optional<User> userByIdOpt = userService.getById(userId);
         userByIdOpt.ifPresent(user -> request.getSession().setAttribute(AUTH_USER_ATTRIBUTE_KEY, user));
     }
 

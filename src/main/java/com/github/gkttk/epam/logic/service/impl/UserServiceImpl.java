@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     }//+
 
     @Override
-    public Optional<User> getUserById(long id) throws ServiceException {
+    public Optional<User> getById(long id) throws ServiceException {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             UserDao userDao = daoHelper.createUserDao();
             return userDao.findById(id);
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     }//+
 
     @Override
-    public List<UserInfo> getUsers() throws ServiceException {
+    public List<UserInfo> getAll() throws ServiceException {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             UserInfoDao userInfoDao = daoHelper.createUserInfoDao();
             return userInfoDao.findAll();
@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserInfo> getUsersByStatus(UserStatus userStatus) throws ServiceException {
+    public List<UserInfo> getByStatus(UserStatus userStatus) throws ServiceException {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             UserInfoDao userInfoDao = daoHelper.createUserInfoDao();
             boolean isBlocked = userStatus.isBlocked();

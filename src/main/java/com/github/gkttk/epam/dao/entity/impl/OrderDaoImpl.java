@@ -19,23 +19,30 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
     private final static String SAVE_ORDER_PRODUCT_QUERY = "INSERT INTO orders_dishes values (?, ?)"; //todo
     private final static String GET_ALL_BY_USER_ID_QUERY = "SELECT * FROM orders WHERE user_id = ?";
 
+    private final static String FIND_ALL_WITH_EXPIRED_DATE_QUERY = "SELECT * from orders where date < NOW() AND status = 'ACTIVE'";//todo
+
 
     public OrderDaoImpl(Connection connection) {
         super(connection, new OrderRowMapper(), new OrderFieldExtractor());
     }
 
     @Override
-    public void saveOrderDish(Long order_id, Long dish_id) throws DaoException {
-        try(PreparedStatement preparedStatement = createPrepareStatement(SAVE_ORDER_PRODUCT_QUERY, order_id, dish_id)) {
+    public void saveOrderDish(long orderId, long dishId) throws DaoException {
+        try(PreparedStatement preparedStatement = createPrepareStatement(SAVE_ORDER_PRODUCT_QUERY, orderId, dishId)) {
            preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException(String.format("Can't saveOrderDish() with order_id: %d, dish_id: %d, ",order_id, dish_id), e);
+            throw new DaoException(String.format("Can't saveOrderDish() with orderId: %d, dishId: %d, ",orderId, dishId), e);
         }
     }
 
     @Override
     public List<Order> findAllByUserId(Long userId) throws DaoException {
         return getAllResults(GET_ALL_BY_USER_ID_QUERY, userId);
+    }
+
+    @Override
+    public List<Order> findAllActiveWithExpiredDate() throws DaoException {
+        return getAllResults(FIND_ALL_WITH_EXPIRED_DATE_QUERY);
     }
 
 

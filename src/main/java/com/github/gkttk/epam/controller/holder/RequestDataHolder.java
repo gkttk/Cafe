@@ -26,6 +26,11 @@ public class RequestDataHolder {
         this.isSessionValid = false;
     }
 
+    public void removeSessionAttribute(String key){
+        sessionAttributes.remove(key);
+    }
+
+
     public boolean isSessionValid() {
         return isSessionValid;
     }
@@ -33,6 +38,7 @@ public class RequestDataHolder {
     public void fillRequest(HttpServletRequest request) { //todo don't fill parameters
         requestAttributes.forEach(request::setAttribute);
         sessionAttributes.forEach((key, value) -> request.getSession().setAttribute(key, value));
+
     }
 
 

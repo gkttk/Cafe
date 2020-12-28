@@ -17,7 +17,9 @@
         <main>
             <%@ include file="parts/aside_menu.jsp" %>
             <div class="content">
-                    ${sessionScope.orderMessage}
+                <c:if test="${not empty sessionScope.orderMessage}">
+                    <fmt:message key="${sessionScope.orderMessage}"/>
+                </c:if>
                 <div class="meal_types">
                     <form method="POST" action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="SORT_DISHES"/>

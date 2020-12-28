@@ -11,6 +11,10 @@
         </jsp-property-group>
     </jsp-config>
 
+    <listener>
+        <listener-class>com.github.gkttk.epam.controller.listener.MyListener</listener-class>
+    </listener>
+
 
     <filter>
         <filter-name>EncodingFilter</filter-name>

@@ -666,7 +666,7 @@ footer div.footer_logo{
 }
 
 body > div > footer > div.bucketDiv{
-	position: absolute;
+	position: fixed;
 	right: 10px;
 	z-index: 1;
 	bottom: 10px;

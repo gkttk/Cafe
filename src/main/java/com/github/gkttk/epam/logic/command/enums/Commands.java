@@ -2,7 +2,6 @@ package com.github.gkttk.epam.logic.command.enums;
 
 import com.github.gkttk.epam.logic.command.*;
 import com.github.gkttk.epam.logic.service.impl.*;
-import com.github.gkttk.epam.logic.validator.UserPasswordValidator;
 
 public enum Commands {
     LOGIN(new LoginCommand(new UserServiceImpl(), new DishServiceImpl())),
@@ -16,7 +15,6 @@ public enum Commands {
     FORM_ORDER(new MakeOrderCommand()),
     MENU(new MenuPageCommand()),
     MY_ORDERS(new MyOrdersPageCommand(new OrderServiceImpl())),
-    COMMENTS(new CommentsPageCommand(new CommentServiceImpl(), new UserCommentRatingServiceImpl())),
     SAVE_ORDER(new SaveOrderCommand(new OrderServiceImpl())),
     CANCEL_DISH(new CancelDishCommand()),
     RATE_COMMENT(new RateCommentCommand(new CommentServiceImpl(), new UserCommentRatingServiceImpl())),
@@ -24,9 +22,9 @@ public enum Commands {
     TO_BASKET(new AddToBasketCommand(new DishServiceImpl())),
     DISH_COMMENTS(new DishCommentsCommand(new CommentServiceImpl(), new UserCommentRatingServiceImpl())),
     ADD_COMMENT(new AddCommentCommand(new CommentServiceImpl())),
-    TAKE_ORDER(new TakeOrderCommand(new OrderServiceImpl())),
-    CANCEL_ORDER(new CancelOrderCommand(new OrderServiceImpl())),
-    SORT_USERS(new SortUsersCommand(new UserServiceImpl())),;
+    TAKE_ORDER(new TakeOrderCommand(new OrderServiceImpl(), new UserServiceImpl())),
+    CANCEL_ORDER(new CancelOrderCommand(new OrderServiceImpl(), new UserServiceImpl())),
+    SORT_USERS(new SortUsersCommand(new UserServiceImpl()));
 
 
     Commands(Command command) {
@@ -35,7 +33,7 @@ public enum Commands {
 
     private Command command;
 
-    public Command getCommand(){
+    public Command getCommand() {
         return command;
     }
 

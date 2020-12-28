@@ -5,43 +5,29 @@ import com.github.gkttk.epam.model.enums.UserRole;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
 public class AuthorizationFilter implements Filter {
 
-    private final static String AUTH_USER_ATTRIBUTE = "authUser";
-    private final static String COMMAND_PARAMETER = "command";
+    private final static String AUTH_USER_ATTR = "authUser";
+    private final static String COMMAND_PARAM = "command";
+    private final static String CURRENT_PAGE_PARAM = "currentPage";
     private final static String START_PAGE = "index.jsp";
-    private final static String CURRENT_PAGE_PARAMETER = "currentPage";
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-
+    public void init(FilterConfig filterConfig) {
     }
-
-    @Override
-    public void destroy() {
-
-    }
-
-    private boolean isAuthenticated(UserRole role, String currentCommand) {
-        List<String> availableCommandNames = role.getAvailableCommandNames();
-        return availableCommandNames.stream()
-                .anyMatch(commandName -> commandName.equals(currentCommand));
-    }
-
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpSession session = request.getSession();
 
-        String command = request.getParameter(COMMAND_PARAMETER);
+        String command = request.getParameter(COMMAND_PARAM);
 
-        User authUser = (User) session.getAttribute(AUTH_USER_ATTRIBUTE);
+        User authUser = (User) session.getAttribute(AUTH_USER_ATTR);
 
         boolean isAuthenticated;
         UserRole role = UserRole.GUEST;
@@ -59,14 +45,23 @@ public class AuthorizationFilter implements Filter {
         }
     }
 
+    private boolean isAuthenticated(UserRole role, String currentCommand) {
+        List<String> availableCommandNames = role.getAvailableCommandNames();
+        return availableCommandNames.stream()
+                .anyMatch(commandName -> commandName.equals(currentCommand));
+    }
 
     private void redirect(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        String currentPage = (String)request.getSession().getAttribute(CURRENT_PAGE_PARAMETER);
-        if (currentPage != null){
+        String currentPage = (String) request.getSession().getAttribute(CURRENT_PAGE_PARAM);
+        if (currentPage != null) {
             request.getRequestDispatcher(currentPage).forward(servletRequest, servletResponse);
-        }else {
+        } else {
             request.getRequestDispatcher(START_PAGE).forward(servletRequest, servletResponse);
         }
+    }
+
+    @Override
+    public void destroy() {
     }
 }

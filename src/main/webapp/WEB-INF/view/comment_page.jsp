@@ -20,14 +20,14 @@
                 <div class="meal_types">
                     <form method="post" action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="DISH_COMMENTS"/>
-                        <input type="hidden" name="currentPage" value="${sessionScope.currentPagePagination}">
-                        <input type="hidden" name="sortType" value="NEW">
+                        <input type="hidden" name="pageNumber" value="${sessionScope.currentPagePagination}">
+                        <input type="hidden" name="sortType" value="DATE">
                         <button class="btn">Новые</button>
                     </form>
                     <form method="post" action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="DISH_COMMENTS"/>
-                        <input type="hidden" name="currentPage" value="${sessionScope.currentPagePagination}">
-                        <input type="hidden" name="sortType" value="DATE">
+                        <input type="hidden" name="pageNumber" value="${sessionScope.currentPagePagination}">
+                        <input type="hidden" name="sortType" value="RATING">
                         <button class="btn">По рейтингу</button>
                     </form>
 
@@ -64,7 +64,7 @@
                 <li>
                 <form method="post" action="${pageContext.request.contextPath}/controller">
                     <input type="hidden" name="command" value="DISH_COMMENTS"/>
-                    <input type="hidden" name="currentPage" value="${page}">
+                    <input type="hidden" name="pageNumber" value="${page}">
                     <button type="submit" >${page}</button>
                 </form>
                 </li>

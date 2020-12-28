@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="DEBUG">
+<Configuration status="debug">
     <Appenders>
 
         <Console name="LogToConsole" target="SYSTEM_OUT">
@@ -13,18 +13,20 @@
             </PatternLayout>
             <Policies>
                 <TimeBasedTriggeringPolicy/>
-                <SizeBasedTriggeringPolicy size="1 MB"/>
+                <SizeBasedTriggeringPolicy size="20 MB"/>
             </Policies>
         </RollingFile>
 
     </Appenders>
 
     <Loggers>
-        <Logger name="fileLogger" level="debug" additivity="false">
+        <Root level="debug">
+            <AppenderRef ref="LogToRollingFile"/>
+            <!--<AppenderRef ref="LogToConsole" level="info"/>-->
+        </Root>
+ <!--       <Logger name="fileLogger" level="debug" additivity="true">
             <AppenderRef ref="LogToRollingFile"/>
         </Logger>
-        <Root level="error">
-            <AppenderRef ref="LogToConsole" level="info"/>
-        </Root>
+-->
     </Loggers>
 </Configuration>

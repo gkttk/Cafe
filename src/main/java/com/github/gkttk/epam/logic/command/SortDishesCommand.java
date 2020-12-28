@@ -10,10 +10,12 @@ import com.github.gkttk.epam.model.enums.DishTypes;
 import java.util.List;
 
 public class SortDishesCommand implements Command {
-    private final static String DISH_TYPE_PARAMETER = "dishType";
-    private final static String DISHES_ATTRIBUTE = "dishes";
-    private final static String MENU_PAGE = "/WEB-INF/view/user_menu.jsp";
+
     private final DishService dishService;
+
+    private final static String DISH_TYPE_PARAM = "dishType";
+    private final static String DISHES_ATTR = "dishes";
+    private final static String MENU_PAGE = "/WEB-INF/view/user_menu.jsp";
 
     public SortDishesCommand(DishService dishService) {
         this.dishService = dishService;
@@ -22,18 +24,18 @@ public class SortDishesCommand implements Command {
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
 
-        String dishTypeStr = requestDataHolder.getRequestParameter(DISH_TYPE_PARAMETER);
+        String dishTypeParam = requestDataHolder.getRequestParameter(DISH_TYPE_PARAM);
 
         List<Dish> dishes;
-        if (dishTypeStr != null){
-            DishTypes dishType = DishTypes.valueOf(dishTypeStr);
-            dishes = dishService.getDishesByType(dishType);
-        }else {
-            dishes = dishService.getAllDishes();
+        if (dishTypeParam != null) {
+            DishTypes dishType = DishTypes.valueOf(dishTypeParam);
+            dishes = dishService.getByType(dishType);
+        } else {
+            dishes = dishService.getAll();
         }
 
-        requestDataHolder.putSessionAttribute(DISHES_ATTRIBUTE, dishes);
+        requestDataHolder.putSessionAttribute(DISHES_ATTR, dishes);
 
-        return new CommandResult(MENU_PAGE, true);
+        return new CommandResult(MENU_PAGE, true);//todo mb forward
     }
 }

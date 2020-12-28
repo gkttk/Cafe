@@ -16,7 +16,7 @@ public class DishServiceImpl implements DishService {
 
 
     @Override
-    public List<Dish> getAllDishes() throws ServiceException {
+    public List<Dish> getAll() throws ServiceException {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             DishDao dishDao = daoHelper.createDishDao();
             return dishDao.findAll();
@@ -26,7 +26,7 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public List<Dish> getDishesByType(DishTypes type) throws ServiceException {
+    public List<Dish> getByType(DishTypes type) throws ServiceException {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             DishDao dishDao = daoHelper.createDishDao();
             String dishTypeName = type.name();

@@ -10,41 +10,46 @@ import java.util.Optional;
 
 public class CancelDishCommand implements Command {
 
-    private final static String BASKET_ATTRIBUTE = "basket";
-    private final static String DISH_ID_PARAMETER = "dishId";
-    private final static String ORDER_COST_ATTRIBUTE = "orderCost";
-    private final static String CURRENT_PAGE_ATTRIBUTE = "currentPage";
+    private final static String BASKET_ATTR = "basket";
+    private final static String DISH_ID_PARAM = "dishId";
+    private final static String ORDER_COST_ATTR = "orderCost";
+    private final static String CURRENT_PAGE_ATTR = "currentPage";
     private final static String MENU_PAGE = "/WEB-INF/view/user_menu.jsp";
 
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) {
 
-        List<Dish> basket = (List<Dish>) requestDataHolder.getSessionAttribute(BASKET_ATTRIBUTE);
+        List<Dish> basket = (List<Dish>) requestDataHolder.getSessionAttribute(BASKET_ATTR);
 
-        String dishIdParam = requestDataHolder.getRequestParameter(DISH_ID_PARAMETER);
+        String dishIdParam = requestDataHolder.getRequestParameter(DISH_ID_PARAM);
+        long cancelledDishId = Long.parseLong(dishIdParam);
 
-        long dishIdForCancel = Long.parseLong(dishIdParam);
-
-        Optional<Dish> dishForDeleteOpt = basket.stream()
-                .filter(dish -> dish.getId().equals(dishIdForCancel))
+        Optional<Dish> canceledDish = basket.stream()
+                .filter(dish -> dish.getId().equals(cancelledDishId))
                 .findFirst();
 
-        if (dishForDeleteOpt.isPresent()) {
-            Dish dishForDelete = dishForDeleteOpt.get();
-            BigDecimal dishCost = dishForDelete.getCost();
-            basket.remove(dishForDelete);
-            requestDataHolder.putSessionAttribute(BASKET_ATTRIBUTE, basket);
-            BigDecimal orderCost = (BigDecimal) requestDataHolder.getSessionAttribute(ORDER_COST_ATTRIBUTE);
-            BigDecimal newOrderCost = orderCost.subtract(dishCost);
-            requestDataHolder.putSessionAttribute(ORDER_COST_ATTRIBUTE, newOrderCost);
-        }
+        canceledDish.ifPresent(dish -> {
+            basket.remove(dish);
+            requestDataHolder.putSessionAttribute(BASKET_ATTR, basket);
+            BigDecimal newOrderCost = getNewOrderCost(requestDataHolder, dish);
+            requestDataHolder.putSessionAttribute(ORDER_COST_ATTR, newOrderCost);
+        });
 
-        String page = (String) requestDataHolder.getSessionAttribute(CURRENT_PAGE_ATTRIBUTE);
-        if (basket.isEmpty()) {
-            page = MENU_PAGE;
-        }
+        String page = getRedirectPage(requestDataHolder, basket);
 
         return new CommandResult(page, true);
     }
+
+
+    private BigDecimal getNewOrderCost(RequestDataHolder requestDataHolder, Dish cancelledDish) {
+        BigDecimal dishCost = cancelledDish.getCost();
+        BigDecimal orderCost = (BigDecimal) requestDataHolder.getSessionAttribute(ORDER_COST_ATTR);
+        return orderCost.subtract(dishCost);
+    }
+
+    private String getRedirectPage(RequestDataHolder requestDataHolder, List<Dish> basket) {
+        return basket.isEmpty() ? MENU_PAGE : (String) requestDataHolder.getSessionAttribute(CURRENT_PAGE_ATTR);
+    }
+
 }

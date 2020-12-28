@@ -17,7 +17,9 @@
         <main>
             <%@ include file="parts/aside_menu.jsp" %>
             <div class="content">
-                <h2>${requestScope.noMoneyErrorMessage}</h2>
+                <c:if test="${not empty requestScope.noMoneyErrorMessage}">
+                    <fmt:message key="${requestScope.noMoneyErrorMessage}"/>
+                </c:if>
                 <div class="menu_content">
                     <table id="customers">
                         <tr>

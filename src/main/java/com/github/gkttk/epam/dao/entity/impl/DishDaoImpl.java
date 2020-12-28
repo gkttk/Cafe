@@ -38,7 +38,7 @@ public class DishDaoImpl extends AbstractDao<Dish> implements DishDao {
 
 
 
-    @Override
+  /*  @Override
     public List<Dish> findDishesByIds(List<Long> ids) throws DaoException {
         int size = ids.size();
         StringJoiner stringJoiner = new StringJoiner(",", "(", ")");
@@ -60,7 +60,7 @@ public class DishDaoImpl extends AbstractDao<Dish> implements DishDao {
         }
 
         return dishes;
-    }
+    }*/
 
 
 }

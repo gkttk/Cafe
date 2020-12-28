@@ -6,7 +6,6 @@ import com.github.gkttk.epam.model.CommandResult;
 
 public interface Command {
 
-
     CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException;
 
 

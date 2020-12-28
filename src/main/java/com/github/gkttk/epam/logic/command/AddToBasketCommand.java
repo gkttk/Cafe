@@ -12,10 +12,11 @@ import java.util.Optional;
 
 public class AddToBasketCommand implements Command {
 
-    private final static String BASKET_ATTRIBUTE = "basket";
-    private final static String DISH_ID_PARAMETER = "dishId";
-    private final static String MENU_PAGE = "/WEB-INF/view/user_menu.jsp";
     private final DishService dishService;
+    private final static String BASKET_ATTR = "basket";
+    private final static String DISH_ID_PARAM = "dishId";
+    private final static String MENU_PAGE = "/WEB-INF/view/user_menu.jsp";
+
 
     public AddToBasketCommand(DishService dishService) {
         this.dishService = dishService;
@@ -23,24 +24,27 @@ public class AddToBasketCommand implements Command {
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
-        List<Dish> basket = (List<Dish>) requestDataHolder.getSessionAttribute(BASKET_ATTRIBUTE);
+        List<Dish> basket = getBasket(requestDataHolder);
 
-        if (basket == null) {
-            basket = new ArrayList<>();
-        }
+        addDishToBasket(requestDataHolder, basket);
 
-        String dishIdStr = requestDataHolder.getRequestParameter(DISH_ID_PARAMETER);
-        long dishId = Long.parseLong(dishIdStr);
-
-        Optional<Dish> dishOpt = dishService.getDishById(dishId);
-
-        if (dishOpt.isPresent()) {
-            Dish dish = dishOpt.get();
-            basket.add(dish);
-        }
-
-        requestDataHolder.putSessionAttribute(BASKET_ATTRIBUTE, basket);
+        requestDataHolder.putSessionAttribute(BASKET_ATTR, basket);
 
         return new CommandResult(MENU_PAGE, true);
     }
+
+
+    private List<Dish> getBasket(RequestDataHolder requestDataHolder) {
+        List<Dish> basket = (List<Dish>) requestDataHolder.getSessionAttribute(BASKET_ATTR);
+        return basket == null ? new ArrayList<>() : basket;
+    }
+
+    private void addDishToBasket(RequestDataHolder requestDataHolder, List<Dish> basket) throws ServiceException {
+        String dishIdParam = requestDataHolder.getRequestParameter(DISH_ID_PARAM);
+        long dishId = Long.parseLong(dishIdParam);
+        Optional<Dish> dishOpt = dishService.getDishById(dishId);
+        dishOpt.ifPresent(basket::add);
+    }
+
+
 }

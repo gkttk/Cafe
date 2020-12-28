@@ -81,7 +81,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentInfo> getAllByDishIdPagination(long dishId, int currentPage, SortTypes sortType) throws ServiceException {
+    public List<CommentInfo> getAllByDishIdPagination(long dishId, int currentPage/*, SortTypes sortType*/) throws ServiceException {
 
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             CommentInfoDao commentInfoDao = daoHelper.createCommentInfoDao();
@@ -95,17 +95,19 @@ public class CommentServiceImpl implements CommentService {
                 limit = commentsCount - offset;
             }
 
-            switch (sortType){ //todo
-                case NEW:{
+            return commentInfoDao.findAllByDishIdOrderDatePagination(dishId, limit, offset);
+
+       /*     switch (sortType){ //todo
+                case DATE:{
                     return commentInfoDao.findAllByDishIdOrderDatePagination(dishId, limit, offset);
                 }
-                case DATE: {
+                case RATING: {
                     return commentInfoDao.findAllByDishIdOrderRatingPagination(dishId, limit, offset);
                 }
                 default:{
                     throw new IllegalArgumentException("No such SortType");
                 }
-            }
+            }*/
 
         } catch (DaoException e) {
             throw new ServiceException(String.format("Can't getAllByDishIdPagination(dishId, currentPage) with dishId: %d," +

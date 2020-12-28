@@ -9,9 +9,9 @@ import java.util.Optional;
 
 public interface DishService {
 
-    List<Dish> getAllDishes() throws ServiceException;
+    List<Dish> getAll() throws ServiceException;
 
-    List<Dish> getDishesByType(DishTypes type) throws ServiceException;
+    List<Dish> getByType(DishTypes type) throws ServiceException;
 
     Optional<Dish> getDishById(Long dishId) throws ServiceException;
 

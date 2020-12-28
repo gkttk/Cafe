@@ -18,7 +18,13 @@ public class RateCommentCommand implements Command {
 
     private final CommentServiceImpl commentService;
     private final UserCommentRatingService userCommentRatingService;
+
     private final static String COMMENTS_PAGE = "/WEB-INF/view/comment_page.jsp";
+    private final static String AUTH_USER_ATTR = "authUser";
+    private final static String COMMENT_ID_PARAM = "commentId";
+    private final static String ESTIMATE_PARAM = "estimate";
+    private final static String RATING_PARAM = "rating";
+    private final static String DISH_COMMENTS_ATTR = "dishComments";
 
 
     public RateCommentCommand(CommentServiceImpl commentService, UserCommentRatingService userCommentRatingService) {
@@ -27,50 +33,32 @@ public class RateCommentCommand implements Command {
     }
 
 
-    private int changeRating(int oldRating, boolean isLiked){
-        return isLiked ? ++oldRating : --oldRating;
-    }
-
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
 
+        User authUser = (User) requestDataHolder.getSessionAttribute(AUTH_USER_ATTR);
+        long userId = authUser.getId();
 
-        User authUser = (User) requestDataHolder.getSessionAttribute("authUser");
-        Long userId = authUser.getId();
+        String commentIdParam = requestDataHolder.getRequestParameter(COMMENT_ID_PARAM);
+        long commentId = Long.parseLong(commentIdParam);
 
-        String commentIdStr = requestDataHolder.getRequestParameter("commentId");
-        long commentId = Long.parseLong(commentIdStr);
+        String estimateParam = requestDataHolder.getRequestParameter(ESTIMATE_PARAM);
+        boolean isLiked = Boolean.parseBoolean(estimateParam);
 
-        String estimateStr = requestDataHolder.getRequestParameter("estimate");
-        boolean isLiked = Boolean.parseBoolean(estimateStr);
-
-
-        String commentRatingStr = requestDataHolder.getRequestParameter("rating");
-        int commentRating = Integer.parseInt(commentRatingStr);
+        String commentRatingParam = requestDataHolder.getRequestParameter(RATING_PARAM);
+        int commentRating = Integer.parseInt(commentRatingParam);
 
 
-        int newRating = changeRating(commentRating, isLiked);
+        userCommentRatingService.evaluateComment(userId, commentId, commentRating, isLiked);
 
-
-        boolean isEvaluated = userCommentRatingService.checkCommentWasEvaluated(userId, commentId);
-        if (isEvaluated) {
-            userCommentRatingService.remove(userId, commentId);
-
-        } else {
-            userCommentRatingService.evaluateComment(userId, commentId, isLiked);
-        }
-
-        commentService.changeCommentRating(newRating, commentId);
-
-        renewSessionData(userId, commentId, requestDataHolder);
-
+        renewSessionData(requestDataHolder, userId, commentId);
 
         return new CommandResult(COMMENTS_PAGE, true);
     }
 
 
-    private void renewSessionData(Long userId, Long commentId, RequestDataHolder requestDataHolder) throws ServiceException {
-        List<CommentInfo> dishComments = (List<CommentInfo>) requestDataHolder.getSessionAttribute("dishComments");
+    private void renewSessionData(RequestDataHolder requestDataHolder, long userId, long commentId) throws ServiceException {
+        List<CommentInfo> dishComments = (List<CommentInfo>) requestDataHolder.getSessionAttribute(DISH_COMMENTS_ATTR);
 
         Optional<CommentInfo> commentOpt = commentService.getById(commentId);
         if (commentOpt.isPresent()) {
@@ -78,7 +66,7 @@ public class RateCommentCommand implements Command {
             CommentInfo comment = commentOpt.get();
             dishComments.add(comment);
         }
-        dishComments.sort((firstComm, secondComm) -> (int) (firstComm.getId() - secondComm.getId()));
+        dishComments.sort((firstComm, secondComm) -> (int) (firstComm.getId() - secondComm.getId()));//todo sort???
 
         requestDataHolder.putSessionAttribute("dishComments", dishComments);
 

@@ -14,11 +14,10 @@ public class AddCommentCommand implements Command {
 
     private final CommentService commentService;
     private final static String COMMENTS_PAGE = "/WEB-INF/view/comment_page.jsp";
-
-    private final static String AUTH_USER_ATTRIBUTE = "authUser";
-    private final static String COMMENT_TEXT_PARAMETER = "commentText";
-    private final static String COMMENTS_ATTRIBUTE = "dishComments";
-    private final static String DISH_ID_ATTRIBUTE = "dishId";
+    private final static String AUTH_USER_ATTR = "authUser";
+    private final static String COMMENT_TEXT_PARAM = "commentText";
+    private final static String COMMENTS_ATTR = "dishComments";
+    private final static String DISH_ID_ATTR = "dishId";
 
 
     public AddCommentCommand(CommentService commentService) {
@@ -28,28 +27,22 @@ public class AddCommentCommand implements Command {
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
 
+        User authUser = (User) requestDataHolder.getSessionAttribute(AUTH_USER_ATTR);
+        long userId = authUser.getId();
 
-        User authUser = (User) requestDataHolder.getSessionAttribute(AUTH_USER_ATTRIBUTE);
-        Long userId = authUser.getId();
-
-        String commentText = requestDataHolder.getRequestParameter(COMMENT_TEXT_PARAMETER);
-
-
-
-        Long dishId = (Long) requestDataHolder.getSessionAttribute(DISH_ID_ATTRIBUTE);
-
+        String commentText = requestDataHolder.getRequestParameter(COMMENT_TEXT_PARAM);
+        long dishId = (Long) requestDataHolder.getSessionAttribute(DISH_ID_ATTR);
 
         commentService.addComment(commentText, userId, dishId);
 
         renewSession(requestDataHolder, dishId);
 
-
         return new CommandResult(COMMENTS_PAGE, true);
     }
 
-    private void renewSession(RequestDataHolder requestDataHolder, Long dishId) throws ServiceException {
+    private void renewSession(RequestDataHolder requestDataHolder, long dishId) throws ServiceException {
         List<CommentInfo> comments = commentService.getAllByDishId(dishId);
-        requestDataHolder.putSessionAttribute(COMMENTS_ATTRIBUTE, comments);
+        requestDataHolder.putSessionAttribute(COMMENTS_ATTR, comments);
     }
 
 }

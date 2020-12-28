@@ -10,34 +10,36 @@ import java.util.Optional;
 
 public class MakeOrderCommand implements Command {
 
-    private final static String BASKET_ATTRIBUTE = "basket";
-    private final static String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
-    private final static String ERROR_MESSAGE = "Your basket is empty!";//todo to resourcebundle
-    private final static String ORDER_COST_ATTRIBUTE = "orderCost";
-
+    private final static String BASKET_ATTR = "basket";
+    private final static String ORDER_COST_ATTR = "orderCost";
+    private final static String CURRENT_PAGE_PARAM = "currentPage";
+    private final static String ERROR_MESSAGE_ATTR = "errorMessage";
+    private final static String ERROR_MESSAGE = "error.message.empty.basket";
     private final static String MAKE_ORDER_PAGE = "/WEB-INF/view/make_order.jsp";
-    private final static String CURRENT_PAGE_PARAMETER = "currentPage";
-
 
     @Override
-    public CommandResult execute(RequestDataHolder requestDataHolder){
+    public CommandResult execute(RequestDataHolder requestDataHolder) {
 
-        List<Dish> basket = (List<Dish>)requestDataHolder.getSessionAttribute(BASKET_ATTRIBUTE);
+        List<Dish> basket = (List<Dish>) requestDataHolder.getSessionAttribute(BASKET_ATTR);
 
-        if(basket == null || basket.isEmpty()){
-            requestDataHolder.putRequestAttribute(ERROR_MESSAGE_ATTRIBUTE, ERROR_MESSAGE);
-            String currentPage = (String) requestDataHolder.getSessionAttribute(CURRENT_PAGE_PARAMETER);
-            return new CommandResult(currentPage, false);
+        if (basket == null || basket.isEmpty()) {
+            requestDataHolder.putRequestAttribute(ERROR_MESSAGE_ATTR, ERROR_MESSAGE);
+            String forwardPage = (String) requestDataHolder.getSessionAttribute(CURRENT_PAGE_PARAM);
+            return new CommandResult(forwardPage, false);
         }
 
-        Optional<BigDecimal> costSumOpt = basket.stream()
-                .map(Dish::getCost)
-                .reduce(BigDecimal::add);
-        costSumOpt.ifPresent(sum -> requestDataHolder.putSessionAttribute(ORDER_COST_ATTRIBUTE, sum));
+        Optional<BigDecimal> orderCost = getOrderCost(basket);
+        orderCost.ifPresent(cost -> requestDataHolder.putSessionAttribute(ORDER_COST_ATTR, cost));
 
-        requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAMETER, MAKE_ORDER_PAGE);
+        requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, MAKE_ORDER_PAGE);
 
         return new CommandResult(MAKE_ORDER_PAGE, true);
+    }
+
+    private Optional<BigDecimal> getOrderCost(List<Dish> basket) {
+        return basket.stream()
+                .map(Dish::getCost)
+                .reduce(BigDecimal::add);
     }
 
 

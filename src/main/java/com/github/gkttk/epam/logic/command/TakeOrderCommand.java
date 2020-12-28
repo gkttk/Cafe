@@ -3,14 +3,11 @@ package com.github.gkttk.epam.logic.command;
 import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.OrderService;
+import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Order;
 import com.github.gkttk.epam.model.entities.User;
-import com.github.gkttk.epam.model.enums.OrderStatus;
-import com.github.gkttk.epam.model.enums.UserRole;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,82 +15,59 @@ public class TakeOrderCommand implements Command {
 
 
     private final OrderService orderService;
+    private final UserService userService;
+
     private final static String MY_ORDERS_PAGE = "/WEB-INF/view/my_orders_page.jsp";
-    private final static int BONUS = 15;
+    private final static String AUTH_USER_ATTR = "authUser";
+    private final static String ORDER_ID_PARAM = "orderId";
+    private final static String ORDERS_ATTR = "orders";
+    private final static String ERROR_MESSAGE_ATTR = "noMoneyErrorMessage";
+    private final static String ERROR_MESSAGE = "error.message.no.money";
 
 
-    public TakeOrderCommand(OrderService orderService) {
+    public TakeOrderCommand(OrderService orderService, UserService userService) {
         this.orderService = orderService;
+        this.userService = userService;
     }
+
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
 
-        User authUser = (User) requestDataHolder.getSessionAttribute("authUser");
-        BigDecimal userMoney = authUser.getMoney();
+        Optional<Order> orderOpt = getOrderFromSession(requestDataHolder);
+        User authUser = (User) requestDataHolder.getSessionAttribute(AUTH_USER_ATTR);
+        if (orderOpt.isPresent()) {
+            Order order = orderOpt.get();
+            boolean isOrderTaken = orderService.takeOrder(order, authUser);
 
-        int points = authUser.getPoints();
-        int newUserPoints = points + BONUS;
-
-
-        String orderIdParam = requestDataHolder.getRequestParameter("orderId");
-        long orderId = Long.parseLong(orderIdParam);
-
-        List<Order> orders = (List<Order>) requestDataHolder.getSessionAttribute("orders");
-
-        Optional<Order> updateOrderOpt = orders.stream()
-                .filter(order -> order.getId().equals(orderId))
-                .findFirst();
-
-        if (updateOrderOpt.isPresent()) {
-
-            Order order = updateOrderOpt.get();
-            Long id = order.getId();
-            BigDecimal orderCost = order.getCost();
-            LocalDateTime time = order.getDate();
-            OrderStatus status = OrderStatus.RETRIEVED;
-            Long userId = order.getUserId();
-
-
-            if (userMoney.compareTo(orderCost) < 0) {
-                requestDataHolder.putRequestAttribute("noMoneyErrorMessage", "Not enough money!");
+            if (!isOrderTaken) {
+                requestDataHolder.putRequestAttribute(ERROR_MESSAGE_ATTR, ERROR_MESSAGE);
                 return new CommandResult(MY_ORDERS_PAGE, false);
             }
-
-            BigDecimal newUserMoney = userMoney.subtract(orderCost);
-
-            User newUser = getUserWithNewMoneyAndNewPoints(authUser, newUserMoney, newUserPoints);
-
-            Order newOrder = new Order(id, orderCost, time, status, userId);
-
-            orderService.takeOrder(newOrder, newUser);
-
-            orders.remove(order);
-            orders.add(newOrder);
-
-            requestDataHolder.putSessionAttribute("orders", orders);
-
-
-            requestDataHolder.putSessionAttribute("authUser", newUser);
-
         }
 
+        long userId = authUser.getId();
+        renewSession(requestDataHolder, userId);
         return new CommandResult(MY_ORDERS_PAGE, true);
     }
 
+    private Optional<Order> getOrderFromSession(RequestDataHolder requestDataHolder) {
+        String orderIdParam = requestDataHolder.getRequestParameter(ORDER_ID_PARAM);
+        long orderId = Long.parseLong(orderIdParam);
 
-    private User getUserWithNewMoneyAndNewPoints(User oldAuthUser, BigDecimal newMoney, int newPoints) {
-        Long userId = oldAuthUser.getId();
-        String login = oldAuthUser.getLogin();
-        String password = oldAuthUser.getPassword();
-        UserRole role = oldAuthUser.getRole();
-        boolean active = oldAuthUser.isBlocked();
-        String imageRef = oldAuthUser.getImageRef();
-
-
-        return new User(userId, login, password, role, newPoints, newMoney, active, imageRef);
+        List<Order> orders = (List<Order>) requestDataHolder.getSessionAttribute(ORDERS_ATTR);
+        return orders.stream()
+                .filter(order -> order.getId().equals(orderId))
+                .findFirst();
+    }
 
 
+    private void renewSession(RequestDataHolder requestDataHolder, long userId) throws ServiceException {
+        List<Order> userOrders = orderService.getAllByUserId(userId);
+        requestDataHolder.putSessionAttribute(ORDERS_ATTR, userOrders);
+
+        Optional<User> userOpt = userService.getById(userId);
+        userOpt.ifPresent(user -> requestDataHolder.putSessionAttribute(AUTH_USER_ATTR, user));
     }
 
 

@@ -1,5 +1,7 @@
 package com.github.gkttk.epam.model.entities;
 
+import com.github.gkttk.epam.model.builder.OrderBuilder;
+import com.github.gkttk.epam.model.builder.UserBuilder;
 import com.github.gkttk.epam.model.enums.OrderStatus;
 
 import java.math.BigDecimal;
@@ -27,6 +29,11 @@ public class Order extends Entity {
         this.date = date;
         this.status = status;
         this.userId = userId;
+    }
+
+
+    public OrderBuilder builder() {
+        return new OrderBuilder(this);
     }
 
 
