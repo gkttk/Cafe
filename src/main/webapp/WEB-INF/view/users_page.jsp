@@ -50,6 +50,7 @@
                             <th></th>
                             <th></th>
                         </tr>
+                        <c:set var="idForChangePointsDiv" value="1"/>
                         <c:forEach var="user" items="${sessionScope.users}">
                             <tr>
                                 <td>${user.login}</td>
@@ -66,22 +67,41 @@
                                     </c:choose>
                                 </td>
                                 <td>
-                                    <form method="post" action="${pageContext.request.contextPath}/controller">
-                                        <input type="hidden" name="userId" value="${user.id}">
-                                        <input type="hidden" name="blocked" value="true">
-                                        <input type="hidden" name="command" value="CHANGE_STATUS">
-                                        <button type="submit"><fmt:message key="users.page.block"/></button>
+                                   <a class="sign_up" onclick="showChangePointsDiv(${idForChangePointsDiv})">
+                                       Изменить баллы
+                                   </a>
+                                    <div id="changePointsDiv${idForChangePointsDiv}" style="display: none">
+                                        <form method="POST" action="${pageContext.request.contextPath}/controller">
+                                        <input type="hidden" name="command" value="CHANGE_POINTS"/>
+                                        <input type="hidden" name="userId" value="${user.id}"/>
+                                        <button type="submit" name="isAdd" value="false">-</button>
+                                        <input type="number" name="points" value="15" min="0" max="1000" step="5"/>
+                                        <button type="submit" name="isAdd" value="true">+</button>
                                     </form>
+                                    </div>
                                 </td>
                                 <td>
-                                    <form method="post" action="${pageContext.request.contextPath}/controller">
-                                        <input type="hidden" name="userId" value="${user.id}">
-                                        <input type="hidden" name="blocked" value="false">
-                                        <input type="hidden" name="command" value="CHANGE_STATUS">
-                                        <button type="submit"><fmt:message key="users.page.unblock"/></button>
-                                    </form>
+                                    <c:choose>
+                                        <c:when test="${user.blocked}">
+                                            <form method="post" action="${pageContext.request.contextPath}/controller">
+                                                <input type="hidden" name="userId" value="${user.id}">
+                                                <input type="hidden" name="blocked" value="false">
+                                                <input type="hidden" name="command" value="CHANGE_STATUS">
+                                                <button type="submit"><fmt:message key="users.page.unblock"/></button>
+                                            </form>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <form method="post" action="${pageContext.request.contextPath}/controller">
+                                                <input type="hidden" name="userId" value="${user.id}">
+                                                <input type="hidden" name="blocked" value="true">
+                                                <input type="hidden" name="command" value="CHANGE_STATUS">
+                                                <button type="submit"><fmt:message key="users.page.block"/></button>
+                                            </form>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </td>
                             </tr>
+                            <c:set var="idForChangePointsDiv" value="${idForChangePointsDiv + 1}"/>
                         </c:forEach>
                     </table>
 

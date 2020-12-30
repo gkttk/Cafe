@@ -20,17 +20,14 @@ public interface UserService {
 
 
 
-    /*    Optional<User> getUserByLogin(String login) throws ServiceException;//todo*/
-
-
-
-
     boolean registration(String login, String password) throws ServiceException;
 
     void changeAvatar(User user, String imageRef) throws ServiceException;
 
-    void removeOldImage(String imagePath);
 
     List<UserInfo> getByStatus(UserStatus userStatus) throws ServiceException;
+
+    void changePoints(long userId, int userPoints, boolean isAdd) throws ServiceException;
+
 }
 

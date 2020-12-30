@@ -29,32 +29,39 @@ public class UserBuilder implements Builder<User> {
     }
 
 
-    public void setLogin(String login) {
+    public UserBuilder setLogin(String login) {
         this.login = login;
+        return this;
     }
 
-    public void setPassword(String password) {
+    public UserBuilder setPassword(String password) {
         this.password = password;
+        return this;
     }
 
-    public void setRole(UserRole role) {
+    public UserBuilder setRole(UserRole role) {
         this.role = role;
+        return this;
     }
 
-    public void setPoints(int points) {
+    public UserBuilder setPoints(int points) {
         this.points = points;
+        return this;
     }
 
-    public void setMoney(BigDecimal money) {
+    public UserBuilder setMoney(BigDecimal money) {
         this.money = money;
+        return this;
     }
 
-    public void setBlocked(boolean blocked) {
+    public UserBuilder setBlocked(boolean blocked) {
         this.blocked = blocked;
+        return this;
     }
 
-    public void setImageRef(String imageRef) {
+    public UserBuilder setImageRef(String imageRef) {
         this.imageRef = imageRef;
+        return this;
     }
 
     @Override

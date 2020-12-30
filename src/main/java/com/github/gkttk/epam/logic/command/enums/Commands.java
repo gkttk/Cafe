@@ -24,7 +24,8 @@ public enum Commands {
     ADD_COMMENT(new AddCommentCommand(new CommentServiceImpl())),
     TAKE_ORDER(new TakeOrderCommand(new OrderServiceImpl(), new UserServiceImpl())),
     CANCEL_ORDER(new CancelOrderCommand(new OrderServiceImpl(), new UserServiceImpl())),
-    SORT_USERS(new SortUsersCommand(new UserServiceImpl()));
+    SORT_USERS(new SortUsersCommand(new UserServiceImpl())),
+    CHANGE_POINTS(new ChangeUserPointsCommand(new UserServiceImpl()));
 
 
     Commands(Command command) {

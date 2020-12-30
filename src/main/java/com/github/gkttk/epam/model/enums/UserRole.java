@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum UserRole {
-    ADMIN("SORT_USERS", "USERS", "CHANGE_STATUS","LOGOUT", "FORM_ORDER", "MENU",
+    ADMIN("CHANGE_POINTS", "SORT_USERS", "USERS", "CHANGE_STATUS","LOGOUT", "FORM_ORDER", "MENU",
             "MY_ORDERS", "COMMENTS", "SAVE_ORDER", "CANCEL_DISH", "RATE_COMMENT",
             "SORT_DISHES", "TO_BASKET", "DISH_COMMENTS", "ADD_COMMENT", "TAKE_ORDER",
             "CANCEL_ORDER"),

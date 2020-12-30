@@ -15,7 +15,6 @@ import com.github.gkttk.epam.model.dto.UserInfo;
 import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.enums.UserStatus;
 
-import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -128,13 +127,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public void removeOldImage(String imagePath) {
-        File file = new File(imagePath);
-        if (file.exists()) {
-            file.delete();
-        }
-    }
 
     @Override
     public List<UserInfo> getByStatus(UserStatus userStatus) throws ServiceException {
@@ -147,6 +139,28 @@ public class UserServiceImpl implements UserService {
                     userStatus.name()), e);
         }
 
+    }
+
+    @Override
+    public void changePoints(long userId, int points, boolean isAdd) throws ServiceException {
+        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
+            UserInfoDao userInfoDao = daoHelper.createUserInfoDao();
+
+            Optional<UserInfo> userOpt = userInfoDao.findById(userId);
+            if (userOpt.isPresent()) {
+                UserInfo user = userOpt.get();
+                int userPoints = user.getPoints();
+                int newUserPoints = isAdd ? userPoints + points : userPoints - points;
+                UserInfoBuilder userBuilder = user.builder();
+                userBuilder.setPoints(newUserPoints);
+                UserInfo newUser = userBuilder.build();
+                userInfoDao.save(newUser);
+            }
+        } catch (DaoException e) {
+            throw new ServiceException(String.format("Can't changePoints(userId, points, isAdd) with userId: %d, points: %d," +
+                            " isAdd: %b",
+                    userId, points, isAdd), e);
+        }
     }
 
 
