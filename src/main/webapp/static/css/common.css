@@ -328,8 +328,6 @@ header div.header_buttons div.header_nav div.about form button{
 
 
 
-
-
 /*main*/
 main{
 	padding: 15px;
@@ -637,13 +635,35 @@ body > div > main > div.content > div.menu_content > ul{
 
 }
 
+body > div > main > div.content > div.menu_content >div.comment_item > div.comment_info > div.comment_text > div.date{
+	display: flex;
+	justify-content: space-between;
+}
+
+[id^="changeCommentForm"]{
+	display: none;
+	flex-direction: column;
+	position: absolute;
+	margin-top: 5px;
+	border-radius: 10px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+
+}
+
+[id^="changeCommentForm"] > textarea{
+	border-radius: 10px;
+	min-width: 500px;
+	min-height: 100px;
+	border: 1px solid;
+}
+
 
 
 
 
 /*footer*/
 footer{
-	min-height:80px;
+	min-height:115px;
 	margin-top:auto;
 
 	align-items: center;

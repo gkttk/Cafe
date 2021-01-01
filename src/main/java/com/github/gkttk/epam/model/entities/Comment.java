@@ -1,5 +1,7 @@
 package com.github.gkttk.epam.model.entities;
 
+import com.github.gkttk.epam.model.builder.CommentBuilder;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -27,6 +29,11 @@ public class Comment extends Entity {
         this.creationDate = creationDate;
         this.userId = userId;
         this.dishId = dishId;
+    }
+
+
+    public CommentBuilder builder(){
+        return new CommentBuilder(this);
     }
 
     public String getText() {

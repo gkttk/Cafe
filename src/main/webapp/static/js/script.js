@@ -26,7 +26,13 @@ function showChangePointsDiv(idForChangePointsDiv){
     }
 }
 
-
+function showChangeCommentForm(dishCommentId){
+    if (document.getElementById("changeCommentForm" + dishCommentId).style.display === "none") {
+        document.getElementById("changeCommentForm" + dishCommentId).style.display = "flex";
+    }else{
+        document.getElementById("changeCommentForm" + dishCommentId).style.display = "none";
+    }
+}
 
 
 

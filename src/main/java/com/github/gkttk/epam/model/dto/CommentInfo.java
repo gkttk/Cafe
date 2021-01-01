@@ -1,5 +1,7 @@
 package com.github.gkttk.epam.model.dto;
 
+import com.github.gkttk.epam.model.builder.CommentInfoBuilder;
+import com.github.gkttk.epam.model.builder.OrderBuilder;
 import com.github.gkttk.epam.model.entities.Entity;
 
 import java.time.LocalDateTime;
@@ -47,6 +49,11 @@ public class CommentInfo extends Entity {
         return userAvatarBase64;
     }
 
+
+
+    public CommentInfoBuilder builder() {
+        return new CommentInfoBuilder(this);
+    }
 
     @Override
     public boolean equals(Object o) {

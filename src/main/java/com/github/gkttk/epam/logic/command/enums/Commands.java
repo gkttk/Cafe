@@ -1,5 +1,6 @@
 package com.github.gkttk.epam.logic.command.enums;
 
+import com.github.gkttk.epam.dao.entity.impl.CommentDaoImpl;
 import com.github.gkttk.epam.logic.command.*;
 import com.github.gkttk.epam.logic.service.impl.*;
 
@@ -25,7 +26,9 @@ public enum Commands {
     TAKE_ORDER(new TakeOrderCommand(new OrderServiceImpl(), new UserServiceImpl())),
     CANCEL_ORDER(new CancelOrderCommand(new OrderServiceImpl(), new UserServiceImpl())),
     SORT_USERS(new SortUsersCommand(new UserServiceImpl())),
-    CHANGE_POINTS(new ChangeUserPointsCommand(new UserServiceImpl()));
+    CHANGE_POINTS(new ChangeUserPointsCommand(new UserServiceImpl())),
+    UPDATE_COMMENT(new UpdateCommentCommand(new CommentServiceImpl())),
+    DELETE_COMMENT(new DeleteCommentCommand(new CommentServiceImpl()));
 
 
     Commands(Command command) {

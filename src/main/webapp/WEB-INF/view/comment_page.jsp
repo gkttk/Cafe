@@ -35,10 +35,10 @@
                 <div class="menu_content">
                     <script>
 
-                        function openCommentForm(){
+                        function openCommentForm() {
                             if (document.getElementById("commentDiv").style.display == "none") {
                                 document.getElementById("commentDiv").style.display = "block";
-                            }else{
+                            } else {
                                 document.getElementById("commentDiv").style.display = "none";
                             }
                         }
@@ -58,18 +58,17 @@
                     </div>
 
 
-
-        <ul>
-            <c:forEach var="page" begin="1" end="${sessionScope.pageCount}">
-                <li>
-                <form method="post" action="${pageContext.request.contextPath}/controller">
-                    <input type="hidden" name="command" value="DISH_COMMENTS"/>
-                    <input type="hidden" name="pageNumber" value="${page}">
-                    <button type="submit" >${page}</button>
-                </form>
-                </li>
-            </c:forEach>
-        </ul>
+                    <ul>
+                        <c:forEach var="page" begin="1" end="${sessionScope.pageCount}">
+                            <li>
+                                <form method="post" action="${pageContext.request.contextPath}/controller">
+                                    <input type="hidden" name="command" value="DISH_COMMENTS"/>
+                                    <input type="hidden" name="pageNumber" value="${page}">
+                                    <button type="submit">${page}</button>
+                                </form>
+                            </li>
+                        </c:forEach>
+                    </ul>
 
 
                     <c:set var="estimatesMap" value="${sessionScope.estimates}"/>
@@ -85,35 +84,64 @@
 
                                 <div class="comment_text">
                                     <div>${dishComment.text}</div>
-                                    <div class="date">${dishComment.creationDate}</div>
+                                    <div class="date">
+                                        <span>
+                                                ${dishComment.creationDate}
+                                        </span>
+
+                                        <div>
+                                            <c:if test="${(dishComment.userLogin.equals(sessionScope.authUser.login))}">
+                                                <button onclick="showChangeCommentForm(${dishComment.id})">CHANGE COMMENT</button>
+                                                <form id="changeCommentForm${dishComment.id}"
+                                                      action="${pageContext.request.contextPath}/controller" method="POST">
+                                                    <input type="hidden" name="command" value="UPDATE_COMMENT"/>
+                                                    <input type="hidden" name="commentId" value="${dishComment.id}">
+                                                    <textarea name="commentText"></textarea>
+                                                    <button type="submit">UPDATE COMMENT</button>
+                                                </form>
+
+                                            </c:if>
+                                        </div>
+
+
+                                        <c:if test="${(dishComment.userLogin.equals(sessionScope.authUser.login)) || sessionScope.authUser.role == 'ADMIN'}">
+                                            <form action="${pageContext.request.contextPath}/controller" method="POST">
+                                                <input type="hidden" name="command" value="DELETE_COMMENT"/>
+                                                <input type="hidden" name="commentId" value="${dishComment.id}">
+                                                <button type="submit">DELETE COMMENT</button>
+                                            </form>
+                                        </c:if>
+
+
+                                    </div>
                                 </div>
 
                                 <div class="comment_rating">
-                                    <c:set var = "estimate" value="${estimatesMap.get(dishComment.id)}"/>
+                                    <c:set var="estimate" value="${estimatesMap.get(dishComment.id)}"/>
                                     <div>
-                                    <c:if test="${(empty estimate) || (estimate == false)}">
-                                        <form action="${pageContext.request.contextPath}/controller" method="POST">
-                                            <input type="hidden" name="command" value="RATE_COMMENT"/>
-                                            <input type="hidden" name="commentId" value="${dishComment.id}"/>
-                                            <input type="hidden" name="rating" value="${dishComment.rating}"/>
-                                            <input type="hidden" name="estimate" value="true"/>
-                                            <button type="submit">+</button>
-                                        </form>
-                                    </c:if>
+                                        <c:if test="${(empty estimate) || (estimate == false)}">
+                                            <form action="${pageContext.request.contextPath}/controller" method="POST">
+                                                <input type="hidden" name="command" value="RATE_COMMENT"/>
+                                                <input type="hidden" name="commentId" value="${dishComment.id}"/>
+                                                <input type="hidden" name="rating" value="${dishComment.rating}"/>
+                                                <input type="hidden" name="estimate" value="true"/>
+                                                <button type="submit">+</button>
+                                            </form>
+                                        </c:if>
                                     </div>
                                     <div>
-                                    <span>${dishComment.rating}</span>
-                                        </div>
+                                        <span>${dishComment.rating}</span>
+                                    </div>
                                     <div>
-                                    <c:if test="${(empty estimate) || (estimate == true)}">
-                                        <form action="${pageContext.request.contextPath}/controller" method="POST">
-                                            <input type="hidden" name="command" value="RATE_COMMENT"/>
-                                            <input type="hidden" name="commentId" value="${dishComment.id}"/>
-                                            <input type="hidden" name="rating" value="${dishComment.rating}"/>
-                                            <input type="hidden" name="estimate" value="false"/>
-                                    <button type="submit">-</button>
-                                        </form>
-                                    </c:if>
+                                        <c:if test="${(empty estimate) || (estimate == true)}">
+                                            <form action="${pageContext.request.contextPath}/controller" method="POST">
+                                                <input type="hidden" name="command" value="RATE_COMMENT"/>
+                                                <input type="hidden" name="commentId" value="${dishComment.id}"/>
+                                                <input type="hidden" name="rating" value="${dishComment.rating}"/>
+                                                <input type="hidden" name="estimate" value="false"/>
+                                                <button type="submit">-</button>
+                                            </form>
+                                        </c:if>
                                     </div>
                                 </div>
 

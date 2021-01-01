@@ -7,9 +7,10 @@ import com.github.gkttk.epam.dao.helper.factory.DaoHelperFactory;
 import com.github.gkttk.epam.exceptions.DaoException;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.CommentService;
+import com.github.gkttk.epam.model.builder.CommentBuilder;
+import com.github.gkttk.epam.model.builder.CommentInfoBuilder;
 import com.github.gkttk.epam.model.dto.CommentInfo;
 import com.github.gkttk.epam.model.entities.Comment;
-import com.github.gkttk.epam.model.enums.SortTypes;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,18 +32,15 @@ public class CommentServiceImpl implements CommentService {
     }
 
 
-
     @Override
     public List<CommentInfo> getAllByDishId(Long dishId) throws ServiceException {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             CommentInfoDao commentInfoDao = daoHelper.createCommentInfoDao();
             return commentInfoDao.findAllByDishId(dishId);
         } catch (DaoException e) {
-            throw new ServiceException(String.format("Can't getAllByDishId() with dishId: %d", dishId),e);
+            throw new ServiceException(String.format("Can't getAllByDishId() with dishId: %d", dishId), e);
         }
     }
-
-
 
 
     @Override
@@ -91,7 +89,7 @@ public class CommentServiceImpl implements CommentService {
             int offset = (currentPage - 1) * DEFAULT_LIMIT_ON_PAGE;
             int limit = DEFAULT_LIMIT_ON_PAGE;
 
-            if(commentsCount - offset < limit){
+            if (commentsCount - offset < limit) {
                 limit = commentsCount - offset;
             }
 
@@ -120,11 +118,42 @@ public class CommentServiceImpl implements CommentService {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             CommentDao commentDao = daoHelper.createCommentDao();
             int commentCount = commentDao.rowCountForDishId(dishId);
-            return (int)Math.ceil(((double)commentCount / DEFAULT_LIMIT_ON_PAGE));//todo limit double???
+            return (int) Math.ceil(((double) commentCount / DEFAULT_LIMIT_ON_PAGE));//todo limit double???
         } catch (DaoException e) {
             throw new ServiceException("Can't getCommentsCount()", e);
         }
     }
 
+    @Override
+    public void updateComment(long commentId, String newCommentText) throws ServiceException {
 
+        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
+            CommentDao commentDao = daoHelper.createCommentDao();
+            Optional<Comment> commentOpt = commentDao.findById(commentId);
+            if (commentOpt.isPresent()) {
+                Comment comment = commentOpt.get();
+                CommentBuilder builder = comment.builder();
+                builder.setText(newCommentText);
+                Comment newComment = builder.build();
+                commentDao.save(newComment);
+            }
+        } catch (DaoException e) {
+            throw new ServiceException(String.format("Can't updateComment(commentId, newComment text) with " +
+                    "commentId: %d, newCommentText: %s", commentId, newCommentText), e);
+        }
+
+
+    }
+
+    @Override
+    public void removeComment(long commentId) throws ServiceException {
+        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
+            CommentDao commentDao = daoHelper.createCommentDao();
+            commentDao.removeById(commentId);
+        } catch (DaoException e) {
+            throw new ServiceException(String.format("Can't removeComment(commentId) with " +
+                    "commentId: %d", commentId), e);
+        }
+
+    }
 }

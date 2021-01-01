@@ -24,6 +24,10 @@ public interface CommentService {
 
     int getPageCount(long dishId) throws ServiceException;
 
+    void updateComment(long commentId, String newCommentText) throws ServiceException;
+
+    void removeComment(long commentId) throws ServiceException;
+
 
 
 
