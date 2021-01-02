@@ -16,6 +16,6 @@ public interface UserCommentRatingService {
 
    /* void remove(Long userId, Long commentId) throws ServiceException;*/
 
-    void evaluateComment(long userId, long commentId,int commentRating, boolean isLiked) throws ServiceException;
+    void evaluateComment(long userId, long commentId, boolean isLiked) throws ServiceException;
 
 }

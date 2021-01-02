@@ -8,9 +8,9 @@ import com.github.gkttk.epam.exceptions.DaoException;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.CommentService;
 import com.github.gkttk.epam.model.builder.CommentBuilder;
-import com.github.gkttk.epam.model.builder.CommentInfoBuilder;
 import com.github.gkttk.epam.model.dto.CommentInfo;
 import com.github.gkttk.epam.model.entities.Comment;
+import com.github.gkttk.epam.model.enums.SortTypes;
 
 import java.util.List;
 import java.util.Optional;
@@ -79,37 +79,15 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentInfo> getAllByDishIdPagination(long dishId, int currentPage/*, SortTypes sortType*/) throws ServiceException {
-
+    public List<CommentInfo> getAllByDishIdPagination(long dishId, int currentPage, SortTypes sortType) throws ServiceException {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             CommentInfoDao commentInfoDao = daoHelper.createCommentInfoDao();
-            CommentDao commentDao = daoHelper.createCommentDao();
 
-            int commentsCount = commentDao.rowCountForDishId(dishId);//todo 2times
             int offset = (currentPage - 1) * DEFAULT_LIMIT_ON_PAGE;
-            int limit = DEFAULT_LIMIT_ON_PAGE;
-
-            if (commentsCount - offset < limit) {
-                limit = commentsCount - offset;
-            }
-
-            return commentInfoDao.findAllByDishIdOrderDatePagination(dishId, limit, offset);
-
-       /*     switch (sortType){ //todo
-                case DATE:{
-                    return commentInfoDao.findAllByDishIdOrderDatePagination(dishId, limit, offset);
-                }
-                case RATING: {
-                    return commentInfoDao.findAllByDishIdOrderRatingPagination(dishId, limit, offset);
-                }
-                default:{
-                    throw new IllegalArgumentException("No such SortType");
-                }
-            }*/
-
+            return sortType.getComments(commentInfoDao, dishId, DEFAULT_LIMIT_ON_PAGE, offset);
         } catch (DaoException e) {
             throw new ServiceException(String.format("Can't getAllByDishIdPagination(dishId, currentPage) with dishId: %d," +
-                    " currentPage: %d", dishId, currentPage), e);
+                    " currentPage: %d, sortType: %s", dishId, currentPage, sortType.name()), e);
         }
     }
 
@@ -156,4 +134,5 @@ public class CommentServiceImpl implements CommentService {
         }
 
     }
+
 }

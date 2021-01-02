@@ -28,10 +28,10 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
 
     @Override
     public void saveOrderDish(long orderId, long dishId) throws DaoException {
-        try(PreparedStatement preparedStatement = createPrepareStatement(SAVE_ORDER_PRODUCT_QUERY, orderId, dishId)) {
-           preparedStatement.executeUpdate();
+        try (PreparedStatement preparedStatement = createPrepareStatement(SAVE_ORDER_PRODUCT_QUERY, orderId, dishId)) {
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException(String.format("Can't saveOrderDish() with orderId: %d, dishId: %d, ",orderId, dishId), e);
+            throw new DaoException(String.format("Can't saveOrderDish() with orderId: %d, dishId: %d, ", orderId, dishId), e);
         }
     }
 
@@ -50,7 +50,6 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
     protected String getTableName() {
         return TABLE_NAME;
     }
-
 
 
 }

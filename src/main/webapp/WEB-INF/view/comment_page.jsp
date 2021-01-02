@@ -19,15 +19,15 @@
             <div class="content">
                 <div class="meal_types">
                     <form method="post" action="${pageContext.request.contextPath}/controller">
-                        <input type="hidden" name="command" value="DISH_COMMENTS"/>
-                        <input type="hidden" name="pageNumber" value="${sessionScope.currentPagePagination}">
-                        <input type="hidden" name="sortType" value="DATE">
+                        <input type="hidden" name="command" value="SORT_COMMENTS"/>
+                        <input type="hidden" name="pageNumber" value="${sessionScope.currentPagePagination}"/>
+                        <input type="hidden" name="sortType" value="DATE"/>
                         <button class="btn">Новые</button>
                     </form>
                     <form method="post" action="${pageContext.request.contextPath}/controller">
-                        <input type="hidden" name="command" value="DISH_COMMENTS"/>
-                        <input type="hidden" name="pageNumber" value="${sessionScope.currentPagePagination}">
-                        <input type="hidden" name="sortType" value="RATING">
+                        <input type="hidden" name="command" value="SORT_COMMENTS"/>
+                        <input type="hidden" name="pageNumber" value="${sessionScope.currentPagePagination}"/>
+                        <input type="hidden" name="sortType" value="RATING"/>
                         <button class="btn">По рейтингу</button>
                     </form>
 
@@ -123,7 +123,7 @@
                                             <form action="${pageContext.request.contextPath}/controller" method="POST">
                                                 <input type="hidden" name="command" value="RATE_COMMENT"/>
                                                 <input type="hidden" name="commentId" value="${dishComment.id}"/>
-                                                <input type="hidden" name="rating" value="${dishComment.rating}"/>
+                                              <%--  <input type="hidden" name="rating" value="${dishComment.rating}"/>--%>
                                                 <input type="hidden" name="estimate" value="true"/>
                                                 <button type="submit">+</button>
                                             </form>
@@ -137,7 +137,7 @@
                                             <form action="${pageContext.request.contextPath}/controller" method="POST">
                                                 <input type="hidden" name="command" value="RATE_COMMENT"/>
                                                 <input type="hidden" name="commentId" value="${dishComment.id}"/>
-                                                <input type="hidden" name="rating" value="${dishComment.rating}"/>
+                                                <%--<input type="hidden" name="rating" value="${dishComment.rating}"/>--%>
                                                 <input type="hidden" name="estimate" value="false"/>
                                                 <button type="submit">-</button>
                                             </form>

@@ -25,10 +25,7 @@ public class CommentInfoDaoImpl extends AbstractDao<CommentInfo> implements Comm
     private final static String FIND_BY_DISH_ID_PAGINATION_ORDER_DATE_QUERY = "SELECT c.id, c.text, c.rating, c.creation_date, u.login, u.img_base64 " +
             "FROM comments AS c JOIN users AS u on c.user_id = u.id WHERE dish_id = ? ORDER BY c.creation_date DESC LIMIT ? OFFSET ?";
 
-
     private final static String TABLE_NAME = "user_comments_rating";
-
-
 
 
     public CommentInfoDaoImpl(Connection connection) {
@@ -36,12 +33,10 @@ public class CommentInfoDaoImpl extends AbstractDao<CommentInfo> implements Comm
 
     }
 
-
     @Override
     public List<CommentInfo> findAllByDishIdOrderRatingPagination(long dishId, int limit, int offset) throws DaoException {
         return getAllResults(FIND_BY_DISH_ID_PAGINATION_ORDER_RATING_QUERY, dishId, limit, offset);
     }
-
 
     @Override
     public List<CommentInfo> findAllByDishIdOrderDatePagination(long dishId, int limit, int offset) throws DaoException {
@@ -57,7 +52,6 @@ public class CommentInfoDaoImpl extends AbstractDao<CommentInfo> implements Comm
     public Optional<CommentInfo> findByCommentId(Long commentId) throws DaoException {
         return getSingleResult(FIND_BY_COMMENT_ID_QUERY, commentId);
     }
-
 
 
     @Override

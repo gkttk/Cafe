@@ -6,6 +6,7 @@ import com.github.gkttk.epam.logic.service.CommentService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.dto.CommentInfo;
 import com.github.gkttk.epam.model.entities.User;
+import com.github.gkttk.epam.model.enums.SortTypes;
 
 import java.util.List;
 
@@ -18,7 +19,11 @@ public class AddCommentCommand implements Command {
     private final static String COMMENT_TEXT_PARAM = "commentText";
     private final static String COMMENTS_ATTR = "dishComments";
     private final static String DISH_ID_ATTR = "dishId";
+    private final static String PAGE_COUNT_ATTR = "pageCount";
+    private final static String CURRENT_PAGE_PAGINATION_ATTR = "currentPagePagination";
+    private final static String SORT_TYPE_ATTR = "sortType";
 
+    private final static int START_PAGE_PAGINATION = 1;
 
     public AddCommentCommand(CommentService commentService) {
         this.commentService = commentService;
@@ -41,8 +46,15 @@ public class AddCommentCommand implements Command {
     }
 
     private void renewSession(RequestDataHolder requestDataHolder, long dishId) throws ServiceException {
-        List<CommentInfo> comments = commentService.getAllByDishId(dishId);
+        int newPageCount = commentService.getPageCount(dishId);
+        requestDataHolder.putSessionAttribute(PAGE_COUNT_ATTR, newPageCount);
+
+        requestDataHolder.putSessionAttribute(CURRENT_PAGE_PAGINATION_ATTR, START_PAGE_PAGINATION);
+        SortTypes sortType = (SortTypes) requestDataHolder.getSessionAttribute(SORT_TYPE_ATTR);
+        List<CommentInfo> comments = commentService.getAllByDishIdPagination(dishId, START_PAGE_PAGINATION, sortType);
         requestDataHolder.putSessionAttribute(COMMENTS_ATTR, comments);
+
+
     }
 
 }

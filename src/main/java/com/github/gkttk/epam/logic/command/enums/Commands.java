@@ -28,7 +28,8 @@ public enum Commands {
     SORT_USERS(new SortUsersCommand(new UserServiceImpl())),
     CHANGE_POINTS(new ChangeUserPointsCommand(new UserServiceImpl())),
     UPDATE_COMMENT(new UpdateCommentCommand(new CommentServiceImpl())),
-    DELETE_COMMENT(new DeleteCommentCommand(new CommentServiceImpl()));
+    DELETE_COMMENT(new DeleteCommentCommand(new CommentServiceImpl())),
+    SORT_COMMENTS(new SortCommentsCommand(new CommentServiceImpl()));
 
 
     Commands(Command command) {

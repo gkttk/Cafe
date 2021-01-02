@@ -8,6 +8,7 @@ import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.dto.CommentInfo;
 import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.entities.UserCommentRating;
+import com.github.gkttk.epam.model.enums.SortTypes;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,10 @@ public class DishCommentsCommand implements Command {
     private final static String AUTH_USER_ATTR = "authUser";
     private final static String PAGE_COUNT_ATTR = "pageCount";
     private final static String ESTIMATES_ATTR = "estimates";
+    private final static String SORT_TYPE_ATTR = "sortType";
+    private final static String CURRENT_PAGE_PAGINATION_ATTR = "currentPagePagination";
+    private final static SortTypes DEFAULT_SORT_TYPE = SortTypes.DATE;
+    private final static int START_PAGE_NUMBER = 1;
 
 
     public DishCommentsCommand(CommentService commentService, UserCommentRatingService userCommentRatingService) {
@@ -41,22 +46,22 @@ public class DishCommentsCommand implements Command {
         long userId = authUser.getId();
 
         long dishId = getDishId(requestDataHolder);
-
         requestDataHolder.putSessionAttribute(DISH_ID_ATTR, dishId);
 
-
-        Map<Long, Boolean> userEstimates = getUserEstimates(userId, dishId);
-
-        requestDataHolder.putSessionAttribute(ESTIMATES_ATTR, userEstimates);
-
+        if (!requestDataHolder.isSessionContainKey(ESTIMATES_ATTR)) {
+            Map<Long, Boolean> userEstimates = getUserEstimates(userId, dishId);
+            requestDataHolder.putSessionAttribute(ESTIMATES_ATTR, userEstimates);
+        }
 
         int pageNumber = getPageNumber(requestDataHolder);
-        requestDataHolder.putSessionAttribute("currentPagePagination", pageNumber);//todo
+        requestDataHolder.putSessionAttribute(CURRENT_PAGE_PAGINATION_ATTR, pageNumber);
 
         int pageCount = commentService.getPageCount(dishId);
         requestDataHolder.putSessionAttribute(PAGE_COUNT_ATTR, pageCount);//todo request or session?
 
-        List<CommentInfo> comments = commentService.getAllByDishIdPagination(dishId, pageNumber);
+        SortTypes sortType = getSortType(requestDataHolder);
+
+        List<CommentInfo> comments = commentService.getAllByDishIdPagination(dishId, pageNumber, sortType);
 
         requestDataHolder.putSessionAttribute(COMMENTS_ATTR, comments);
 
@@ -65,6 +70,15 @@ public class DishCommentsCommand implements Command {
 
     }
 
+    private SortTypes getSortType(RequestDataHolder requestDataHolder) {
+        SortTypes sortType = DEFAULT_SORT_TYPE;
+        if (requestDataHolder.isSessionContainKey(SORT_TYPE_ATTR)) {
+            sortType = (SortTypes) requestDataHolder.getSessionAttribute(SORT_TYPE_ATTR);
+        } else {
+            requestDataHolder.putSessionAttribute(SORT_TYPE_ATTR, DEFAULT_SORT_TYPE);
+        }
+        return sortType;
+    }
 
     private long getDishId(RequestDataHolder requestDataHolder) {
         String dishIdParam = requestDataHolder.getRequestParameter(DISH_ID_PARAM);
@@ -82,14 +96,18 @@ public class DishCommentsCommand implements Command {
             boolean isLiked = userCommentRating.isLiked();
             userEstimates.put(commentId, isLiked);
         }
-
         return userEstimates;
     }
 
 
     private int getPageNumber(RequestDataHolder requestDataHolder) {
-        String pageNumberParam = requestDataHolder.getRequestParameter(PAGE_NUMBER);
-        return pageNumberParam == null ? 1 : Integer.parseInt(pageNumberParam);
+        int pageNumber = START_PAGE_NUMBER;
+        if (requestDataHolder.isRequestParamContainsKey(PAGE_NUMBER)) {
+            String pageNumberParam = requestDataHolder.getRequestParameter(PAGE_NUMBER);
+            pageNumber = Integer.parseInt(pageNumberParam);
+        }
+        return pageNumber;
+
 
     }
 

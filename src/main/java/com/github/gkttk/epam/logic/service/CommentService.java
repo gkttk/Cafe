@@ -20,7 +20,7 @@ public interface CommentService {
 
     Long addComment(String text,Long userId, Long dishId) throws ServiceException;
 
-    List<CommentInfo> getAllByDishIdPagination(long dishId, int currentPage/*, SortTypes sortType*/) throws ServiceException;
+    List<CommentInfo> getAllByDishIdPagination(long dishId, int currentPage, SortTypes sortType) throws ServiceException;
 
     int getPageCount(long dishId) throws ServiceException;
 

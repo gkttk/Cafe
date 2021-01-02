@@ -64,8 +64,7 @@ public class UserCommentRatingDaoImpl extends AbstractDao<UserCommentRating> imp
         return getSingleResult(SELECT_BY_USER_ID_AND_COMMENT_ID_QUERY, userId, commentId);
 
     }
-
-
+    
     @Override
     public Long save(UserCommentRating entity) throws DaoException {
 

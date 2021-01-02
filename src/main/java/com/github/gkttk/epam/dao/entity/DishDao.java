@@ -9,10 +9,7 @@ import java.util.List;
 public interface DishDao extends Dao<Dish> {
 
 
-
     List<Dish> findDishesByType(String dishType) throws DaoException;
-
-
 
 
 }

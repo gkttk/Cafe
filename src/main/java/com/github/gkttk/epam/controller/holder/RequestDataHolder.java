@@ -31,6 +31,14 @@ public class RequestDataHolder {
     }
 
 
+    public boolean isSessionContainKey(String key){
+        return sessionAttributes.containsKey(key);
+    }
+
+    public boolean isRequestParamContainsKey(String key){
+        return requestParameters.containsKey(key);
+    }
+
     public boolean isSessionValid() {
         return isSessionValid;
     }
