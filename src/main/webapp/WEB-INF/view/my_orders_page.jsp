@@ -22,14 +22,16 @@
                     <fmt:message key="${requestScope.noMoneyErrorMessage}"/>
                 </c:if>
                 <div class="order_conditions">
-                        <form action="${pageContext.request.contextPath}/controller" method="POST">
-                            <input type="hidden" name="command" value="MY_ORDERS"/>
-                            <button type="submit">Активные</button>
-                        </form>
-                        <form action="${pageContext.request.contextPath}/controller" method="POST">
-                            <input type="hidden" name="command" value="ORDER_HISTORY"/>
-                            <button type="submit">История</button>
-                        </form>
+                    <form action="${pageContext.request.contextPath}/controller" method="POST">
+                        <input type="hidden" name="command" value="MY_ORDERS"/>
+                        <input type="hidden" name="sortType" value="ACTIVE"/>
+                        <button type="submit">Активные</button>
+                    </form>
+                    <form action="${pageContext.request.contextPath}/controller" method="POST">
+                        <input type="hidden" name="command" value="MY_ORDERS"/>
+                        <input type="hidden" name="sortType" value="EXPIRED"/>
+                        <button type="submit">История</button>
+                    </form>
                 </div>
                 <div class="menu_content">
                     <table id="customers">
@@ -60,19 +62,19 @@
                                             Отменен
                                         </c:when>
                                         <c:otherwise>
-                                          Блокирован
+                                            Блокирован
                                         </c:otherwise>
                                     </c:choose>
                                 </td>
                                 <td>
                                     <c:if test="${order.status == 'ACTIVE'}">
-                                    <form method="POST" action="${pageContext.request.contextPath}/controller">
-                                        <input type="hidden" name="command" value="TAKE_ORDER"/>
-                                       <input type="hidden" name="orderId" value="${order.id}"/>
-                                        <button type="submit">
-                                            Забрать заказ
-                                        </button>
-                                    </form>
+                                        <form method="POST" action="${pageContext.request.contextPath}/controller">
+                                            <input type="hidden" name="command" value="TAKE_ORDER"/>
+                                            <input type="hidden" name="orderId" value="${order.id}"/>
+                                            <button type="submit">
+                                                Забрать заказ
+                                            </button>
+                                        </form>
                                     </c:if>
                                 </td>
                                 <td>
@@ -80,8 +82,8 @@
                                         <form method="POST" action="${pageContext.request.contextPath}/controller">
                                             <input type="hidden" name="command" value="CANCEL_ORDER"/>
                                             <input type="hidden" name="orderId" value="${order.id}"/>
-                                        <button type="submit">Отмена</button>
-                                    </form>
+                                            <button type="submit">Отмена</button>
+                                        </form>
                                     </c:if>
                                 </td>
                             </tr>

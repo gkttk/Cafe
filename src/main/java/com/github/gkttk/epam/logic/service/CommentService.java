@@ -3,7 +3,7 @@ package com.github.gkttk.epam.logic.service;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.model.dto.CommentInfo;
 import com.github.gkttk.epam.model.entities.Comment;
-import com.github.gkttk.epam.model.enums.SortTypes;
+import com.github.gkttk.epam.model.enums.CommentSortTypes;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +20,7 @@ public interface CommentService {
 
     Long addComment(String text,Long userId, Long dishId) throws ServiceException;
 
-    List<CommentInfo> getAllByDishIdPagination(long dishId, int currentPage, SortTypes sortType) throws ServiceException;
+    List<CommentInfo> getAllByDishIdPagination(long dishId, int currentPage, CommentSortTypes sortType) throws ServiceException;
 
     int getPageCount(long dishId) throws ServiceException;
 

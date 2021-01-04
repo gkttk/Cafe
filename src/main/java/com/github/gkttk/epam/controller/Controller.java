@@ -5,8 +5,8 @@ import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ConnectionPoolException;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.command.Command;
-import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.logic.command.enums.Commands;
+import com.github.gkttk.epam.model.CommandResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,7 +36,6 @@ public class Controller extends HttpServlet {
     }
 
 
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         RequestDataHolder requestDataHolder = new RequestDataHolder(request);
@@ -49,7 +48,7 @@ public class Controller extends HttpServlet {
             String url = commandResult.getUrl();
 
             if (commandResult.isRedirect()) {
-                if(!requestDataHolder.isSessionValid()){
+                if (!requestDataHolder.isSessionValid()) {
                     request.getSession().invalidate();
                 }//todo invalidate only for redirect
                 request.getSession().setAttribute(PAGE_ATTRIBUTE, url);
@@ -75,9 +74,6 @@ public class Controller extends HttpServlet {
         Commands commandEnum = Commands.valueOf(commandName);
         return commandEnum.getCommand();
     }
-
-
-
 
 
     @Override

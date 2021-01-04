@@ -8,13 +8,13 @@ import java.math.BigDecimal;
 public class UserBuilder implements Builder<User> {
 
     private final Long id; //immutable even here
-    private  String login;
-    private  String password;
-    private  UserRole role;
-    private  int points;
-    private  BigDecimal money;
-    private  boolean blocked;
-    private  String imageRef;
+    private String login;
+    private String password;
+    private UserRole role;
+    private int points;
+    private BigDecimal money;
+    private boolean blocked;
+    private String imageRef;
 
 
     public UserBuilder(User user) {

@@ -19,42 +19,43 @@
             <div class="content">
                 <h2><fmt:message key="make.order.total.amount"/> ${sessionScope.orderCost}</h2>
                 <div class="menu_content">
-                        <input type="hidden" name="command" value="SAVE_ORDER"/>
+                    <input type="hidden" name="command" value="SAVE_ORDER"/>
 
-                        <label for="date_input"><fmt:message key="make.order.date"/></label>
-                        <input form="form_content" id="date_input" type="datetime-local" name="date" required><br/>
+                    <label for="date_input"><fmt:message key="make.order.date"/></label>
+                    <input form="form_content" id="date_input" type="datetime-local" name="date" required><br/>
 
-                        <table id="customers">
-                            <tr>
-                                <th><fmt:message key="user.menu.dish.image"/></th>
-                                <th><fmt:message key="user.menu.dish.title"/></th>
-                                <th><fmt:message key="user.menu.dish.price"/></th>
-                                <th></th>
-                                <th>
-                                    <form id="form_content" method="POST" action="${pageContext.request.contextPath}/controller">
-                                        <input type="hidden" name="command" value="SAVE_ORDER"/>
+                    <table id="customers">
+                        <tr>
+                            <th><fmt:message key="user.menu.dish.image"/></th>
+                            <th><fmt:message key="user.menu.dish.title"/></th>
+                            <th><fmt:message key="user.menu.dish.price"/></th>
+                            <th></th>
+                            <th>
+                                <form id="form_content" method="POST"
+                                      action="${pageContext.request.contextPath}/controller">
+                                    <input type="hidden" name="command" value="SAVE_ORDER"/>
                                     <button type="submit"><fmt:message key="user.menu.make.order.button"/></button>
+                                </form>
+                            </th>
+                        </tr>
+
+
+                        <c:forEach var="orderDish" items="${sessionScope.basket}">
+                            <tr>
+                                <td><img src="${orderDish.imgUrl}" alt="dish"></td>
+                                <td>${orderDish.name}</td>
+                                <td>${orderDish.cost}</td>
+                                <td></td>
+                                <td>
+                                    <form method="post" action="${pageContext.request.contextPath}/controller">
+                                        <input type="hidden" name="command" value="CANCEL_DISH"/>
+                                        <input type="hidden" name="dishId" value="${orderDish.id}"/>
+                                        <button type="submit"><fmt:message key="make.order.cancel"/></button>
                                     </form>
-                                </th>
+                                </td>
                             </tr>
-
-
-                            <c:forEach var="orderDish" items="${sessionScope.basket}">
-                                <tr>
-                                    <td><img src="${orderDish.imgUrl}" alt="dish"></td>
-                                    <td>${orderDish.name}</td>
-                                    <td>${orderDish.cost}</td>
-                                    <td></td>
-                                    <td>
-                                        <form method="post" action="${pageContext.request.contextPath}/controller">
-                                            <input type="hidden" name="command" value="CANCEL_DISH"/>
-                                            <input type="hidden" name="dishId" value="${orderDish.id}"/>
-                                            <button type="submit"><fmt:message key="make.order.cancel"/></button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </table>
+                        </c:forEach>
+                    </table>
                 </div>
 
             </div>

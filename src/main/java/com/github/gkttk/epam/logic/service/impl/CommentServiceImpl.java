@@ -10,7 +10,7 @@ import com.github.gkttk.epam.logic.service.CommentService;
 import com.github.gkttk.epam.model.builder.CommentBuilder;
 import com.github.gkttk.epam.model.dto.CommentInfo;
 import com.github.gkttk.epam.model.entities.Comment;
-import com.github.gkttk.epam.model.enums.SortTypes;
+import com.github.gkttk.epam.model.enums.CommentSortTypes;
 
 import java.util.List;
 import java.util.Optional;
@@ -79,7 +79,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentInfo> getAllByDishIdPagination(long dishId, int currentPage, SortTypes sortType) throws ServiceException {
+    public List<CommentInfo> getAllByDishIdPagination(long dishId, int currentPage, CommentSortTypes sortType) throws ServiceException {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             CommentInfoDao commentInfoDao = daoHelper.createCommentInfoDao();
 

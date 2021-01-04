@@ -8,7 +8,7 @@ import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.dto.CommentInfo;
 import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.entities.UserCommentRating;
-import com.github.gkttk.epam.model.enums.SortTypes;
+import com.github.gkttk.epam.model.enums.CommentSortTypes;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +30,7 @@ public class DishCommentsCommand implements Command {
     private final static String ESTIMATES_ATTR = "estimates";
     private final static String SORT_TYPE_ATTR = "sortType";
     private final static String CURRENT_PAGE_PAGINATION_ATTR = "currentPagePagination";
-    private final static SortTypes DEFAULT_SORT_TYPE = SortTypes.DATE;
+    private final static CommentSortTypes DEFAULT_SORT_TYPE = CommentSortTypes.DATE;
     private final static int START_PAGE_NUMBER = 1;
 
 
@@ -59,7 +59,7 @@ public class DishCommentsCommand implements Command {
         int pageCount = commentService.getPageCount(dishId);
         requestDataHolder.putSessionAttribute(PAGE_COUNT_ATTR, pageCount);//todo request or session?
 
-        SortTypes sortType = getSortType(requestDataHolder);
+        CommentSortTypes sortType = getSortType(requestDataHolder);
 
         List<CommentInfo> comments = commentService.getAllByDishIdPagination(dishId, pageNumber, sortType);
 
@@ -70,10 +70,10 @@ public class DishCommentsCommand implements Command {
 
     }
 
-    private SortTypes getSortType(RequestDataHolder requestDataHolder) {
-        SortTypes sortType = DEFAULT_SORT_TYPE;
+    private CommentSortTypes getSortType(RequestDataHolder requestDataHolder) {
+        CommentSortTypes sortType = DEFAULT_SORT_TYPE;
         if (requestDataHolder.isSessionContainKey(SORT_TYPE_ATTR)) {
-            sortType = (SortTypes) requestDataHolder.getSessionAttribute(SORT_TYPE_ATTR);
+            sortType = (CommentSortTypes) requestDataHolder.getSessionAttribute(SORT_TYPE_ATTR);
         } else {
             requestDataHolder.putSessionAttribute(SORT_TYPE_ATTR, DEFAULT_SORT_TYPE);
         }

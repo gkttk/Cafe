@@ -17,7 +17,7 @@ div.wrapper{
 
 /*header*/
 header{
-	height:100px;
+	min-height: 115px;
 	display: flex;
 }
 
@@ -132,8 +132,10 @@ header div.header_buttons ul{
 	background-color: #34cbce;
 	border-radius:10px;
 	position: fixed;
-	top: 0;
-	right: 0;
+	top: 5px;
+	right: 5px;
+	border: 2px solid;
+
 
 }
 
@@ -241,11 +243,13 @@ main * input[type="password"]{
 
 main div.side_menu{
 	flex-basis:20%;
-	border:1px solid black;
+	border-radius: 10px;
 	text-align: center;
 	 font-style:italic;
 	font-family: 'Caveat', cursive;
 	font-size:1.5em;
+	border-right: 1px solid;
+	border-top: 1px solid;
 
 }
 
@@ -269,13 +273,16 @@ main div.side_menu ul li{
 
 
 main div.content{
-	flex-basis:80%;
-	
 	display: flex;
 	flex-direction:column;
 	font-size:1.5em;
-
+	margin: 0 auto;
 }
+
+main div.content div.menu_content h2{
+	text-align: center;
+}
+
 
 main div.content div.meal_types{
 	border-top:1px solid black;
@@ -605,6 +612,8 @@ button.littleButton, input[type=submit].littleButton, a.littleButton{
 }
 
 
-
-
+#errorImg{
+	width: 500px;
+	height: auto;
+}
 

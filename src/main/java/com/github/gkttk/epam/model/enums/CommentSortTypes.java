@@ -6,7 +6,7 @@ import com.github.gkttk.epam.model.dto.CommentInfo;
 
 import java.util.List;
 
-public enum SortTypes {
+public enum CommentSortTypes {
     DATE {
         public List<CommentInfo> getComments(CommentInfoDao commentInfoDao, long dishId, int limit, int offset) throws DaoException {
             return commentInfoDao.findAllByDishIdOrderDatePagination(dishId, limit, offset);

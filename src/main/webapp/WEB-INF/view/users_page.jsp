@@ -67,17 +67,19 @@
                                     </c:choose>
                                 </td>
                                 <td>
-                                   <a class="littleButton" onclick="showChangePointsDiv(${idForChangePointsDiv})">
-                                       Изменить баллы
-                                   </a>
+                                    <a class="littleButton" onclick="showChangePointsDiv(${idForChangePointsDiv})">
+                                        Изменить баллы
+                                    </a>
                                     <div id="changePointsDiv${idForChangePointsDiv}" style="display: none">
                                         <form method="POST" action="${pageContext.request.contextPath}/controller">
-                                        <input type="hidden" name="command" value="CHANGE_POINTS"/>
-                                        <input type="hidden" name="userId" value="${user.id}"/>
-                                        <button class="littleButton" type="submit" name="isAdd" value="false">-</button>
-                                        <input type="number" name="points" value="15" min="0" max="1000" step="5"/>
-                                        <button class="littleButton" type="submit" name="isAdd" value="true">+</button>
-                                    </form>
+                                            <input type="hidden" name="command" value="CHANGE_POINTS"/>
+                                            <input type="hidden" name="userId" value="${user.id}"/>
+                                            <button class="littleButton" type="submit" name="isAdd" value="false">-
+                                            </button>
+                                            <input type="number" name="points" value="15" min="0" max="1000" step="5"/>
+                                            <button class="littleButton" type="submit" name="isAdd" value="true">+
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                                 <td>
@@ -87,7 +89,8 @@
                                                 <input type="hidden" name="userId" value="${user.id}">
                                                 <input type="hidden" name="blocked" value="false">
                                                 <input type="hidden" name="command" value="CHANGE_STATUS">
-                                                <button  class="littleButton" type="submit"><fmt:message key="users.page.unblock"/></button>
+                                                <button class="littleButton" type="submit"><fmt:message
+                                                        key="users.page.unblock"/></button>
                                             </form>
                                         </c:when>
                                         <c:otherwise>
@@ -95,7 +98,8 @@
                                                 <input type="hidden" name="userId" value="${user.id}">
                                                 <input type="hidden" name="blocked" value="true">
                                                 <input type="hidden" name="command" value="CHANGE_STATUS">
-                                                <button class="littleButton" type="submit"><fmt:message key="users.page.block"/></button>
+                                                <button class="littleButton" type="submit"><fmt:message
+                                                        key="users.page.block"/></button>
                                             </form>
                                         </c:otherwise>
                                     </c:choose>

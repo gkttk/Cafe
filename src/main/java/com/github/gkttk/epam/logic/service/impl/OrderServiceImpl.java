@@ -11,6 +11,7 @@ import com.github.gkttk.epam.model.builder.OrderBuilder;
 import com.github.gkttk.epam.model.builder.UserBuilder;
 import com.github.gkttk.epam.model.entities.Order;
 import com.github.gkttk.epam.model.entities.User;
+import com.github.gkttk.epam.model.enums.OrderSortTypes;
 import com.github.gkttk.epam.model.enums.OrderStatus;
 
 import java.math.BigDecimal;
@@ -222,6 +223,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> getAllActiveByUserIdAndStatus(Long userId, OrderSortTypes sortType) throws ServiceException {
+        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
+            OrderDao orderDao = daoHelper.createOrderDao();
+            return sortType.getOrders(orderDao, userId);
+        } catch (DaoException e) {
+            throw new ServiceException(String.format("Can't getAllActiveByUserIdAndStatus(userId, sortType)  with userId: %d," +
+                            " sortType: %s", userId, sortType.name()), e);
+        }
+    }
+
+ /*   @Override
     public List<Order> getAllActiveByUserId(Long userId) throws ServiceException {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             OrderDao orderDao = daoHelper.createOrderDao();
@@ -241,5 +253,5 @@ public class OrderServiceImpl implements OrderService {
             throw new ServiceException(String.format("Can't getAllNotActiveByUserId(userId)  with userId: %d",
                     userId), e);
         }
-    }
+    }*/
 }

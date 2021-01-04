@@ -18,7 +18,6 @@ public enum UserRole {
     private final List<String> availableCommandNames;
 
     UserRole(String... extraCommandNames) {
-
         this.availableCommandNames = new ArrayList<>();
         this.availableCommandNames.addAll(Arrays.asList("LOCALE", "HOME"));
         if (extraCommandNames.length != 0) {

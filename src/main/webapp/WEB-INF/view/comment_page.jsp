@@ -76,15 +76,19 @@
                                     <div>${dishComment.text}</div>
                                     <div class="date">
                                         <span>
-                                             ${f:formatLocalDateTimeDefault(dishComment.creationDate)}
+                                                ${f:formatLocalDateTimeDefault(dishComment.creationDate)}
 
                                         </span>
 
                                         <div>
                                             <c:if test="${(dishComment.userLogin.equals(sessionScope.authUser.login))}">
-                                                <button class="littleButton" onclick="showChangeCommentForm(${dishComment.id})">CHANGE COMMENT</button>
+                                                <button class="littleButton"
+                                                        onclick="showChangeCommentForm(${dishComment.id})">CHANGE
+                                                    COMMENT
+                                                </button>
                                                 <form id="changeCommentForm${dishComment.id}"
-                                                      action="${pageContext.request.contextPath}/controller" method="POST">
+                                                      action="${pageContext.request.contextPath}/controller"
+                                                      method="POST">
                                                     <input type="hidden" name="command" value="UPDATE_COMMENT"/>
                                                     <input type="hidden" name="commentId" value="${dishComment.id}">
                                                     <textarea name="commentText"></textarea>

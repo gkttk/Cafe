@@ -7,6 +7,7 @@ import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Order;
 import com.github.gkttk.epam.model.entities.User;
+import com.github.gkttk.epam.model.enums.OrderSortTypes;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +21,8 @@ public class CancelOrderCommand implements Command {
     private final static String ORDER_ID_PARAM = "orderId";
     private final static String ORDERS_ATTR = "orders";
     private final static String MY_ORDERS_PAGE = "/WEB-INF/view/my_orders_page.jsp";
+    private final static OrderSortTypes ACTIVE_ORDER_SORT_TYPE = OrderSortTypes.ACTIVE;
+
 
     public CancelOrderCommand(OrderService orderService, UserService userService) {
         this.orderService = orderService;
@@ -57,7 +60,7 @@ public class CancelOrderCommand implements Command {
         Optional<User> newAuthUserOpt = userService.getById(userId);
         newAuthUserOpt.ifPresent(user -> requestDataHolder.putSessionAttribute(AUTH_USER_ATTR, user));
 
-        List<Order> userOrders = orderService.getAllActiveByUserId(userId);
+        List<Order> userOrders = orderService.getAllActiveByUserIdAndStatus(userId, ACTIVE_ORDER_SORT_TYPE);
         requestDataHolder.putSessionAttribute(ORDERS_ATTR, userOrders);
     }
 
