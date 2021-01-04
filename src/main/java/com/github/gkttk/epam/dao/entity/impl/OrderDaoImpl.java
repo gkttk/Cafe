@@ -21,6 +21,7 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
 
     private final static String FIND_ALL_WITH_EXPIRED_DATE_QUERY = "SELECT * from orders where date < NOW() AND status = 'ACTIVE'";//todo
     private final static String FIND_ALL_ACTIVE_BY_USER_ID = "SELECT * FROM orders WHERE status = 'ACTIVE' AND user_id = ?";//todo
+    private final static String FIND_ALL_NOT_ACTIVE_BY_USER_ID = "SELECT * FROM orders WHERE status NOT LIKE 'ACTIVE' AND user_id = ?";//todo
 
 
 
@@ -50,6 +51,11 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
     @Override
     public List<Order> findAllActiveByUserId(long userId) throws DaoException {
         return getAllResults(FIND_ALL_ACTIVE_BY_USER_ID, userId);
+    }
+
+    @Override
+    public List<Order> findAllNotActiveByUserId(long userId) throws DaoException {
+        return getAllResults(FIND_ALL_NOT_ACTIVE_BY_USER_ID, userId);
     }
 
 

@@ -231,4 +231,15 @@ public class OrderServiceImpl implements OrderService {
                     userId), e);
         }
     }
+
+    @Override
+    public List<Order> getAllNotActiveByUserId(Long userId) throws ServiceException {
+        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
+            OrderDao orderDao = daoHelper.createOrderDao();
+            return orderDao.findAllNotActiveByUserId(userId);
+        } catch (DaoException e) {
+            throw new ServiceException(String.format("Can't getAllNotActiveByUserId(userId)  with userId: %d",
+                    userId), e);
+        }
+    }
 }

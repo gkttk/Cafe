@@ -57,7 +57,7 @@ public class CancelOrderCommand implements Command {
         Optional<User> newAuthUserOpt = userService.getById(userId);
         newAuthUserOpt.ifPresent(user -> requestDataHolder.putSessionAttribute(AUTH_USER_ATTR, user));
 
-        List<Order> userOrders = orderService.getAllByUserId(userId);
+        List<Order> userOrders = orderService.getAllActiveByUserId(userId);
         requestDataHolder.putSessionAttribute(ORDERS_ATTR, userOrders);
     }
 

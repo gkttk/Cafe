@@ -15,6 +15,7 @@ public interface OrderDao extends Dao<Order> {
     List<Order> findAllActiveWithExpiredDate() throws DaoException;
 
     List<Order> findAllActiveByUserId(long userId) throws DaoException;
+    List<Order> findAllNotActiveByUserId(long userId) throws DaoException;
 
 
 

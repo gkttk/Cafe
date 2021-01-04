@@ -23,7 +23,7 @@
                 </c:if>
                 <div class="order_conditions">
                         <form action="${pageContext.request.contextPath}/controller" method="POST">
-                            <input type="hidden" name="command" value="ORDER_ACTIVE"/>
+                            <input type="hidden" name="command" value="MY_ORDERS"/>
                             <button type="submit">Активные</button>
                         </form>
                         <form action="${pageContext.request.contextPath}/controller" method="POST">

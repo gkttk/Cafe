@@ -63,7 +63,7 @@ public class TakeOrderCommand implements Command {
 
 
     private void renewSession(RequestDataHolder requestDataHolder, long userId) throws ServiceException {
-        List<Order> userOrders = orderService.getAllByUserId(userId);
+        List<Order> userOrders = orderService.getAllActiveByUserId(userId);
         requestDataHolder.putSessionAttribute(ORDERS_ATTR, userOrders);
 
         Optional<User> userOpt = userService.getById(userId);

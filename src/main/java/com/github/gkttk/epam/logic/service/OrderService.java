@@ -23,6 +23,7 @@ public interface OrderService {
     void cancelOrder(Order order, User user) throws ServiceException;
 
     List<Order> getAllActiveByUserId(Long userId) throws ServiceException;
+    List<Order> getAllNotActiveByUserId(Long userId) throws ServiceException;
 
 
 }
