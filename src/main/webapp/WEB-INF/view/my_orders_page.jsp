@@ -1,6 +1,7 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@taglib uri="WEB-INF/tlds/datetimeformatter" prefix="f" %>
 <fmt:setLocale value="${sessionScope.locale}" scope="session"/>
 <fmt:bundle basename="i18n/message">
     <html>
@@ -34,7 +35,9 @@
                             <tr>
                                 <td>${order.id}</td>
                                 <td>${order.cost}</td>
-                                <td>${order.date}</td>
+                                <td>
+                                        ${f:formatLocalDateTimeDefault(order.date)}
+                                </td>
                                 <td>
                                     <c:choose>
                                         <c:when test="${order.status == 'ACTIVE'}">
@@ -47,7 +50,7 @@
                                             Отменен
                                         </c:when>
                                         <c:otherwise>
-                                            Закрыт
+                                          Блокирован
                                         </c:otherwise>
                                     </c:choose>
                                 </td>

@@ -22,7 +22,7 @@
                         <input type="hidden" name="command" value="SAVE_ORDER"/>
 
                         <label for="date_input"><fmt:message key="make.order.date"/></label>
-                        <input form="form_content" id="date_input" type="text" name="date" pattern="\d{2}-\d{2}-\d{4}\s\d{2}:\d{2}"
+                        <input form="form_content" id="date_input" type="datetime-local" name="date" <%--pattern="\d{2}-\d{2}-\d{4}\s\d{2}:\d{2}"--%>
                                required><br/>
 
                         <table id="customers">

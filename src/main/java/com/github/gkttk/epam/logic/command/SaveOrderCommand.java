@@ -8,6 +8,7 @@ import com.github.gkttk.epam.model.entities.Dish;
 import com.github.gkttk.epam.model.entities.User;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -27,7 +28,6 @@ public class SaveOrderCommand implements Command {
     private final static String CURRENT_PAGE_PARAM = "currentPage";
 
     private final static String MENU_PAGE = "/WEB-INF/view/user_menu.jsp";
-    private final static String DATE_TIME_FORMAT = "dd-MM-yyyy HH:mm";
 
 
     public SaveOrderCommand(OrderService orderService) {
@@ -53,10 +53,9 @@ public class SaveOrderCommand implements Command {
         long userId = authUser.getId();
 
         String dateParam = requestDataHolder.getRequestParameter(DATE_PARAM);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
-        LocalDateTime dateTime = LocalDateTime.parse(dateParam, formatter);
-
+        LocalDateTime dateTime = LocalDateTime.parse(dateParam);
         orderService.makeOrder(orderCost, dateTime, userId, dishIds);
+
 
         requestDataHolder.putSessionAttribute(BASKET_ATTR, null);//todo mb better invalidate and fill session
 

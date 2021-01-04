@@ -1,5 +1,8 @@
 
 
+
+
+
 ul, nav{
 	list-style:none;
 	padding:0;
@@ -7,7 +10,8 @@ ul, nav{
 
 
 div.wrapper{
-	background:url(../images/background.jpg) no-repeat center center fixed;
+	/*background:url(../images/background.jpg) no-repeat center center fixed;*/
+	background:url(../images/test/pink.jpg) no-repeat center center fixed;
 	background-size: cover;
 	background-position: center;
 	font-style:italic;
@@ -95,6 +99,9 @@ div.header_nav{
 body > div > header > div.header_buttons > div.header_greeting > div.avatar > img{
 	width: 80px;
 	height: 90px;
+	border-radius: 10px;
+	justify-content: center;
+	display: flex;
 }
 
 
@@ -295,7 +302,7 @@ header div.header_buttons div.header_nav div.about form button{
 #changeAvatarForm{
 	display: none;
 	position: fixed;
-	background-color: tan;
+	background-color: #bce7e7;
 	width: 225px;
 	height: 63px;
 	top: 67px;
@@ -684,10 +691,18 @@ body > div > footer > div.bucketDiv{
 
 }
 
+/*new*/
+
+button, input[type=submit]{
+	border: 1px solid;
+	border-radius: 10px;
+	margin: 8px;
+	color: #000000;
+	background-color: #f78da199;
+}
 
 
-
-
+/*color for regisration #80d0cf;*/
 
 
 

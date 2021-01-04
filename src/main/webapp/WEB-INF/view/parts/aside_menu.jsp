@@ -2,8 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <div class="side_menu">
-    <h2><fmt:message key="aside.our.menu"/></h2>
-    <c:set var="userRole" value="${sessionScope.authUser.role}"/>
+
+  <%--    <h2><fmt:message key="aside.our.menu"/></h2>--%>
+      <c:set var="userRole" value="${sessionScope.authUser.role}"/>
     <ul>
       <li>
           <form method="post" action="${pageContext.request.contextPath}/controller">
