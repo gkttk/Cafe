@@ -46,7 +46,7 @@
         <c:when test="${sessionScope.authUser == null}">
         <div class="header_button">
             <ul>
-                <li><a class="sign_up" onclick="openForm()"><fmt:message
+                <li><a class="sign_up" onclick="showLoginDiv()"><fmt:message
                         key="header.sign.in.or.sign.up.button"/></a></li>
             </ul>
         </div>
@@ -63,8 +63,6 @@
                     <button form="registration_form" type="submit" class="btn">
                         <fmt:message key="header.sign.up.button"/>
                     </button>
-                    <button type="submit" class="btn cancel" onclick="closeForm()">
-                        <fmt:message key="header.close.form.button"/></button>
                 </div>
             </form>
 
@@ -91,15 +89,14 @@
            </span>
             </div>
             <div class="log_out">
-
-                <button onclick="showChangeAvatarForm()">
+                <button class="littleButton" onclick="showChangeAvatarForm()">
                     Сменить аватар
                 </button>
 
                 <div id="changeAvatarForm">
                 <form method="POST" action="${pageContext.request.contextPath}/upload" enctype="multipart/form-data">
                     <input type="file" name="newAvatar" accept="image/*" required/>
-                    <button class="logout_btn" type="submit" >
+                    <button class="littleButton" type="submit" >
                         Сменить аватар
                     </button>
                 </form>
@@ -108,7 +105,7 @@
 
                 <form method="POST" action="${pageContext.request.contextPath}/controller">
                     <input type="hidden" name="command" value="LOGOUT">
-                    <button class="logout_btn" type="submit"><fmt:message key="header.logout.button"/></button>
+                    <button type="submit"><fmt:message key="header.logout.button"/></button>
                 </form>
             </div>
         </div>

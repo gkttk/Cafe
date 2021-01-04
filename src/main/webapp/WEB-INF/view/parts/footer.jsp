@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <footer>
-    <div class="footer_logo"><h2><fmt:message key="footer.logo"/></h2></div>
+ <%--   <div class="footer_logo"><h2><fmt:message key="footer.logo"/></h2></div>--%>
 
 
     <c:if test="${not empty sessionScope.basket}">

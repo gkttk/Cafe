@@ -7,15 +7,14 @@ function showChangeAvatarForm(){
     }
 }
 
-
-
-function openForm() {
-    document.getElementById("myForm").style.display = "contents";
+function showLoginDiv(){
+    if (document.getElementById("myForm").style.display === "none") {
+        document.getElementById("myForm").style.display = "contents";
+    }else{
+        document.getElementById("myForm").style.display = "none";
+    }
 }
 
-function closeForm() {
-    document.getElementById("myForm").style.display = "none";
-}
 
 
 function showChangePointsDiv(idForChangePointsDiv){
@@ -34,6 +33,12 @@ function showChangeCommentForm(dishCommentId){
     }
 }
 
-
+function openCommentForm() {
+    if (document.getElementById("commentDiv").style.display === "none") {
+        document.getElementById("commentDiv").style.display = "block";
+    } else {
+        document.getElementById("commentDiv").style.display = "none";
+    }
+}
 
 

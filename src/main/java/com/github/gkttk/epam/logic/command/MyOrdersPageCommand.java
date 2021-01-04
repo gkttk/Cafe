@@ -28,7 +28,7 @@ public class MyOrdersPageCommand implements Command {
         User authUser = (User) requestDataHolder.getSessionAttribute(AUTH_USER_ATTR);
         long userId = authUser.getId();
 
-        List<Order> orders = orderService.getAllByUserId(userId);
+        List<Order> orders = orderService.getAllActiveByUserId(userId);
 
         requestDataHolder.putSessionAttribute(ORDERS_ATTR, orders);
         requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, MY_ORDERS_PAGE);

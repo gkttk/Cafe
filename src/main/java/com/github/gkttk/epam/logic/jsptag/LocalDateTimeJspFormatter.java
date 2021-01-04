@@ -1,4 +1,4 @@
-package com.github.gkttk.epam.logic;
+package com.github.gkttk.epam.logic.jsptag;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

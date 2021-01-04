@@ -1,57 +1,37 @@
-
-
-
-
-
 ul, nav{
 	list-style:none;
 	padding:0;
 }
 
-
 div.wrapper{
-	/*background:url(../images/background.jpg) no-repeat center center fixed;*/
-	background:url(../images/test/pink.jpg) no-repeat center center fixed;
-	background-size: cover;
-	background-position: center;
+	background:url(../images/background.jpg) no-repeat center center fixed;
+	background-size: 100%;
 	font-style:italic;
 	font-family: 'Caveat', cursive;
-
 	overflow:hidden;
 	min-height:100vh;
 	display:flex;
 	flex-direction:column;
-
-
-
-
 }
 
 
 /*header*/
 header{
-
 	height:100px;
-
-
 	display: flex;
-
 }
 
 
 header div.header_logo{
-
 	flex-basis:41%;
-	
 	display: flex;
 }
 
 header div.header_logo h1{
-	font-size:2em;
+	font-size: 3em;
 	align-self:center;
-	width:100%;
-	padding: 0px 115px 0;
-
+	padding: 0 115px 0;
+	font-weight: bold;
 }
 
 
@@ -68,28 +48,17 @@ header div.header_buttons{
 
 div.header_nav{
 	flex-basis:25%;
-	
 	display:flex;
 	justify-content: space-between;
 	align-items:center;
-	
 }
-
-
-
-
-
-
-
 
 
  div.header_button{
 	flex-basis:63%;
 }
 
-
-
-  div.header_greeting{
+div.header_greeting{
   		flex-basis:63%;
   		padding: 5px;
   		display: flex;
@@ -100,8 +69,7 @@ body > div > header > div.header_buttons > div.header_greeting > div.avatar > im
 	width: 80px;
 	height: 90px;
 	border-radius: 10px;
-	justify-content: center;
-	display: flex;
+	border: 2px solid;
 }
 
 
@@ -116,15 +84,6 @@ body > div > header > div.header_buttons > div.header_greeting > div.info{
 	justify-content: space-between;
 	padding-left: 10px;
 }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -145,16 +104,9 @@ div.header_greeting div.log_out{
 	padding-right:17px;
 	height: 100%;
 	display: flex;
-	justify-content: flex-end;
 	align-items: flex-end;
 	flex-direction: column;
 }
-
-
-
-
-
-
 
 
 header div.header_buttons ul{
@@ -163,10 +115,6 @@ header div.header_buttons ul{
 	align-items:center;
 	height:100%;
 }
-
-
-
-
 
 
 .form-popup {
@@ -178,21 +126,17 @@ header div.header_buttons ul{
 	height:100%;
 }
 
-
-/* Добавить стили для контейнера формы */
 .form-container {
-	max-width: 300px;
+	max-width: 200px;
 	padding: 11px;
-
-	background-color: #d2b753;
+	background-color: #34cbce;
 	border-radius:10px;
-	position: inherit;
-	top:10px;
-	right:10px;
+	position: fixed;
+	top: 0;
+	right: 0;
 
 }
 
-/* Поля ввода полной ширины */
 .form-container input[type=text], .form-container input[type=password] {
 	width: 85%;
 	padding: 15px;
@@ -203,33 +147,20 @@ header div.header_buttons ul{
 	height: fit-content;
 }
 
-/* Когда входы получают фокус, сделайте что-нибудь */
 .form-container input[type=text]:focus, .form-container input[type=password]:focus {
 	background-color: #ddd;
 	outline: none;
 }
 
-/* Установите стиль для кнопки отправить/войти */
 .form-container .btn {
-	background-color: #8a6545;
-	padding: 0px 1px;
-	border: none;
+	padding: 0 1px;
 	height:35px;
-	cursor: pointer;
-	width: 31%;
-	margin-bottom:0px;
-	opacity: 0.8;
-	border-radius:10px;
-	text-align:center;
+	width: 50%;
 	font-size:14px;
+	margin-bottom:0;
 }
 
-/* Добавить красный цвет фона для кнопки "Отмена" */
-.form-container .cancel {
-	background-color: #3c3304;
-}
 
-/* Добавить некоторые эффекты наведения на кнопки */
 .form-container .btn:hover, .open-button:hover {
 	opacity: 1;
 }
@@ -237,23 +168,6 @@ header div.header_buttons ul{
 div.buttons{
 	display: flex;
 	justify-content:space-between;
-}
-
-a{
-	color:white;
-	text-decoration:none;
-	cursor:pointer;
-}
-
-
-div.header_nav div.dropdown .dropbtn {
-	background-color: rgba(1,1,1,0);
-	font-style:italic;
-	font-family: 'Caveat', cursive;
-	color: white;
-	border: none;
-	font-size: 100%;
-	cursor: pointer;
 }
 
 
@@ -288,50 +202,16 @@ div.header_nav div.dropdown:hover .dropdown-content{
 }
 
 
-header div.header_buttons div.header_nav div.about form button{
-	background-color: rgba(1,1,1,0);
-	font-style:italic;
-	font-family: 'Caveat', cursive;
-	color: white;
-	border: none;
-	font-size: 100%;
-	cursor: pointer;
-}
 
 
 #changeAvatarForm{
 	display: none;
-	position: fixed;
-	background-color: #bce7e7;
-	width: 225px;
-	height: 63px;
-	top: 67px;
-	right: 22px;
-	border-radius: 10px;
 }
 
 #changeAvatarForm > form > input[type=file]:nth-child(2){
 	padding-top: 3px;
 	padding-left: 2px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -386,15 +266,6 @@ main div.side_menu ul li{
 	margin:15px;
 }
 
-main div.side_menu ul li button.btn{
-	background-color: rgba(1,1,1,0);
-    font-style: italic;
-    font-family: 'Caveat', cursive;
-    color: white;
-    border: none;
-    font-size: 100%;
-    cursor: pointer;
-}
 
 
 main div.content{
@@ -415,13 +286,7 @@ main div.content div.meal_types{
 }
 
 main div.content div.meal_types button{
-	background-color: rgba(1,1,1,0);
-    font-style: italic;
-    font-family: 'Caveat', cursive;
-    color: white;
-    border: none;
-    font-size: 100%;
-    cursor: pointer;
+	margin-top: 5px;
 }
 	
 main div.content div.menu_content form div.menu_item{
@@ -466,14 +331,7 @@ background-color: rgba(1,1,1,0);
 
 
 main div.content div.menu_content form input[type=submit]{
-	background-color: rgba(1,1,1,0);
-    font-style: italic;
-    font-family: 'Caveat', cursive;
-    color: white;
-    border: none;
-    font-size: 100%;
-    cursor: pointer;
-    padding:10px;
+	font-size: 140%;
 	}
 
 main div.user_conditions{
@@ -481,16 +339,6 @@ main div.user_conditions{
 	justify-content:space-around;
 }
 
-/*new*/
-button{
-	background-color: rgba(1,1,1,0);
-	font-style: italic;
-	font-family: 'Caveat', cursive;
-	color: white;
-	border: none;
-	font-size: 100%;
-	cursor: pointer;
-}
 
 main div.users div.user_item{
 	display: flex;
@@ -521,14 +369,13 @@ main div.users div.user_item div{
 	padding-top: 12px;
 	padding-bottom: 12px;
 	text-align: center;
-	color: white;
 	border: none;
 }
 
 
 body > div > main > div.content > div.menu_content > div{
 	display: flex;
-	justify-content:space-between;
+
 	margin-left:20px;
 }
 
@@ -593,7 +440,9 @@ body > div > main > div.content > div.menu_content > div:nth-child(2) > button{
 
 #commentDiv{
 	width: 50%;
+	position: absolute;
 	display: none;
+	top: 235px;
 
 
 }
@@ -609,7 +458,8 @@ body > div > main > div.content > div.menu_content > div:nth-child(2) > button{
 	height:150px;
 	border-radius:15px;
 	margin-left: 5px;
-	border:none;
+	background-color: #cdf0f0;
+	border: 2px solid;
 }
 
 body > div > p{
@@ -645,6 +495,7 @@ body > div > main > div.content > div.menu_content > ul{
 body > div > main > div.content > div.menu_content >div.comment_item > div.comment_info > div.comment_text > div.date{
 	display: flex;
 	justify-content: space-between;
+	align-items: flex-end;
 }
 
 [id^="changeCommentForm"]{
@@ -661,10 +512,15 @@ body > div > main > div.content > div.menu_content >div.comment_item > div.comme
 	border-radius: 10px;
 	min-width: 500px;
 	min-height: 100px;
-	border: 1px solid;
+	background-color: #cdf0f0;
+	border: 2px solid;
 }
 
 
+body > div > main > div.content > div.order_conditions{
+	display: flex;
+	justify-content: space-around;
+}
 
 
 
@@ -693,16 +549,62 @@ body > div > footer > div.bucketDiv{
 
 /*new*/
 
-button, input[type=submit]{
+button, input[type=submit], a{
 	border: 1px solid;
 	border-radius: 10px;
-	margin: 8px;
+	font-style: italic;
+	font-size: 100%;
+	cursor: pointer;
+	margin: 1px;
 	color: #000000;
-	background-color: #f78da199;
+	background-color: #f78da1;
+	font-family: 'Caveat', cursive;
+	padding: 10px;
+}
+
+body > div > header > div.header_buttons > div.header_nav > div.dropdown > div{
+	background-color: #34cbce;
+	display: none;
+}
+
+body > div > header > div.header_buttons > div.header_nav > div.dropdown > div > form{
+	display: flex;
+}
+
+body > div > header > div.header_buttons > div.header_greeting > div.log_out > button{
+
+	font-size: 90%;
+}
+
+#changeAvatarForm > form{
+	max-width: 300px;
+	padding: 11px;
+	background-color: #34cbce;
+	border-radius: 10px;
+	position: fixed;
+	top: 120px;
+	right: 22px;
+	border: 1px solid;
 }
 
 
-/*color for regisration #80d0cf;*/
+button.littleButton, input[type=submit].littleButton, a.littleButton{
+	border: 1px solid;
+	border-radius: 10px;
+	font-style: italic;
+	font-size: 70%;
+	cursor: pointer;
+	margin: 1px;
+	color: #000000;
+	background-color: #f78da1;
+	font-family: 'Caveat', cursive;
+	padding: 5px;
+}
+[id^="changePointsDiv"] > form {
+	margin-top: 10px;
+}
+
+
 
 
 

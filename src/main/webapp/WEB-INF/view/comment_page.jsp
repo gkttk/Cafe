@@ -1,6 +1,7 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@taglib uri="WEB-INF/tlds/datetimeformatter" prefix="f" %>
 <fmt:setLocale value="${sessionScope.locale}" scope="session"/>
 <fmt:bundle basename="i18n/message">
     <html>
@@ -33,17 +34,6 @@
 
                 </div>
                 <div class="menu_content">
-                    <script>
-
-                        function openCommentForm() {
-                            if (document.getElementById("commentDiv").style.display == "none") {
-                                document.getElementById("commentDiv").style.display = "block";
-                            } else {
-                                document.getElementById("commentDiv").style.display = "none";
-                            }
-                        }
-                    </script>
-
 
                     <div>
                         <button onclick="openCommentForm()">Оставить комментарий</button>
@@ -51,7 +41,7 @@
                             <form action="#" method="POST">
                                 <input type="hidden" name="command" value="ADD_COMMENT"/>
                                 <textarea name="commentText"></textarea>
-                                <button type="submit">Отправить</button>
+                                <button class="littleButton" type="submit">Отправить</button>
                             </form>
 
                         </div>
@@ -64,7 +54,7 @@
                                 <form method="post" action="${pageContext.request.contextPath}/controller">
                                     <input type="hidden" name="command" value="DISH_COMMENTS"/>
                                     <input type="hidden" name="pageNumber" value="${page}">
-                                    <button type="submit">${page}</button>
+                                    <button class="littleButton" type="submit">${page}</button>
                                 </form>
                             </li>
                         </c:forEach>
@@ -86,18 +76,19 @@
                                     <div>${dishComment.text}</div>
                                     <div class="date">
                                         <span>
-                                                ${dishComment.creationDate}
+                                             ${f:formatLocalDateTimeDefault(dishComment.creationDate)}
+
                                         </span>
 
                                         <div>
                                             <c:if test="${(dishComment.userLogin.equals(sessionScope.authUser.login))}">
-                                                <button onclick="showChangeCommentForm(${dishComment.id})">CHANGE COMMENT</button>
+                                                <button class="littleButton" onclick="showChangeCommentForm(${dishComment.id})">CHANGE COMMENT</button>
                                                 <form id="changeCommentForm${dishComment.id}"
                                                       action="${pageContext.request.contextPath}/controller" method="POST">
                                                     <input type="hidden" name="command" value="UPDATE_COMMENT"/>
                                                     <input type="hidden" name="commentId" value="${dishComment.id}">
                                                     <textarea name="commentText"></textarea>
-                                                    <button type="submit">UPDATE COMMENT</button>
+                                                    <button class="littleButton" type="submit">UPDATE COMMENT</button>
                                                 </form>
 
                                             </c:if>
@@ -108,7 +99,7 @@
                                             <form action="${pageContext.request.contextPath}/controller" method="POST">
                                                 <input type="hidden" name="command" value="DELETE_COMMENT"/>
                                                 <input type="hidden" name="commentId" value="${dishComment.id}">
-                                                <button type="submit">DELETE COMMENT</button>
+                                                <button class="littleButton" type="submit">DELETE COMMENT</button>
                                             </form>
                                         </c:if>
 
@@ -123,9 +114,8 @@
                                             <form action="${pageContext.request.contextPath}/controller" method="POST">
                                                 <input type="hidden" name="command" value="RATE_COMMENT"/>
                                                 <input type="hidden" name="commentId" value="${dishComment.id}"/>
-                                              <%--  <input type="hidden" name="rating" value="${dishComment.rating}"/>--%>
                                                 <input type="hidden" name="estimate" value="true"/>
-                                                <button type="submit">+</button>
+                                                <button class="littleButton" type="submit">+</button>
                                             </form>
                                         </c:if>
                                     </div>
@@ -137,9 +127,8 @@
                                             <form action="${pageContext.request.contextPath}/controller" method="POST">
                                                 <input type="hidden" name="command" value="RATE_COMMENT"/>
                                                 <input type="hidden" name="commentId" value="${dishComment.id}"/>
-                                                <%--<input type="hidden" name="rating" value="${dishComment.rating}"/>--%>
                                                 <input type="hidden" name="estimate" value="false"/>
-                                                <button type="submit">-</button>
+                                                <button class="littleButton" type="submit">-</button>
                                             </form>
                                         </c:if>
                                     </div>

@@ -21,6 +21,16 @@
                 <c:if test="${not empty requestScope.noMoneyErrorMessage}">
                     <fmt:message key="${requestScope.noMoneyErrorMessage}"/>
                 </c:if>
+                <div class="order_conditions">
+                        <form action="${pageContext.request.contextPath}/controller" method="POST">
+                            <input type="hidden" name="command" value="ORDER_ACTIVE"/>
+                            <button type="submit">Активные</button>
+                        </form>
+                        <form action="${pageContext.request.contextPath}/controller" method="POST">
+                            <input type="hidden" name="command" value="ORDER_HISTORY"/>
+                            <button type="submit">История</button>
+                        </form>
+                </div>
                 <div class="menu_content">
                     <table id="customers">
                         <tr>
