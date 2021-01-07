@@ -5,6 +5,7 @@ import com.github.gkttk.epam.model.dto.UserInfo;
 import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.enums.UserStatus;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,5 +30,6 @@ public interface UserService {
 
     void changePoints(long userId, int userPoints, boolean isAdd) throws ServiceException;
 
+    void addMoney(long userId, BigDecimal money) throws ServiceException;
 }
 

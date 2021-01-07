@@ -15,7 +15,7 @@ public class ConnectionProxy implements Connection {
 
     @Override
     public void close() {
-        ConnectionPool.getInstance().releaseConnection(this);//todo
+        ConnectionPool.getInstance().releaseConnection(this);
     }
 
     //default access for closing inner connection

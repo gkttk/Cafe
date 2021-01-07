@@ -30,7 +30,8 @@ public enum Commands {
     UPDATE_COMMENT(new UpdateCommentCommand(new CommentServiceImpl())),
     DELETE_COMMENT(new DeleteCommentCommand(new CommentServiceImpl())),
     SORT_COMMENTS(new SortCommentsCommand(new CommentServiceImpl())),
-    ORDER_HISTORY(new OrderHistoryCommand(new OrderServiceImpl()));
+    ORDER_HISTORY(new OrderHistoryCommand(new OrderServiceImpl())),
+    ADD_MONEY(new AddMoneyCommand(new UserServiceImpl()));
 
 
     Commands(Command command) {

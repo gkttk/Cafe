@@ -20,38 +20,40 @@ import java.io.IOException;
 public class Controller extends HttpServlet {
 
     private final static Logger LOGGER = LogManager.getLogger(Controller.class);
-    private final static String PAGE_ATTRIBUTE = "currentPage";
+    private final static String CURRENT_PAGE_ATTR = "currentPage";
+    private final static ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
 
+    //todo throw IOException
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        String page = (String) session.getAttribute(PAGE_ATTRIBUTE);
+        String page = (String) session.getAttribute(CURRENT_PAGE_ATTR);
         try {
             request.getRequestDispatcher(page).forward(request, response);
         } catch (ServletException e) {
             LOGGER.warn("Can't forward from doGet()", e);
+            response.sendError(500);
         } catch (IOException e) {
             LOGGER.warn("Can't forward/redirect from doGet()", e);
+            response.sendError(500);
         }
     }
 
-
+    //todo throw IOException
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-        RequestDataHolder requestDataHolder = new RequestDataHolder(request);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+        RequestDataHolder requestDataHolder = new RequestDataHolder(request);
         try {
             Command command = getCommand(requestDataHolder);
             CommandResult commandResult = command.execute(requestDataHolder);
             requestDataHolder.fillRequest(request);
-
             String url = commandResult.getUrl();
-
             if (commandResult.isRedirect()) {
                 if (!requestDataHolder.isSessionValid()) {
                     request.getSession().invalidate();
                 }//todo invalidate only for redirect
-                request.getSession().setAttribute(PAGE_ATTRIBUTE, url);
+                request.getSession().setAttribute(CURRENT_PAGE_ATTR, url);
                 response.sendRedirect(request.getRequestURL().toString());
             } else {
                 request.getRequestDispatcher(url).forward(request, response);
@@ -59,10 +61,13 @@ public class Controller extends HttpServlet {
 
         } catch (ServiceException e) {
             LOGGER.warn("ServiceException has occurred", e);
+            response.sendError(500);
         } catch (ServletException e) {
             LOGGER.warn("Can't forward from doPost()", e);
+            response.sendError(500);
         } catch (IOException e) {
             LOGGER.warn("Can't forward/redirect from doPost()", e);
+            response.sendError(500);
         }
     }
 
@@ -79,7 +84,7 @@ public class Controller extends HttpServlet {
     @Override
     public void destroy() {
         try {
-            ConnectionPool.getInstance().destroy();
+            CONNECTION_POOL.destroy();
         } catch (ConnectionPoolException e) {
             LOGGER.error("Couldn't close some connection", e);
         }

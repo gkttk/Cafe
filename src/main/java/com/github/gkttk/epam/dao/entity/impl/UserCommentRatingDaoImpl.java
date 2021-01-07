@@ -72,10 +72,9 @@ public class UserCommentRatingDaoImpl extends AbstractDao<UserCommentRating> imp
         Long commentId = entity.getCommentId();
         boolean isLiked = entity.isLiked();
 
-        try (PreparedStatement statement = createPrepareStatement(INSERT_QUERY,
-                userId, commentId, isLiked)) {
+        try (PreparedStatement statement = createPrepareStatement(INSERT_QUERY, userId, commentId, isLiked)) {
             statement.executeUpdate();
-            return -1L;//todo stub
+            return userId;
 
         } catch (SQLException e) {
             throw new DaoException("Can't save with entity: " + entity.toString(), e);

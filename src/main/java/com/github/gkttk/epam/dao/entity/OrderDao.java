@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface OrderDao extends Dao<Order> {
 
-    void saveOrderDish(long orderId, long dishId) throws DaoException;//todo
+    void saveOrderDish(long orderId, long dishId) throws DaoException;
 
     List<Order> findAllByUserId(Long userId) throws DaoException;
 

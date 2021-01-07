@@ -8,12 +8,10 @@ import java.util.Map;
 
 public class RequestDataHolder {
 
-
     private final Map<String, String[]> requestParameters = new HashMap<>();
     private final Map<String, Object> requestAttributes = new HashMap<>();
     private final Map<String, Object> sessionAttributes = new HashMap<>();
     private boolean isSessionValid;
-
 
     public RequestDataHolder(HttpServletRequest request) {
         isSessionValid = true;
@@ -25,11 +23,6 @@ public class RequestDataHolder {
     public void invalidateSession() {
         this.isSessionValid = false;
     }
-
-    public void removeSessionAttribute(String key){
-        sessionAttributes.remove(key);
-    }
-
 
     public boolean isSessionContainKey(String key){
         return sessionAttributes.containsKey(key);
@@ -43,12 +36,10 @@ public class RequestDataHolder {
         return isSessionValid;
     }
 
-    public void fillRequest(HttpServletRequest request) { //todo don't fill parameters
+    public void fillRequest(HttpServletRequest request) {
         requestAttributes.forEach(request::setAttribute);
         sessionAttributes.forEach((key, value) -> request.getSession().setAttribute(key, value));
-
     }
-
 
     public String[] getRequestParameters(String key) {
         return requestParameters.get(key);
@@ -61,8 +52,6 @@ public class RequestDataHolder {
         return null;
     }
 
-
-
     public Object getRequestAttribute(String key) {
         return requestAttributes.get(key);
     }
@@ -70,7 +59,6 @@ public class RequestDataHolder {
     public void putRequestAttribute(String key, Object value) {
         requestAttributes.put(key, value);
     }
-
 
     public Object getSessionAttribute(String key) {
         return sessionAttributes.get(key);
@@ -80,12 +68,10 @@ public class RequestDataHolder {
         sessionAttributes.put(key, value);
     }
 
-
     private void extractRequestParameters(HttpServletRequest request) {
         Map<String, String[]> parameterMap = request.getParameterMap();
         requestParameters.putAll(parameterMap);
     }
-
 
     private void extractRequestAttributes(HttpServletRequest request) {
         Enumeration<String> attributeNames = request.getAttributeNames();

@@ -15,6 +15,7 @@ import com.github.gkttk.epam.model.dto.UserInfo;
 import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.enums.UserStatus;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -160,6 +161,24 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(String.format("Can't changePoints(userId, points, isAdd) with userId: %d, points: %d," +
                             " isAdd: %b",
                     userId, points, isAdd), e);
+        }
+    }
+
+    @Override
+    public void addMoney(long userId, BigDecimal money) throws ServiceException {
+        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
+            UserDao userDao = daoHelper.createUserDao();
+            Optional<User> userOpt = userDao.findById(userId);
+            if(userOpt.isPresent()){
+                User user = userOpt.get();
+                UserBuilder builder = user.builder();
+                builder.setMoney(money);
+                User newUser = builder.build();
+                userDao.save(newUser);
+            }
+        } catch (DaoException e) {
+            throw new ServiceException(String.format("Can't addMoney(userId,money) with userId: %d, money: %.2f",
+                    userId, money), e);
         }
     }
 

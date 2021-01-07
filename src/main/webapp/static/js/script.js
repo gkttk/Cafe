@@ -41,4 +41,12 @@ function openCommentForm() {
     }
 }
 
+function openChangeMoneyForm() {
+    if (document.getElementById("addMoneyBlock").style.display === "none") {
+        document.getElementById("addMoneyBlock").style.display = "flex";
+    } else {
+        document.getElementById("addMoneyBlock").style.display = "none";
+    }
+}
+
 

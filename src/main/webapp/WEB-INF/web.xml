@@ -6,13 +6,18 @@
 
     <error-page>
         <error-code>404</error-code>
-        <!--<exception-type>java.lang.Throwable</exception-type>-->
+        <location>/error_page.jsp</location>
+    </error-page>
+
+    <error-page>
+        <error-code>500</error-code>
         <location>/error_page.jsp</location>
     </error-page>
 
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>
         <location>/error_page.jsp</location>
+
     </error-page>
 
 
@@ -52,8 +57,6 @@
         <filter-name>AuthorizationFilter</filter-name>
         <url-pattern>/controller</url-pattern>
     </filter-mapping>
-
-
 
 
 

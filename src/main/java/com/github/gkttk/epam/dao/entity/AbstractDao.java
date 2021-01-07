@@ -48,13 +48,11 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
     protected int rowCount(String query, Object... params) throws DaoException {
         try (PreparedStatement prepareStatement = createPrepareStatement(query, params);
              ResultSet resultSet = prepareStatement.executeQuery()) {
-            if (resultSet.next()) {
-                return resultSet.getInt(1);
-            }
+            return resultSet.next() ? resultSet.getInt(1) : 0;
+
         } catch (SQLException e) {
             throw new DaoException("Can't get rowCount() with " + query, e);
         }
-        return 0;//todo
     }
 
 
@@ -68,11 +66,11 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
     private Long getKey(Statement statement) throws SQLException {
         ResultSet generatedKeys = statement.getGeneratedKeys();
         generatedKeys.next();
-        return generatedKeys.getLong(1);//todo
+        return generatedKeys.getLong(1);
     }
 
     @Override
-    public Long save(T entity) throws DaoException {//todo
+    public Long save(T entity) throws DaoException {
         Map<String, Object> entityFields = fieldExtractor.extractFields(entity);
         Long id = entity.getId();
         String query;
@@ -91,7 +89,7 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
                 query = getUpdateQuery(entityFields);
                 statement = createPrepareStatement(query, entityFieldValues);
                 statement.executeUpdate();
-                return -1L; //todo stub
+                return id;
             }
         } catch (SQLException e) {
             throw new DaoException("Can't save entity: " + entity.toString(), e);

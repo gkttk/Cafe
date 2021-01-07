@@ -99,13 +99,38 @@ div.header_greeting div.user_points{
 }
 
 div.header_greeting div.log_out{
-	flex-grow: 1;
-	align-self:flex-end;
-	padding-right:17px;
-	height: 100%;
+/*	flex-grow: 1;
+	!*align-self:flex-end;*!
+	align-self: center;*/
+	padding-right:10px;
+	/*height: 65%; !*was 100%*!*/
 	display: flex;
-	align-items: flex-end;
+	/*align-items: flex-end;*/
 	flex-direction: column;
+/*	justify-content: space-between;*/
+}
+
+
+#log_out_block{
+	display: flex;
+	justify-content: space-between;
+	flex-grow: 1;
+}
+
+#log_out_block form{
+	display: flex;
+}
+
+#addMoneyBlock{
+	display: none;
+	position: absolute;
+	right: 15px;
+	top: 112px;
+}
+
+#addMoneyBlock input[type="number"]{
+	max-width: 57px;
+	border-radius: 10px;
 }
 
 
@@ -276,6 +301,14 @@ main div.content{
 	display: flex;
 	flex-direction:column;
 	font-size:1.5em;
+	margin: 0 auto;
+	width: 100%;
+}
+
+#registrationContent{
+	display: flex;
+	flex-direction: column;
+	font-size: 1.5em;
 	margin: 0 auto;
 }
 
@@ -589,8 +622,8 @@ body > div > header > div.header_buttons > div.header_greeting > div.log_out > b
 	background-color: #34cbce;
 	border-radius: 10px;
 	position: fixed;
-	top: 120px;
-	right: 22px;
+	top: 147px;
+	right: 15px;
 	border: 1px solid;
 }
 
@@ -615,5 +648,6 @@ button.littleButton, input[type=submit].littleButton, a.littleButton{
 #errorImg{
 	width: 500px;
 	height: auto;
+	margin: 0 auto;
 }
 

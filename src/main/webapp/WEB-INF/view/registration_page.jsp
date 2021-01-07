@@ -15,7 +15,7 @@
 
         <%@ include file="parts/header.jsp" %>
         <main>
-            <div class="content">
+            <div id="registrationContent">
                 <div class="menu_content">
                     <h2>Registration</h2>
                     <form id="form_content" method="POST" action="${pageContext.request.contextPath}/controller">

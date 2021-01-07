@@ -36,6 +36,6 @@ public class SortDishesCommand implements Command {
 
         requestDataHolder.putSessionAttribute(DISHES_ATTR, dishes);
 
-        return new CommandResult(MENU_PAGE, true);//todo mb forward
+        return new CommandResult(MENU_PAGE, true);
     }
 }

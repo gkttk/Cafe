@@ -102,11 +102,25 @@
                 </form>
                 </div>
 
+                <div id="log_out_block">
+                    <button class="littleButton" onclick="openChangeMoneyForm()">Добавить деньги</button>
 
-                <form method="POST" action="${pageContext.request.contextPath}/controller">
-                    <input type="hidden" name="command" value="LOGOUT">
-                    <button type="submit"><fmt:message key="header.logout.button"/></button>
-                </form>
+                    <div id="addMoneyBlock">
+                        <form method="POST" action="${pageContext.request.contextPath}/controller">
+                            <input type="hidden" name="command" value="ADD_MONEY">
+                            <input type="number" name="money" value="50" min="0" max="1000" step="50"/>
+                            <button class="littleButton" type="submit" >
+                                Добавить деньги
+                            </button>
+                        </form>
+                    </div>
+                    <form method="POST" action="${pageContext.request.contextPath}/controller">
+                        <input type="hidden" name="command" value="LOGOUT">
+                        <button class="littleButton" type="submit"><fmt:message key="header.logout.button"/></button>
+                    </form>
+                </div>
+
+
             </div>
         </div>
         </c:otherwise>

@@ -96,7 +96,7 @@ public class CommentServiceImpl implements CommentService {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             CommentDao commentDao = daoHelper.createCommentDao();
             int commentCount = commentDao.rowCountForDishId(dishId);
-            return (int) Math.ceil(((double) commentCount / DEFAULT_LIMIT_ON_PAGE));//todo limit double???
+            return (int) Math.ceil(((double) commentCount / DEFAULT_LIMIT_ON_PAGE));
         } catch (DaoException e) {
             throw new ServiceException("Can't getCommentsCount()", e);
         }

@@ -1,10 +1,17 @@
 package com.github.gkttk.epam.connection;
 
+import com.github.gkttk.epam.exceptions.ConnectionFactoryException;
 import com.github.gkttk.epam.exceptions.ConnectionPoolException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayDeque;
+import java.util.Properties;
 import java.util.Queue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
@@ -12,32 +19,34 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
     private static ConnectionPool instance;
+    private final static Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
     private static final AtomicBoolean isCreated = new AtomicBoolean(false);
+    private static final Lock INSTANCE_LOCK = new ReentrantLock();
+
+    private final static String CONFIG_LOCATION = "config/connection_pool.properties";
+    private final static String MAX_INIT_CONNECTIONS_KEY = "pool.init.connection";
 
     private final ConnectionFactory connectionFactory;
-
-    private static final Lock INSTANCE_LOCK = new ReentrantLock();
     private final Lock connectionLock;
-
-
     private Queue<ConnectionProxy> availableConnections;
     private Queue<ConnectionProxy> usedConnections;
-    private final static int MAX_INIT_CONNECTIONS = 10;//todo property
+    private int maxInitConnections;
 
     private ConnectionPool() {
+        loadProperties();
+
         connectionFactory = new ConnectionFactory();
         connectionLock = new ReentrantLock();
 
-        availableConnections = new ArrayDeque<>(MAX_INIT_CONNECTIONS);
-        usedConnections = new ArrayDeque<>(MAX_INIT_CONNECTIONS);
+        availableConnections = new ArrayDeque<>(maxInitConnections);
+        usedConnections = new ArrayDeque<>(maxInitConnections);
 
-        for (int i = 0; i < MAX_INIT_CONNECTIONS; i++) {
+        for (int i = 0; i < maxInitConnections; i++) {
             Connection connection = connectionFactory.createConnection();
             ConnectionProxy proxy = new ConnectionProxy(connection);
             availableConnections.add(proxy);
         }
     }
-
 
     public static ConnectionPool getInstance() {
         if (!isCreated.get()) {
@@ -52,13 +61,6 @@ public class ConnectionPool {
             }
         }
         return instance;
-    }
-
-
-    private ConnectionProxy createConnection() {
-        Connection connection = connectionFactory.createConnection();
-        return new ConnectionProxy(connection);
-
     }
 
     public ConnectionProxy getConnection() {
@@ -102,6 +104,26 @@ public class ConnectionPool {
         } catch (SQLException e) {
             throw new ConnectionPoolException("Can't close connection", e);
         }
+    }
+
+    private void loadProperties() {
+        try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(CONFIG_LOCATION)) {
+            Properties properties = new Properties();
+            properties.load(inputStream);
+            maxInitConnections = Integer.parseInt(properties.getProperty(MAX_INIT_CONNECTIONS_KEY));
+        } catch (FileNotFoundException e) {
+            LOGGER.error("File {} not found.", CONFIG_LOCATION, e);
+            throw new ConnectionFactoryException("File " + CONFIG_LOCATION + " not found.", e);
+        } catch (IOException e) {
+            LOGGER.error("Can't read {} file.", CONFIG_LOCATION, e);
+            throw new ConnectionFactoryException("Can't read " + CONFIG_LOCATION + " file.", e);
+        }
+    }
+
+    private ConnectionProxy createConnection() {
+        Connection connection = connectionFactory.createConnection();
+        return new ConnectionProxy(connection);
+
     }
 
 

@@ -58,7 +58,7 @@ public class ConnectionFactory {
         }
     }
 
-    public Connection createConnection() {//todo return Connection(in ConnectionPool wrap into ConnectionProxy)
+    public Connection createConnection() {
         try {
             return DriverManager.getConnection(url, login, password);
         } catch (SQLException e) {

@@ -57,7 +57,7 @@ public class DishCommentsCommand implements Command {
         requestDataHolder.putSessionAttribute(CURRENT_PAGE_PAGINATION_ATTR, pageNumber);
 
         int pageCount = commentService.getPageCount(dishId);
-        requestDataHolder.putSessionAttribute(PAGE_COUNT_ATTR, pageCount);//todo request or session?
+        requestDataHolder.putSessionAttribute(PAGE_COUNT_ATTR, pageCount);
 
         CommentSortTypes sortType = getSortType(requestDataHolder);
 

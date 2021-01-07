@@ -31,7 +31,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
     @Override
     public Optional<User> findByLogin(String login) throws DaoException {
-        return getSingleResult(FIND_BY_LOGIN_QUERY, login); //todo maybe exists
+        return getSingleResult(FIND_BY_LOGIN_QUERY, login);
     }
 
 

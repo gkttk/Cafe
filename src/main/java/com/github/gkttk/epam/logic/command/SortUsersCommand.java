@@ -37,6 +37,6 @@ public class SortUsersCommand implements Command {
 
         requestDataHolder.putSessionAttribute(USERS_ATTR, users);
 
-        return new CommandResult(USERS_PAGE, true);//todo mb forward
+        return new CommandResult(USERS_PAGE, true);
     }
 }

@@ -32,8 +32,9 @@ public class MultipartController extends HttpServlet {
 
     private final UserService userService = new UserServiceImpl();
 
+    //todo throw IOException
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             Part newAvatar = request.getPart(PART_ATTRIBUTE_KEY);
 
@@ -51,10 +52,13 @@ public class MultipartController extends HttpServlet {
 
         } catch (ServletException e) {
             LOGGER.warn("Can't forward from doPost()", e);
+            response.sendError(500);
         } catch (ServiceException e) {
             LOGGER.warn("ServiceException has occurred", e);
+            response.sendError(500);
         } catch (IOException e) {
             LOGGER.warn("IOException has occurred", e);
+            response.sendError(500);
         }
 
 

@@ -13,6 +13,8 @@ import com.github.gkttk.epam.model.entities.Order;
 import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.enums.OrderSortTypes;
 import com.github.gkttk.epam.model.enums.OrderStatus;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -21,6 +23,7 @@ import java.util.Optional;
 
 public class OrderServiceImpl implements OrderService {
 
+    private final static Logger LOGGER = LogManager.getLogger(OrderServiceImpl.class);
     private final static int DEFAULT_PENALTY = 10;
     private final static int DEFAULT_BONUS = 15;
 
@@ -47,11 +50,10 @@ public class OrderServiceImpl implements OrderService {
         } finally {
             try {
                 daoHelper.endTransaction();
-                daoHelper.close();
-            } catch (DaoException e) {
-                throw new ServiceException(String.format("Can't endTransaction() in makeOrder with order: %s, user_id: %d",
-                        order, userId), e);
+            } catch (DaoException exception) {
+                LOGGER.warn("Can't endTransaction() in makeOrder with order: {}, user_id: {}", order, userId, exception);
             }
+            daoHelper.close();
         }
 
 
@@ -69,14 +71,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-
-
     @Override
     public boolean takeOrder(Order order, User user) throws ServiceException {
         BigDecimal userMoney = user.getMoney();
         BigDecimal orderCost = order.getCost();
 
-        if(userMoney.compareTo(orderCost) < 0){
+        if (userMoney.compareTo(orderCost) < 0) {
             return false;
         }
 
@@ -113,11 +113,10 @@ public class OrderServiceImpl implements OrderService {
         } finally {
             try {
                 daoHelper.endTransaction();
-                daoHelper.close();
             } catch (DaoException exception) {
-                throw new ServiceException(String.format("Can't endTransaction() in takeOrder with order: %s, user: %s",
-                        order, user), exception);
+                LOGGER.warn("Can't endTransaction() in takeOrder with order: {}, user: {}", order, user, exception);
             }
+            daoHelper.close();
         }
         return true;
     }
@@ -142,23 +141,21 @@ public class OrderServiceImpl implements OrderService {
             OrderBuilder orderBuilder = order.builder();
             orderBuilder.setStatus(OrderStatus.BLOCKED);
             Order newOrder = orderBuilder.build();
+            OrderDao orderDao = daoHelper.createOrderDao();
+            orderDao.save(newOrder);
 
-            long userId = newOrder.getUserId();
-
+            long userId = order.getUserId();
             UserDao userDao = daoHelper.createUserDao();
             Optional<User> userOpt = userDao.findById(userId);
+            if (userOpt.isPresent()) {
+                User user = userOpt.get();
+                UserBuilder builder = user.builder();
+                builder.setPoints(user.getPoints() - DEFAULT_PENALTY);
+                User newUser = builder.build();
+                userDao.save(newUser);
+            }
 
-            User user = userOpt.get();//todo
-            UserBuilder builder = user.builder();
-            builder.setPoints(user.getPoints() - DEFAULT_PENALTY);
-            User newUser = builder.build();
-            userDao.save(newUser);
-
-            OrderDao orderDao = daoHelper.createOrderDao();
-
-            orderDao.save(newOrder);
             daoHelper.commit();
-
 
         } catch (DaoException e) {
             try {
@@ -171,11 +168,10 @@ public class OrderServiceImpl implements OrderService {
         } finally {
             try {
                 daoHelper.endTransaction();
-                daoHelper.close();
             } catch (DaoException exception) {
-                throw new ServiceException(String.format("Can't endTransaction() in blockOrder(order) with order: %s",
-                        order.toString()), exception);
+                LOGGER.warn("Can't endTransaction() in  blockOrder(order) with order: {}", order, exception);
             }
+            daoHelper.close();
         }
     }
 
@@ -214,11 +210,11 @@ public class OrderServiceImpl implements OrderService {
         } finally {
             try {
                 daoHelper.endTransaction();
-                daoHelper.close();
             } catch (DaoException exception) {
-                throw new ServiceException(String.format("Can't endTransaction() in cancelOrder(order, user) with order: %s, user: %s",
-                        order, user), exception);
+                LOGGER.warn("Can't endTransaction() in cancelOrder(order, user) with order: {}, user: {}",
+                        order, user, exception);
             }
+            daoHelper.close();
         }
     }
 
@@ -229,7 +225,7 @@ public class OrderServiceImpl implements OrderService {
             return sortType.getOrders(orderDao, userId);
         } catch (DaoException e) {
             throw new ServiceException(String.format("Can't getAllActiveByUserIdAndStatus(userId, sortType)  with userId: %d," +
-                            " sortType: %s", userId, sortType.name()), e);
+                    " sortType: %s", userId, sortType.name()), e);
         }
     }
 

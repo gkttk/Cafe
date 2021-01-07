@@ -10,11 +10,15 @@ import com.github.gkttk.epam.logic.service.UserCommentRatingService;
 import com.github.gkttk.epam.model.builder.CommentBuilder;
 import com.github.gkttk.epam.model.entities.Comment;
 import com.github.gkttk.epam.model.entities.UserCommentRating;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
 
 public class UserCommentRatingServiceImpl implements UserCommentRatingService {
+
+    private final static Logger LOGGER = LogManager.getLogger(UserCommentRatingServiceImpl.class);
 
     @Override
     public List<UserCommentRating> getAllByUserIdAndDishId(Long userId, Long dishId) throws ServiceException {
@@ -77,18 +81,17 @@ public class UserCommentRatingServiceImpl implements UserCommentRatingService {
                 daoHelper.rollback();
             } catch (DaoException ex) {
                 throw new ServiceException(String.format("Can't rollback() in evaluateComment(userId, commentId, " +
-                        "commentRating, isLiked) with userId: %d, commentId: %d, " +
-                        "isLiked: %b", userId, commentId, isLiked), ex);
+                        "commentRating, isLiked) with userId: %d, commentId: %d, isLiked: %b",
+                        userId, commentId, isLiked), ex);
             }
         } finally {
             try {
                 daoHelper.endTransaction();
-                daoHelper.close();
             } catch (DaoException exception) {
-                throw new ServiceException(String.format("Can't endTransaction() in evaluateComment(userId, commentId, " +
-                        "commentRating, isLiked) with userId: %d, commentRating: %d, " +
-                        "isLiked: %b", userId, commentId, isLiked), exception);
+                LOGGER.warn("Can't endTransaction() in evaluateComment(userId,commentId,commentRating, isLiked) " +
+                                "with userId: {}, commentRating: {}, isLiked: {}", userId, commentId, isLiked, exception);
             }
+            daoHelper.close();
 
         }
     }
