@@ -562,6 +562,12 @@ body > div > main > div.content > div.order_conditions{
 	justify-content: space-around;
 }
 
+h4{
+	text-align: center;
+	color: #ff363b;
+	font-size: 1.5em;
+}
+
 
 
 /*footer*/

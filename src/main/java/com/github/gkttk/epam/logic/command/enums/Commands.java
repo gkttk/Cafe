@@ -1,8 +1,9 @@
 package com.github.gkttk.epam.logic.command.enums;
 
-import com.github.gkttk.epam.dao.entity.impl.CommentDaoImpl;
 import com.github.gkttk.epam.logic.command.*;
 import com.github.gkttk.epam.logic.service.impl.*;
+import com.github.gkttk.epam.logic.validator.DataValidator;
+import com.github.gkttk.epam.logic.validator.MoneyValidator;
 
 public enum Commands {
     LOGIN(new LoginCommand(new UserServiceImpl(), new DishServiceImpl())),

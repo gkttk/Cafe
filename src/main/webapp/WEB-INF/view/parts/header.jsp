@@ -112,6 +112,9 @@
                             <button class="littleButton" type="submit" >
                                 Добавить деньги
                             </button>
+                            <c:if test="${not empty requestScope.errorMessage}">
+                                <h4><fmt:message key="${requestScope.errorMessage}"/></h4>
+                            </c:if>
                         </form>
                     </div>
                     <form method="POST" action="${pageContext.request.contextPath}/controller">

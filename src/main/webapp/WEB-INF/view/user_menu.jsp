@@ -17,9 +17,7 @@
         <main>
             <%@ include file="parts/aside_menu.jsp" %>
             <div class="content">
-                <c:if test="${not empty sessionScope.orderMessage}">
-                    <fmt:message key="${sessionScope.orderMessage}"/>
-                </c:if>
+
                 <div class="meal_types">
                     <form method="POST" action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="SORT_DISHES"/>
@@ -41,7 +39,12 @@
                         <button class="btn"><fmt:message key="user.menu.beverages.button"/></button>
                     </form>
                 </div>
-                <p style="text-align: center">${requestScope.errorMessage}</p>
+                <c:if test="${not empty requestScope.errorMessage}">
+                <h4><fmt:message key="${requestScope.errorMessage}"/></h4>
+                </c:if>
+                <c:if test="${not empty sessionScope.orderMessage}">
+                    <h4><fmt:message key="${sessionScope.orderMessage}"/></h4>
+                </c:if>
                 <div class="menu_content">
                     <table id="customers">
                         <tr>
