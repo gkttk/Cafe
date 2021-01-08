@@ -71,5 +71,19 @@
     </servlet-mapping>
 
 
+    <servlet>
+        <servlet-name>Multipart</servlet-name>
+        <servlet-class>com.github.gkttk.epam.controller.MultipartController</servlet-class>
+        <multipart-config>
+            <max-file-size>5242880</max-file-size>
+            <max-request-size>26214400</max-request-size>
+            <file-size-threshold>1048576</file-size-threshold>
+        </multipart-config>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Multipart</servlet-name>
+        <url-pattern>/upload</url-pattern>
+    </servlet-mapping>
 
 </web-app>

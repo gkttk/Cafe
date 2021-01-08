@@ -95,7 +95,8 @@
 
                 <div id="changeAvatarForm">
                 <form method="POST" action="${pageContext.request.contextPath}/upload" enctype="multipart/form-data">
-                    <input type="file" name="newAvatar" accept="image/*" required/>
+                    <input type="hidden" name="command" value="CHANGE_AVATAR"/>
+                    <input type="file" name="file" accept="image/*" required/>
                     <button class="littleButton" type="submit" >
                         Сменить аватар
                     </button>

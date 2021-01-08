@@ -1,55 +1,49 @@
 package com.github.gkttk.epam.controller;
 
+import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
-import com.github.gkttk.epam.logic.service.UserService;
-import com.github.gkttk.epam.logic.service.impl.UserServiceImpl;
-import com.github.gkttk.epam.model.entities.User;
+import com.github.gkttk.epam.logic.command.Command;
+import com.github.gkttk.epam.logic.command.enums.Commands;
+import com.github.gkttk.epam.model.CommandResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Base64;
-import java.util.Optional;
 
-@WebServlet(urlPatterns = "/upload")
-@MultipartConfig(fileSizeThreshold = 1024 * 1024,
-        maxFileSize = 1024 * 1024 * 5,
-        maxRequestSize = 1024 * 1024 * 5 * 5)
 public class MultipartController extends HttpServlet {
 
     private final static Logger LOGGER = LogManager.getLogger(MultipartController.class);
-    private final static String PART_ATTRIBUTE_KEY = "newAvatar";
-    private final static String AUTH_USER_ATTRIBUTE_KEY = "authUser";
+    private final static String FILE_ATTR = "file";
     private final static String TAIL_FOR_REDIRECT = "/controller";
+    private final static String COMMAND_PARAM = "command";
 
-    private final UserService userService = new UserServiceImpl();
 
-    //todo throw IOException
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        RequestDataHolder requestDataHolder = new RequestDataHolder(request);
         try {
-            Part newAvatar = request.getPart(PART_ATTRIBUTE_KEY);
-
+            Part newAvatar = request.getPart(FILE_ATTR);
             if (newAvatar == null) {
                 response.sendRedirect(getServletContext().getContextPath() + TAIL_FOR_REDIRECT);
             }
-
-            String byteString = getByteString(newAvatar);
-
-            User authUser = (User) request.getSession().getAttribute(AUTH_USER_ATTRIBUTE_KEY);
-            Long userId = authUser.getId();
-            userService.changeAvatar(authUser, byteString);
-            renewSession(userId, request);
-            response.sendRedirect(getServletContext().getContextPath() + TAIL_FOR_REDIRECT);
-
+            requestDataHolder.putRequestAttribute(FILE_ATTR, newAvatar);
+            Command command = getCommand(requestDataHolder);
+            CommandResult commandResult = command.execute(requestDataHolder);
+            requestDataHolder.fillRequest(request);
+            String url = commandResult.getUrl();
+            if (commandResult.isRedirect()) {
+                if (!requestDataHolder.isSessionValid()) {
+                    request.getSession().invalidate();
+                }//todo invalidate only for redirect
+                response.sendRedirect(getServletContext().getContextPath() + TAIL_FOR_REDIRECT);
+            } else {
+                request.getRequestDispatcher(url).forward(request, response);
+            }
         } catch (ServletException e) {
             LOGGER.warn("Can't forward from doPost()", e);
             response.sendError(500);
@@ -60,24 +54,15 @@ public class MultipartController extends HttpServlet {
             LOGGER.warn("IOException has occurred", e);
             response.sendError(500);
         }
-
-
     }
 
-
-    private String getByteString(Part part) throws IOException {
-        try (InputStream inputStream = part.getInputStream()) {
-            int availableBytes = inputStream.available();
-            byte[] buffer = new byte[availableBytes];
-            inputStream.read(buffer);
-            return Base64.getEncoder().encodeToString(buffer);
-
+    private Command getCommand(RequestDataHolder requestDataHolder) throws ServletException {
+        String commandName = requestDataHolder.getRequestParameter(COMMAND_PARAM);
+        if (commandName == null) {
+            throw new ServletException("Can't find command name in RequestDataHandler");
         }
-    }
-
-    private void renewSession(long userId, HttpServletRequest request) throws ServiceException {
-        Optional<User> userByIdOpt = userService.getById(userId);
-        userByIdOpt.ifPresent(user -> request.getSession().setAttribute(AUTH_USER_ATTRIBUTE_KEY, user));
+        Commands commandEnum = Commands.valueOf(commandName);
+        return commandEnum.getCommand();
     }
 
 

@@ -22,8 +22,8 @@ public class Controller extends HttpServlet {
     private final static Logger LOGGER = LogManager.getLogger(Controller.class);
     private final static String CURRENT_PAGE_ATTR = "currentPage";
     private final static ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
+    private final static String COMMAND_PARAM = "command";
 
-    //todo throw IOException
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
@@ -39,7 +39,6 @@ public class Controller extends HttpServlet {
         }
     }
 
-    //todo throw IOException
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -72,7 +71,7 @@ public class Controller extends HttpServlet {
     }
 
     private Command getCommand(RequestDataHolder requestDataHolder) throws ServletException {
-        String commandName = requestDataHolder.getRequestParameter("command");
+        String commandName = requestDataHolder.getRequestParameter(COMMAND_PARAM);
         if (commandName == null) {
             throw new ServletException("Can't find command name in RequestDataHandler");
         }
