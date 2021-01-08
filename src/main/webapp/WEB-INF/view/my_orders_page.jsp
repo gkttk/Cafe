@@ -25,21 +25,25 @@
                     <form action="${pageContext.request.contextPath}/controller" method="POST">
                         <input type="hidden" name="command" value="MY_ORDERS"/>
                         <input type="hidden" name="sortType" value="ACTIVE"/>
-                        <button type="submit">Активные</button>
+                        <button type="submit">
+                            <fmt:message key="my.orders.active"/>
+                        </button>
                     </form>
                     <form action="${pageContext.request.contextPath}/controller" method="POST">
                         <input type="hidden" name="command" value="MY_ORDERS"/>
                         <input type="hidden" name="sortType" value="EXPIRED"/>
-                        <button type="submit">История</button>
+                        <button type="submit">
+                            <fmt:message key="my.orders.history"/>
+                        </button>
                     </form>
                 </div>
                 <div class="menu_content">
                     <table id="customers">
                         <tr>
-                            <th>Идентификатор</th>
-                            <th>Стоимость</th>
-                            <th>Время</th>
-                            <th>Активность</th>
+                            <th><fmt:message key="my.orders.id"/></th>
+                            <th><fmt:message key="my.orders.cost"/></th>
+                            <th><fmt:message key="my.orders.date"/></th>
+                            <th><fmt:message key="my.orders.status"/></th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -53,16 +57,16 @@
                                 <td>
                                     <c:choose>
                                         <c:when test="${order.status == 'ACTIVE'}">
-                                            Активен
+                                            <fmt:message key="my.orders.active.status"/>
                                         </c:when>
                                         <c:when test="${order.status == 'RETRIEVED'}">
-                                            Выдан
+                                            <fmt:message key="my.orders.retrieved.status"/>
                                         </c:when>
                                         <c:when test="${order.status == 'CANCELLED'}">
-                                            Отменен
+                                            <fmt:message key="my.orders.cancelled.status"/>
                                         </c:when>
                                         <c:otherwise>
-                                            Блокирован
+                                            <fmt:message key="my.orders.blocked.status"/>
                                         </c:otherwise>
                                     </c:choose>
                                 </td>
@@ -72,7 +76,7 @@
                                             <input type="hidden" name="command" value="TAKE_ORDER"/>
                                             <input type="hidden" name="orderId" value="${order.id}"/>
                                             <button type="submit">
-                                                Забрать заказ
+                                                <fmt:message key="my.orders.take"/>
                                             </button>
                                         </form>
                                     </c:if>
@@ -82,7 +86,9 @@
                                         <form method="POST" action="${pageContext.request.contextPath}/controller">
                                             <input type="hidden" name="command" value="CANCEL_ORDER"/>
                                             <input type="hidden" name="orderId" value="${order.id}"/>
-                                            <button type="submit">Отмена</button>
+                                            <button type="submit">
+                                                <fmt:message key="my.orders.cancel"/>
+                                            </button>
                                         </form>
                                     </c:if>
                                 </td>

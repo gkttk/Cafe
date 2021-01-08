@@ -17,18 +17,18 @@
         <main>
             <div id="registrationContent">
                 <div class="menu_content">
-                    <h2>Registration</h2>
+                    <h2><fmt:message key="registration.registration"/></h2>
                     <form id="form_content" method="POST" action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="REGISTRATION"/>
-                        <label for="login_reg">Login</label>
+                        <label for="login_reg"><fmt:message key="registration.login"/></label>
                         <input id="login_reg" type="text" name="login" pattern="\D([a-zA-Z1-9]{3,9})"
                                title="Must contain first letter, and amount 4-10 symbols" required/>
-                        <label for="password_reg">Password</label>
+                        <label for="password_reg"><fmt:message key="registration.password"/></label>
                         <input id="password_reg" type="password" name="password"
                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,10}"
                                title="Must contain at least one number and one uppercase and lowercase letter, and 5-10 symbols"
                                required/>
-                        <button type="submit">Registrations</button>
+                        <button type="submit"><fmt:message key="registration.sign.up"/></button>
                     </form>
                 </div>
 

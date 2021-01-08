@@ -21,7 +21,7 @@
                     <div>
                         <form action="${pageContext.request.contextPath}/controller" method="POST">
                             <input type="hidden" name="command" value="SORT_USERS"/>
-                            <button type="submit">ВСЕ</button>
+                            <button type="submit"><fmt:message key="users.page.all"/></button>
                         </form>
                     </div>
                     <div>
@@ -43,10 +43,10 @@
                 <div class="users">
                     <table id="customers">
                         <tr>
-                            <th>Логин</th>
-                            <th>Баллы</th>
-                            <th>Роль</th>
-                            <th>Активность</th>
+                            <th><fmt:message key="users.page.login"/></th>
+                            <th><fmt:message key="users.page.points"/></th>
+                            <th><fmt:message key="users.page.role"/></th>
+                            <th><fmt:message key="users.page.status"/></th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -59,25 +59,27 @@
                                 <td>
                                     <c:choose>
                                         <c:when test="${user.blocked}">
-                                            Заблокирован
+                                            <fmt:message key="users.page.blocked"/>
                                         </c:when>
                                         <c:otherwise>
-                                            Активен
+                                            <fmt:message key="users.page.active"/>
                                         </c:otherwise>
                                     </c:choose>
                                 </td>
                                 <td>
                                     <a class="littleButton" onclick="showChangePointsDiv(${idForChangePointsDiv})">
-                                        Изменить баллы
+                                        <fmt:message key="users.page.change.points"/>
                                     </a>
                                     <div id="changePointsDiv${idForChangePointsDiv}" style="display: none">
                                         <form method="POST" action="${pageContext.request.contextPath}/controller">
                                             <input type="hidden" name="command" value="CHANGE_POINTS"/>
                                             <input type="hidden" name="userId" value="${user.id}"/>
-                                            <button class="littleButton" type="submit" name="isAdd" value="false">-
+                                            <button class="littleButton" type="submit" name="isAdd" value="false">
+                                                -
                                             </button>
                                             <input type="number" name="points" value="15" min="0" max="1000" step="5"/>
-                                            <button class="littleButton" type="submit" name="isAdd" value="true">+
+                                            <button class="littleButton" type="submit" name="isAdd" value="true">
+                                                +
                                             </button>
                                         </form>
                                     </div>
@@ -89,8 +91,9 @@
                                                 <input type="hidden" name="userId" value="${user.id}">
                                                 <input type="hidden" name="blocked" value="false">
                                                 <input type="hidden" name="command" value="CHANGE_STATUS">
-                                                <button class="littleButton" type="submit"><fmt:message
-                                                        key="users.page.unblock"/></button>
+                                                <button class="littleButton" type="submit">
+                                                    <fmt:message key="users.page.unblock"/>
+                                                </button>
                                             </form>
                                         </c:when>
                                         <c:otherwise>
@@ -98,8 +101,9 @@
                                                 <input type="hidden" name="userId" value="${user.id}">
                                                 <input type="hidden" name="blocked" value="true">
                                                 <input type="hidden" name="command" value="CHANGE_STATUS">
-                                                <button class="littleButton" type="submit"><fmt:message
-                                                        key="users.page.block"/></button>
+                                                <button class="littleButton" type="submit">
+                                                    <fmt:message key="users.page.block"/>
+                                                </button>
                                             </form>
                                         </c:otherwise>
                                     </c:choose>

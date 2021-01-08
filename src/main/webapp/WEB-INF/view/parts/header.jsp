@@ -85,12 +85,12 @@
                 <fmt:message key="header.user.points"/> ${sessionScope.authUser.points}
             </span>
             <span>
-                Деньги на счете: ${sessionScope.authUser.money}
+                 <fmt:message key="header.your.money"/> ${sessionScope.authUser.money}
            </span>
             </div>
             <div class="log_out">
                 <button class="littleButton" onclick="showChangeAvatarForm()">
-                    Сменить аватар
+                    <fmt:message key="header.choose.avatar"/>
                 </button>
 
                 <div id="changeAvatarForm">
@@ -98,20 +98,22 @@
                     <input type="hidden" name="command" value="CHANGE_AVATAR"/>
                     <input type="file" name="file" accept="image/*" required/>
                     <button class="littleButton" type="submit" >
-                        Сменить аватар
+                        <fmt:message key="header.change.avatar"/>
                     </button>
                 </form>
                 </div>
 
                 <div id="log_out_block">
-                    <button class="littleButton" onclick="openChangeMoneyForm()">Добавить деньги</button>
+                    <button class="littleButton" onclick="openChangeMoneyForm()">
+                        <fmt:message key="header.add.money"/>
+                    </button>
 
                     <div id="addMoneyBlock">
                         <form method="POST" action="${pageContext.request.contextPath}/controller">
                             <input type="hidden" name="command" value="ADD_MONEY">
                             <input type="number" name="money" value="50" min="0" max="1000" step="50"/>
                             <button class="littleButton" type="submit" >
-                                Добавить деньги
+                                <fmt:message key="header.add.money"/>
                             </button>
                             <c:if test="${not empty requestScope.errorMessage}">
                                 <h4><fmt:message key="${requestScope.errorMessage}"/></h4>
