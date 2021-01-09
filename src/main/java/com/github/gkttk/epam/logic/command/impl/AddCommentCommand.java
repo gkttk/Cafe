@@ -1,7 +1,8 @@
-package com.github.gkttk.epam.logic.command;
+package com.github.gkttk.epam.logic.command.impl;
 
 import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
+import com.github.gkttk.epam.logic.command.Command;
 import com.github.gkttk.epam.logic.service.CommentService;
 import com.github.gkttk.epam.logic.validator.Validator;
 import com.github.gkttk.epam.logic.validator.factory.ValidatorFactory;
@@ -9,12 +10,14 @@ import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.dto.CommentInfo;
 import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.enums.CommentSortTypes;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 public class AddCommentCommand implements Command {
 
-
+    private final static Logger LOGGER = LogManager.getLogger(AddCommentCommand.class);
     private final CommentService commentService;
     private final static String COMMENTS_PAGE = "/WEB-INF/view/comment_page.jsp";
     private final static String AUTH_USER_ATTR = "authUser";
@@ -38,18 +41,17 @@ public class AddCommentCommand implements Command {
 
         String commentText = requestDataHolder.getRequestParameter(COMMENT_TEXT_PARAM);
         Validator commentValidator = ValidatorFactory.getCommentValidator();
-       boolean isCommentValid = commentValidator.validate(commentText);
-       if(!isCommentValid){
-           requestDataHolder.putRequestAttribute(ERROR_MESSAGE_KEY, ERROR_MESSAGE_VALUE);
-           return new CommandResult(COMMENTS_PAGE, false);
-       }
-
+        boolean isCommentValid = commentValidator.validate(commentText);
+        if (!isCommentValid) {
+            LOGGER.info("Incorrect comment length: {}", commentText.length());
+            requestDataHolder.putRequestAttribute(ERROR_MESSAGE_KEY, ERROR_MESSAGE_VALUE);
+            return new CommandResult(COMMENTS_PAGE, false);
+        }
 
         User authUser = (User) requestDataHolder.getSessionAttribute(AUTH_USER_ATTR);
         long userId = authUser.getId();
 
-
-        long dishId = (Long) requestDataHolder.getSessionAttribute(DISH_ID_ATTR);
+        long dishId = (long) requestDataHolder.getSessionAttribute(DISH_ID_ATTR);
 
         commentService.addComment(commentText, userId, dishId);
 

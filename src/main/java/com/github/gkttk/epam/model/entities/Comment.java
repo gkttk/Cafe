@@ -56,6 +56,7 @@ public class Comment extends Entity {
         return dishId;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o){
@@ -66,16 +67,18 @@ public class Comment extends Entity {
         }
         Comment comment = (Comment) o;
         return rating == comment.rating &&
-                userId == comment.userId &&
-                dishId == comment.dishId &&
                 Objects.equals(text, comment.text) &&
-                Objects.equals(creationDate, comment.creationDate);
+                Objects.equals(creationDate, comment.creationDate) &&
+                Objects.equals(userId, comment.userId) &&
+                Objects.equals(dishId, comment.dishId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(text, rating, creationDate, userId, dishId);
     }
+
+
 
     @Override
     public String toString() {

@@ -32,20 +32,6 @@ public class UserCommentRatingServiceImpl implements UserCommentRatingService {
     }
 
     @Override
-    public List<UserCommentRating> getAllByUserId(Long userId) throws ServiceException {
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            UserCommentRatingDao userCommentRatingDao = daoHelper.createUserCommentRatingDao();
-            return userCommentRatingDao.findAllByUserId(userId);
-        } catch (DaoException e) {
-            throw new ServiceException(String.format("Can't getAllByUserId with userId:%d", userId), e);
-        }
-    }
-
-
-
-
-    //todo catch in finally
-    @Override
     public void evaluateComment(long userId, long commentId, boolean isLiked) throws ServiceException {
         DaoHelper daoHelper = DaoHelperFactory.createDaoHelper();
         try {
@@ -81,7 +67,7 @@ public class UserCommentRatingServiceImpl implements UserCommentRatingService {
                 daoHelper.rollback();
             } catch (DaoException ex) {
                 throw new ServiceException(String.format("Can't rollback() in evaluateComment(userId, commentId, " +
-                        "commentRating, isLiked) with userId: %d, commentId: %d, isLiked: %b",
+                                "commentRating, isLiked) with userId: %d, commentId: %d, isLiked: %b",
                         userId, commentId, isLiked), ex);
             }
         } finally {
@@ -89,7 +75,7 @@ public class UserCommentRatingServiceImpl implements UserCommentRatingService {
                 daoHelper.endTransaction();
             } catch (DaoException exception) {
                 LOGGER.warn("Can't endTransaction() in evaluateComment(userId,commentId,commentRating, isLiked) " +
-                                "with userId: {}, commentRating: {}, isLiked: {}", userId, commentId, isLiked, exception);
+                        "with userId: {}, commentRating: {}, isLiked: {}", userId, commentId, isLiked, exception);
             }
             daoHelper.close();
 

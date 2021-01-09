@@ -59,17 +59,6 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-    @Override
-    public List<Order> getAllByUserId(Long userId) throws ServiceException {
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            OrderDao orderDao = daoHelper.createOrderDao();
-            return orderDao.findAllByUserId(userId);
-        } catch (DaoException e) {
-            throw new ServiceException(String.format("Can't getAllOrdersByUserId()  with userId: %d",
-                    userId), e);
-        }
-    }
-
 
     @Override
     public boolean takeOrder(Order order, User user) throws ServiceException {
@@ -79,7 +68,6 @@ public class OrderServiceImpl implements OrderService {
         if (userMoney.compareTo(orderCost) < 0) {
             return false;
         }
-
 
         OrderBuilder orderBuilder = order.builder();
         orderBuilder.setStatus(OrderStatus.RETRIEVED);
@@ -129,8 +117,6 @@ public class OrderServiceImpl implements OrderService {
         } catch (DaoException e) {
             throw new ServiceException("Can't getAllActiveWithExpiredDate()", e);
         }
-
-
     }
 
     @Override
@@ -229,25 +215,4 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
- /*   @Override
-    public List<Order> getAllActiveByUserId(Long userId) throws ServiceException {
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            OrderDao orderDao = daoHelper.createOrderDao();
-            return orderDao.findAllActiveByUserId(userId);
-        } catch (DaoException e) {
-            throw new ServiceException(String.format("Can't getAllActiveByUserId(userId)  with userId: %d",
-                    userId), e);
-        }
-    }
-
-    @Override
-    public List<Order> getAllNotActiveByUserId(Long userId) throws ServiceException {
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            OrderDao orderDao = daoHelper.createOrderDao();
-            return orderDao.findAllNotActiveByUserId(userId);
-        } catch (DaoException e) {
-            throw new ServiceException(String.format("Can't getAllNotActiveByUserId(userId)  with userId: %d",
-                    userId), e);
-        }
-    }*/
 }

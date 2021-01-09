@@ -1,7 +1,8 @@
-package com.github.gkttk.epam.logic.command;
+package com.github.gkttk.epam.logic.command.impl;
 
 import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
+import com.github.gkttk.epam.logic.command.Command;
 import com.github.gkttk.epam.logic.service.DishService;
 import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.model.CommandResult;
@@ -11,7 +12,7 @@ import com.github.gkttk.epam.model.entities.User;
 import java.util.List;
 import java.util.Optional;
 
-public class LoginCommand implements Command { //+
+public class LoginCommand implements Command {
 
     private final UserService userService;
     private final DishService dishService;

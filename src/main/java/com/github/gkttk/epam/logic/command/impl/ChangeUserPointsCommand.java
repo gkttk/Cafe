@@ -1,7 +1,8 @@
-package com.github.gkttk.epam.logic.command;
+package com.github.gkttk.epam.logic.command.impl;
 
 import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
+import com.github.gkttk.epam.logic.command.Command;
 import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.dto.UserInfo;
@@ -17,7 +18,6 @@ public class ChangeUserPointsCommand implements Command {
     private final static String IS_ADD_PARAM = "isAdd";
     private final static String USERS_ATTR = "users";
     private final static String USERS_PAGE = "/WEB-INF/view/users_page.jsp";
-
 
     public ChangeUserPointsCommand(UserService userService) {
         this.userService = userService;

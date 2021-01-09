@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(String.format("Can't login(login, password) with login: %s, password: %s",
                     login, password), e);
         }
-    }//+
+    }
 
     @Override
     public Optional<User> getById(long id) throws ServiceException {
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
         } catch (DaoException e) {
             throw new ServiceException(String.format("Can't getUserById(id) with id: %d", id), e);
         }
-    }//+
+    }
 
     @Override
     public List<UserInfo> getAll() throws ServiceException {
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
         } catch (DaoException e) {
             throw new ServiceException("Can't getUsers()", e);
         }
-    } //+
+    }
 
 
     @Override
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
         }
 
         return result;
-    }//+
+    }
 
     @Override
     public boolean registration(String login, String password) throws ServiceException {
@@ -98,20 +98,7 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(String.format("Can't registration(login, password) with login: %s and password: %s",
                     login, password), e);
         }
-    } //+
-
-
-
-  /*  @Override
-    public Optional<User> getUserByLogin(String login) throws ServiceException {
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            UserDao userDao = daoHelper.createUserDao();
-            return userDao.findByLoginAndPassword(login);
-        } catch (DaoException e) {
-            throw new ServiceException(String.format("Can't getUserByLogin() with login: %s", login), e);
-        }
-
-    }*/
+    }
 
 
     @Override
@@ -146,7 +133,6 @@ public class UserServiceImpl implements UserService {
     public void changePoints(long userId, int points, boolean isAdd) throws ServiceException {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             UserInfoDao userInfoDao = daoHelper.createUserInfoDao();
-
             Optional<UserInfo> userOpt = userInfoDao.findById(userId);
             if (userOpt.isPresent()) {
                 UserInfo user = userOpt.get();
@@ -169,7 +155,7 @@ public class UserServiceImpl implements UserService {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             UserDao userDao = daoHelper.createUserDao();
             Optional<User> userOpt = userDao.findById(userId);
-            if(userOpt.isPresent()){
+            if (userOpt.isPresent()) {
                 User user = userOpt.get();
                 UserBuilder builder = user.builder();
                 builder.setMoney(money);
@@ -186,7 +172,7 @@ public class UserServiceImpl implements UserService {
     private boolean compareStatuses(UserInfo userFromDb, boolean newStatus) {
         boolean userFromDbStatus = userFromDb.isBlocked();
         return userFromDbStatus == newStatus;
-    } //+
+    }
 
 
 }

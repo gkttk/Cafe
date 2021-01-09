@@ -1,7 +1,8 @@
-package com.github.gkttk.epam.logic.command;
+package com.github.gkttk.epam.logic.command.impl;
 
 import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
+import com.github.gkttk.epam.logic.command.Command;
 import com.github.gkttk.epam.logic.service.CommentService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.dto.CommentInfo;
@@ -43,7 +44,7 @@ public class UpdateCommentCommand implements Command {
         List<CommentInfo> dishComments = (List<CommentInfo>) requestDataHolder.getSessionAttribute(DISH_COMMENTS_ATTR);
         Optional<CommentInfo> commentOpt = dishComments.stream()
                 .filter(dishComment -> dishComment
-                .getId().equals(commentId))
+                        .getId().equals(commentId))
                 .findFirst();
 
         if (commentOpt.isPresent()) {

@@ -27,11 +27,12 @@ public class MultipartController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         RequestDataHolder requestDataHolder = new RequestDataHolder(request);
         try {
-            Part newAvatar = request.getPart(FILE_ATTR);
-            if (newAvatar == null) {
+            Part file = request.getPart(FILE_ATTR);
+            if (file == null) {
                 response.sendRedirect(getServletContext().getContextPath() + TAIL_FOR_REDIRECT);
+                LOGGER.info("There is no file in request");
             }
-            requestDataHolder.putRequestAttribute(FILE_ATTR, newAvatar);
+            requestDataHolder.putRequestAttribute(FILE_ATTR, file);
             Command command = getCommand(requestDataHolder);
             CommandResult commandResult = command.execute(requestDataHolder);
             requestDataHolder.fillRequest(request);

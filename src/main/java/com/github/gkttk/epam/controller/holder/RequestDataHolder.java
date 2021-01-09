@@ -24,11 +24,11 @@ public class RequestDataHolder {
         this.isSessionValid = false;
     }
 
-    public boolean isSessionContainKey(String key){
+    public boolean isSessionContainKey(String key) {
         return sessionAttributes.containsKey(key);
     }
 
-    public boolean isRequestParamContainsKey(String key){
+    public boolean isRequestParamContainsKey(String key) {
         return requestParameters.containsKey(key);
     }
 
@@ -46,7 +46,7 @@ public class RequestDataHolder {
     }
 
     public String getRequestParameter(String key) {
-        if(requestParameters.get(key) != null){
+        if (requestParameters.get(key) != null) {
             return requestParameters.get(key)[0];
         }
         return null;

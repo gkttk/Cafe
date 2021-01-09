@@ -18,10 +18,11 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
+
     private static ConnectionPool instance;
     private final static Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
-    private static final AtomicBoolean isCreated = new AtomicBoolean(false);
-    private static final Lock INSTANCE_LOCK = new ReentrantLock();
+    private final static AtomicBoolean isCreated = new AtomicBoolean(false);
+    private final static Lock INSTANCE_LOCK = new ReentrantLock();
 
     private final static String CONFIG_LOCATION = "config/connection_pool.properties";
     private final static String MAX_INIT_CONNECTIONS_KEY = "pool.init.connection";
@@ -54,7 +55,7 @@ public class ConnectionPool {
                 INSTANCE_LOCK.lock();
                 if (!isCreated.get()) {
                     instance = new ConnectionPool();
-                    isCreated.set(true);
+                    isCreated.compareAndSet(false, true);
                 }
             } finally {
                 INSTANCE_LOCK.unlock();
@@ -84,13 +85,14 @@ public class ConnectionPool {
         if (usedConnections.contains(connection)) {
             try {
                 connectionLock.lock();
-                availableConnections.offer(connection);
                 usedConnections.remove(connection);
+                if (availableConnections.size() < maxInitConnections) {
+                    availableConnections.offer(connection);
+                }
             } finally {
                 connectionLock.unlock();
             }
         }
-
     }
 
     public void destroy() throws ConnectionPoolException {
@@ -102,7 +104,7 @@ public class ConnectionPool {
                 connectionProxy.closeConnection();
             }
         } catch (SQLException e) {
-            throw new ConnectionPoolException("Can't close connection", e);
+            throw new ConnectionPoolException("Can't destroy connection pool", e);
         }
     }
 
@@ -114,16 +116,18 @@ public class ConnectionPool {
         } catch (FileNotFoundException e) {
             LOGGER.error("File {} not found.", CONFIG_LOCATION, e);
             throw new ConnectionFactoryException("File " + CONFIG_LOCATION + " not found.", e);
-        } catch (IOException e) {
-            LOGGER.error("Can't read {} file.", CONFIG_LOCATION, e);
-            throw new ConnectionFactoryException("Can't read " + CONFIG_LOCATION + " file.", e);
+        } catch (IOException ex) {
+            LOGGER.error("Can't read {} file.", CONFIG_LOCATION, ex);
+            throw new ConnectionFactoryException("Can't read " + CONFIG_LOCATION + " file.", ex);
+        } catch (NumberFormatException exception) {
+            throw new ConnectionFactoryException("MaxInitConnections property can't be parse to int in " +
+                    CONFIG_LOCATION + " file.", exception);
         }
     }
 
     private ConnectionProxy createConnection() {
         Connection connection = connectionFactory.createConnection();
         return new ConnectionProxy(connection);
-
     }
 
 

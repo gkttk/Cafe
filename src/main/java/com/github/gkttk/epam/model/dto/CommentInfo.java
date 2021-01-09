@@ -57,8 +57,12 @@ public class CommentInfo extends Entity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o){
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()){
+            return false;
+        }
         CommentInfo that = (CommentInfo) o;
         return rating == that.rating &&
                 Objects.equals(text, that.text) &&

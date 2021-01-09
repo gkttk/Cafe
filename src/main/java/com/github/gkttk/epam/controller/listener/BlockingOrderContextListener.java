@@ -15,6 +15,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class BlockingOrderContextListener implements ServletContextListener {
+
     private OrderService orderService = new OrderServiceImpl();
     private ScheduledExecutorService scheduledExecutorService;
 
@@ -39,7 +40,7 @@ public class BlockingOrderContextListener implements ServletContextListener {
     private void blockOrders(List<Order> orders) throws ServiceException {
         for (Order order : orders) {
             orderService.blockOrder(order);
-            LOGGER.info("Change order" + order.toString());
+            LOGGER.info("Block order {}", order);
         }
     }
 

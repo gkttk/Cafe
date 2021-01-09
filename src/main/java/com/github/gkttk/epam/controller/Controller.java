@@ -20,8 +20,9 @@ import java.io.IOException;
 public class Controller extends HttpServlet {
 
     private final static Logger LOGGER = LogManager.getLogger(Controller.class);
-    private final static String CURRENT_PAGE_ATTR = "currentPage";
     private final static ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
+
+    private final static String CURRENT_PAGE_ATTR = "currentPage";
     private final static String COMMAND_PARAM = "command";
 
     @Override
@@ -33,8 +34,8 @@ public class Controller extends HttpServlet {
         } catch (ServletException e) {
             LOGGER.warn("Can't forward from doGet()", e);
             response.sendError(500);
-        } catch (IOException e) {
-            LOGGER.warn("Can't forward/redirect from doGet()", e);
+        } catch (IOException ex) {
+            LOGGER.warn("Can't forward/redirect from doGet()", ex);
             response.sendError(500);
         }
     }
@@ -61,11 +62,11 @@ public class Controller extends HttpServlet {
         } catch (ServiceException e) {
             LOGGER.warn("ServiceException has occurred", e);
             response.sendError(500);
-        } catch (ServletException e) {
-            LOGGER.warn("Can't forward from doPost()", e);
+        } catch (ServletException ex) {
+            LOGGER.warn("Can't forward from doPost()", ex);
             response.sendError(500);
-        } catch (IOException e) {
-            LOGGER.warn("Can't forward/redirect from doPost()", e);
+        } catch (IOException exception) {
+            LOGGER.warn("Can't forward/redirect from doPost()", exception);
             response.sendError(500);
         }
     }
@@ -85,7 +86,7 @@ public class Controller extends HttpServlet {
         try {
             CONNECTION_POOL.destroy();
         } catch (ConnectionPoolException e) {
-            LOGGER.error("Couldn't close some connection", e);
+            LOGGER.error("Couldn't destroy connection pool in Controller", e);
         }
     }
 }

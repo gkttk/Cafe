@@ -27,7 +27,18 @@ public class ConnectionFactory {
 
     public ConnectionFactory() {
         loadProperties();
-        init();
+        loadDriver();
+    }
+
+    public Connection createConnection() {
+        try {
+            return DriverManager.getConnection(url, login, password);
+        } catch (SQLException e) {
+            LOGGER.error("Can't create a connection with url: {},login: {}, password: {}",
+                    url, login, password, e);
+            throw new ConnectionFactoryException(String.format("Can't create a connection with" +
+                    "url: %s", url), e);
+        }
     }
 
 
@@ -40,31 +51,22 @@ public class ConnectionFactory {
             url = properties.getProperty(URL_KEY);
             login = properties.getProperty(LOGIN_KEY);
             password = properties.getProperty(PASSWORD_KEY);
+
         } catch (FileNotFoundException e) {
             LOGGER.error("File {} not found.", CONFIG_LOCATION, e);
             throw new ConnectionFactoryException("File " + CONFIG_LOCATION + " not found.", e);
-        } catch (IOException e) {
-            LOGGER.error("Can't read {} file.", CONFIG_LOCATION, e);
-            throw new ConnectionFactoryException("Can't read " + CONFIG_LOCATION + " file.", e);
+        } catch (IOException ex) {
+            LOGGER.error("Can't read {} file.", CONFIG_LOCATION, ex);
+            throw new ConnectionFactoryException("Can't read " + CONFIG_LOCATION + " file.", ex);
         }
     }
 
-    private void init() {
+    private void loadDriver() {
         try {
             Class.forName(driverName);
         } catch (ClassNotFoundException e) {
             LOGGER.error("Can't load driver with name {} .", driverName, e);
             throw new ConnectionFactoryException("Can't load class with with name " + driverName, e);
-        }
-    }
-
-    public Connection createConnection() {
-        try {
-            return DriverManager.getConnection(url, login, password);
-        } catch (SQLException e) {
-            LOGGER.error("Can't create a connection with url: {}.", url, e);
-            throw new ConnectionFactoryException(String.format("Can't create a connection with" +
-                    "url: %s", url), e);
         }
     }
 

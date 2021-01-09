@@ -192,10 +192,6 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
     }
 
 
-    protected RowMapper<T> getRowMapper() {
-        return rowMapper;
-    }
-
     protected abstract String getTableName();
 
 }

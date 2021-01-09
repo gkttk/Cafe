@@ -13,8 +13,6 @@ public interface OrderService {
 
     void makeOrder(BigDecimal orderCost, LocalDateTime dateTime, long userId, List<Long> dishIds) throws ServiceException;
 
-    List<Order> getAllByUserId(Long userId) throws ServiceException;
-
     boolean takeOrder(Order order, User user) throws ServiceException;
 
     List<Order> getAllActiveWithExpiredDate() throws ServiceException;
@@ -24,7 +22,5 @@ public interface OrderService {
     void cancelOrder(Order order, User user) throws ServiceException;
 
     List<Order> getAllActiveByUserIdAndStatus(Long userId, OrderSortTypes sortType) throws ServiceException;
-   // List<Order> getAllNotActiveByUserId(Long userId) throws ServiceException;
-
 
 }

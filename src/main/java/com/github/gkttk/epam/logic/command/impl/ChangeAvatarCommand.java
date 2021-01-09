@@ -1,7 +1,8 @@
-package com.github.gkttk.epam.logic.command;
+package com.github.gkttk.epam.logic.command.impl;
 
 import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
+import com.github.gkttk.epam.logic.command.Command;
 import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.User;

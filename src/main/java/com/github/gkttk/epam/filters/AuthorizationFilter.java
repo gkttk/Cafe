@@ -27,15 +27,13 @@ public class AuthorizationFilter implements Filter {
 
         String command = request.getParameter(COMMAND_PARAM);
 
-        User authUser = (User) session.getAttribute(AUTH_USER_ATTR);
-
-        boolean isAuthenticated;
         UserRole role = UserRole.GUEST;
-
+        User authUser = (User) session.getAttribute(AUTH_USER_ATTR);
         if (authUser != null) {
             role = authUser.getRole();
         }
 
+        boolean isAuthenticated;
         isAuthenticated = isAuthenticated(role, command);
 
         if (isAuthenticated) {

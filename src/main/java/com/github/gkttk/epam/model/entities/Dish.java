@@ -52,12 +52,13 @@ public class Dish extends Entity {
         Dish dish = (Dish) o;
         return Objects.equals(name, dish.name) &&
                 type == dish.type &&
-                Objects.equals(cost, dish.cost);
+                Objects.equals(cost, dish.cost) &&
+                Objects.equals(imgUrl, dish.imgUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, type, cost);
+        return Objects.hash(name, type, cost, imgUrl);
     }
 
     @Override

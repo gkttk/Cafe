@@ -33,29 +33,6 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
-    public List<CommentInfo> getAllByDishId(Long dishId) throws ServiceException {
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            CommentInfoDao commentInfoDao = daoHelper.createCommentInfoDao();
-            return commentInfoDao.findAllByDishId(dishId);
-        } catch (DaoException e) {
-            throw new ServiceException(String.format("Can't getAllByDishId() with dishId: %d", dishId), e);
-        }
-    }
-
-
-    @Override
-    public void changeCommentRating(int newRating, Long commentId) throws ServiceException {
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            CommentDao commentDao = daoHelper.createCommentDao();
-            commentDao.updateRating(newRating, commentId);
-
-        } catch (DaoException e) {
-            throw new ServiceException(String.format("Can't rollback() in changeCommentRating with newRating: %d, commentId: %d",
-                    newRating, commentId), e);
-        }
-    }
-
-    @Override
     public Optional<CommentInfo> getById(Long commentId) throws ServiceException {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             CommentInfoDao commentDao = daoHelper.createCommentInfoDao();

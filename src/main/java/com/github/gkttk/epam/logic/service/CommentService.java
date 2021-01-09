@@ -12,13 +12,9 @@ public interface CommentService {
 
     List<Comment> getAll() throws ServiceException;
 
-    List<CommentInfo> getAllByDishId(Long dishId) throws ServiceException;
-
-    void changeCommentRating(int newRating, Long commentId) throws ServiceException;
-
     Optional<CommentInfo> getById(Long commentId) throws ServiceException;
 
-    Long addComment(String text,Long userId, Long dishId) throws ServiceException;
+    Long addComment(String text, Long userId, Long dishId) throws ServiceException;
 
     List<CommentInfo> getAllByDishIdPagination(long dishId, int currentPage, CommentSortTypes sortType) throws ServiceException;
 
@@ -27,9 +23,6 @@ public interface CommentService {
     void updateComment(long commentId, String newCommentText) throws ServiceException;
 
     void removeComment(long commentId) throws ServiceException;
-
-
-
 
 
 }

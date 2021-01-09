@@ -68,7 +68,7 @@ public class Order extends Entity {
         Order order = (Order) o;
         return Objects.equals(cost, order.cost) &&
                 Objects.equals(date, order.date) &&
-                Objects.equals(status, order.status) &&
+                status == order.status &&
                 Objects.equals(userId, order.userId);
     }
 
