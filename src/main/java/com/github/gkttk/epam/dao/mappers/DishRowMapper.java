@@ -15,10 +15,9 @@ public class DishRowMapper implements RowMapper<Dish> {
         String typeName = resultSet.getString("type");
         DishTypes type = DishTypes.valueOf(typeName);
         BigDecimal cost = resultSet.getBigDecimal("cost");
+        String imgBase64 = resultSet.getString("img_base64");
 
-        String imageRef = resultSet.getString("image_ref");
-
-        return new Dish(id, name, type, cost, imageRef);
+        return new Dish(id, name, type, cost, imgBase64);
 
     }
 }

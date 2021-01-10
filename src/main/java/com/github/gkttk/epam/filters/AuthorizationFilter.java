@@ -36,10 +36,11 @@ public class AuthorizationFilter implements Filter {
         boolean isAuthenticated;
         isAuthenticated = isAuthenticated(role, command);
 
-        if (isAuthenticated) {
-            filterChain.doFilter(servletRequest, servletResponse);
-        } else {
+        if (!isAuthenticated) {
             redirect(servletRequest, servletResponse);
+
+        } else {
+            filterChain.doFilter(servletRequest, servletResponse);
         }
     }
 

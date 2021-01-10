@@ -49,4 +49,13 @@ function openChangeMoneyForm() {
     }
 }
 
+function openAddDishForm() {
+    if (document.getElementById("add_dish_form").style.display === "none") {
+        document.getElementById("add_dish_form").style.display = "flex";
+    } else {
+        document.getElementById("add_dish_form").style.display = "none";
+    }
+}
+
+
 

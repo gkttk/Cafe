@@ -46,7 +46,7 @@ public class UserFieldExtractor implements FieldExtractor<User> {
         result.put(BLOCKED_KEY, isBlocked);
 
 
-        String imageRef = user.getImageRef();
+        String imageRef = user.getImgBase64();
         result.put(IMG_BASE64_KEY, imageRef);
 
         return result;

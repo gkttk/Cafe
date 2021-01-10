@@ -31,18 +31,18 @@
                             <th><fmt:message key="user.menu.dish.price"/></th>
                             <th></th>
                             <th>
-                                <form id="form_content" method="POST"
+                              <%--  <form id="form_content" method="POST"
                                       action="${pageContext.request.contextPath}/controller">
                                     <input type="hidden" name="command" value="SAVE_ORDER"/>
                                     <button type="submit"><fmt:message key="user.menu.make.order.button"/></button>
-                                </form>
+                                </form>--%>
                             </th>
                         </tr>
 
 
                         <c:forEach var="orderDish" items="${sessionScope.basket}">
                             <tr>
-                                <td><img src="${orderDish.imgUrl}" alt="dish"></td>
+                                <td><img src="data:image/jpeg;base64,${orderDish.imgBase64}" alt="dish"></td>
                                 <td>${orderDish.name}</td>
                                 <td>${orderDish.cost}</td>
                                 <td></td>
@@ -56,11 +56,18 @@
                             </tr>
                         </c:forEach>
                     </table>
-                       <div>
-                           <h3><fmt:message key="make.order.total.amount"/> ${sessionScope.orderCost}</h3><br/>
-                           <input type="hidden" name="command" value="SAVE_ORDER"/>
-                           <label for="date_input"><fmt:message key="make.order.date"/></label>
-                           <input form="form_content" id="date_input" type="datetime-local" name="date" required><br/>
+                       <div id="make_order_manage_div">
+                           <div>
+                               <h3><fmt:message key="make.order.total.amount"/> ${sessionScope.orderCost}</h3><br/>
+                               <input type="hidden" name="command" value="SAVE_ORDER"/>
+                               <label for="date_input"><fmt:message key="make.order.date"/></label>
+                               <input form="form_content" id="date_input" type="datetime-local" name="date" required><br/>
+                           </div>
+                           <form id="form_content" method="POST"
+                                 action="${pageContext.request.contextPath}/controller">
+                               <input type="hidden" name="command" value="SAVE_ORDER"/>
+                               <button type="submit"><fmt:message key="user.menu.make.order.button"/></button>
+                           </form>
                        </div>
 
                 </div>

@@ -204,15 +204,7 @@ div.header_nav div.dropdown div.dropdown-content{
 }
 
 div.header_nav div.dropdown div.dropdown-content form button[type="submit"]{
-	color: black;
-	text-align:center;
-	padding: 10px;
-	text-decoration: none;
-	display: block;
 	width:100%;
-	border-radius:12px;
-	background-color: #BFBC3FFF;
-
 }
 
 div.header_nav div.dropdown div.dropdown-content form button:hover{
@@ -265,7 +257,7 @@ main div.side_menu{
 	font-size:1.5em;
 	border-right: 1px solid;
 	border-top: 1px solid;
-
+	border-bottom: 1px solid;
 }
 
 main div.side_menu h2{
@@ -355,9 +347,9 @@ background-color: rgba(1,1,1,0);
 
 
 
-main div.content div.menu_content form input[type=submit]{
+/*main div.content div.menu_content form input[type=submit]{
 	font-size: 140%;
-	}
+	}*/
 
 main div.user_conditions{
 	display: flex;
@@ -553,6 +545,43 @@ h4{
 	font-size: 1.5em;
 }
 
+#add_dish_form{
+	display: none;
+	flex-direction: column;
+	min-width: 40%;
+	padding: 10px;
+	background-color: rgb(52, 203, 206);
+	border-radius: 10px;
+	position: fixed;
+	top: 240px;
+	right: 15px;
+	border: 1px solid;
+}
+
+#add_dish_form > div.add_dish_form_div{
+	display: flex;
+	justify-content: space-between;
+	margin: 5px;
+}
+
+#add_dish_form input[type="number"]{
+	padding: 4px;
+	max-width: 75px;
+	border-radius: 4px;
+}
+
+#make_order_manage_div{
+	display: flex;
+	justify-content: space-around;
+	margin: 10px;
+	padding: 10px;
+}
+
+#make_order_manage_div > div{
+	padding: 10px;
+}
+
+
 
 
 /*footer*/
@@ -577,6 +606,10 @@ body > div > footer > div.bucketDiv{
 	bottom: 10px;
 
 }
+
+
+
+
 
 /*new*/
 
@@ -631,6 +664,7 @@ button.littleButton, input[type=submit].littleButton, a.littleButton{
 	font-family: 'Caveat', cursive;
 	padding: 5px;
 }
+
 [id^="changePointsDiv"] > form {
 	margin-top: 10px;
 }

@@ -12,20 +12,16 @@
           <button type="submit" class="btn"><fmt:message key="aside.menu"/></button>
       </form>
       </li>
+
+        <c:if test="${userRole.name() eq 'USER'}">
       <li>
           <form method="post" action="${pageContext.request.contextPath}/controller">
           <input type="hidden" name="command" value="MY_ORDERS"/>
           <button class="btn"><fmt:message key="aside.my.orders"/></button>
           </form>
       </li>
-   <%--   <li>
-          <form method="post" action="${pageContext.request.contextPath}/controller">
-              <input type="hidden" name="command" value="COMMENTS"/>
-          <button class="btn"><fmt:message key="aside.comments"/></button>
-          </form>
-      </li>--%>
+        </c:if>
 
-      <!-- if user == ADMIN -->
         <c:if test="${userRole.name() eq 'ADMIN'}">
       <li>
           <form method="post" action="${pageContext.request.contextPath}/controller">

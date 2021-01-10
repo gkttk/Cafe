@@ -33,7 +33,8 @@ public class AddMoneyCommand implements Command {
         boolean isParamValid = moneyValidator.validate(moneyParam);
         if (!isParamValid) {
             LOGGER.info("Incorrect money format: {}", moneyParam);
-            return new CommandResult(CURRENT_PAGE_PARAM, false);
+            String requestPage = (String)requestDataHolder.getSessionAttribute(CURRENT_PAGE_PARAM);
+            return new CommandResult(requestPage, false);
         }
 
         BigDecimal money = new BigDecimal(moneyParam);

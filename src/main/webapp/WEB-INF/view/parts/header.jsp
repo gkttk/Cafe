@@ -74,7 +74,7 @@
         <c:otherwise>
         <div class="header_greeting">
             <div class="avatar">
-                <img src="data:image/jpeg;base64,${authUser.imageRef}" alt="avatar"/>
+                <img src="data:image/jpeg;base64,${authUser.imgBase64}" alt="avatar"/>
             </div>
 
             <div class="info">

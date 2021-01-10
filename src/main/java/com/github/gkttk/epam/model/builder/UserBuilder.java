@@ -25,7 +25,7 @@ public class UserBuilder implements Builder<User> {
         this.points = user.getPoints();
         this.money = user.getMoney();
         this.blocked = user.isBlocked();
-        this.imageRef = user.getImageRef();
+        this.imageRef = user.getImgBase64();
     }
 
 

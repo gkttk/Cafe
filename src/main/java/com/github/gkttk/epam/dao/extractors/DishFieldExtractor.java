@@ -12,6 +12,7 @@ public class DishFieldExtractor implements FieldExtractor<Dish> {
     private final static String NAME_KEY = "name";
     private final static String TYPE_KEY = "type";
     private final static String COST_KEY = "cost";
+    private final static String IMG_BASE64_KEY = "img_base64";
 
     @Override
     public Map<String, Object> extractFields(Dish dish) {
@@ -30,6 +31,9 @@ public class DishFieldExtractor implements FieldExtractor<Dish> {
 
         BigDecimal cost = dish.getCost();
         result.put(COST_KEY, cost);
+
+        String imgBase64 = dish.getImgBase64();
+        result.put(IMG_BASE64_KEY, imgBase64);
 
         return result;
 

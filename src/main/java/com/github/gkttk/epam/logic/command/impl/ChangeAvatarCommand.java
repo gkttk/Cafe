@@ -3,6 +3,7 @@ package com.github.gkttk.epam.logic.command.impl;
 import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.command.Command;
+import com.github.gkttk.epam.logic.interpreter.Base64Interpreter;
 import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.User;
@@ -10,7 +11,6 @@ import com.github.gkttk.epam.model.entities.User;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Base64;
 import java.util.Optional;
 
 public class ChangeAvatarCommand implements Command {
@@ -28,29 +28,20 @@ public class ChangeAvatarCommand implements Command {
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
         try {
             Part newAvatar = (Part) requestDataHolder.getRequestAttribute(FILE_ATTR);
-            String byteString = getByteString(newAvatar);
+            InputStream inputStream = newAvatar.getInputStream();
+            String byteString = Base64Interpreter.interpret(inputStream);
             User authUser = (User) requestDataHolder.getSessionAttribute(AUTH_USER_ATTR);
             Long userId = authUser.getId();
             userService.changeAvatar(authUser, byteString);
             renewSession(userId, requestDataHolder);
         } catch (IOException e) {
-            throw new ServiceException("Can't get byte string", e);
+            throw new ServiceException("Can't get input stream from part", e);
         }
         String redirectPage = (String) requestDataHolder.getSessionAttribute(CURRENT_PAGE_ATTR);
         return redirectPage != null ? new CommandResult(redirectPage, true) : new CommandResult(MAIN_PAGE_ATTR, true);
 
     }
 
-
-    private String getByteString(Part part) throws IOException {
-        try (InputStream inputStream = part.getInputStream()) {
-            int availableBytes = inputStream.available();
-            byte[] buffer = new byte[availableBytes];
-            inputStream.read(buffer);
-            return Base64.getEncoder().encodeToString(buffer);
-
-        }
-    }
 
     private void renewSession(long userId, RequestDataHolder requestDataHolder) throws ServiceException {
         Optional<User> userByIdOpt = userService.getById(userId);

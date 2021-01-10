@@ -33,7 +33,8 @@ public enum Commands {
     SORT_COMMENTS(new SortCommentsCommand(new CommentServiceImpl())),
     ORDER_HISTORY(new OrderHistoryCommand(new OrderServiceImpl())),
     ADD_MONEY(new AddMoneyCommand(new UserServiceImpl(), new MoneyValidator())),
-    CHANGE_AVATAR(new ChangeAvatarCommand(new UserServiceImpl()));
+    CHANGE_AVATAR(new ChangeAvatarCommand(new UserServiceImpl())),
+    ADD_DISH(new AddDishCommand(new DishServiceImpl(), new DishNameValidator(), new DishCostValidator()));
 
 
     Commands(Command command) {

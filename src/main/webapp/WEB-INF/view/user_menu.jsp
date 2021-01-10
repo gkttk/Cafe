@@ -1,3 +1,4 @@
+<%@ page import="com.github.gkttk.epam.model.enums.DishTypes" %>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -52,20 +53,97 @@
                             <th><fmt:message key="user.menu.dish.title"/></th>
                             <th><fmt:message key="user.menu.dish.price"/></th>
                             <th colspan="2">
-                                <form id="form_content" method="POST"
-                                      action="${pageContext.request.contextPath}/controller">
-                                    <input type="hidden" name="command" value="FORM_ORDER"/>
-                                    <input form="form_content" type="submit"
-                                           value="<fmt:message key="user.menu.make.order.button"/>"/>
-                                </form>
+                                <c:choose>
+                                    <c:when test="${userRole.name() eq 'USER'}">
+                                        <form id="form_content" method="POST"
+                                              action="${pageContext.request.contextPath}/controller">
+                                            <input type="hidden" name="command" value="FORM_ORDER"/>
+                                            <input form="form_content" type="submit"
+                                                   value="<fmt:message key="user.menu.make.order.button"/>"/>
+                                        </form>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button class="littleButton" onclick="openAddDishForm()">
+                                            <fmt:message key="user.menu.add.dish.button"/>
+                                        </button>
+                                        <form id="add_dish_form" method="POST"
+                                              action="${pageContext.request.contextPath}/upload" enctype="multipart/form-data">
+                                            <input type="hidden" name="command" value="ADD_DISH"/>
+                                            <input type="file" name="file" accept="image/*"/>
+
+                                                <label for="dishName">Название(Бандл)</label>
+                                                <input id="dishName" type="text" name="name" required
+                                                       pattern="(?=\D)(?=\S)[\S\s]{3,25}"/>
+
+                                            <div class="add_dish_form_div">
+                                            <label for="dishCost">Стоимость(Бандл)</label>
+                                            <input id="dishCost" type="number" name="cost" min="0.1" max="500" step="0.1" required/>
+                                            </div>
+
+                                            <c:set var="typeEnum" value="<%=DishTypes.values()%>"/> <%--using scriplet for enum--%>
+                                            <c:forEach items="${typeEnum}" var="typeValue">
+                                                <div class="add_dish_form_div">
+                                                    <label for="${typeValue}">
+                                                            <c:choose>
+                                                                <c:when test="${typeValue.name() eq 'SOUP'}">
+                                                                    Суп(бандл)
+                                                                </c:when>
+                                                                <c:when test="${typeValue.name() eq 'SALAD'}">
+                                                                    Салат(бандл)
+                                                                </c:when>
+                                                                <c:when test="${typeValue.name() eq 'BEVERAGE'}">
+                                                                    Напиток(бандл)
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    Неизвестный тип(бандл)
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                    </label>
+                                                    <input type="radio" id="${typeValue}"
+                                                           name="type" value="${typeValue}" checked>
+                                                </div>
+                                            </c:forEach>
+                                                <%--<div class="add_dish_form_div">
+                                            <label for="type1">SOUP(bundle)</label>
+                                            <input type="radio" id="type1"
+                                                   name="type" value="SOUP" checked>
+                                                </div>
+                                                <div class="add_dish_form_div">
+                                            <label for="type2">SALAD(bundle)</label>
+                                            <input type="radio" id="type2"
+                                                   name="type" value="SALAD">
+                                                </div>
+                                                <div class="add_dish_form_div">
+                                            <label for="type3">BEVERAGE(bundle)</label>
+                                            <input type="radio" id="type3"
+                                                   name="type" value="BEVERAGE">
+                                                </div>--%>
+                                            <input class="littleButton" type="submit"
+                                                   value="<fmt:message key="user.menu.add.dish.button"/>"/>
+                                        </form>
+                                    </c:otherwise>
+                                </c:choose>
+
                             </th>
                         </tr>
 
                         <c:forEach var="dish" items="${sessionScope.dishes}">
                             <tr>
-                                <td><img src="${dish.imgUrl}" alt="dish"></td>
+                                <td>
+                                    <img src="data:image/jpeg;base64,${dish.imgBase64}" alt="dish"/>
+                                </td>
                                 <td>${dish.name}</td>
                                 <td>${dish.cost}</td>
+                                <td>
+                                    <c:if test="${userRole.name() eq 'USER'}">
+                                        <form method="POST" action="${pageContext.request.contextPath}/controller">
+                                            <input type="hidden" name="command" value="TO_BASKET"/>
+                                            <input type="hidden" name="dishId" value="${dish.id}"/>
+                                            <button class="littleButton" type="submit"><fmt:message
+                                                    key="user.menu.to.bucket"/></button>
+                                        </form>
+                                    </c:if>
+                                </td>
                                 <td>
                                     <form method="POST"
                                           action="${pageContext.request.contextPath}/controller">
@@ -73,14 +151,6 @@
                                         <input type="hidden" name="dishId" value="${dish.id}"/>
                                         <button class="littleButton" type="submit" class="btn">
                                             <fmt:message key="user.menu.comments.button"/></button>
-                                    </form>
-                                </td>
-                                <td>
-                                    <form method="POST" action="${pageContext.request.contextPath}/controller">
-                                        <input type="hidden" name="command" value="TO_BASKET"/>
-                                        <input type="hidden" name="dishId" value="${dish.id}"/>
-                                        <button class="littleButton" type="submit"><fmt:message
-                                                key="user.menu.to.bucket"/></button>
                                     </form>
                                 </td>
                             </tr>
