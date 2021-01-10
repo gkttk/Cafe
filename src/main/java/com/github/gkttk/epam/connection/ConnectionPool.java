@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayDeque;
 import java.util.Properties;
 import java.util.Queue;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -28,17 +29,15 @@ public class ConnectionPool {
     private final static String MAX_INIT_CONNECTIONS_KEY = "pool.init.connection";
 
     private final ConnectionFactory connectionFactory;
-    private final Lock connectionLock;
+    private final Semaphore connectionSemaphore;
     private Queue<ConnectionProxy> availableConnections;
     private Queue<ConnectionProxy> usedConnections;
     private int maxInitConnections;
 
     private ConnectionPool() {
         loadProperties();
-
+        connectionSemaphore = new Semaphore(maxInitConnections);
         connectionFactory = new ConnectionFactory();
-        connectionLock = new ReentrantLock();
-
         availableConnections = new ArrayDeque<>(maxInitConnections);
         usedConnections = new ArrayDeque<>(maxInitConnections);
 
@@ -67,15 +66,16 @@ public class ConnectionPool {
     public ConnectionProxy getConnection() {
         ConnectionProxy connection;
         try {
-            connectionLock.lock();
+            connectionSemaphore.acquire();
             if (availableConnections.size() > 0) {
                 connection = availableConnections.poll();
             } else {
                 connection = createConnection();
             }
             usedConnections.offer(connection);
-        } finally {
-            connectionLock.unlock();
+        } catch (InterruptedException e) {
+            LOGGER.error("Thread was interrupted, can't get acquire.");
+            throw new ConnectionFactoryException("Current thread was interrupted");
         }
 
         return connection;
@@ -83,15 +83,9 @@ public class ConnectionPool {
 
     public void releaseConnection(ConnectionProxy connection) {
         if (usedConnections.contains(connection)) {
-            try {
-                connectionLock.lock();
-                usedConnections.remove(connection);
-                if (availableConnections.size() < maxInitConnections) {
-                    availableConnections.offer(connection);
-                }
-            } finally {
-                connectionLock.unlock();
-            }
+            usedConnections.remove(connection);
+            availableConnections.offer(connection);
+            connectionSemaphore.release();
         }
     }
 

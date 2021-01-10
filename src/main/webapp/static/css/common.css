@@ -236,7 +236,7 @@ div.header_nav div.dropdown:hover .dropdown-content{
 /*main*/
 main{
 	padding: 15px;
-	width: 100%;
+	/*width: 100%;*/
 	flex:1;
 	display: flex;
 }
@@ -308,7 +308,6 @@ main div.content div.menu_content h2{
 
 
 main div.content div.meal_types{
-	border-top:1px solid black;
 	display: flex;
 	justify-content: space-around;
 	flex-basis:3%;
@@ -468,7 +467,7 @@ body > div > main > div.content > div.menu_content > div:nth-child(2) > button{
 	width: 50%;
 	position: absolute;
 	display: none;
-	top: 235px;
+	top: 250px;
 
 
 }

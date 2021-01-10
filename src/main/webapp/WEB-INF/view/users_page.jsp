@@ -59,10 +59,10 @@
                                 <td>
                                     <c:choose>
                                         <c:when test="${user.blocked}">
-                                            <fmt:message key="users.page.blocked"/>
+                                            <fmt:message key="users.page.blocked.status"/>
                                         </c:when>
                                         <c:otherwise>
-                                            <fmt:message key="users.page.active"/>
+                                            <fmt:message key="users.page.active.status"/>
                                         </c:otherwise>
                                     </c:choose>
                                 </td>

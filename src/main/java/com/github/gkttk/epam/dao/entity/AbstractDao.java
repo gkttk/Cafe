@@ -39,7 +39,7 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
 
 
     @Override
-    public List<T> findAll() throws DaoException { //+
+    public List<T> findAll() throws DaoException {
         String query = "SELECT * FROM " + getTableName();
         return getAllResults(query);
     }

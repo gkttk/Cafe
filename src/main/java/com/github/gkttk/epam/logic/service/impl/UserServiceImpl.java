@@ -8,7 +8,6 @@ import com.github.gkttk.epam.exceptions.DaoException;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.logic.validator.Validator;
-import com.github.gkttk.epam.logic.validator.factory.ValidatorFactory;
 import com.github.gkttk.epam.model.builder.UserBuilder;
 import com.github.gkttk.epam.model.builder.UserInfoBuilder;
 import com.github.gkttk.epam.model.dto.UserInfo;
@@ -20,6 +19,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
+
+
 
     @Override
     public Optional<User> login(String login, String password) throws ServiceException {
@@ -79,15 +80,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean registration(String login, String password) throws ServiceException {
-        Validator userLoginValidator = ValidatorFactory.getUserLoginValidator();
-        Validator userPasswordValidator = ValidatorFactory.getUserPasswordValidator();
-
-        boolean isLoginValid = userLoginValidator.validate(login);
-        boolean isPasswordValid = userPasswordValidator.validate(password);
-
-        if (!isLoginValid || !isPasswordValid) {
-            return false;
-        }
 
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             UserDao userDao = daoHelper.createUserDao();
@@ -157,8 +149,10 @@ public class UserServiceImpl implements UserService {
             Optional<User> userOpt = userDao.findById(userId);
             if (userOpt.isPresent()) {
                 User user = userOpt.get();
+                BigDecimal currentMoney = user.getMoney();
+                BigDecimal newMoney = currentMoney.add(money);
                 UserBuilder builder = user.builder();
-                builder.setMoney(money);
+                builder.setMoney(newMoney);
                 User newUser = builder.build();
                 userDao.save(newUser);
             }

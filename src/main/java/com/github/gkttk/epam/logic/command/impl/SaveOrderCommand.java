@@ -5,7 +5,6 @@ import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.command.Command;
 import com.github.gkttk.epam.logic.service.OrderService;
 import com.github.gkttk.epam.logic.validator.Validator;
-import com.github.gkttk.epam.logic.validator.factory.ValidatorFactory;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Dish;
 import com.github.gkttk.epam.model.entities.User;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 public class SaveOrderCommand implements Command {
 
     private final OrderService orderService;
-
+    private final Validator dataValidator;
 
     private final static String BASKET_ATTR = "basket";
     private final static String ORDER_COST_ATTR = "orderCost";
@@ -34,34 +33,22 @@ public class SaveOrderCommand implements Command {
     private final static String MENU_PAGE = "/WEB-INF/view/user_menu.jsp";
 
 
-    public SaveOrderCommand(OrderService orderService) {
+    public SaveOrderCommand(OrderService orderService, Validator dataValidator) {
         this.orderService = orderService;
-
+        this.dataValidator = dataValidator;
     }
-
-
-    private List<Long> getDishIds(RequestDataHolder requestDataHolder) {
-        List<Dish> basket = (List<Dish>) requestDataHolder.getSessionAttribute(BASKET_ATTR);
-        return basket.stream()
-                .map(Dish::getId)
-                .collect(Collectors.toList());
-    }
-
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
 
         String dateParam = requestDataHolder.getRequestParameter(DATE_PARAM);
-
-        Validator dataValidator = ValidatorFactory.getDataValidator();
-        boolean isDataValid =  dataValidator.validate(dateParam);
-        if (!isDataValid){
+        boolean isDataValid = dataValidator.validate(dateParam);
+        if (!isDataValid) {
             requestDataHolder.putRequestAttribute(ERROR_MESSAGE_KEY, ERROR_MESSAGE_VALUE);
             return new CommandResult(MENU_PAGE, false);
         }
 
         LocalDateTime dateTime = LocalDateTime.parse(dateParam);
-
 
 
         List<Long> dishIds = getDishIds(requestDataHolder);
@@ -84,5 +71,12 @@ public class SaveOrderCommand implements Command {
         return new CommandResult(MENU_PAGE, true);
     }
 
+
+    private List<Long> getDishIds(RequestDataHolder requestDataHolder) {
+        List<Dish> basket = (List<Dish>) requestDataHolder.getSessionAttribute(BASKET_ATTR);
+        return basket.stream()
+                .map(Dish::getId)
+                .collect(Collectors.toList());
+    }
 
 }

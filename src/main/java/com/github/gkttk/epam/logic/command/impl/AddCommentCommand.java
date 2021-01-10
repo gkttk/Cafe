@@ -5,7 +5,6 @@ import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.command.Command;
 import com.github.gkttk.epam.logic.service.CommentService;
 import com.github.gkttk.epam.logic.validator.Validator;
-import com.github.gkttk.epam.logic.validator.factory.ValidatorFactory;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.dto.CommentInfo;
 import com.github.gkttk.epam.model.entities.User;
@@ -19,6 +18,7 @@ public class AddCommentCommand implements Command {
 
     private final static Logger LOGGER = LogManager.getLogger(AddCommentCommand.class);
     private final CommentService commentService;
+    private final Validator commentValidator;
     private final static String COMMENTS_PAGE = "/WEB-INF/view/comment_page.jsp";
     private final static String AUTH_USER_ATTR = "authUser";
     private final static String COMMENT_TEXT_PARAM = "commentText";
@@ -32,15 +32,15 @@ public class AddCommentCommand implements Command {
 
     private final static int START_PAGE_PAGINATION = 1;
 
-    public AddCommentCommand(CommentService commentService) {
+    public AddCommentCommand(CommentService commentService, Validator commentValidator) {
         this.commentService = commentService;
+        this.commentValidator = commentValidator;
     }
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
 
         String commentText = requestDataHolder.getRequestParameter(COMMENT_TEXT_PARAM);
-        Validator commentValidator = ValidatorFactory.getCommentValidator();
         boolean isCommentValid = commentValidator.validate(commentText);
         if (!isCommentValid) {
             LOGGER.info("Incorrect comment length: {}", commentText.length());

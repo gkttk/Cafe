@@ -1,8 +1,9 @@
 package com.github.gkttk.epam.logic.command.enums;
 
-import com.github.gkttk.epam.logic.command.*;
+import com.github.gkttk.epam.logic.command.Command;
 import com.github.gkttk.epam.logic.command.impl.*;
 import com.github.gkttk.epam.logic.service.impl.*;
+import com.github.gkttk.epam.logic.validator.*;
 
 public enum Commands {
     LOGIN(new LoginCommand(new UserServiceImpl(), new DishServiceImpl())),
@@ -12,17 +13,17 @@ public enum Commands {
     USERS(new UsersPageCommand(new UserServiceImpl())),
     CHANGE_STATUS(new ChangeUserStatusCommand(new UserServiceImpl())),
     REGISTRATION_PAGE(new RegistrationGetPageCommand()),
-    REGISTRATION(new RegistrationCommand(new UserServiceImpl())),
+    REGISTRATION(new RegistrationCommand(new UserServiceImpl(), new UserLoginValidator(), new UserPasswordValidator())),
     FORM_ORDER(new MakeOrderCommand()),
     MENU(new MenuPageCommand()),
     MY_ORDERS(new MyOrdersPageCommand(new OrderServiceImpl())),
-    SAVE_ORDER(new SaveOrderCommand(new OrderServiceImpl())),
+    SAVE_ORDER(new SaveOrderCommand(new OrderServiceImpl(), new DataValidator())),
     CANCEL_DISH(new CancelDishCommand()),
     RATE_COMMENT(new RateCommentCommand(new CommentServiceImpl(), new UserCommentRatingServiceImpl())),
     SORT_DISHES(new SortDishesCommand(new DishServiceImpl())),
     TO_BASKET(new AddToBasketCommand(new DishServiceImpl())),
     DISH_COMMENTS(new DishCommentsCommand(new CommentServiceImpl(), new UserCommentRatingServiceImpl())),
-    ADD_COMMENT(new AddCommentCommand(new CommentServiceImpl())),
+    ADD_COMMENT(new AddCommentCommand(new CommentServiceImpl(), new CommentValidator())),
     TAKE_ORDER(new TakeOrderCommand(new OrderServiceImpl(), new UserServiceImpl())),
     CANCEL_ORDER(new CancelOrderCommand(new OrderServiceImpl(), new UserServiceImpl())),
     SORT_USERS(new SortUsersCommand(new UserServiceImpl())),
@@ -31,7 +32,7 @@ public enum Commands {
     DELETE_COMMENT(new DeleteCommentCommand(new CommentServiceImpl())),
     SORT_COMMENTS(new SortCommentsCommand(new CommentServiceImpl())),
     ORDER_HISTORY(new OrderHistoryCommand(new OrderServiceImpl())),
-    ADD_MONEY(new AddMoneyCommand(new UserServiceImpl())),
+    ADD_MONEY(new AddMoneyCommand(new UserServiceImpl(), new MoneyValidator())),
     CHANGE_AVATAR(new ChangeAvatarCommand(new UserServiceImpl()));
 
 

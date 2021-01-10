@@ -2,17 +2,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <footer>
- <%--   <div class="footer_logo"><h2><fmt:message key="footer.logo"/></h2></div>--%>
-
 
     <c:if test="${not empty sessionScope.basket}">
         <div class="bucketDiv">
             <span><fmt:message key="footer.yourBucket"/></span>
-            <ul>
+            <h4>${sessionScope.basket.size()}</h4>
+          <%--  <ul>
                 <c:forEach var="basketItem" items="${sessionScope.basket}">
                     <li>${basketItem.name} - ${basketItem.cost}</li>
                 </c:forEach>
-            </ul>
+            </ul>--%>
         </div>
     </c:if>
 

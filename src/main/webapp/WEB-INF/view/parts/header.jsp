@@ -111,7 +111,7 @@
                     <div id="addMoneyBlock">
                         <form method="POST" action="${pageContext.request.contextPath}/controller">
                             <input type="hidden" name="command" value="ADD_MONEY">
-                            <input type="number" name="money" value="50" min="0" max="1000" step="50"/>
+                            <input type="number" name="money" value="25" min="0" max="1000"/>
                             <button class="littleButton" type="submit" >
                                 <fmt:message key="header.add.money"/>
                             </button>

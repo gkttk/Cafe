@@ -17,12 +17,12 @@
         <main>
             <%@ include file="parts/aside_menu.jsp" %>
             <div class="content">
-                <h2><fmt:message key="make.order.total.amount"/> ${sessionScope.orderCost}</h2>
+            <%--    <h2><fmt:message key="make.order.total.amount"/> ${sessionScope.orderCost}</h2>--%>
                 <div class="menu_content">
-                    <input type="hidden" name="command" value="SAVE_ORDER"/>
+                   <%-- <input type="hidden" name="command" value="SAVE_ORDER"/>
 
                     <label for="date_input"><fmt:message key="make.order.date"/></label>
-                    <input form="form_content" id="date_input" type="datetime-local" name="date" required><br/>
+                    <input form="form_content" id="date_input" type="datetime-local" name="date" required><br/>--%>
 
                     <table id="customers">
                         <tr>
@@ -56,6 +56,13 @@
                             </tr>
                         </c:forEach>
                     </table>
+                       <div>
+                           <h3><fmt:message key="make.order.total.amount"/> ${sessionScope.orderCost}</h3><br/>
+                           <input type="hidden" name="command" value="SAVE_ORDER"/>
+                           <label for="date_input"><fmt:message key="make.order.date"/></label>
+                           <input form="form_content" id="date_input" type="datetime-local" name="date" required><br/>
+                       </div>
+
                 </div>
 
             </div>
