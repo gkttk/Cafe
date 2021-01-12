@@ -11,5 +11,9 @@ public interface DishDao extends Dao<Dish> {
 
     List<Dish> findDishesByType(String dishType) throws DaoException;
 
+    void disable(long dishId) throws DaoException;
+
+
+    List<Dish> findAllEnabled() throws DaoException;
 
 }

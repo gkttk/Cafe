@@ -32,7 +32,7 @@ public class SortDishesCommand implements Command {
             DishTypes dishType = DishTypes.valueOf(dishTypeParam);
             dishes = dishService.getByType(dishType);
         } else {
-            dishes = dishService.getAll();
+            dishes = dishService.getAllEnabled();
         }
 
         requestDataHolder.putSessionAttribute(DISHES_ATTR, dishes);

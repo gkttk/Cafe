@@ -1,6 +1,7 @@
 package com.github.gkttk.epam.logic.command.enums;
 
 import com.github.gkttk.epam.logic.command.Command;
+import com.github.gkttk.epam.logic.command.impl.DisableDishCommand;
 import com.github.gkttk.epam.logic.command.impl.*;
 import com.github.gkttk.epam.logic.service.impl.*;
 import com.github.gkttk.epam.logic.validator.*;
@@ -34,7 +35,8 @@ public enum Commands {
     ORDER_HISTORY(new OrderHistoryCommand(new OrderServiceImpl())),
     ADD_MONEY(new AddMoneyCommand(new UserServiceImpl(), new MoneyValidator())),
     CHANGE_AVATAR(new ChangeAvatarCommand(new UserServiceImpl())),
-    ADD_DISH(new AddDishCommand(new DishServiceImpl(), new DishNameValidator(), new DishCostValidator()));
+    ADD_DISH(new AddDishCommand(new DishServiceImpl(), new DishNameValidator(), new DishCostValidator())),
+    REMOVE_DISH(new DisableDishCommand(new DishServiceImpl()));
 
 
     Commands(Command command) {

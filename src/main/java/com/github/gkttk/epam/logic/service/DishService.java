@@ -10,11 +10,16 @@ import java.util.Optional;
 
 public interface DishService {
 
-    List<Dish> getAll() throws ServiceException;
+
+    List<Dish> getAllEnabled() throws ServiceException;
+
+   /* List<Dish> getAll() throws ServiceException;*/
 
     List<Dish> getByType(DishTypes type) throws ServiceException;
 
     Optional<Dish> getDishById(Long dishId) throws ServiceException;
 
     void addDish(String dishName, BigDecimal dishCost, DishTypes dishType, String byteString) throws ServiceException;
+
+    void disableDish(long dishId) throws ServiceException;
 }

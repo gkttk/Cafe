@@ -88,7 +88,7 @@ public class AddDishCommand implements Command {
 
 
     private void renewSession(RequestDataHolder requestDataHolder) throws ServiceException {
-        List<Dish> dishes = dishService.getAll();
+        List<Dish> dishes = dishService.getAllEnabled();
         requestDataHolder.putSessionAttribute(DISHES_ATTR, dishes);
     }
 

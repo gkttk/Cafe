@@ -17,6 +17,16 @@ public class DishServiceImpl implements DishService {
 
 
     @Override
+    public List<Dish> getAllEnabled() throws ServiceException {
+        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
+            DishDao dishDao = daoHelper.createDishDao();
+            return dishDao.findAllEnabled();
+        } catch (DaoException e) {
+            throw new ServiceException("Can't getAllEnabled()", e);
+        }
+    }
+
+/*    @Override
     public List<Dish> getAll() throws ServiceException {
         try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
             DishDao dishDao = daoHelper.createDishDao();
@@ -24,7 +34,7 @@ public class DishServiceImpl implements DishService {
         } catch (DaoException e) {
             throw new ServiceException("Can't getAllDishes()", e);
         }
-    }
+    }*/
 
     @Override
     public List<Dish> getByType(DishTypes type) throws ServiceException {
@@ -57,6 +67,16 @@ public class DishServiceImpl implements DishService {
             throw new ServiceException(String.format("Can't addDish(dishName, dishCost, dishType, imgBase64) with " +
                     "dishName: %s, dishCost: %.4f, dishType: %s, imgBase64 length: %d", dishName, dishCost,
                     dishType.name(), imgBase64.length()), e);
+        }
+    }
+
+    @Override
+    public void disableDish(long dishId) throws ServiceException {
+        try(DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()){
+            DishDao dishDao = daoHelper.createDishDao();
+            dishDao.disable(dishId);
+        } catch (DaoException e) {
+            throw new ServiceException(String.format("Can't disableDish(dishId) with dishId: %d", dishId), e);
         }
     }
 }

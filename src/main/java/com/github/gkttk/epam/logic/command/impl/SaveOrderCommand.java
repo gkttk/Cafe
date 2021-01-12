@@ -24,8 +24,8 @@ public class SaveOrderCommand implements Command {
     private final static String AUTH_USER_ATTR = "authUser";
     private final static String DATE_PARAM = "date";
 
-    private final static String ORDER_MESSAGE_ATTR = "orderMessage";
-    private final static String ORDER_MESSAGE = "order.message.accepted";
+    private final static String MESSAGE_ATTR = "message";
+    private final static String MESSAGE = "order.message.accepted";
     private final static String CURRENT_PAGE_PARAM = "currentPage";
     private final static String ERROR_MESSAGE_KEY = "errorMessage";
     private final static String ERROR_MESSAGE_VALUE = "error.message.wrong.date";
@@ -64,7 +64,7 @@ public class SaveOrderCommand implements Command {
 
         requestDataHolder.putSessionAttribute(BASKET_ATTR, null);
 
-        requestDataHolder.putSessionAttribute(ORDER_MESSAGE_ATTR, ORDER_MESSAGE);
+        requestDataHolder.putSessionAttribute(MESSAGE_ATTR, MESSAGE);
 
         requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, MENU_PAGE);
 

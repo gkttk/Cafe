@@ -43,9 +43,10 @@
                 <c:if test="${not empty requestScope.errorMessage}">
                     <h4><fmt:message key="${requestScope.errorMessage}"/></h4>
                 </c:if>
-                <c:if test="${not empty sessionScope.orderMessage}">
-                    <h4><fmt:message key="${sessionScope.orderMessage}"/></h4>
+               <c:if test="${not empty sessionScope.message}">
+                    <h4><fmt:message key="${sessionScope.message}"/></h4>
                 </c:if>
+
                 <div class="menu_content">
                     <table id="customers">
                         <tr>
@@ -143,14 +144,24 @@
                                 <td>${dish.name}</td>
                                 <td>${dish.cost}</td>
                                 <td>
-                                    <c:if test="${userRole.name() eq 'USER'}">
-                                        <form method="POST" action="${pageContext.request.contextPath}/controller">
-                                            <input type="hidden" name="command" value="TO_BASKET"/>
-                                            <input type="hidden" name="dishId" value="${dish.id}"/>
-                                            <button class="littleButton" type="submit"><fmt:message
-                                                    key="user.menu.to.bucket"/></button>
-                                        </form>
-                                    </c:if>
+                                    <c:choose>
+                                        <c:when test="${userRole.name() eq 'USER'}">
+                                            <form method="POST" action="${pageContext.request.contextPath}/controller">
+                                                <input type="hidden" name="command" value="TO_BASKET"/>
+                                                <input type="hidden" name="dishId" value="${dish.id}"/>
+                                                <button class="littleButton" type="submit">
+                                                    <fmt:message key="user.menu.to.bucket"/></button>
+                                            </form>
+                                        </c:when>
+                                       <c:otherwise>
+                                           <form method="POST" action="${pageContext.request.contextPath}/controller">
+                                               <input type="hidden" name="command" value="REMOVE_DISH"/>
+                                               <input type="hidden" name="dishId" value="${dish.id}"/>
+                                               <button class="littleButton" type="submit">
+                                                   <fmt:message key="user.menu.disable.dish"/>
+                                           </form>
+                                       </c:otherwise>
+                                    </c:choose>
                                 </td>
                                 <td>
                                     <form method="POST"
