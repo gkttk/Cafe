@@ -83,7 +83,7 @@
                                                 <label for="dishCost">
                                                     <fmt:message key="user.menu.add.dish.button.cost"/>
                                                 </label>
-                                                <input id="dishCost" type="number" name="cost" min="0.1" max="500"
+                                                <input id="dishCost" type="number" name="cost" min="0.1" max="25"
                                                        step="0.1" required/>
                                             </div>
                                             <dt:dishTypesTag/>
