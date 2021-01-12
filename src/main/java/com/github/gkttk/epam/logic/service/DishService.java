@@ -13,7 +13,6 @@ public interface DishService {
 
     List<Dish> getAllEnabled() throws ServiceException;
 
-   /* List<Dish> getAll() throws ServiceException;*/
 
     List<Dish> getByType(DishTypes type) throws ServiceException;
 

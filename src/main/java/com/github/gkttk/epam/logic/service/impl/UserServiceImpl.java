@@ -2,12 +2,11 @@ package com.github.gkttk.epam.logic.service.impl;
 
 import com.github.gkttk.epam.dao.dto.UserInfoDao;
 import com.github.gkttk.epam.dao.entity.UserDao;
-import com.github.gkttk.epam.dao.helper.DaoHelper;
+import com.github.gkttk.epam.dao.helper.DaoHelperImpl;
 import com.github.gkttk.epam.dao.helper.factory.DaoHelperFactory;
 import com.github.gkttk.epam.exceptions.DaoException;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.UserService;
-import com.github.gkttk.epam.logic.validator.Validator;
 import com.github.gkttk.epam.model.builder.UserBuilder;
 import com.github.gkttk.epam.model.builder.UserInfoBuilder;
 import com.github.gkttk.epam.model.dto.UserInfo;
@@ -20,12 +19,17 @@ import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
 
+    private final DaoHelperFactory daoHelperFactory;
 
+
+    public UserServiceImpl(DaoHelperFactory daoHelperFactory) {
+        this.daoHelperFactory = daoHelperFactory;
+    }
 
     @Override
     public Optional<User> login(String login, String password) throws ServiceException {
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            UserDao userDao = daoHelper.createUserDao();
+        try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
+            UserDao userDao = daoHelperImpl.createUserDao();
             return userDao.findByLoginAndPassword(login, password);
         } catch (DaoException e) {
             throw new ServiceException(String.format("Can't login(login, password) with login: %s, password: %s",
@@ -35,8 +39,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getById(long id) throws ServiceException {
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            UserDao userDao = daoHelper.createUserDao();
+        try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
+            UserDao userDao = daoHelperImpl.createUserDao();
             return userDao.findById(id);
         } catch (DaoException e) {
             throw new ServiceException(String.format("Can't getUserById(id) with id: %d", id), e);
@@ -45,8 +49,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserInfo> getAll() throws ServiceException {
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            UserInfoDao userInfoDao = daoHelper.createUserInfoDao();
+        try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
+            UserInfoDao userInfoDao = daoHelperImpl.createUserInfoDao();
             return userInfoDao.findAll();
         } catch (DaoException e) {
             throw new ServiceException("Can't getUsers()", e);
@@ -57,8 +61,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<UserInfo> changeUserStatus(long userId, boolean newStatus) throws ServiceException { //+
         Optional<UserInfo> result = Optional.empty();
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            UserInfoDao userInfoDao = daoHelper.createUserInfoDao();
+        try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
+            UserInfoDao userInfoDao = daoHelperImpl.createUserInfoDao();
             Optional<UserInfo> userInfoOpt = userInfoDao.findById(userId);
             if (userInfoOpt.isPresent()) {
                 UserInfo userInfoFromDb = userInfoOpt.get();
@@ -81,8 +85,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean registration(String login, String password) throws ServiceException {
 
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            UserDao userDao = daoHelper.createUserDao();
+        try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
+            UserDao userDao = daoHelperImpl.createUserDao();
             User user = new User(login, password);
             userDao.save(user);
             return true;
@@ -95,8 +99,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void changeAvatar(User user, String imageRef) throws ServiceException {
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            UserDao userDao = daoHelper.createUserDao();
+        try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
+            UserDao userDao = daoHelperImpl.createUserDao();
             UserBuilder userBuilder = user.builder();
             userBuilder.setImageRef(imageRef);
             User newUser = userBuilder.build();
@@ -110,8 +114,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserInfo> getByStatus(UserStatus userStatus) throws ServiceException {
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            UserInfoDao userInfoDao = daoHelper.createUserInfoDao();
+        try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
+            UserInfoDao userInfoDao = daoHelperImpl.createUserInfoDao();
             boolean isBlocked = userStatus.isBlocked();
             return userInfoDao.findAllByStatus(isBlocked);
         } catch (DaoException e) {
@@ -123,8 +127,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void changePoints(long userId, int points, boolean isAdd) throws ServiceException {
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            UserInfoDao userInfoDao = daoHelper.createUserInfoDao();
+        try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
+            UserInfoDao userInfoDao = daoHelperImpl.createUserInfoDao();
             Optional<UserInfo> userOpt = userInfoDao.findById(userId);
             if (userOpt.isPresent()) {
                 UserInfo user = userOpt.get();
@@ -144,8 +148,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addMoney(long userId, BigDecimal money) throws ServiceException {
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            UserDao userDao = daoHelper.createUserDao();
+        try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
+            UserDao userDao = daoHelperImpl.createUserDao();
             Optional<User> userOpt = userDao.findById(userId);
             if (userOpt.isPresent()) {
                 User user = userOpt.get();

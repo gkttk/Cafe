@@ -45,6 +45,7 @@ public class SaveOrderCommand implements Command {
         boolean isDataValid = dataValidator.validate(dateParam);
         if (!isDataValid) {
             requestDataHolder.putRequestAttribute(ERROR_MESSAGE_KEY, ERROR_MESSAGE_VALUE);
+            requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, MENU_PAGE);
             return new CommandResult(MENU_PAGE, false);
         }
 

@@ -2,7 +2,7 @@ package com.github.gkttk.epam.logic.service.impl;
 
 import com.github.gkttk.epam.dao.entity.OrderDao;
 import com.github.gkttk.epam.dao.entity.UserDao;
-import com.github.gkttk.epam.dao.helper.DaoHelper;
+import com.github.gkttk.epam.dao.helper.DaoHelperImpl;
 import com.github.gkttk.epam.dao.helper.factory.DaoHelperFactory;
 import com.github.gkttk.epam.exceptions.DaoException;
 import com.github.gkttk.epam.exceptions.ServiceException;
@@ -27,33 +27,39 @@ public class OrderServiceImpl implements OrderService {
     private final static int DEFAULT_PENALTY = 10;
     private final static int DEFAULT_BONUS = 15;
 
+    private final DaoHelperFactory daoHelperFactory;
+
+    public OrderServiceImpl(DaoHelperFactory daoHelperFactory) {
+        this.daoHelperFactory = daoHelperFactory;
+    }
+
     @Override
     public void makeOrder(BigDecimal orderCost, LocalDateTime dateTime, long userId, List<Long> dishIds) throws ServiceException {
         Order order = new Order(null, orderCost, dateTime, userId);
 
-        DaoHelper daoHelper = DaoHelperFactory.createDaoHelper();
-        OrderDao orderDao = daoHelper.createOrderDao();
+        DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper();
+        OrderDao orderDao = daoHelperImpl.createOrderDao();
         try {
-            daoHelper.startTransaction();
+            daoHelperImpl.startTransaction();
             long savedOrderId = orderDao.save(order);
             for (long dishId : dishIds) {
                 orderDao.saveOrderDish(savedOrderId, dishId);
             }
-            daoHelper.commit();
+            daoHelperImpl.commit();
         } catch (DaoException e) {
             try {
-                daoHelper.rollback();
+                daoHelperImpl.rollback();
             } catch (DaoException ex) {
                 throw new ServiceException(String.format("Can't rollback() in makeOrder with order: %s, user_id: %d",
                         order, userId), e);
             }
         } finally {
             try {
-                daoHelper.endTransaction();
+                daoHelperImpl.endTransaction();
             } catch (DaoException exception) {
                 LOGGER.warn("Can't endTransaction() in makeOrder with order: {}, user_id: {}", order, userId, exception);
             }
-            daoHelper.close();
+            daoHelperImpl.close();
         }
 
 
@@ -82,17 +88,17 @@ public class OrderServiceImpl implements OrderService {
         userBuilder.setMoney(newUserMoney);
         User changedUser = userBuilder.build();
 
-        DaoHelper daoHelper = DaoHelperFactory.createDaoHelper();
-        OrderDao orderDao = daoHelper.createOrderDao();
-        UserDao userDao = daoHelper.createUserDao();
+        DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper();
+        OrderDao orderDao = daoHelperImpl.createOrderDao();
+        UserDao userDao = daoHelperImpl.createUserDao();
         try {
-            daoHelper.startTransaction();
+            daoHelperImpl.startTransaction();
             orderDao.save(changedOrder);
             userDao.save(changedUser);
-            daoHelper.commit();
+            daoHelperImpl.commit();
         } catch (DaoException e) {
             try {
-                daoHelper.rollback();
+                daoHelperImpl.rollback();
             } catch (DaoException ex) {
                 throw new ServiceException(String.format("Can't rollback() in takeOrder with order: %s, user: %s",
                         order, user), ex);
@@ -100,19 +106,19 @@ public class OrderServiceImpl implements OrderService {
             throw new ServiceException(String.format("Can't takeOrder()  with order: %s", order), e);
         } finally {
             try {
-                daoHelper.endTransaction();
+                daoHelperImpl.endTransaction();
             } catch (DaoException exception) {
                 LOGGER.warn("Can't endTransaction() in takeOrder with order: {}, user: {}", order, user, exception);
             }
-            daoHelper.close();
+            daoHelperImpl.close();
         }
         return true;
     }
 
     @Override
     public List<Order> getAllActiveWithExpiredDate() throws ServiceException {
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            OrderDao orderDao = daoHelper.createOrderDao();
+        try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
+            OrderDao orderDao = daoHelperImpl.createOrderDao();
             return orderDao.findAllActiveWithExpiredDate();
         } catch (DaoException e) {
             throw new ServiceException("Can't getAllActiveWithExpiredDate()", e);
@@ -121,17 +127,17 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void blockOrder(Order order) throws ServiceException {
-        DaoHelper daoHelper = DaoHelperFactory.createDaoHelper();
+        DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper();
         try {
-            daoHelper.startTransaction();
+            daoHelperImpl.startTransaction();
             OrderBuilder orderBuilder = order.builder();
             orderBuilder.setStatus(OrderStatus.BLOCKED);
             Order newOrder = orderBuilder.build();
-            OrderDao orderDao = daoHelper.createOrderDao();
+            OrderDao orderDao = daoHelperImpl.createOrderDao();
             orderDao.save(newOrder);
 
             long userId = order.getUserId();
-            UserDao userDao = daoHelper.createUserDao();
+            UserDao userDao = daoHelperImpl.createUserDao();
             Optional<User> userOpt = userDao.findById(userId);
             if (userOpt.isPresent()) {
                 User user = userOpt.get();
@@ -141,11 +147,11 @@ public class OrderServiceImpl implements OrderService {
                 userDao.save(newUser);
             }
 
-            daoHelper.commit();
+            daoHelperImpl.commit();
 
         } catch (DaoException e) {
             try {
-                daoHelper.rollback();
+                daoHelperImpl.rollback();
             } catch (DaoException ex) {
                 throw new ServiceException(String.format("Can't rollback() in blockOrder(order) with order: %s",
                         order.toString()), ex);
@@ -153,11 +159,11 @@ public class OrderServiceImpl implements OrderService {
             throw new ServiceException(String.format("Can't blockOrder(order)  with order: %s", order.toString()), e);
         } finally {
             try {
-                daoHelper.endTransaction();
+                daoHelperImpl.endTransaction();
             } catch (DaoException exception) {
                 LOGGER.warn("Can't endTransaction() in  blockOrder(order) with order: {}", order, exception);
             }
-            daoHelper.close();
+            daoHelperImpl.close();
         }
     }
 
@@ -176,38 +182,38 @@ public class OrderServiceImpl implements OrderService {
         User changedUser = userBuilder.build();
 
 
-        DaoHelper daoHelper = DaoHelperFactory.createDaoHelper();
-        OrderDao orderDao = daoHelper.createOrderDao();
-        UserDao userDao = daoHelper.createUserDao();
+        DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper();
+        OrderDao orderDao = daoHelperImpl.createOrderDao();
+        UserDao userDao = daoHelperImpl.createUserDao();
 
         try {
-            daoHelper.startTransaction();
+            daoHelperImpl.startTransaction();
             orderDao.save(changedOrder);
             userDao.save(changedUser);
-            daoHelper.commit();
+            daoHelperImpl.commit();
 
         } catch (DaoException e) {
             try {
-                daoHelper.rollback();
+                daoHelperImpl.rollback();
             } catch (DaoException ex) {
                 throw new ServiceException(String.format("Can't rollback() in cancelOrder(order, user) with order: %s, user: %s",
                         order, user), ex);
             }
         } finally {
             try {
-                daoHelper.endTransaction();
+                daoHelperImpl.endTransaction();
             } catch (DaoException exception) {
                 LOGGER.warn("Can't endTransaction() in cancelOrder(order, user) with order: {}, user: {}",
                         order, user, exception);
             }
-            daoHelper.close();
+            daoHelperImpl.close();
         }
     }
 
     @Override
     public List<Order> getAllActiveByUserIdAndStatus(Long userId, OrderSortTypes sortType) throws ServiceException {
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            OrderDao orderDao = daoHelper.createOrderDao();
+        try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
+            OrderDao orderDao = daoHelperImpl.createOrderDao();
             return sortType.getOrders(orderDao, userId);
         } catch (DaoException e) {
             throw new ServiceException(String.format("Can't getAllActiveByUserIdAndStatus(userId, sortType)  with userId: %d," +

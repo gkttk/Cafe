@@ -10,7 +10,6 @@ import java.util.Optional;
 
 public interface CommentService {
 
-    List<Comment> getAll() throws ServiceException;
 
     Optional<CommentInfo> getById(Long commentId) throws ServiceException;
 

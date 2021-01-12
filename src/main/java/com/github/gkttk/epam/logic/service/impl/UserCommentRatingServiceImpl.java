@@ -2,7 +2,7 @@ package com.github.gkttk.epam.logic.service.impl;
 
 import com.github.gkttk.epam.dao.entity.CommentDao;
 import com.github.gkttk.epam.dao.entity.UserCommentRatingDao;
-import com.github.gkttk.epam.dao.helper.DaoHelper;
+import com.github.gkttk.epam.dao.helper.DaoHelperImpl;
 import com.github.gkttk.epam.dao.helper.factory.DaoHelperFactory;
 import com.github.gkttk.epam.exceptions.DaoException;
 import com.github.gkttk.epam.exceptions.ServiceException;
@@ -19,11 +19,16 @@ import java.util.Optional;
 public class UserCommentRatingServiceImpl implements UserCommentRatingService {
 
     private final static Logger LOGGER = LogManager.getLogger(UserCommentRatingServiceImpl.class);
+    private final DaoHelperFactory daoHelperFactory;
+
+    public UserCommentRatingServiceImpl(DaoHelperFactory daoHelperFactory) {
+        this.daoHelperFactory = daoHelperFactory;
+    }
 
     @Override
     public List<UserCommentRating> getAllByUserIdAndDishId(Long userId, Long dishId) throws ServiceException {
-        try (DaoHelper daoHelper = DaoHelperFactory.createDaoHelper()) {
-            UserCommentRatingDao userCommentRatingDao = daoHelper.createUserCommentRatingDao();
+        try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
+            UserCommentRatingDao userCommentRatingDao = daoHelperImpl.createUserCommentRatingDao();
             return userCommentRatingDao.findAllByUserIdAndDishId(userId, dishId);
         } catch (DaoException e) {
             throw new ServiceException(String.format("Can't getAllByUserIdAndDishId() with userId: %d, dishId: %d",
@@ -33,12 +38,12 @@ public class UserCommentRatingServiceImpl implements UserCommentRatingService {
 
     @Override
     public void evaluateComment(long userId, long commentId, boolean isLiked) throws ServiceException {
-        DaoHelper daoHelper = DaoHelperFactory.createDaoHelper();
+        DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper();
         try {
-            UserCommentRatingDao userCommentRatingDao = daoHelper.createUserCommentRatingDao();
-            CommentDao commentDao = daoHelper.createCommentDao();
+            UserCommentRatingDao userCommentRatingDao = daoHelperImpl.createUserCommentRatingDao();
+            CommentDao commentDao = daoHelperImpl.createCommentDao();
 
-            daoHelper.startTransaction();
+            daoHelperImpl.startTransaction();
 
             boolean wasEvaluated = checkCommentWasEvaluated(userCommentRatingDao, userId, commentId);
             if (wasEvaluated) {
@@ -61,10 +66,10 @@ public class UserCommentRatingServiceImpl implements UserCommentRatingService {
                 commentDao.save(newComment);
             }
 
-            daoHelper.commit();
+            daoHelperImpl.commit();
         } catch (DaoException e) {
             try {
-                daoHelper.rollback();
+                daoHelperImpl.rollback();
             } catch (DaoException ex) {
                 throw new ServiceException(String.format("Can't rollback() in evaluateComment(userId, commentId, " +
                                 "commentRating, isLiked) with userId: %d, commentId: %d, isLiked: %b",
@@ -72,12 +77,12 @@ public class UserCommentRatingServiceImpl implements UserCommentRatingService {
             }
         } finally {
             try {
-                daoHelper.endTransaction();
+                daoHelperImpl.endTransaction();
             } catch (DaoException exception) {
                 LOGGER.warn("Can't endTransaction() in evaluateComment(userId,commentId,commentRating, isLiked) " +
                         "with userId: {}, commentRating: {}, isLiked: {}", userId, commentId, isLiked, exception);
             }
-            daoHelper.close();
+            daoHelperImpl.close();
 
         }
     }

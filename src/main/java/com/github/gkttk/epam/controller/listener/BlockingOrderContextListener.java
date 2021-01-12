@@ -1,5 +1,6 @@
 package com.github.gkttk.epam.controller.listener;
 
+import com.github.gkttk.epam.dao.helper.factory.DaoHelperFactoryImpl;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.OrderService;
 import com.github.gkttk.epam.logic.service.impl.OrderServiceImpl;
@@ -16,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 public class BlockingOrderContextListener implements ServletContextListener {
 
-    private OrderService orderService = new OrderServiceImpl();
+    private OrderService orderService;
     private ScheduledExecutorService scheduledExecutorService;
 
     private final static int DEFAULT_INIT_DELAY = 0;
@@ -27,6 +28,7 @@ public class BlockingOrderContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        this.orderService = new OrderServiceImpl(new DaoHelperFactoryImpl());
         Runnable runnable = initRunnable();
         this.scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
         scheduledExecutorService.scheduleWithFixedDelay(runnable, DEFAULT_INIT_DELAY, DEFAULT_DELAY, TimeUnit.MINUTES);

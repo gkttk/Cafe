@@ -1,16 +1,8 @@
 package com.github.gkttk.epam.dao.helper.factory;
 
-import com.github.gkttk.epam.connection.ConnectionPool;
-import com.github.gkttk.epam.connection.ConnectionProxy;
-import com.github.gkttk.epam.dao.helper.DaoHelper;
+import com.github.gkttk.epam.dao.helper.DaoHelperImpl;
 
-public class DaoHelperFactory {
+public interface DaoHelperFactory {
 
-    private static final ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
-
-    public static DaoHelper createDaoHelper(){
-        ConnectionProxy connection = CONNECTION_POOL.getConnection();
-        return new DaoHelper(connection);
-    }
-
+    DaoHelperImpl createDaoHelper();
 }
