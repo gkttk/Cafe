@@ -3,7 +3,7 @@ package com.github.gkttk.epam.logic.validator;
 
 import java.time.LocalDateTime;
 
-public class DataValidator implements Validator {
+public class DateValidator implements Validator {
     @Override
     public boolean validate(String line){
         if(line != null && !line.isEmpty()){

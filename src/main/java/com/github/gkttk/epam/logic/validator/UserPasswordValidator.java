@@ -7,6 +7,7 @@ public class UserPasswordValidator implements Validator {
 
     @Override
     public boolean validate(String line) {
-        return line.matches(PASSWORD_REGEX);
+        return line != null && line.matches(PASSWORD_REGEX);
+
     }
 }

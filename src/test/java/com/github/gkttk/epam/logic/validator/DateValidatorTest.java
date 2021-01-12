@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-public class DataValidatorTest {
+public class DateValidatorTest {
 
-    private final Validator dataValidator = new DataValidator();
+    private final Validator dataValidator = new DateValidator();
 
     @Test
     public void testValidateShouldReturnTrueIfGivenStringDateIsAfterThanCurrent() throws ServiceException {

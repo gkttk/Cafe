@@ -18,7 +18,7 @@ public enum Commands {
     FORM_ORDER(new MakeOrderCommand()),
     MENU(new MenuPageCommand()),
     MY_ORDERS(new MyOrdersPageCommand(new OrderServiceImpl(new DaoHelperFactoryImpl()))),
-    SAVE_ORDER(new SaveOrderCommand(new OrderServiceImpl(new DaoHelperFactoryImpl()), new DataValidator())),
+    SAVE_ORDER(new SaveOrderCommand(new OrderServiceImpl(new DaoHelperFactoryImpl()), new DateValidator())),
     CANCEL_DISH(new CancelDishCommand()),
     RATE_COMMENT(new RateCommentCommand(new CommentServiceImpl(new DaoHelperFactoryImpl()), new UserCommentRatingServiceImpl(new DaoHelperFactoryImpl()))),
     SORT_DISHES(new SortDishesCommand(new DishServiceImpl(new DaoHelperFactoryImpl()))),

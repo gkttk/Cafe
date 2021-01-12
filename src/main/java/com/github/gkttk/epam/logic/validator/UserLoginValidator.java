@@ -1,10 +1,8 @@
 package com.github.gkttk.epam.logic.validator;
 
 import com.github.gkttk.epam.dao.entity.UserDao;
-import com.github.gkttk.epam.dao.helper.DaoHelper;
 import com.github.gkttk.epam.dao.helper.DaoHelperImpl;
 import com.github.gkttk.epam.dao.helper.factory.DaoHelperFactory;
-import com.github.gkttk.epam.dao.helper.factory.DaoHelperFactoryImpl;
 import com.github.gkttk.epam.exceptions.DaoException;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.model.entities.User;
@@ -23,7 +21,9 @@ public class UserLoginValidator implements Validator {
 
     @Override
     public boolean validate(String login) throws ServiceException {
-        boolean isLoginCorrect = login.matches(LOGIN_REGEX);
+
+        boolean isLoginCorrect = (login != null) && login.matches(LOGIN_REGEX);
+
         if (!isLoginCorrect) {
             return false;
         }
