@@ -16,7 +16,7 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
 
     private final static String TABLE_NAME = "orders";
 
-    private final static String SAVE_ORDER_PRODUCT_QUERY = "INSERT INTO orders_dishes values (?, ?)"; //todo
+    private final static String SAVE_ORDER_PRODUCT_QUERY = "INSERT INTO orders_dishes values (?, ?)";
     private final static String GET_ALL_BY_USER_ID_QUERY = "SELECT * FROM orders WHERE user_id = ?";
 
     private final static String FIND_ALL_ACTIVE_WITH_EXPIRED_DATE_QUERY = "SELECT * from orders where date < NOW() AND status = 'ACTIVE'";

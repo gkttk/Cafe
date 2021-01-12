@@ -38,7 +38,7 @@ public class ChangeUserPointsCommand implements Command {
         userService.changePoints(userId, points, isAdd);
 
         List<UserInfo> users = userService.getAll();
-        requestDataHolder.putSessionAttribute(USERS_ATTR, users);//todo mb renew session
+        requestDataHolder.putSessionAttribute(USERS_ATTR, users);
 
 
         return new CommandResult(USERS_PAGE, true);

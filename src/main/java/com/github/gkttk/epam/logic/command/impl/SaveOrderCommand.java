@@ -62,9 +62,9 @@ public class SaveOrderCommand implements Command {
         orderService.makeOrder(orderCost, dateTime, userId, dishIds);
 
 
-        requestDataHolder.putSessionAttribute(BASKET_ATTR, null);//todo mb better invalidate and fill session
+        requestDataHolder.putSessionAttribute(BASKET_ATTR, null);
 
-        requestDataHolder.putSessionAttribute(ORDER_MESSAGE_ATTR, ORDER_MESSAGE);//todo delete from session
+        requestDataHolder.putSessionAttribute(ORDER_MESSAGE_ATTR, ORDER_MESSAGE);
 
         requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, MENU_PAGE);
 

@@ -22,10 +22,19 @@
         <jstl.version>1.2</jstl.version>
         <javax.servlet.version>3.1.0</javax.servlet.version>
         <junit.jupiter.version>5.7.0</junit.jupiter.version>
+        <javax.servlet.jsp.version>2.3.3</javax.servlet.jsp.version>
 
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>javax.servlet.jsp-api</artifactId>
+            <version>${javax.servlet.jsp.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
 
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>

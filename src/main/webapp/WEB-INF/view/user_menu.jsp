@@ -1,7 +1,7 @@
-<%@ page import="com.github.gkttk.epam.model.enums.DishTypes" %>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@taglib prefix="dt" uri="WEB-INF/tlds/dishtypestag" %>
 <fmt:setLocale value="${sessionScope.locale}" scope="session"/>
 <fmt:bundle basename="i18n/message">
     <html>
@@ -41,7 +41,7 @@
                     </form>
                 </div>
                 <c:if test="${not empty requestScope.errorMessage}">
-                <h4><fmt:message key="${requestScope.errorMessage}"/></h4>
+                    <h4><fmt:message key="${requestScope.errorMessage}"/></h4>
                 </c:if>
                 <c:if test="${not empty sessionScope.orderMessage}">
                     <h4><fmt:message key="${sessionScope.orderMessage}"/></h4>
@@ -67,42 +67,50 @@
                                             <fmt:message key="user.menu.add.dish.button"/>
                                         </button>
                                         <form id="add_dish_form" method="POST"
-                                              action="${pageContext.request.contextPath}/upload" enctype="multipart/form-data">
+                                              action="${pageContext.request.contextPath}/upload"
+                                              enctype="multipart/form-data">
                                             <input type="hidden" name="command" value="ADD_DISH"/>
                                             <input type="file" name="file" accept="image/*"/>
 
-                                                <label for="dishName">Название(Бандл)</label>
-                                                <input id="dishName" type="text" name="name" required
-                                                       pattern="(?=\D)(?=\S)[\S\s]{3,25}"/>
+                                            <label for="dishName">
+                                                <fmt:message key="user.menu.add.dish.button.name"/>
+                                            </label>
+                                            <input id="dishName" type="text" name="name" required
+                                                   pattern="(?=\D)(?=\S)[\S\s]{3,25}"/>
 
                                             <div class="add_dish_form_div">
-                                            <label for="dishCost">Стоимость(Бандл)</label>
-                                            <input id="dishCost" type="number" name="cost" min="0.1" max="500" step="0.1" required/>
+                                                <label for="dishCost">
+                                                    <fmt:message key="user.menu.add.dish.button.cost"/>
+                                                </label>
+                                                <input id="dishCost" type="number" name="cost" min="0.1" max="500"
+                                                       step="0.1" required/>
                                             </div>
-
-                                            <c:set var="typeEnum" value="<%=DishTypes.values()%>"/> <%--using scriplet for enum--%>
-                                            <c:forEach items="${typeEnum}" var="typeValue">
+                                            <dt:dishTypesTag/>
+                                            <c:forEach items="${dishTypes}" var="typeValue">
                                                 <div class="add_dish_form_div">
                                                     <label for="${typeValue}">
-                                                            <c:choose>
-                                                                <c:when test="${typeValue.name() eq 'SOUP'}">
-                                                                    Суп(бандл)
-                                                                </c:when>
-                                                                <c:when test="${typeValue.name() eq 'SALAD'}">
-                                                                    Салат(бандл)
-                                                                </c:when>
-                                                                <c:when test="${typeValue.name() eq 'BEVERAGE'}">
-                                                                    Напиток(бандл)
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    Неизвестный тип(бандл)
-                                                                </c:otherwise>
-                                                            </c:choose>
+                                                        <c:choose>
+                                                            <c:when test="${typeValue.name() eq 'SOUP'}">
+                                                                <fmt:message key="user.menu.add.dish.button.soup"/>
+                                                            </c:when>
+                                                            <c:when test="${typeValue.name() eq 'SALAD'}">
+                                                                <fmt:message key="user.menu.add.dish.button.salad"/>
+                                                            </c:when>
+                                                            <c:when test="${typeValue.name() eq 'BEVERAGE'}">
+                                                                <fmt:message key="user.menu.add.dish.button.beverage"/>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <fmt:message
+                                                                        key="user.menu.add.dish.button.unknown.type"/>
+                                                            </c:otherwise>
+                                                        </c:choose>
                                                     </label>
                                                     <input type="radio" id="${typeValue}"
                                                            name="type" value="${typeValue}" checked>
                                                 </div>
                                             </c:forEach>
+
+
                                                 <%--<div class="add_dish_form_div">
                                             <label for="type1">SOUP(bundle)</label>
                                             <input type="radio" id="type1"
