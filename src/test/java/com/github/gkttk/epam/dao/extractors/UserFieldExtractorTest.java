@@ -44,7 +44,6 @@ public class UserFieldExtractorTest {
         expectedMap.put(BLOCKED_KEY, isBlocked);
         expectedMap.put(IMG_BASE64_KEY, imgBase64);
 
-
         User user = new User(userId, login, password, role, points, money, isBlocked, imgBase64);
         //when
         Map<String, Object> result = fieldExtractor.extractFields(user);

@@ -21,20 +21,20 @@ public class UserInfoFieldExtractorTest {
     @Test
     public void testExtractFieldsShouldReturnMapWithCommentValues() {
         //given
-        long userId = 1L;
+        long id = 1L;
         String login = "testLogin";
         UserRole role = UserRole.USER;
         int points = 50;
         boolean isBlocked = false;
 
         Map<String, Object> expectedMap = new LinkedHashMap<>();
-        expectedMap.put(ID_KEY, userId);
+        expectedMap.put(ID_KEY, id);
         expectedMap.put(LOGIN_KEY, login);
         expectedMap.put(ROLE_KEY, role.name());
         expectedMap.put(POINTS_KEY, points);
         expectedMap.put(BLOCKED_KEY, isBlocked);
 
-        UserInfo userInfo = new UserInfo(userId, login, role, points, isBlocked);
+        UserInfo userInfo = new UserInfo(id, login, role, points, isBlocked);
         //when
         Map<String, Object> result = fieldExtractor.extractFields(userInfo);
         //then

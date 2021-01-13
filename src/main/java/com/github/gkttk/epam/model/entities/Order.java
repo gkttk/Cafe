@@ -1,7 +1,6 @@
 package com.github.gkttk.epam.model.entities;
 
 import com.github.gkttk.epam.model.builder.OrderBuilder;
-import com.github.gkttk.epam.model.builder.UserBuilder;
 import com.github.gkttk.epam.model.enums.OrderStatus;
 
 import java.math.BigDecimal;
@@ -15,7 +14,7 @@ public class Order extends Entity {
     private final Long userId;
 
 
-    public Order(Long id, BigDecimal cost, LocalDateTime date, Long userId){
+    public Order(Long id, BigDecimal cost, LocalDateTime date, Long userId) {
         super(id);
         this.cost = cost;
         this.date = date;
@@ -59,14 +58,15 @@ public class Order extends Entity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o){
+        if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()){
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         Order order = (Order) o;
-        return Objects.equals(cost, order.cost) &&
+        return (this.getId() == null || super.getId().equals(order.getId())) &&
+                Objects.equals(cost, order.cost) &&
                 Objects.equals(date, order.date) &&
                 status == order.status &&
                 Objects.equals(userId, order.userId);

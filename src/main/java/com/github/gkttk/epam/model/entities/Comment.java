@@ -13,7 +13,7 @@ public class Comment extends Entity {
     private final Long dishId;
 
 
-    public Comment(Long id, String text, Long userId, Long dishId){
+    public Comment(Long id, String text, Long userId, Long dishId) {
         super(id);
         this.text = text;
         this.userId = userId;
@@ -32,7 +32,7 @@ public class Comment extends Entity {
     }
 
 
-    public CommentBuilder builder(){
+    public CommentBuilder builder() {
         return new CommentBuilder(this);
     }
 
@@ -59,14 +59,16 @@ public class Comment extends Entity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o){
+        if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()){
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         Comment comment = (Comment) o;
-        return rating == comment.rating &&
+
+        return (this.getId() == null || super.getId().equals(comment.getId())) &&
+                rating == comment.rating &&
                 Objects.equals(text, comment.text) &&
                 Objects.equals(creationDate, comment.creationDate) &&
                 Objects.equals(userId, comment.userId) &&
@@ -77,7 +79,6 @@ public class Comment extends Entity {
     public int hashCode() {
         return Objects.hash(text, rating, creationDate, userId, dishId);
     }
-
 
 
     @Override

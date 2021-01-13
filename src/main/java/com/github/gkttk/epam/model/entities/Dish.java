@@ -64,7 +64,8 @@ public class Dish extends Entity {
             return false;
         }
         Dish dish = (Dish) o;
-        return Objects.equals(name, dish.name) &&
+        return (this.getId() == null || super.getId().equals(dish.getId())) &&
+                Objects.equals(name, dish.name) &&
                 type == dish.type &&
                 Objects.equals(cost, dish.cost) &&
                 Objects.equals(imgBase64, dish.imgBase64);

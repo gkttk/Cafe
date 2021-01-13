@@ -62,7 +62,8 @@ public class CommentInfo extends Entity {
             return false;
         }
         CommentInfo that = (CommentInfo) o;
-        return rating == that.rating &&
+        return (this.getId() == null || super.getId().equals(that.getId())) &&
+                rating == that.rating &&
                 Objects.equals(text, that.text) &&
                 Objects.equals(creationDate, that.creationDate) &&
                 Objects.equals(userLogin, that.userLogin) &&

@@ -53,7 +53,8 @@ public class UserInfo extends Entity {
             return false;
         }
         UserInfo userInfo = (UserInfo) o;
-        return points == userInfo.points &&
+        return (this.getId() == null || super.getId().equals(userInfo.getId())) &&
+                points == userInfo.points &&
                 blocked == userInfo.blocked &&
                 Objects.equals(login, userInfo.login) &&
                 role == userInfo.role;
