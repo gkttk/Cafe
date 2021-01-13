@@ -8,7 +8,7 @@ import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Order;
 import com.github.gkttk.epam.model.entities.User;
-import com.github.gkttk.epam.model.enums.OrderSortTypes;
+import com.github.gkttk.epam.model.enums.OrderSortType;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +22,7 @@ public class CancelOrderCommand implements Command {
     private final static String ORDER_ID_PARAM = "orderId";
     private final static String ORDERS_ATTR = "orders";
     private final static String MY_ORDERS_PAGE = "/WEB-INF/view/my_orders_page.jsp";
-    private final static OrderSortTypes ACTIVE_ORDER_SORT_TYPE = OrderSortTypes.ACTIVE;
+    private final static OrderSortType ACTIVE_ORDER_SORT_TYPE = OrderSortType.ACTIVE;
 
 
     public CancelOrderCommand(OrderService orderService, UserService userService) {

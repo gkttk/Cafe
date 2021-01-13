@@ -6,7 +6,7 @@ import com.github.gkttk.epam.model.entities.Order;
 
 import java.util.List;
 
-public enum OrderSortTypes {
+public enum OrderSortType {
     ACTIVE {
         public List<Order> getOrders(OrderDao orderDao, long userId) throws DaoException {
             return orderDao.findAllActiveByUserId(userId);

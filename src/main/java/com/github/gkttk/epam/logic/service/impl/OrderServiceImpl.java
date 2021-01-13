@@ -11,7 +11,7 @@ import com.github.gkttk.epam.model.builder.OrderBuilder;
 import com.github.gkttk.epam.model.builder.UserBuilder;
 import com.github.gkttk.epam.model.entities.Order;
 import com.github.gkttk.epam.model.entities.User;
-import com.github.gkttk.epam.model.enums.OrderSortTypes;
+import com.github.gkttk.epam.model.enums.OrderSortType;
 import com.github.gkttk.epam.model.enums.OrderStatus;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,7 +34,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void makeOrder(BigDecimal orderCost, LocalDateTime dateTime, long userId, List<Long> dishIds) throws ServiceException {
+    public void makeOrder(BigDecimal orderCost, LocalDateTime dateTime, long userId, List<Long> dishIds)
+            throws ServiceException {
         Order order = new Order(null, orderCost, dateTime, userId);
 
         DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper();
@@ -53,11 +54,14 @@ public class OrderServiceImpl implements OrderService {
                 throw new ServiceException(String.format("Can't rollback() in makeOrder with order: %s, user_id: %d",
                         order, userId), e);
             }
+            throw new ServiceException(String.format("Can't makeOrder() with orderCost: %f, dateTime: %s, userId: %d," +
+                    " dishIds size: %d", orderCost, dateTime, userId, dishIds.size()), e);
         } finally {
             try {
                 daoHelperImpl.endTransaction();
             } catch (DaoException exception) {
-                LOGGER.warn("Can't endTransaction() in makeOrder with order: {}, user_id: {}", order, userId, exception);
+                LOGGER.warn("Can't endTransaction() in makeOrder with order: {}, user_id: {}",
+                        order, userId, exception);
             }
             daoHelperImpl.close();
         }
@@ -108,7 +112,8 @@ public class OrderServiceImpl implements OrderService {
             try {
                 daoHelperImpl.endTransaction();
             } catch (DaoException exception) {
-                LOGGER.warn("Can't endTransaction() in takeOrder with order: {}, user: {}", order, user, exception);
+                LOGGER.warn("Can't endTransaction() in takeOrder with order: {}, user: {}",
+                        order, user, exception);
             }
             daoHelperImpl.close();
         }
@@ -196,9 +201,11 @@ public class OrderServiceImpl implements OrderService {
             try {
                 daoHelperImpl.rollback();
             } catch (DaoException ex) {
-                throw new ServiceException(String.format("Can't rollback() in cancelOrder(order, user) with order: %s, user: %s",
-                        order, user), ex);
+                throw new ServiceException(String.format("Can't rollback() in cancelOrder(order, user) with" +
+                        " order: %s, user: %s", order, user), ex);
             }
+            throw new ServiceException(String.format("Can't cancelOrder(order, user)  with order: %s, user: %s",
+                    order, user), e);
         } finally {
             try {
                 daoHelperImpl.endTransaction();
@@ -211,13 +218,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getAllActiveByUserIdAndStatus(Long userId, OrderSortTypes sortType) throws ServiceException {
+    public List<Order> getAllActiveByUserIdAndStatus(Long userId, OrderSortType sortType) throws ServiceException {
         try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
             OrderDao orderDao = daoHelperImpl.createOrderDao();
             return sortType.getOrders(orderDao, userId);
         } catch (DaoException e) {
-            throw new ServiceException(String.format("Can't getAllActiveByUserIdAndStatus(userId, sortType)  with userId: %d," +
-                    " sortType: %s", userId, sortType.name()), e);
+            throw new ServiceException(String.format("Can't getAllActiveByUserIdAndStatus(userId, sortType)  with" +
+                    " userId: %d, sortType: %s", userId, sortType.name()), e);
         }
     }
 

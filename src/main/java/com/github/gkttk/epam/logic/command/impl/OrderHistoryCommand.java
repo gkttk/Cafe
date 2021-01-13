@@ -4,11 +4,10 @@ import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.command.Command;
 import com.github.gkttk.epam.logic.service.OrderService;
-import com.github.gkttk.epam.logic.service.impl.OrderServiceImpl;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Order;
 import com.github.gkttk.epam.model.entities.User;
-import com.github.gkttk.epam.model.enums.OrderSortTypes;
+import com.github.gkttk.epam.model.enums.OrderSortType;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ public class OrderHistoryCommand implements Command {
     private final static String CURRENT_PAGE_PARAM = "currentPage";
     private final static String AUTH_USER_ATTR = "authUser";
     private final static String ORDERS_ATTR = "orders";
-    private final static OrderSortTypes NOT_ACTIVE_ORDER_SORT_TYPE = OrderSortTypes.EXPIRED;
+    private final static OrderSortType NOT_ACTIVE_ORDER_SORT_TYPE = OrderSortType.EXPIRED;
 
 
     public OrderHistoryCommand(OrderService orderService) {

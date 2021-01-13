@@ -3,7 +3,7 @@ package com.github.gkttk.epam.logic.service;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.model.entities.Order;
 import com.github.gkttk.epam.model.entities.User;
-import com.github.gkttk.epam.model.enums.OrderSortTypes;
+import com.github.gkttk.epam.model.enums.OrderSortType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -21,6 +21,6 @@ public interface OrderService {
 
     void cancelOrder(Order order, User user) throws ServiceException;
 
-    List<Order> getAllActiveByUserIdAndStatus(Long userId, OrderSortTypes sortType) throws ServiceException;
+    List<Order> getAllActiveByUserIdAndStatus(Long userId, OrderSortType sortType) throws ServiceException;
 
 }

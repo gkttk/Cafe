@@ -7,7 +7,7 @@ import com.github.gkttk.epam.logic.service.OrderService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Order;
 import com.github.gkttk.epam.model.entities.User;
-import com.github.gkttk.epam.model.enums.OrderSortTypes;
+import com.github.gkttk.epam.model.enums.OrderSortType;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class MyOrdersPageCommand implements Command {
     private final static String AUTH_USER_ATTR = "authUser";
     private final static String ORDERS_ATTR = "orders";
     private final static String SORT_TYPE_PARAM = "sortType";
-    private final static OrderSortTypes ACTIVE_ORDER_SORT_TYPE = OrderSortTypes.ACTIVE;
+    private final static OrderSortType ACTIVE_ORDER_SORT_TYPE = OrderSortType.ACTIVE;
 
 
     public MyOrdersPageCommand(OrderService orderService) {
@@ -32,10 +32,10 @@ public class MyOrdersPageCommand implements Command {
         User authUser = (User) requestDataHolder.getSessionAttribute(AUTH_USER_ATTR);
         long userId = authUser.getId();
 
-        OrderSortTypes sortType;
+        OrderSortType sortType;
         if(requestDataHolder.isRequestParamContainsKey(SORT_TYPE_PARAM)){
             String sortTypeParam = requestDataHolder.getRequestParameter(SORT_TYPE_PARAM);
-            sortType = OrderSortTypes.valueOf(sortTypeParam);
+            sortType = OrderSortType.valueOf(sortTypeParam);
         }else {
             sortType = ACTIVE_ORDER_SORT_TYPE;
         }

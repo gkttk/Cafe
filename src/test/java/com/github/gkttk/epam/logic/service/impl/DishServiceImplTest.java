@@ -1,6 +1,7 @@
 package com.github.gkttk.epam.logic.service.impl;
 
 import com.github.gkttk.epam.dao.entity.impl.DishDaoImpl;
+import com.github.gkttk.epam.dao.entity.impl.UserDaoImpl;
 import com.github.gkttk.epam.dao.helper.DaoHelperImpl;
 import com.github.gkttk.epam.dao.helper.factory.DaoHelperFactory;
 import com.github.gkttk.epam.exceptions.DaoException;
