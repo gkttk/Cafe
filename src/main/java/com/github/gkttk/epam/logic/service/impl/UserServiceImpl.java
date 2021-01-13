@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Optional<UserInfo> changeUserStatus(long userId, boolean newStatus) throws ServiceException { //+
+    public Optional<UserInfo> changeUserStatus(long userId, boolean newStatus) throws ServiceException {
         Optional<UserInfo> result = Optional.empty();
         try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
             UserInfoDao userInfoDao = daoHelperImpl.createUserInfoDao();

@@ -2,7 +2,6 @@ package com.github.gkttk.epam.logic.service;
 
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.model.dto.CommentInfo;
-import com.github.gkttk.epam.model.entities.Comment;
 import com.github.gkttk.epam.model.enums.CommentSortTypes;
 
 import java.util.List;
