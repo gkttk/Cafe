@@ -90,8 +90,6 @@ public class CommentServiceImpl implements CommentService {
             throw new ServiceException(String.format("Can't updateComment(commentId, newComment text) with " +
                     "commentId: %d, newCommentText: %s", commentId, newCommentText), e);
         }
-
-
     }
 
     @Override
@@ -103,7 +101,6 @@ public class CommentServiceImpl implements CommentService {
             throw new ServiceException(String.format("Can't removeComment(commentId) with " +
                     "commentId: %d", commentId), e);
         }
-
     }
 
 }

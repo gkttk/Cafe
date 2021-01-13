@@ -24,10 +24,24 @@
         <junit.jupiter.version>5.7.0</junit.jupiter.version>
         <javax.servlet.jsp.version>2.3.3</javax.servlet.jsp.version>
         <mockito.version>1.10.19</mockito.version>
-
+        <junit.dataprovider.version>1.13.1</junit.dataprovider.version>
+        <junit.jupiter.params.version>5.7.0</junit.jupiter.params.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit.jupiter.params.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.tngtech.java</groupId>
+            <artifactId>junit-dataprovider</artifactId>
+            <version>${junit.dataprovider.version}</version>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.mockito</groupId>
