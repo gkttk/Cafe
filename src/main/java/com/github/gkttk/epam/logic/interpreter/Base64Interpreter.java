@@ -11,7 +11,7 @@ public class Base64Interpreter {
     public static String interpret(InputStream file) throws ServiceException {
         try {
             int availableBytes = file.available();
-            if (availableBytes == 0){
+            if (availableBytes == 0) {
                 return null;
             }
             byte[] buffer = new byte[availableBytes];
