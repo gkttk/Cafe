@@ -10,9 +10,7 @@ import java.util.Optional;
 
 public interface DishService {
 
-
     List<Dish> getAllEnabled() throws ServiceException;
-
 
     List<Dish> getByType(DishTypes type) throws ServiceException;
 

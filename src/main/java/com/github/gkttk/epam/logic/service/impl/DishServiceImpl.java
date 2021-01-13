@@ -15,7 +15,6 @@ import java.util.Optional;
 
 public class DishServiceImpl implements DishService {
 
-
     private final DaoHelperFactory daoHelperFactory;
 
     public DishServiceImpl(DaoHelperFactory daoHelperFactory) {
@@ -31,7 +30,6 @@ public class DishServiceImpl implements DishService {
             throw new ServiceException("Can't getAllEnabled()", e);
         }
     }
-
 
     @Override
     public List<Dish> getByType(DishTypes type) throws ServiceException {
