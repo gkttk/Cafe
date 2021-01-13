@@ -18,7 +18,6 @@ public class OrderFieldExtractor implements FieldExtractor<Order> {
 
     @Override
     public Map<String, Object> extractFields(Order order) {
-
         Map<String, Object> result = new LinkedHashMap<>();
 
         Long id = order.getId();

@@ -20,7 +20,6 @@ public class UserFieldExtractor implements FieldExtractor<User> {
 
     @Override
     public Map<String, Object> extractFields(User user) {
-
         Map<String, Object> result = new LinkedHashMap<>();
 
         Long id = user.getId();

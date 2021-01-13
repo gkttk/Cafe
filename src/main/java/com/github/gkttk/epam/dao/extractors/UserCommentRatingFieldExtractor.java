@@ -13,7 +13,6 @@ public class UserCommentRatingFieldExtractor implements FieldExtractor<UserComme
 
     @Override
     public Map<String, Object> extractFields(UserCommentRating userCommentRating) {
-
         Map<String, Object> result = new LinkedHashMap<>();
 
         Long userId = userCommentRating.getUserId();

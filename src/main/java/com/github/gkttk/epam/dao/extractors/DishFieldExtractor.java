@@ -16,7 +16,6 @@ public class DishFieldExtractor implements FieldExtractor<Dish> {
 
     @Override
     public Map<String, Object> extractFields(Dish dish) {
-
         Map<String, Object> result = new LinkedHashMap<>();
 
         Long id = dish.getId();

@@ -2,7 +2,6 @@ package com.github.gkttk.epam.dao.extractors;
 
 import com.github.gkttk.epam.model.entities.Comment;
 
-import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -11,7 +10,6 @@ public class CommentFieldExtractor implements FieldExtractor<Comment> {
     private final static String ID_KEY = "id";
     private final static String TEXT_KEY = "text";
     private final static String RATING_KEY = "rating";
-
     private final static String USER_ID_KEY = "user_id";
     private final static String DISH_ID_KEY = "dish_id";
 

@@ -1,10 +1,8 @@
 package com.github.gkttk.epam.dao.extractors;
 
 import com.github.gkttk.epam.model.dto.UserInfo;
-import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.enums.UserRole;
 
-import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -19,7 +17,6 @@ public class UserInfoFieldExtractor implements FieldExtractor<UserInfo> {
 
     @Override
     public Map<String, Object> extractFields(UserInfo userInfo) {
-
         Map<String, Object> result = new LinkedHashMap<>();
 
         Long id = userInfo.getId();
