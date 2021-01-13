@@ -75,6 +75,8 @@ public class UserCommentRatingServiceImpl implements UserCommentRatingService {
                                 "commentRating, isLiked) with userId: %d, commentId: %d, isLiked: %b",
                         userId, commentId, isLiked), ex);
             }
+            throw new ServiceException(String.format("Can't evaluateComment(userId, commentId, isLiked) " +
+                    " with userId: %d, commentId: %d, isLiked: %b", userId, commentId, isLiked), e);
         } finally {
             try {
                 daoHelperImpl.endTransaction();
