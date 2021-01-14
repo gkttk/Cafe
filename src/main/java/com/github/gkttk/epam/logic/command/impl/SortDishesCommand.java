@@ -24,7 +24,6 @@ public class SortDishesCommand implements Command {
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
-
         String dishTypeParam = requestDataHolder.getRequestParameter(DISH_TYPE_PARAM);
 
         List<Dish> dishes;

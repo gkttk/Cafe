@@ -34,7 +34,6 @@ public class DishCommentsCommand implements Command {
     private final static CommentSortTypes DEFAULT_SORT_TYPE = CommentSortTypes.DATE;
     private final static int START_PAGE_NUMBER = 1;
 
-
     public DishCommentsCommand(CommentService commentService, UserCommentRatingService userCommentRatingService) {
         this.commentService = commentService;
         this.userCommentRatingService = userCommentRatingService;
@@ -85,7 +84,6 @@ public class DishCommentsCommand implements Command {
         String dishIdParam = requestDataHolder.getRequestParameter(DISH_ID_PARAM);
         return dishIdParam == null ? (long) requestDataHolder.getSessionAttribute(DISH_ID_ATTR) : Long.parseLong(dishIdParam);
     }
-
 
     private Map<Long, Boolean> getUserEstimates(long userId, long dishId) throws ServiceException {
         List<UserCommentRating> commentEstimates = userCommentRatingService.getAllByUserIdAndDishId(userId, dishId);

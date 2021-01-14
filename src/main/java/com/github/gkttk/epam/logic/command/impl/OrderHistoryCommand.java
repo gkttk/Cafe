@@ -20,7 +20,6 @@ public class OrderHistoryCommand implements Command {
     private final static String ORDERS_ATTR = "orders";
     private final static OrderSortType NOT_ACTIVE_ORDER_SORT_TYPE = OrderSortType.EXPIRED;
 
-
     public OrderHistoryCommand(OrderService orderService) {
         this.orderService = orderService;
     }
@@ -29,7 +28,7 @@ public class OrderHistoryCommand implements Command {
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
         User authUser = (User) requestDataHolder.getSessionAttribute(AUTH_USER_ATTR);
         long userId = authUser.getId();
-        List<Order> orders = orderService.getAllActiveByUserIdAndStatus(userId,NOT_ACTIVE_ORDER_SORT_TYPE);
+        List<Order> orders = orderService.getAllActiveByUserIdAndStatus(userId, NOT_ACTIVE_ORDER_SORT_TYPE);
 
         requestDataHolder.putSessionAttribute(ORDERS_ATTR, orders);
         requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, MY_ORDERS_PAGE);

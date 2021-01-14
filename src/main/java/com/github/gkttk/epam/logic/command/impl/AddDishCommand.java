@@ -55,7 +55,6 @@ public class AddDishCommand implements Command {
                 return new CommandResult(MENU_PAGE, false);
             }
 
-
             String costParam = requestDataHolder.getRequestParameter(DISH_COST_PARAM);
             boolean isDishCostValid = dishCostValidator.validate(costParam);
 

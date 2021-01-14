@@ -23,7 +23,6 @@ public class ChangeUserPointsCommand implements Command {
         this.userService = userService;
     }
 
-
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
         String userIdParam = requestDataHolder.getRequestParameter(USER_ID_PARAM);

@@ -20,7 +20,6 @@ public class CancelDishCommand implements Command {
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) {
-
         List<Dish> basket = (List<Dish>) requestDataHolder.getSessionAttribute(BASKET_ATTR);
 
         String dishIdParam = requestDataHolder.getRequestParameter(DISH_ID_PARAM);

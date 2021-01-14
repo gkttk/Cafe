@@ -13,6 +13,5 @@ public class MenuPageCommand implements Command {
     public CommandResult execute(RequestDataHolder requestDataHolder) {
         requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, MENU_PAGE);
         return new CommandResult(MENU_PAGE, true);
-
     }
 }

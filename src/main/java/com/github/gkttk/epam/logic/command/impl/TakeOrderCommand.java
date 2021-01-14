@@ -15,7 +15,6 @@ import java.util.Optional;
 
 public class TakeOrderCommand implements Command {
 
-
     private final OrderService orderService;
     private final UserService userService;
 
@@ -28,12 +27,10 @@ public class TakeOrderCommand implements Command {
 
     private final static OrderSortType ACTIVE_ORDER_SORT_TYPE = OrderSortType.ACTIVE;
 
-
     public TakeOrderCommand(OrderService orderService, UserService userService) {
         this.orderService = orderService;
         this.userService = userService;
     }
-
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
@@ -64,7 +61,6 @@ public class TakeOrderCommand implements Command {
                 .filter(order -> order.getId().equals(orderId))
                 .findFirst();
     }
-
 
     private void renewSession(RequestDataHolder requestDataHolder, long userId) throws ServiceException {
         List<Order> userOrders = orderService.getAllActiveByUserIdAndStatus(userId, ACTIVE_ORDER_SORT_TYPE);

@@ -28,6 +28,5 @@ public class UsersPageCommand implements Command {
         requestDataHolder.putSessionAttribute(USERS_ATTR, users);
         requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, USERS_PAGE);
         return new CommandResult(USERS_PAGE, true);
-
     }
 }

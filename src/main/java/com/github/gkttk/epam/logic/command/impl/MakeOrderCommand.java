@@ -20,7 +20,6 @@ public class MakeOrderCommand implements Command {
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) {
-
         List<Dish> basket = (List<Dish>) requestDataHolder.getSessionAttribute(BASKET_ATTR);
 
         if (basket == null || basket.isEmpty()) {

@@ -39,7 +39,6 @@ public class AddCommentCommand implements Command {
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
-
         String commentText = requestDataHolder.getRequestParameter(COMMENT_TEXT_PARAM);
         boolean isCommentValid = commentValidator.validate(commentText);
         if (!isCommentValid) {

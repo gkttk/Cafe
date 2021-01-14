@@ -3,8 +3,8 @@ package com.github.gkttk.epam.logic.command.impl;
 import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.command.Command;
+import com.github.gkttk.epam.logic.service.CommentService;
 import com.github.gkttk.epam.logic.service.UserCommentRatingService;
-import com.github.gkttk.epam.logic.service.impl.CommentServiceImpl;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.dto.CommentInfo;
 import com.github.gkttk.epam.model.entities.User;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 public class RateCommentCommand implements Command {
 
-    private final CommentServiceImpl commentService;
+    private final CommentService commentService;
     private final UserCommentRatingService userCommentRatingService;
 
     private final static String COMMENTS_PAGE = "/WEB-INF/view/comment_page.jsp";
@@ -29,8 +29,7 @@ public class RateCommentCommand implements Command {
     private final static String ESTIMATES_ATTR = "estimates";
     private final static String DISH_ID_ATTR = "dishId";
 
-
-    public RateCommentCommand(CommentServiceImpl commentService, UserCommentRatingService userCommentRatingService) {
+    public RateCommentCommand(CommentService commentService, UserCommentRatingService userCommentRatingService) {
         this.commentService = commentService;
         this.userCommentRatingService = userCommentRatingService;
     }

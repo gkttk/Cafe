@@ -21,7 +21,6 @@ public class MyOrdersPageCommand implements Command {
     private final static String SORT_TYPE_PARAM = "sortType";
     private final static OrderSortType ACTIVE_ORDER_SORT_TYPE = OrderSortType.ACTIVE;
 
-
     public MyOrdersPageCommand(OrderService orderService) {
         this.orderService = orderService;
     }
@@ -33,10 +32,10 @@ public class MyOrdersPageCommand implements Command {
         long userId = authUser.getId();
 
         OrderSortType sortType;
-        if(requestDataHolder.isRequestParamContainsKey(SORT_TYPE_PARAM)){
+        if (requestDataHolder.isRequestParamContainsKey(SORT_TYPE_PARAM)) {
             String sortTypeParam = requestDataHolder.getRequestParameter(SORT_TYPE_PARAM);
             sortType = OrderSortType.valueOf(sortTypeParam);
-        }else {
+        } else {
             sortType = ACTIVE_ORDER_SORT_TYPE;
         }
 

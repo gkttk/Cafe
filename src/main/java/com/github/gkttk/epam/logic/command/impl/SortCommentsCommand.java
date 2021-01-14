@@ -21,7 +21,6 @@ public class SortCommentsCommand implements Command {
     private final static String DISH_ID_ATTR = "dishId";
     private final static String SORT_TYPE_PARAM = "sortType";
 
-
     public SortCommentsCommand(CommentService commentService) {
         this.commentService = commentService;
     }
@@ -44,7 +43,6 @@ public class SortCommentsCommand implements Command {
 
         requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, COMMENTS_PAGE);
         return new CommandResult(COMMENTS_PAGE, true);
-
     }
 
 

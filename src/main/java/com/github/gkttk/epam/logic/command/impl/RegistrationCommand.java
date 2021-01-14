@@ -32,7 +32,7 @@ public class RegistrationCommand implements Command {
         String password = requestDataHolder.getRequestParameter(PASSWORD_PARAM);
         boolean isPasswordValid = userPasswordValidator.validate(password);
 
-        if(!isLoginValid || !isPasswordValid){
+        if (!isLoginValid || !isPasswordValid) {
             requestDataHolder.putRequestAttribute(ERROR_MESSAGE_ATTR, ERROR_MESSAGE);
             return new CommandResult(START_PAGE, false);
         }
@@ -45,6 +45,5 @@ public class RegistrationCommand implements Command {
             requestDataHolder.putRequestAttribute(ERROR_MESSAGE_ATTR, ERROR_MESSAGE);
             return new CommandResult(START_PAGE, false);
         }
-
     }
 }

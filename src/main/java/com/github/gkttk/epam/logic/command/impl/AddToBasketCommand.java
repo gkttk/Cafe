@@ -34,7 +34,6 @@ public class AddToBasketCommand implements Command {
         return new CommandResult(MENU_PAGE, true);
     }
 
-
     private List<Dish> getBasket(RequestDataHolder requestDataHolder) {
         List<Dish> basket = (List<Dish>) requestDataHolder.getSessionAttribute(BASKET_ATTR);
         return basket == null ? new ArrayList<>() : basket;

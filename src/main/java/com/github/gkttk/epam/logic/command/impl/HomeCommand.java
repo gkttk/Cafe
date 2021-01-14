@@ -11,7 +11,6 @@ public class HomeCommand implements Command {
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) {
-
         requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, HOME_PAGE);
         return new CommandResult(HOME_PAGE, false);
 

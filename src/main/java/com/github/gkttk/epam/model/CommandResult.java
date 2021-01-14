@@ -1,5 +1,7 @@
 package com.github.gkttk.epam.model;
 
+import java.util.Objects;
+
 public class CommandResult {
 
     private final String url;
@@ -18,5 +20,23 @@ public class CommandResult {
 
     public boolean isRedirect() {
         return isRedirect;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o){
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()){
+            return false;
+        }
+        CommandResult that = (CommandResult) o;
+        return isRedirect == that.isRedirect &&
+                Objects.equals(url, that.url);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(url, isRedirect);
     }
 }

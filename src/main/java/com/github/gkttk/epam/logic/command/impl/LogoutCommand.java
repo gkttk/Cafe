@@ -12,6 +12,5 @@ public class LogoutCommand implements Command {
     public CommandResult execute(RequestDataHolder requestDataHolder) {
         requestDataHolder.invalidateSession();
         return new CommandResult(START_PAGE, true);
-
     }
 }

@@ -23,13 +23,11 @@ public class SaveOrderCommand implements Command {
     private final static String ORDER_COST_ATTR = "orderCost";
     private final static String AUTH_USER_ATTR = "authUser";
     private final static String DATE_PARAM = "date";
-
     private final static String MESSAGE_ATTR = "message";
     private final static String MESSAGE = "order.message.accepted";
     private final static String CURRENT_PAGE_PARAM = "currentPage";
     private final static String ERROR_MESSAGE_KEY = "errorMessage";
     private final static String ERROR_MESSAGE_VALUE = "error.message.wrong.date";
-
     private final static String MENU_PAGE = "/WEB-INF/view/user_menu.jsp";
 
 
@@ -40,10 +38,9 @@ public class SaveOrderCommand implements Command {
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
-
         String dateParam = requestDataHolder.getRequestParameter(DATE_PARAM);
-        boolean isDataValid = dataValidator.validate(dateParam);
-        if (!isDataValid) {
+        boolean isDateValid = dataValidator.validate(dateParam);
+        if (!isDateValid) {
             requestDataHolder.putRequestAttribute(ERROR_MESSAGE_KEY, ERROR_MESSAGE_VALUE);
             requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, MENU_PAGE);
             return new CommandResult(MENU_PAGE, false);
@@ -51,22 +48,16 @@ public class SaveOrderCommand implements Command {
 
         LocalDateTime dateTime = LocalDateTime.parse(dateParam);
 
-
         List<Long> dishIds = getDishIds(requestDataHolder);
-
         BigDecimal orderCost = (BigDecimal) requestDataHolder.getSessionAttribute(ORDER_COST_ATTR);
 
         User authUser = (User) requestDataHolder.getSessionAttribute(AUTH_USER_ATTR);
         long userId = authUser.getId();
 
-
         orderService.makeOrder(orderCost, dateTime, userId, dishIds);
 
-
         requestDataHolder.putSessionAttribute(BASKET_ATTR, null);
-
         requestDataHolder.putSessionAttribute(MESSAGE_ATTR, MESSAGE);
-
         requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, MENU_PAGE);
 
         return new CommandResult(MENU_PAGE, true);

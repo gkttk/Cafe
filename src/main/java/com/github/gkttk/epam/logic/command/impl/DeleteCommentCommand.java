@@ -25,7 +25,6 @@ public class DeleteCommentCommand implements Command {
         this.commentService = commentService;
     }
 
-
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
         String commentIdParam = requestDataHolder.getRequestParameter(COMMENT_ID_PARAM);

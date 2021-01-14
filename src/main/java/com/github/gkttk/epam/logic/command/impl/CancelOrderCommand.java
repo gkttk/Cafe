@@ -32,7 +32,6 @@ public class CancelOrderCommand implements Command {
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
-
         String orderIdParam = requestDataHolder.getRequestParameter(ORDER_ID_PARAM);
         long orderId = Long.parseLong(orderIdParam);
 

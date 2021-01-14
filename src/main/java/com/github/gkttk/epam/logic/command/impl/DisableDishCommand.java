@@ -11,7 +11,6 @@ import java.util.List;
 
 public class DisableDishCommand implements Command {
 
-
     private final DishService dishService;
     private final static String DISH_ID_PARAM = "dishId";
     private final static String MENU_PAGE = "/WEB-INF/view/user_menu.jsp";
@@ -21,24 +20,20 @@ public class DisableDishCommand implements Command {
         this.dishService = dishService;
     }
 
-
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
         String dishIdParam = requestDataHolder.getRequestParameter(DISH_ID_PARAM);
         long dishId = Long.parseLong(dishIdParam);
         dishService.disableDish(dishId);
 
-
-
         renewSession(requestDataHolder);
-
 
         return new CommandResult(MENU_PAGE, true);
     }
 
 
     private void renewSession(RequestDataHolder requestDataHolder) throws ServiceException {
-        List<Dish> dishes  = dishService.getAllEnabled();
+        List<Dish> dishes = dishService.getAllEnabled();
         requestDataHolder.putSessionAttribute(DISHES_ATTR, dishes);
     }
 }

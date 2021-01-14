@@ -8,7 +8,6 @@ import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Dish;
 import com.github.gkttk.epam.model.entities.User;
-import com.github.gkttk.epam.model.enums.UserRole;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +27,6 @@ public class LoginCommand implements Command {
     private final static String CURRENT_PAGE_ATTR = "currentPage";
     private final static String ERROR_MESSAGE_ATTR = "errorMessage";
 
-
     public LoginCommand(UserService userService, DishService dishService) {
         this.userService = userService;
         this.dishService = dishService;
@@ -45,7 +43,6 @@ public class LoginCommand implements Command {
             User user = userOpt.get();  //todo maybe set password = null?
             requestDataHolder.putSessionAttribute(AUTH_USER_ATTR, user);
             List<Dish> allDishes = dishService.getAllEnabled();
-
 
             requestDataHolder.putSessionAttribute(DISHES_ATTR, allDishes);
             requestDataHolder.putSessionAttribute(CURRENT_PAGE_ATTR, USER_PAGE);

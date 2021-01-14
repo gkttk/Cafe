@@ -11,7 +11,6 @@ public class RegistrationGetPageCommand implements Command {
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) {
-
         requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, REGISTRATION_PAGE);
 
         return new CommandResult(REGISTRATION_PAGE, false);

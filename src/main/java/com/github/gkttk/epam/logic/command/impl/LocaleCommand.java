@@ -11,10 +11,8 @@ public class LocaleCommand implements Command {
     private final static String CURRENT_PAGE_PARAM = "currentPage";
     private final static String LOCALE_ATTR = "locale";
 
-
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) {
-
         String lang = requestDataHolder.getRequestParameter(LANGUAGE_PARAM);
 
         requestDataHolder.putSessionAttribute(LOCALE_ATTR, lang);
@@ -22,8 +20,8 @@ public class LocaleCommand implements Command {
         String redirectPage = (String) requestDataHolder.getSessionAttribute(CURRENT_PAGE_PARAM);
         if (redirectPage == null) {
             redirectPage = START_PAGE;
-            requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, START_PAGE);
         }
+        requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, redirectPage);
 
         return new CommandResult(redirectPage, true);
     }

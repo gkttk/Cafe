@@ -13,6 +13,7 @@ public class RequestDataHolder {
     private final Map<String, Object> sessionAttributes = new HashMap<>();
     private boolean isSessionValid;
 
+
     public RequestDataHolder(HttpServletRequest request) {
         isSessionValid = true;
         extractRequestParameters(request);

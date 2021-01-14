@@ -42,7 +42,6 @@ public class ChangeAvatarCommand implements Command {
 
     }
 
-
     private void renewSession(long userId, RequestDataHolder requestDataHolder) throws ServiceException {
         Optional<User> userByIdOpt = userService.getById(userId);
         userByIdOpt.ifPresent(user -> requestDataHolder.putSessionAttribute(AUTH_USER_ATTR, user));

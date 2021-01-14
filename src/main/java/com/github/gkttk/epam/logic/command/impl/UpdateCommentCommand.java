@@ -12,14 +12,12 @@ import java.util.Optional;
 
 public class UpdateCommentCommand implements Command {
 
-
     private final CommentService commentService;
 
     private final static String COMMENT_ID_PARAM = "commentId";
     private final static String COMMENT_TEXT_PARAM = "commentText";
     private final static String DISH_COMMENTS_ATTR = "dishComments";
     private final static String COMMENTS_PAGE = "/WEB-INF/view/comment_page.jsp";
-
 
     public UpdateCommentCommand(CommentService commentService) {
         this.commentService = commentService;
@@ -34,7 +32,6 @@ public class UpdateCommentCommand implements Command {
         commentService.updateComment(commentId, commentText);
 
         renewSession(requestDataHolder, commentId);
-
 
         return new CommandResult(COMMENTS_PAGE, true);
     }

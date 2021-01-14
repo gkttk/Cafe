@@ -18,14 +18,12 @@ public class SortUsersCommand implements Command {
     private final static String USERS_ATTR = "users";
     private final static String USERS_PAGE = "/WEB-INF/view/users_page.jsp";
 
-
     public SortUsersCommand(UserService userService) {
         this.userService = userService;
     }
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
-
         String userStatusParam = requestDataHolder.getRequestParameter(USER_STATUS_PARAM);
 
         List<UserInfo> users;

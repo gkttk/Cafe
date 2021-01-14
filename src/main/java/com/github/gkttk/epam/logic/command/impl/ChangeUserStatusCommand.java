@@ -18,7 +18,6 @@ public class ChangeUserStatusCommand implements Command {
     private final static String USERS_ATTR = "users";
     private final static String CURRENT_PAGE_PARAM = "currentPage";
 
-
     public ChangeUserStatusCommand(UserService userService) {
         this.userService = userService;
     }
