@@ -14,7 +14,7 @@ public class MakeOrderCommand implements Command {
     private final static String BASKET_ATTR = "basket";
     private final static String ORDER_COST_ATTR = "orderCost";
     private final static String CURRENT_PAGE_PARAM = "currentPage";
-    private final static String ERROR_MESSAGE_ATTR = "errorMessage";
+    private final static String MESSAGE_ATTR = "message";
     private final static String ERROR_MESSAGE = "error.message.empty.basket";
     private final static String MAKE_ORDER_PAGE = "/WEB-INF/view/make_order.jsp";
 
@@ -23,7 +23,7 @@ public class MakeOrderCommand implements Command {
         List<Dish> basket = (List<Dish>) requestDataHolder.getSessionAttribute(BASKET_ATTR);
 
         if (basket == null || basket.isEmpty()) {
-            requestDataHolder.putRequestAttribute(ERROR_MESSAGE_ATTR, ERROR_MESSAGE);
+            requestDataHolder.putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE);
             String forwardPage = (String) requestDataHolder.getSessionAttribute(CURRENT_PAGE_PARAM);
             return new CommandResult(forwardPage, false);
         }

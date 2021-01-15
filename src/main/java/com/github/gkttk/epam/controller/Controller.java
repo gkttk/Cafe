@@ -24,57 +24,74 @@ public class Controller extends HttpServlet {
 
     private final static String CURRENT_PAGE_ATTR = "currentPage";
     private final static String COMMAND_PARAM = "command";
+    private final static String START_PAGE = "index.jsp";
+
+    private void doCommand(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        RequestDataHolder requestDataHolder = new RequestDataHolder(request);
+        try {
+            Command command = getCommand(requestDataHolder, response);
+            CommandResult commandResult = command.execute(requestDataHolder);
+            requestDataHolder.fillRequest(request);
+            String url = commandResult.getUrl();
+            if (commandResult.isRedirect()) {
+                redirect(requestDataHolder, request, response, url);
+            } else {
+                forward(request, response, url);
+            }
+        } catch (ServiceException e) {
+            LOGGER.warn("ServiceException has occurred", e);
+            response.sendError(500);
+        }
+    }
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         String page = (String) session.getAttribute(CURRENT_PAGE_ATTR);
-        try {
-            request.getRequestDispatcher(page).forward(request, response);
-        } catch (ServletException e) {
-            LOGGER.warn("Can't forward from doGet()", e);
-            response.sendError(500);
-        } catch (IOException ex) {
-            LOGGER.warn("Can't forward/redirect from doGet()", ex);
-            response.sendError(500);
+        if (page == null) {
+            page = START_PAGE;
+            session.setAttribute(CURRENT_PAGE_ATTR, page);
         }
+        doCommand(request, response);
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        doCommand(request, response);
 
-        RequestDataHolder requestDataHolder = new RequestDataHolder(request);
+    }
+
+    private void forward(HttpServletRequest request, HttpServletResponse response, String url) throws IOException {
         try {
-            Command command = getCommand(requestDataHolder);
-            CommandResult commandResult = command.execute(requestDataHolder);
-            requestDataHolder.fillRequest(request);
-            String url = commandResult.getUrl();
-            if (commandResult.isRedirect()) {
-                if (!requestDataHolder.isSessionValid()) {
-                    request.getSession().invalidate();
-                }//todo invalidate only for redirect
-                request.getSession().setAttribute(CURRENT_PAGE_ATTR, url);
-                response.sendRedirect(request.getRequestURL().toString());
-            } else {
-                request.getRequestDispatcher(url).forward(request, response);
-            }
-
-        } catch (ServiceException e) {
-            LOGGER.warn("ServiceException has occurred", e);
-            response.sendError(500);
+            request.getRequestDispatcher(url).forward(request, response);
         } catch (ServletException ex) {
             LOGGER.warn("Can't forward from doPost()", ex);
-            response.sendError(500);
-        } catch (IOException exception) {
-            LOGGER.warn("Can't forward/redirect from doPost()", exception);
             response.sendError(500);
         }
     }
 
-    private Command getCommand(RequestDataHolder requestDataHolder) throws ServletException {
+    private void redirect(RequestDataHolder requestDataHolder, HttpServletRequest request, HttpServletResponse response,
+                          String url) throws IOException {
+        if (!requestDataHolder.isSessionValid()) {
+            request.getSession().invalidate();
+        }//todo invalidate only for redirect
+        request.getSession().setAttribute(CURRENT_PAGE_ATTR, url);
+        try {
+            response.sendRedirect(request.getRequestURL().toString());
+        } catch (IOException e) {
+            LOGGER.warn("Can't forward/redirect from doPost()", e);
+            response.sendError(500);
+        }
+    }
+
+
+    private Command getCommand(RequestDataHolder requestDataHolder, HttpServletResponse response) throws IOException {
         String commandName = requestDataHolder.getRequestParameter(COMMAND_PARAM);
         if (commandName == null) {
-            throw new ServletException("Can't find command name in RequestDataHandler");
+            LOGGER.warn("There is no command parameter in getCommand");
+            response.sendError(500);
         }
         Commands commandEnum = Commands.valueOf(commandName);
         return commandEnum.getCommand();

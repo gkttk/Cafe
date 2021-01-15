@@ -7,11 +7,6 @@
         <div class="bucketDiv">
             <span><fmt:message key="footer.yourBucket"/></span>
             <h4>${sessionScope.basket.size()}</h4>
-          <%--  <ul>
-                <c:forEach var="basketItem" items="${sessionScope.basket}">
-                    <li>${basketItem.name} - ${basketItem.cost}</li>
-                </c:forEach>
-            </ul>--%>
         </div>
     </c:if>
 

@@ -21,12 +21,11 @@ public class RegistrationCommandTest {
     private final static String LOGIN_PARAM = "login";
     private final static String PASSWORD_PARAM = "password";
     private final static String START_PAGE = "index.jsp";
-    private final static String ERROR_MESSAGE_ATTR = "errorMessage";
+    private final static String MESSAGE_ATTR = "message";
     private final static String ERROR_MESSAGE = "error.message.registration";
     private final static String REGISTRATION_PAGE = "/WEB-INF/view/registration_page.jsp";
     private final static String LOGIN = "login";
     private final static String PASSWORD = "password";
-    private final static String SUCCESS_MSG_ATTR = "successMessage";
     private final static String SUCCESS_MSG = "success.message.registration";
 
     private UserService userServiceMock;
@@ -67,7 +66,7 @@ public class RegistrationCommandTest {
         verify(requestDataHolderMock).getRequestParameter(PASSWORD_PARAM);
         verify(userPasswordValidatorMock).validate(PASSWORD);
         verify(userServiceMock).registration(LOGIN, PASSWORD);
-        verify(requestDataHolderMock).putSessionAttribute(SUCCESS_MSG_ATTR, SUCCESS_MSG);
+        verify(requestDataHolderMock).putSessionAttribute(MESSAGE_ATTR, SUCCESS_MSG);
 
         assertEquals(expectedResult, result);
     }
@@ -88,7 +87,7 @@ public class RegistrationCommandTest {
         verify(requestDataHolderMock).getRequestParameter(PASSWORD_PARAM);
         verify(userPasswordValidatorMock).validate(PASSWORD);
         verify(userServiceMock).registration(LOGIN, PASSWORD);
-        verify(requestDataHolderMock).putRequestAttribute(ERROR_MESSAGE_ATTR, ERROR_MESSAGE);
+        verify(requestDataHolderMock).putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE);
 
         assertEquals(expectedResult, result);
     }
@@ -107,7 +106,7 @@ public class RegistrationCommandTest {
         verify(userLoginValidatorMock).validate(LOGIN);
         verify(requestDataHolderMock).getRequestParameter(PASSWORD_PARAM);
         verify(userPasswordValidatorMock).validate(PASSWORD);
-        verify(requestDataHolderMock).putRequestAttribute(ERROR_MESSAGE_ATTR, ERROR_MESSAGE);
+        verify(requestDataHolderMock).putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE);
 
         assertEquals(expectedResult, result);
     }
@@ -126,7 +125,7 @@ public class RegistrationCommandTest {
         verify(userLoginValidatorMock).validate(LOGIN);
         verify(requestDataHolderMock).getRequestParameter(PASSWORD_PARAM);
         verify(userPasswordValidatorMock).validate(PASSWORD);
-        verify(requestDataHolderMock).putRequestAttribute(ERROR_MESSAGE_ATTR, ERROR_MESSAGE);
+        verify(requestDataHolderMock).putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE);
 
         assertEquals(expectedResult, result);
     }

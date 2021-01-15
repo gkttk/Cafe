@@ -15,9 +15,8 @@ public class RegistrationCommand implements Command {
     private final static String LOGIN_PARAM = "login";
     private final static String PASSWORD_PARAM = "password";
     private final static String REGISTRATION_PAGE = "/WEB-INF/view/registration_page.jsp";
-    private final static String ERROR_MESSAGE_ATTR = "errorMessage";
+    private final static String MESSAGE_ATTR = "message";
     private final static String ERROR_MESSAGE = "error.message.registration";
-    private final static String SUCCESS_MSG_ATTR = "successMessage";
     private final static String SUCCESS_MSG = "success.message.registration";
     private final static String CURRENT_PAGE_ATTR = "currentPage";
     private final static String START_PAGE = "index.jsp";
@@ -39,18 +38,18 @@ public class RegistrationCommand implements Command {
         boolean isPasswordValid = userPasswordValidator.validate(password);
 
         if (!isLoginValid || !isPasswordValid) {
-            requestDataHolder.putRequestAttribute(ERROR_MESSAGE_ATTR, ERROR_MESSAGE);
+            requestDataHolder.putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE);
             return new CommandResult(REGISTRATION_PAGE, false);
         }
 
         boolean isRegistered = userService.registration(login, password);
 
         if (isRegistered) {
-            requestDataHolder.putSessionAttribute(SUCCESS_MSG_ATTR, SUCCESS_MSG);//todo attr in session
+           requestDataHolder.putSessionAttribute(MESSAGE_ATTR, SUCCESS_MSG);//todo attr in session
             return new CommandResult(START_PAGE, true);
 
         } else {
-            requestDataHolder.putRequestAttribute(ERROR_MESSAGE_ATTR, ERROR_MESSAGE);
+            requestDataHolder.putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE);
             return new CommandResult(REGISTRATION_PAGE, false);
         }
     }

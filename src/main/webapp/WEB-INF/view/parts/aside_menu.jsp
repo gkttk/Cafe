@@ -3,11 +3,10 @@
 
 <div class="side_menu">
 
-  <%--    <h2><fmt:message key="aside.our.menu"/></h2>--%>
       <c:set var="userRole" value="${sessionScope.authUser.role}"/>
     <ul>
       <li>
-          <form method="post" action="${pageContext.request.contextPath}/controller">
+          <form method="get" action="${pageContext.request.contextPath}/controller">
           <input type="hidden" name="command" value="MENU"/>
           <button type="submit" class="btn"><fmt:message key="aside.menu"/></button>
       </form>
@@ -15,7 +14,7 @@
 
         <c:if test="${userRole.name() eq 'USER'}">
       <li>
-          <form method="post" action="${pageContext.request.contextPath}/controller">
+          <form method="get" action="${pageContext.request.contextPath}/controller">
           <input type="hidden" name="command" value="MY_ORDERS"/>
           <button class="btn"><fmt:message key="aside.my.orders"/></button>
           </form>
@@ -24,7 +23,7 @@
 
         <c:if test="${userRole.name() eq 'ADMIN'}">
       <li>
-          <form method="post" action="${pageContext.request.contextPath}/controller">
+          <form method="get" action="${pageContext.request.contextPath}/controller">
               <input type="hidden" name="command" value="USERS"/>
               <button type="submit" class="btn">
                   <fmt:message key="aside.users"/>

@@ -15,12 +15,12 @@
 
         <%@ include file="parts/header.jsp" %>
         <p>
-            <c:if test="${not empty requestScope.successMessage}">
-                <fmt:message key="${requestScope.successMessage}"/>
+            <c:if test="${not empty requestScope.message}">
+                <fmt:message key="${requestScope.message}"/>
             </c:if>
-            <c:if test="${not empty requestScope.errorMessage}">
+          <%--  <c:if test="${not empty requestScope.errorMessage}">
                 <fmt:message key="${requestScope.errorMessage}"/>
-            </c:if>
+            </c:if>--%>
         </p>
         <main>
             <div id="registrationContent">
@@ -39,9 +39,7 @@
                         <button type="submit"><fmt:message key="registration.sign.up"/></button>
                     </form>
                 </div>
-
             </div>
-
         </main>
         <%@ include file="parts/footer.jsp" %>
     </div>

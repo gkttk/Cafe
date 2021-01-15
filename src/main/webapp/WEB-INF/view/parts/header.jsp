@@ -11,7 +11,7 @@
     <div class="header_buttons">
         <div class="header_nav">
             <div class="about">
-                <form method="post" action="${pageContext.request.contextPath}/controller">
+                <form method="get" action="${pageContext.request.contextPath}/controller">
                     <input type="hidden" name="command" value="HOME"/>
                     <button type="submit">
                         <fmt:message key="header.home.button"/>
@@ -23,17 +23,17 @@
 
                 <button class="dropbtn"><fmt:message key="header.language.button"/></button>
                 <div class="dropdown-content">
-                    <form action="${pageContext.request.contextPath}/controller" method="POST">
+                    <form action="${pageContext.request.contextPath}/controller" method="get">
                         <input type="hidden" name="command" value="LOCALE">
                         <input type="hidden" name="lang" value="ru">
                         <button type="submit"><fmt:message key="header.ru.button"/></button>
                     </form>
-                    <form action="${pageContext.request.contextPath}/controller" method="POST">
+                    <form action="${pageContext.request.contextPath}/controller" method="get">
                         <input type="hidden" name="command" value="LOCALE">
                         <input type="hidden" name="lang" value="en">
                         <button type="submit"><fmt:message key="header.en.button"/></button>
                     </form>
-                    <form action="${pageContext.request.contextPath}/controller" method="POST">
+                    <form action="${pageContext.request.contextPath}/controller" method="get">
                         <input type="hidden" name="command" value="LOCALE">
                         <input type="hidden" name="lang" value="by">
                         <button type="submit"><fmt:message key="header.by.button"/></button>
@@ -46,13 +46,13 @@
         <c:when test="${sessionScope.authUser == null}">
         <div class="header_button">
             <ul>
-                <li><a class="sign_up" onclick="showLoginDiv()"><fmt:message
-                        key="header.sign.in.or.sign.up.button"/></a></li>
+                <li><button class="sign_up" onclick="showLoginDiv()"><fmt:message
+                        key="header.sign.in.or.sign.up.button"/></button></li>
             </ul>
         </div>
 
         <div class="form-popup" id="myForm">
-            <form class="form-container" action="${pageContext.request.contextPath}/controller" method="POST">
+            <form class="form-container" action="${pageContext.request.contextPath}/controller" method="post">
                 <input type="hidden" name="command" value="LOGIN">
                 <label for="login"><fmt:message key="header.login.label"/></label>
                 <input id="login" type="text" name="login" required>
@@ -66,7 +66,7 @@
                 </div>
             </form>
 
-            <form id="registration_form" action="${pageContext.request.contextPath}/controller" method="post">
+            <form id="registration_form" action="${pageContext.request.contextPath}/controller" method="get">
                 <input type="hidden" name="command" value="REGISTRATION_PAGE">
             </form>
         </div>

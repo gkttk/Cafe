@@ -26,7 +26,7 @@ public class LoginCommand implements Command {
     private final static String AUTH_USER_ATTR = "authUser";
     private final static String DISHES_ATTR = "dishes";
     private final static String CURRENT_PAGE_ATTR = "currentPage";
-    private final static String ERROR_MESSAGE_ATTR = "errorMessage";
+    private final static String MESSAGE_ATTR = "message";
 
     public LoginCommand(UserService userService, DishService dishService) {
         this.userService = userService;
@@ -43,7 +43,7 @@ public class LoginCommand implements Command {
         if (userOpt.isPresent()) {
             User user = userOpt.get();  //todo maybe set password = null?
             if(user.isBlocked()){
-                requestDataHolder.putRequestAttribute(ERROR_MESSAGE_ATTR, ERROR_MESSAGE_BLOCKED);
+                requestDataHolder.putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE_BLOCKED);
                 return new CommandResult(START_PAGE, false);
             }
 
@@ -55,7 +55,7 @@ public class LoginCommand implements Command {
 
             return new CommandResult(USER_PAGE, true);
         } else {
-            requestDataHolder.putRequestAttribute(ERROR_MESSAGE_ATTR, ERROR_MESSAGE_CREDENTIALS);
+            requestDataHolder.putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE_CREDENTIALS);
             return new CommandResult(START_PAGE, false);
         }
 

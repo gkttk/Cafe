@@ -19,20 +19,20 @@
             <div class="content">
                 <div class="user_conditions">
                     <div>
-                        <form action="${pageContext.request.contextPath}/controller" method="POST">
+                        <form action="${pageContext.request.contextPath}/controller" method="get">
                             <input type="hidden" name="command" value="SORT_USERS"/>
                             <button type="submit"><fmt:message key="users.page.all"/></button>
                         </form>
                     </div>
                     <div>
-                        <form action="${pageContext.request.contextPath}/controller" method="POST">
+                        <form action="${pageContext.request.contextPath}/controller" method="get">
                             <input type="hidden" name="command" value="SORT_USERS"/>
                             <input type="hidden" name="userStatus" value="ACTIVE"/>
                             <button type="submit"><fmt:message key="users.page.active"/></button>
                         </form>
                     </div>
                     <div>
-                        <form action="${pageContext.request.contextPath}/controller" method="POST">
+                        <form action="${pageContext.request.contextPath}/controller" method="get">
                             <input type="hidden" name="command" value="SORT_USERS"/>
                             <input type="hidden" name="userStatus" value="BLOCKED"/>
                             <button type="submit"><fmt:message key="users.page.blocked"/></button>
@@ -67,9 +67,9 @@
                                     </c:choose>
                                 </td>
                                 <td>
-                                    <a class="littleButton" onclick="showChangePointsDiv(${idForChangePointsDiv})">
+                                    <button class="littleButton" onclick="showChangePointsDiv(${idForChangePointsDiv})">
                                         <fmt:message key="users.page.change.points"/>
-                                    </a>
+                                    </button>
                                     <div id="changePointsDiv${idForChangePointsDiv}" style="display: none">
                                         <form method="POST" action="${pageContext.request.contextPath}/controller">
                                             <input type="hidden" name="command" value="CHANGE_POINTS"/>

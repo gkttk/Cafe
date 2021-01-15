@@ -21,7 +21,7 @@ import java.util.List;
 public class AddDishCommand implements Command {
     private final static Logger LOGGER = LogManager.getLogger(AddDishCommand.class);
 
-    private final static String ERROR_MESSAGE_ATTR = "errorMessage";
+    private final static String MESSAGE_ATTR = "message";
     private final static String ERROR_MESSAGE_DISH_NAME = "error.message.dish.name";
     private final static String ERROR_MESSAGE_DISH_COST = "error.message.dish.cost";
 
@@ -51,7 +51,7 @@ public class AddDishCommand implements Command {
 
             if (!isDishNameValid) {
                 LOGGER.info("Incorrect  dishNameParam format: {}", dishName);
-                requestDataHolder.putRequestAttribute(ERROR_MESSAGE_ATTR, ERROR_MESSAGE_DISH_NAME);
+                requestDataHolder.putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE_DISH_NAME);
                 return new CommandResult(MENU_PAGE, false);
             }
 
@@ -60,7 +60,7 @@ public class AddDishCommand implements Command {
 
             if (!isDishCostValid) {
                 LOGGER.info("Incorrect  costParam format: {}", costParam);
-                requestDataHolder.putRequestAttribute(ERROR_MESSAGE_ATTR, ERROR_MESSAGE_DISH_COST);
+                requestDataHolder.putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE_DISH_COST);
                 return new CommandResult(MENU_PAGE, false);
             }
 

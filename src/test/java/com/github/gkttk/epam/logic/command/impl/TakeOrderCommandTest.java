@@ -31,7 +31,7 @@ public class TakeOrderCommandTest {
     private final static String AUTH_USER_ATTR = "authUser";
     private final static String ORDER_ID_PARAM = "orderId";
     private final static String ORDERS_ATTR = "orders";
-    private final static String ERROR_MESSAGE_ATTR = "noMoneyErrorMessage";
+    private final static String MESSAGE_ATTR = "message";
     private final static String ERROR_MESSAGE = "error.message.no.money";
     private final static OrderSortType ACTIVE_ORDER_SORT_TYPE = OrderSortType.ACTIVE;
 
@@ -123,7 +123,7 @@ public class TakeOrderCommandTest {
         verify(requestDataHolderMock).getSessionAttribute(ORDERS_ATTR);
         verify(requestDataHolderMock).getSessionAttribute(AUTH_USER_ATTR);
         verify(orderServiceMock).takeOrder(takenOrder, TEST_USER);
-        verify(requestDataHolderMock).putRequestAttribute(ERROR_MESSAGE_ATTR, ERROR_MESSAGE);
+        verify(requestDataHolderMock).putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE);
 
         assertEquals(expectedResult, result);
     }

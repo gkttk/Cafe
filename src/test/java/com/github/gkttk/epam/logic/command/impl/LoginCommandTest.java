@@ -32,7 +32,7 @@ public class LoginCommandTest {
     private final static String AUTH_USER_ATTR = "authUser";
     private final static String DISHES_ATTR = "dishes";
     private final static String CURRENT_PAGE_ATTR = "currentPage";
-    private final static String ERROR_MESSAGE_ATTR = "errorMessage";
+    private final static String MESSAGE_ATTR = "message";
     private final static String ERROR_MESSAGE_BLOCKED = "error.message.blocked";
 
     private final static User TEST_USER = new User(1L, "testLogin", "testPassword", UserRole.USER,
@@ -73,7 +73,7 @@ public class LoginCommandTest {
         verify(requestDataHolderMock).getRequestParameter(LOGIN_PARAM);
         verify(requestDataHolderMock).getRequestParameter(PASSWORD_PARAM);
         verify(userServiceMock).login(login, password);
-        verify(requestDataHolderMock).putRequestAttribute(ERROR_MESSAGE_ATTR, ERROR_MESSAGE);
+        verify(requestDataHolderMock).putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE);
 
         assertEquals(expectedResult, result);
     }
@@ -122,7 +122,7 @@ public class LoginCommandTest {
         verify(requestDataHolderMock).getRequestParameter(LOGIN_PARAM);
         verify(requestDataHolderMock).getRequestParameter(PASSWORD_PARAM);
         verify(userServiceMock).login(login, password);
-        verify(requestDataHolderMock).putRequestAttribute(ERROR_MESSAGE_ATTR, ERROR_MESSAGE_BLOCKED);
+        verify(requestDataHolderMock).putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE_BLOCKED);
 
         assertEquals(expectedResult, result);
     }

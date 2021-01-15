@@ -20,7 +20,7 @@
             <div class="header_buttons">
                 <div class="header_nav">
                     <div class="about">
-                        <form method="post" action="${pageContext.request.contextPath}/controller">
+                        <form method="get" action="${pageContext.request.contextPath}/controller">
                             <input type="hidden" name="command" value="HOME"/>
                             <button type="submit">
                                 <fmt:message key="header.home.button"/>
@@ -35,8 +35,6 @@
             <div class="content">
                 <img id="errorImg" src="static/images/error.jpg" alt="error"/>
             </div>
-
-
         </main>
         <%@ include file="WEB-INF/view/parts/footer.jsp" %>
     </div>

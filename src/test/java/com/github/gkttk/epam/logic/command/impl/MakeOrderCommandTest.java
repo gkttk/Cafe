@@ -26,7 +26,7 @@ public class MakeOrderCommandTest {
     private final static String BASKET_ATTR = "basket";
     private final static String ORDER_COST_ATTR = "orderCost";
     private final static String CURRENT_PAGE_PARAM = "currentPage";
-    private final static String ERROR_MESSAGE_ATTR = "errorMessage";
+    private final static String MESSAGE_ATTR = "message";
     private final static String ERROR_MESSAGE = "error.message.empty.basket";
     private final static String MAKE_ORDER_PAGE = "/WEB-INF/view/make_order.jsp";
 
@@ -77,7 +77,7 @@ public class MakeOrderCommandTest {
         CommandResult result = makeOrderCommand.execute(requestDataHolderMock);
         //then
         verify(requestDataHolderMock).getSessionAttribute(BASKET_ATTR);
-        verify(requestDataHolderMock).putRequestAttribute(ERROR_MESSAGE_ATTR, ERROR_MESSAGE);
+        verify(requestDataHolderMock).putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE);
         verify(requestDataHolderMock).getSessionAttribute(CURRENT_PAGE_PARAM);
 
         assertEquals(expectedResult, result);

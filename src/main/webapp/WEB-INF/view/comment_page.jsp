@@ -19,13 +19,13 @@
             <%@ include file="parts/aside_menu.jsp" %>
             <div class="content">
                 <div class="meal_types">
-                    <form method="post" action="${pageContext.request.contextPath}/controller">
+                    <form method="get" action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="SORT_COMMENTS"/>
                         <input type="hidden" name="pageNumber" value="${sessionScope.currentPagePagination}"/>
                         <input type="hidden" name="sortType" value="DATE"/>
                         <button class="btn"><fmt:message key="comments.new"/></button>
                     </form>
-                    <form method="post" action="${pageContext.request.contextPath}/controller">
+                    <form method="get" action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="SORT_COMMENTS"/>
                         <input type="hidden" name="pageNumber" value="${sessionScope.currentPagePagination}"/>
                         <input type="hidden" name="sortType" value="RATING"/>
@@ -51,7 +51,7 @@
                     <ul>
                         <c:forEach var="page" begin="1" end="${sessionScope.pageCount}">
                             <li>
-                                <form method="post" action="${pageContext.request.contextPath}/controller">
+                                <form method="get" action="${pageContext.request.contextPath}/controller">
                                     <input type="hidden" name="command" value="DISH_COMMENTS"/>
                                     <input type="hidden" name="pageNumber" value="${page}">
                                     <button class="littleButton" type="submit">${page}</button>

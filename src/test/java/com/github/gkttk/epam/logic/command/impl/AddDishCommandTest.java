@@ -28,7 +28,7 @@ import static org.mockito.Mockito.when;
 
 public class AddDishCommandTest {
 
-    private final static String ERROR_MESSAGE_ATTR = "errorMessage";
+    private final static String MESSAGE_ATTR = "message";
     private final static String ERROR_MESSAGE_DISH_NAME = "error.message.dish.name";
     private final static String ERROR_MESSAGE_DISH_COST = "error.message.dish.cost";
     private final static String FILE_ATTR = "file";
@@ -110,7 +110,7 @@ public class AddDishCommandTest {
         //then
         verify(requestDataHolderMock).getRequestParameter(DISH_NAME_PARAM);
         verify(dishNameValidatorMock).validate(incorrectDishName);
-        verify(requestDataHolderMock).putRequestAttribute(ERROR_MESSAGE_ATTR, ERROR_MESSAGE_DISH_NAME);
+        verify(requestDataHolderMock).putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE_DISH_NAME);
         assertEquals(expectedResult, result);
     }
 
@@ -133,7 +133,7 @@ public class AddDishCommandTest {
         verify(dishNameValidatorMock).validate(dishName);
         verify(requestDataHolderMock).getRequestParameter(DISH_COST_PARAM);
         verify(dishCostValidatorMock).validate(incorrectDishCostParam);
-        verify(requestDataHolderMock).putRequestAttribute(ERROR_MESSAGE_ATTR, ERROR_MESSAGE_DISH_COST);
+        verify(requestDataHolderMock).putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE_DISH_COST);
 
         assertEquals(expectedResult, result);
     }

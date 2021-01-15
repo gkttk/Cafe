@@ -20,21 +20,21 @@
             <div class="content">
 
                 <div class="meal_types">
-                    <form method="POST" action="${pageContext.request.contextPath}/controller">
+                    <form method="get" action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="SORT_DISHES"/>
                         <button class="btn"><fmt:message key="user.menu.all.dishes"/></button>
                     </form>
-                    <form method="POST" action="${pageContext.request.contextPath}/controller">
+                    <form method="get" action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="SORT_DISHES"/>
                         <input type="hidden" name="dishType" value="SOUP"/>
                         <button type="submit" class="btn"><fmt:message key="user.menu.soups.button"/></button>
                     </form>
-                    <form method="POST" action="${pageContext.request.contextPath}/controller">
+                    <form method="get" action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="SORT_DISHES"/>
                         <input type="hidden" name="dishType" value="SALAD"/>
                         <button class="btn"><fmt:message key="user.menu.salads.button"/></button>
                     </form>
-                    <form method="POST" action="${pageContext.request.contextPath}/controller">
+                    <form method="get" action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="SORT_DISHES"/>
                         <input type="hidden" name="dishType" value="BEVERAGE"/>
                         <button class="btn"><fmt:message key="user.menu.beverages.button"/></button>
@@ -110,23 +110,6 @@
                                                            name="type" value="${typeValue}" checked>
                                                 </div>
                                             </c:forEach>
-
-
-                                                <%--<div class="add_dish_form_div">
-                                            <label for="type1">SOUP(bundle)</label>
-                                            <input type="radio" id="type1"
-                                                   name="type" value="SOUP" checked>
-                                                </div>
-                                                <div class="add_dish_form_div">
-                                            <label for="type2">SALAD(bundle)</label>
-                                            <input type="radio" id="type2"
-                                                   name="type" value="SALAD">
-                                                </div>
-                                                <div class="add_dish_form_div">
-                                            <label for="type3">BEVERAGE(bundle)</label>
-                                            <input type="radio" id="type3"
-                                                   name="type" value="BEVERAGE">
-                                                </div>--%>
                                             <input class="littleButton" type="submit"
                                                    value="<fmt:message key="user.menu.add.dish.button"/>"/>
                                         </form>
@@ -164,8 +147,7 @@
                                     </c:choose>
                                 </td>
                                 <td>
-                                    <form method="POST"
-                                          action="${pageContext.request.contextPath}/controller">
+                                    <form method="get" action="${pageContext.request.contextPath}/controller">
                                         <input type="hidden" name="command" value="DISH_COMMENTS"/>
                                         <input type="hidden" name="dishId" value="${dish.id}"/>
                                         <button class="littleButton" type="submit" class="btn">

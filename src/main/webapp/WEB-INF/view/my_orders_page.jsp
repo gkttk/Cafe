@@ -18,18 +18,18 @@
         <main>
             <%@ include file="parts/aside_menu.jsp" %>
             <div class="content">
-                <c:if test="${not empty requestScope.noMoneyErrorMessage}">
-                    <fmt:message key="${requestScope.noMoneyErrorMessage}"/>
+                <c:if test="${not empty requestScope.message}">
+                    <fmt:message key="${requestScope.message}"/>
                 </c:if>
                 <div class="order_conditions">
-                    <form action="${pageContext.request.contextPath}/controller" method="POST">
+                    <form action="${pageContext.request.contextPath}/controller" method="get">
                         <input type="hidden" name="command" value="MY_ORDERS"/>
                         <input type="hidden" name="sortType" value="ACTIVE"/>
                         <button type="submit">
                             <fmt:message key="my.orders.active"/>
                         </button>
                     </form>
-                    <form action="${pageContext.request.contextPath}/controller" method="POST">
+                    <form action="${pageContext.request.contextPath}/controller" method="get">
                         <input type="hidden" name="command" value="MY_ORDERS"/>
                         <input type="hidden" name="sortType" value="EXPIRED"/>
                         <button type="submit">
@@ -97,24 +97,6 @@
                     </table>
                 </div>
             </div>
-            <script>
-                function openPanel() {
-                    var acc = document.getElementsByClassName("accordion");
-                    var i;
-
-                    for (i = 0; i < acc.length; i++) {
-                        acc[i].addEventListener("click", function () {
-                            this.classList.toggle("active");
-                            var panel = this.nextElementSibling;
-                            if (panel.style.maxHeight) {
-                                panel.style.maxHeight = null;
-                            } else {
-                                panel.style.maxHeight = panel.scrollHeight + "px";
-                            }
-                        });
-                    }
-                }
-            </script>
         </main>
         <%@ include file="parts/footer.jsp" %>
     </div>
