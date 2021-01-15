@@ -23,9 +23,11 @@ public class RegistrationCommandTest {
     private final static String START_PAGE = "index.jsp";
     private final static String ERROR_MESSAGE_ATTR = "errorMessage";
     private final static String ERROR_MESSAGE = "error.message.registration";
-
+    private final static String REGISTRATION_PAGE = "/WEB-INF/view/registration_page.jsp";
     private final static String LOGIN = "login";
     private final static String PASSWORD = "password";
+    private final static String SUCCESS_MSG_ATTR = "successMessage";
+    private final static String SUCCESS_MSG = "success.message.registration";
 
     private UserService userServiceMock;
     private Validator userLoginValidatorMock;
@@ -65,6 +67,7 @@ public class RegistrationCommandTest {
         verify(requestDataHolderMock).getRequestParameter(PASSWORD_PARAM);
         verify(userPasswordValidatorMock).validate(PASSWORD);
         verify(userServiceMock).registration(LOGIN, PASSWORD);
+        verify(requestDataHolderMock).putSessionAttribute(SUCCESS_MSG_ATTR, SUCCESS_MSG);
 
         assertEquals(expectedResult, result);
     }
@@ -76,7 +79,7 @@ public class RegistrationCommandTest {
         when(userPasswordValidatorMock.validate(PASSWORD)).thenReturn(true);
         when(userServiceMock.registration(LOGIN, PASSWORD)).thenReturn(false);
 
-        CommandResult expectedResult = new CommandResult(START_PAGE, false);
+        CommandResult expectedResult = new CommandResult(REGISTRATION_PAGE, false);
         //when
         CommandResult result = registrationCommand.execute(requestDataHolderMock);
         //then
@@ -96,7 +99,7 @@ public class RegistrationCommandTest {
         when(userLoginValidatorMock.validate(LOGIN)).thenReturn(false);
         when(userPasswordValidatorMock.validate(PASSWORD)).thenReturn(true);
 
-        CommandResult expectedResult = new CommandResult(START_PAGE, false);
+        CommandResult expectedResult = new CommandResult(REGISTRATION_PAGE, false);
         //when
         CommandResult result = registrationCommand.execute(requestDataHolderMock);
         //then
@@ -115,7 +118,7 @@ public class RegistrationCommandTest {
         when(userLoginValidatorMock.validate(LOGIN)).thenReturn(true);
         when(userPasswordValidatorMock.validate(PASSWORD)).thenReturn(false);
 
-        CommandResult expectedResult = new CommandResult(START_PAGE, false);
+        CommandResult expectedResult = new CommandResult(REGISTRATION_PAGE, false);
         //when
         CommandResult result = registrationCommand.execute(requestDataHolderMock);
         //then

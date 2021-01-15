@@ -5,7 +5,7 @@
 <fmt:bundle basename="i18n/message">
     <html>
     <head>
-        <title><fmt:message key="make.order.title"/></title>
+        <title><fmt:message key="registration.page.title"/></title>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/reset.css"/>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/common.css"/>
         <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/script.js"></script>
@@ -14,6 +14,14 @@
     <div class="wrapper">
 
         <%@ include file="parts/header.jsp" %>
+        <p>
+            <c:if test="${not empty requestScope.successMessage}">
+                <fmt:message key="${requestScope.successMessage}"/>
+            </c:if>
+            <c:if test="${not empty requestScope.errorMessage}">
+                <fmt:message key="${requestScope.errorMessage}"/>
+            </c:if>
+        </p>
         <main>
             <div id="registrationContent">
                 <div class="menu_content">

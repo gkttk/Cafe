@@ -22,8 +22,10 @@
             <c:if test="${not empty requestScope.errorMessage}">
                 <fmt:message key="${requestScope.errorMessage}"/>
             </c:if>
+            <c:if test="${not empty sessionScope.successMessage}">
+                <fmt:message key="${sessionScope.successMessage}"/>
+            </c:if>
         </p>
-
 
         <main>
             In urna felis dolor curabitur eleifend parturient. Nisi interdum accumsan penatibus vehicula orci mattis

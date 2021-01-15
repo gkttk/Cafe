@@ -6,7 +6,7 @@
 <fmt:bundle basename="i18n/message">
     <html>
     <head>
-        <title><fmt:message key="make.order.title"/></title>
+        <title><fmt:message key="my.orders.page.title"/></title>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/reset.css"/>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/common.css"/>
         <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/script.js"></script>

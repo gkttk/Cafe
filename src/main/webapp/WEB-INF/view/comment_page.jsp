@@ -6,7 +6,7 @@
 <fmt:bundle basename="i18n/message">
     <html>
     <head>
-        <title><fmt:message key="make.order.title"/></title>
+        <title><fmt:message key="comments.page.title"/></title>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/reset.css"/>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/common.css"/>
         <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/script.js"></script>
@@ -38,8 +38,8 @@
                 </c:if>
                 <div class="menu_content">
 
-                    <div>
-                        <button onclick="openCommentForm()"><fmt:message key="comments.comment"/></button>
+                    <div id="commentBlock">
+                        <button class="littleButton" onclick="openCommentForm()"><fmt:message key="comments.comment"/></button>
                         <div id="commentDiv">
                             <form action="#" method="POST">
                                 <input type="hidden" name="command" value="ADD_COMMENT"/>

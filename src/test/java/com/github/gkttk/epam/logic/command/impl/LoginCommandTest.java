@@ -33,9 +33,13 @@ public class LoginCommandTest {
     private final static String DISHES_ATTR = "dishes";
     private final static String CURRENT_PAGE_ATTR = "currentPage";
     private final static String ERROR_MESSAGE_ATTR = "errorMessage";
+    private final static String ERROR_MESSAGE_BLOCKED = "error.message.blocked";
 
     private final static User TEST_USER = new User(1L, "testLogin", "testPassword", UserRole.USER,
             50, new BigDecimal(25), false, "imgBase64Test");
+
+    private final static User BLOCKED_TEST_USER = new User(1L, "testLogin", "testPassword", UserRole.USER,
+            50, new BigDecimal(25), true, "imgBase64Test");
 
     private UserService userServiceMock;
     private DishService dishServiceMock;
@@ -97,6 +101,28 @@ public class LoginCommandTest {
         verify(dishServiceMock).getAllEnabled();
         verify(requestDataHolderMock).putSessionAttribute(DISHES_ATTR, dishes);
         verify(requestDataHolderMock).putSessionAttribute(CURRENT_PAGE_ATTR, USER_PAGE);
+
+        assertEquals(expectedResult, result);
+    }
+
+    @Test
+    void testExecuteShouldReturnCommandResultWithRedirectToStartPageWhenUserIsBlocked() throws ServiceException {
+        //given
+        String login = TEST_USER.getLogin();
+        String password = TEST_USER.getPassword();
+
+        when(requestDataHolderMock.getRequestParameter(LOGIN_PARAM)).thenReturn(login);
+        when(requestDataHolderMock.getRequestParameter(PASSWORD_PARAM)).thenReturn(password);
+        when(userServiceMock.login(login, password)).thenReturn(Optional.of(BLOCKED_TEST_USER));
+
+        CommandResult expectedResult = new CommandResult(START_PAGE, false);
+        //when
+        CommandResult result = loginCommand.execute(requestDataHolderMock);
+        //then
+        verify(requestDataHolderMock).getRequestParameter(LOGIN_PARAM);
+        verify(requestDataHolderMock).getRequestParameter(PASSWORD_PARAM);
+        verify(userServiceMock).login(login, password);
+        verify(requestDataHolderMock).putRequestAttribute(ERROR_MESSAGE_ATTR, ERROR_MESSAGE_BLOCKED);
 
         assertEquals(expectedResult, result);
     }

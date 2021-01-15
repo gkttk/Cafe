@@ -20,7 +20,6 @@ public class UserLoginValidatorTest {
     private static UserDaoImpl userDaoMock;
     private static Validator userLoginValidator;
 
-
     @BeforeAll
     static void init() {
         DaoHelperFactory daoHelperFactoryMock = Mockito.mock(DaoHelperFactory.class);
