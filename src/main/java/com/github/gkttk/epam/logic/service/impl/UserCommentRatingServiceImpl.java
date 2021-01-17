@@ -26,18 +26,18 @@ public class UserCommentRatingServiceImpl implements UserCommentRatingService {
     }
 
     @Override
-    public List<UserCommentRating> getAllByUserIdAndDishId(Long userId, Long dishId) throws ServiceException {
+    public List<UserCommentRating> getAllByUserIdAndDishId(long userId, long dishId) throws ServiceException {
         try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
             UserCommentRatingDao userCommentRatingDao = daoHelperImpl.createUserCommentRatingDao();
             return userCommentRatingDao.findAllByUserIdAndDishId(userId, dishId);
         } catch (DaoException e) {
-            throw new ServiceException(String.format("Can't getAllByUserIdAndDishId() with userId: %d, dishId: %d",
-                    userId, dishId), e);
+            throw new ServiceException(String.format("Can't getAllByUserIdAndDishId(userId, dishId) with " +
+                    "userId: %d, dishId: %d", userId, dishId), e);
         }
     }
 
     @Override
-    public void evaluateComment(long userId, long commentId, boolean isLiked) throws ServiceException {
+    public void rateComment(long userId, long commentId, boolean isLiked) throws ServiceException {
         DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper();
         try {
             UserCommentRatingDao userCommentRatingDao = daoHelperImpl.createUserCommentRatingDao();
@@ -71,9 +71,8 @@ public class UserCommentRatingServiceImpl implements UserCommentRatingService {
             try {
                 daoHelperImpl.rollback();
             } catch (DaoException ex) {
-                throw new ServiceException(String.format("Can't rollback() in evaluateComment(userId, commentId, " +
-                                "commentRating, isLiked) with userId: %d, commentId: %d, isLiked: %b",
-                        userId, commentId, isLiked), ex);
+                LOGGER.warn("Can't rollback() evaluateComment(userId, commentId, commentRating, isLiked) " +
+                        "with userId: {}, commentId: {}, isLiked: {}", userId, commentId, isLiked, ex);
             }
             throw new ServiceException(String.format("Can't evaluateComment(userId, commentId, isLiked) " +
                     " with userId: %d, commentId: %d, isLiked: %b", userId, commentId, isLiked), e);

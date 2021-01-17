@@ -37,7 +37,7 @@ public class AuthorizationFilter implements Filter {
         isAuthenticated = isAuthenticated(role, command);
 
         if (!isAuthenticated) {
-            redirect(servletRequest, servletResponse);
+            forward(servletRequest, servletResponse);
 
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
@@ -50,7 +50,7 @@ public class AuthorizationFilter implements Filter {
                 .anyMatch(commandName -> commandName.equals(currentCommand));
     }
 
-    private void redirect(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
+    private void forward(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         String currentPage = (String) request.getSession().getAttribute(CURRENT_PAGE_PARAM);
         if (currentPage != null) {

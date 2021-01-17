@@ -1,6 +1,7 @@
 package com.github.gkttk.epam.exceptions;
 
 public class DaoException extends Exception {
+
     public DaoException() {
         super();
     }

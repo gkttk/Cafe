@@ -21,6 +21,6 @@ public interface OrderService {
 
     void cancelOrder(Order order, User user) throws ServiceException;
 
-    List<Order> getAllActiveByUserIdAndStatus(Long userId, OrderSortType sortType) throws ServiceException;
+    List<Order> getAllActiveByUserIdAndStatus(long userId, OrderSortType sortType) throws ServiceException;
 
 }

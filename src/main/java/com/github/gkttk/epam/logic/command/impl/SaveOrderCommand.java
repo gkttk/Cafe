@@ -26,7 +26,6 @@ public class SaveOrderCommand implements Command {
     private final static String MESSAGE_ATTR = "message";
     private final static String MESSAGE = "order.message.accepted";
     private final static String CURRENT_PAGE_PARAM = "currentPage";
-    private final static String ERROR_MESSAGE_KEY = "errorMessage";
     private final static String ERROR_MESSAGE_VALUE = "error.message.wrong.date";
     private final static String MENU_PAGE = "/WEB-INF/view/user_menu.jsp";
 
@@ -41,7 +40,7 @@ public class SaveOrderCommand implements Command {
         String dateParam = requestDataHolder.getRequestParameter(DATE_PARAM);
         boolean isDateValid = dataValidator.validate(dateParam);
         if (!isDateValid) {
-            requestDataHolder.putRequestAttribute(ERROR_MESSAGE_KEY, ERROR_MESSAGE_VALUE);
+            requestDataHolder.putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE_VALUE);
             requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, MENU_PAGE);
             return new CommandResult(MENU_PAGE, false);
         }

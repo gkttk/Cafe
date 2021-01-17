@@ -74,4 +74,6 @@ public class CommentInfo extends Entity {
     public int hashCode() {
         return Objects.hash(text, rating, creationDate, userLogin, userAvatarBase64);
     }
+
+
 }

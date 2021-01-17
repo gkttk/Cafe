@@ -16,7 +16,6 @@ public class UserInfoDaoImpl extends AbstractDao<UserInfo> implements UserInfoDa
     private final static String FIND_ALL_BY_STATUS = "SELECT id, login, role, points, blocked FROM "
             + TABLE_NAME + " WHERE blocked = ?";
 
-
     public UserInfoDaoImpl(Connection connection) {
         super(connection, new UserInfoRowMapper(), new UserInfoFieldExtractor());
     }
@@ -25,7 +24,6 @@ public class UserInfoDaoImpl extends AbstractDao<UserInfo> implements UserInfoDa
     protected String getTableName() {
         return TABLE_NAME;
     }
-
 
     @Override
     public List<UserInfo> findAllByStatus(boolean isBlocked) throws DaoException {

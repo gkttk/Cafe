@@ -7,7 +7,7 @@ import com.github.gkttk.epam.exceptions.DaoException;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.DishService;
 import com.github.gkttk.epam.model.entities.Dish;
-import com.github.gkttk.epam.model.enums.DishTypes;
+import com.github.gkttk.epam.model.enums.DishType;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -32,28 +32,28 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public List<Dish> getByType(DishTypes type) throws ServiceException {
+    public List<Dish> getByType(DishType type) throws ServiceException {
         try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
             DishDao dishDao = daoHelperImpl.createDishDao();
             String dishTypeName = type.name();
-            return dishDao.findDishesByType(dishTypeName);
+            return dishDao.findAllByType(dishTypeName);
         } catch (DaoException e) {
-            throw new ServiceException(String.format("Can't getDishesByType with type: %s", type.name()), e);
+            throw new ServiceException(String.format("Can't getDishesByType(type) with type: %s", type.name()), e);
         }
     }
 
     @Override
-    public Optional<Dish> getDishById(Long dishId) throws ServiceException {
+    public Optional<Dish> getDishById(long dishId) throws ServiceException {
         try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
             DishDao dishDao = daoHelperImpl.createDishDao();
             return dishDao.findById(dishId);
         } catch (DaoException e) {
-            throw new ServiceException(String.format("Can't getDishById with dishId: %d", dishId), e);
+            throw new ServiceException(String.format("Can't getDishById(dishId) with dishId: %d", dishId), e);
         }
     }
 
     @Override
-    public void addDish(String dishName, BigDecimal dishCost, DishTypes dishType, String imgBase64) throws ServiceException {
+    public void addDish(String dishName, BigDecimal dishCost, DishType dishType, String imgBase64) throws ServiceException {
         try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
             DishDao dishDao = daoHelperImpl.createDishDao();
             Dish newDish = new Dish(dishName, dishType, dishCost, imgBase64);

@@ -88,7 +88,7 @@ public class UserCommentRatingServiceImplTest {
         when(userCommentRatingDaoMock.getByUserIdAndCommentId(userId, commentId)).thenReturn(userCommentRatingOpt);
         when(commentDaoMock.findById(commentId)).thenReturn(Optional.of(comment));
         //when
-        userCommentRatingService.evaluateComment(userId, commentId, isLiked);
+        userCommentRatingService.rateComment(userId, commentId, isLiked);
         //then
         verify(daoHelperMock).startTransaction();
         if (userCommentRatingOpt.isPresent()) {
@@ -123,7 +123,7 @@ public class UserCommentRatingServiceImplTest {
         //when
         //then
         Assertions.assertThrows(ServiceException.class,
-                () -> userCommentRatingService.evaluateComment(userId, commentId, isLiked));
+                () -> userCommentRatingService.rateComment(userId, commentId, isLiked));
         verify(daoHelperMock).startTransaction();
         verify(daoHelperMock).rollback();
         verify(daoHelperMock).endTransaction();

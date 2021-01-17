@@ -8,12 +8,11 @@ import java.util.List;
 
 public interface DishDao extends Dao<Dish> {
 
+    List<Dish> findAllByType(String dishType) throws DaoException;
 
-    List<Dish> findDishesByType(String dishType) throws DaoException;
+    List<Dish> findAllEnabled() throws DaoException;
 
     void disable(long dishId) throws DaoException;
 
-
-    List<Dish> findAllEnabled() throws DaoException;
 
 }

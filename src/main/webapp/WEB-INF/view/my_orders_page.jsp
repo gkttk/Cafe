@@ -18,9 +18,6 @@
         <main>
             <%@ include file="parts/aside_menu.jsp" %>
             <div class="content">
-                <c:if test="${not empty requestScope.message}">
-                    <fmt:message key="${requestScope.message}"/>
-                </c:if>
                 <div class="order_conditions">
                     <form action="${pageContext.request.contextPath}/controller" method="get">
                         <input type="hidden" name="command" value="MY_ORDERS"/>
@@ -37,6 +34,9 @@
                         </button>
                     </form>
                 </div>
+                <c:if test="${not empty requestScope.message}">
+                    <h4><fmt:message key="${requestScope.message}"/></h4>
+                </c:if>
                 <div class="menu_content">
                     <table id="customers">
                         <tr>

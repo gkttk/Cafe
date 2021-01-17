@@ -5,7 +5,7 @@ import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.command.Command;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Dish;
-import com.github.gkttk.epam.model.enums.DishTypes;
+import com.github.gkttk.epam.model.enums.DishType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -39,7 +39,7 @@ public class CancelDishCommandTest {
     @Test
     void testExecuteShouldReturnCommandResultWithRedirectToMenuPageWhenBasketBecomeEmpty() throws ServiceException {
         //given
-        Dish cancelledDish = new Dish(2L, "name2", DishTypes.BEVERAGE, new BigDecimal(3), "imgBase645");
+        Dish cancelledDish = new Dish(2L, "name2", DishType.BEVERAGE, new BigDecimal(3), "imgBase645");
         ArrayList<Dish> basket = new ArrayList<>();
         basket.add(cancelledDish);
 
@@ -77,11 +77,11 @@ public class CancelDishCommandTest {
     @Test
     void testExecuteShouldReturnCommandResultWithRedirectToCurrentPage() throws ServiceException {
         //given
-        Dish cancelledDish = new Dish(2L, "name2", DishTypes.BEVERAGE, new BigDecimal(3), "imgBase645");
+        Dish cancelledDish = new Dish(2L, "name2", DishType.BEVERAGE, new BigDecimal(3), "imgBase645");
         ArrayList<Dish> basket = new ArrayList<>();
-        basket.add(new Dish(1L, "name1", DishTypes.SALAD, new BigDecimal(2), "imgBase64"));
+        basket.add(new Dish(1L, "name1", DishType.SALAD, new BigDecimal(2), "imgBase64"));
         basket.add(cancelledDish);
-        basket.add(new Dish(3L, "name3", DishTypes.SOUP, new BigDecimal(4), "imgBase642"));
+        basket.add(new Dish(3L, "name3", DishType.SOUP, new BigDecimal(4), "imgBase642"));
 
         String orderCostAttr = "10";
         BigDecimal orderCost = new BigDecimal(orderCostAttr);

@@ -1,7 +1,7 @@
 package com.github.gkttk.epam.dao.mappers;
 
 import com.github.gkttk.epam.model.entities.Dish;
-import com.github.gkttk.epam.model.enums.DishTypes;
+import com.github.gkttk.epam.model.enums.DishType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -28,7 +28,7 @@ public class DishRowMapperTest {
         //given
         long id = 1L;
         String name = "nameTest";
-        DishTypes type = DishTypes.SALAD;
+        DishType type = DishType.SALAD;
 
         BigDecimal cost = new BigDecimal(10);
         String imgBase64 = "imgBase64Test";

@@ -10,7 +10,7 @@ import com.github.gkttk.epam.logic.validator.Validator;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.dto.CommentInfo;
 import com.github.gkttk.epam.model.entities.User;
-import com.github.gkttk.epam.model.enums.CommentSortTypes;
+import com.github.gkttk.epam.model.enums.CommentSortType;
 import com.github.gkttk.epam.model.enums.UserRole;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -64,7 +64,7 @@ public class AddCommentCommandTest {
         long userId = TEST_USER.getId();
         long dishId = 2L;
         int pageCount = 5;
-        CommentSortTypes sortType = CommentSortTypes.DATE;
+        CommentSortType sortType = CommentSortType.DATE;
         List<CommentInfo> comments = Arrays.asList(null, null, null);
 
         CommandResult expectedResult = new CommandResult(COMMENTS_PAGE, true);

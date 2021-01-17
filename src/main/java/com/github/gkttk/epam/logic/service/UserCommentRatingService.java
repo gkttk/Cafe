@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface UserCommentRatingService {
 
-    List<UserCommentRating> getAllByUserIdAndDishId(Long userId, Long dishId) throws ServiceException;
+    List<UserCommentRating> getAllByUserIdAndDishId(long userId, long dishId) throws ServiceException;
 
-    void evaluateComment(long userId, long commentId, boolean isLiked) throws ServiceException;
+    void rateComment(long userId, long commentId, boolean isLiked) throws ServiceException;
 
 }

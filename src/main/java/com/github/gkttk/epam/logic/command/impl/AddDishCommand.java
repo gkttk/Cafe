@@ -8,7 +8,7 @@ import com.github.gkttk.epam.logic.service.DishService;
 import com.github.gkttk.epam.logic.validator.Validator;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Dish;
-import com.github.gkttk.epam.model.enums.DishTypes;
+import com.github.gkttk.epam.model.enums.DishType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -67,7 +67,7 @@ public class AddDishCommand implements Command {
             BigDecimal dishCost = new BigDecimal(costParam);
 
             String typeParam = requestDataHolder.getRequestParameter(DISH_TYPE_PARAM);
-            DishTypes dishType = DishTypes.valueOf(typeParam);
+            DishType dishType = DishType.valueOf(typeParam);
 
             Part dishImg = (Part) requestDataHolder.getRequestAttribute(FILE_ATTR);
             InputStream inputStream = dishImg.getInputStream();

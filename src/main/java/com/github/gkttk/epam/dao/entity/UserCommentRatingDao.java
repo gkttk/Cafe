@@ -10,13 +10,11 @@ import java.util.Optional;
 public interface UserCommentRatingDao extends Dao<UserCommentRating> {
 
 
-    List<UserCommentRating> findAllByUserIdAndDishId(Long userId, Long dishId) throws DaoException;
+    List<UserCommentRating> findAllByUserIdAndDishId(long userId, long dishId) throws DaoException;
 
-    List<UserCommentRating> findAllByUserId(Long userId) throws DaoException;
+    void removeByUserIdAndCommentId(long userId, long comment_id) throws DaoException;
 
-    void removeByUserIdAndCommentId(Long userId, Long comment_id) throws DaoException;
-
-    Optional<UserCommentRating> getByUserIdAndCommentId(Long userId, Long commentId) throws DaoException;
+    Optional<UserCommentRating> getByUserIdAndCommentId(long userId, long commentId) throws DaoException;
 
 
 }

@@ -22,7 +22,6 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
         this.fieldExtractor = fieldExtractor;
     }
 
-
     protected List<T> getAllResults(String query, Object... params) throws DaoException {
         List<T> results = new ArrayList<>();
         try (PreparedStatement prepareStatement = createPrepareStatement(query, params);
@@ -32,7 +31,7 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
                 results.add(entity);
             }
         } catch (SQLException e) {
-            throw new DaoException("Can't getAllResults() with query: " + query, e);
+            throw new DaoException("Can't getAllResults(query, ...params) with query: " + query, e);
         }
         return results;
     }
@@ -51,26 +50,20 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
             return resultSet.next() ? resultSet.getInt(1) : 0;
 
         } catch (SQLException e) {
-            throw new DaoException("Can't get rowCount() with " + query, e);
+            throw new DaoException("Can't get rowCount(query, ...params) with " + query, e);
         }
     }
 
 
     @Override
-    public Optional<T> findById(long id) throws DaoException {  //+
+    public Optional<T> findById(long id) throws DaoException {
         String query = "SELECT * FROM " + getTableName() + " WHERE id = ?";
         return getSingleResult(query, id);
     }
 
 
-    private Long getKey(Statement statement) throws SQLException {
-        ResultSet generatedKeys = statement.getGeneratedKeys();
-        generatedKeys.next();
-        return generatedKeys.getLong(1);
-    }
-
     @Override
-    public Long save(T entity) throws DaoException {
+    public long save(T entity) throws DaoException {
         Map<String, Object> entityFields = fieldExtractor.extractFields(entity);
         Long id = entity.getId();
         String query;
@@ -106,12 +99,12 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
     }
 
     @Override
-    public void removeById(Long id) throws DaoException {
+    public void removeById(long id) throws DaoException {
         String query = "DELETE FROM " + getTableName() + " WHERE id = ?";
         try (PreparedStatement statement = createPrepareStatement(query, id)) {
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException("Can't removeById wit id: " + id, e);
+            throw new DaoException("Can't removeById with id: " + id, e);
         }
     }
 
@@ -125,7 +118,7 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
                 result = Optional.of(entity);
             }
         } catch (SQLException e) {
-            throw new DaoException("Can't getSingleResult() with query: " + query, e);
+            throw new DaoException("Can't getSingleResult(query, ...params) with query: " + query, e);
         }
         return result;
     }
@@ -142,6 +135,8 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
         fillPreparedStatement(statement, params);
         return statement;
     }
+
+    protected abstract String getTableName();
 
 
     private void fillPreparedStatement(PreparedStatement statement, Object... parameters) throws SQLException {
@@ -191,7 +186,11 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
         return sbQuery.toString();
     }
 
+    private Long getKey(Statement statement) throws SQLException {
+        ResultSet generatedKeys = statement.getGeneratedKeys();
+        generatedKeys.next();
+        return generatedKeys.getLong(1);
+    }
 
-    protected abstract String getTableName();
 
 }

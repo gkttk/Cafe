@@ -47,7 +47,7 @@ public class RateCommentCommand implements Command {
         String estimateParam = requestDataHolder.getRequestParameter(ESTIMATE_PARAM);
         boolean isLiked = Boolean.parseBoolean(estimateParam);
 
-        userCommentRatingService.evaluateComment(userId, commentId, isLiked);
+        userCommentRatingService.rateComment(userId, commentId, isLiked);
 
         renewSessionData(requestDataHolder, userId);
 

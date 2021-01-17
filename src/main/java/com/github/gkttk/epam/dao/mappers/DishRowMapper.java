@@ -1,7 +1,7 @@
 package com.github.gkttk.epam.dao.mappers;
 
 import com.github.gkttk.epam.model.entities.Dish;
-import com.github.gkttk.epam.model.enums.DishTypes;
+import com.github.gkttk.epam.model.enums.DishType;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
@@ -20,7 +20,7 @@ public class DishRowMapper implements RowMapper<Dish> {
         long id = resultSet.getLong(ID_KEY);
         String name = resultSet.getString(NAME_KEY);
         String typeName = resultSet.getString(TYPE_KEY);
-        DishTypes type = DishTypes.valueOf(typeName);
+        DishType type = DishType.valueOf(typeName);
         BigDecimal cost = resultSet.getBigDecimal(COST_KEY);
         String imgBase64 = resultSet.getString(IMG_BASE64_KEY);
 

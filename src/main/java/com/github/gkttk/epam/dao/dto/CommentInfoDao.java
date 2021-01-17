@@ -9,12 +9,10 @@ import java.util.Optional;
 
 public interface CommentInfoDao extends Dao<CommentInfo> {
 
-    List<CommentInfo> findAllByDishId(Long dishId) throws DaoException;
+    Optional<CommentInfo> findByCommentId(long commentId) throws DaoException;
 
-    Optional<CommentInfo> findByCommentId(Long commentId) throws DaoException;
+    List<CommentInfo> findAllByDishIdSortByOrderPagination(long dishId, int limit, int offset) throws DaoException;
 
-    List<CommentInfo> findAllByDishIdOrderRatingPagination(long dishId, int limit, int offset) throws DaoException;
-
-    List<CommentInfo> findAllByDishIdOrderDatePagination(long dishId, int limit, int offset) throws DaoException;
+    List<CommentInfo> findAllByDishIdSortByDatePagination(long dishId, int limit, int offset) throws DaoException;
 
 }

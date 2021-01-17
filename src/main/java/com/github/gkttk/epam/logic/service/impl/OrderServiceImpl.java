@@ -51,11 +51,11 @@ public class OrderServiceImpl implements OrderService {
             try {
                 daoHelperImpl.rollback();
             } catch (DaoException ex) {
-                throw new ServiceException(String.format("Can't rollback() in makeOrder with order: %s, user_id: %d",
-                        order, userId), e);
+                LOGGER.warn("Can't rollback() in makeOrder with order: {}, user_id: {}", order, userId, ex);
             }
-            throw new ServiceException(String.format("Can't makeOrder() with orderCost: %f, dateTime: %s, userId: %d," +
-                    " dishIds size: %d", orderCost, dateTime, userId, dishIds.size()), e);
+            throw new ServiceException(String.format("Can't makeOrder(orderCost, dateTime, userId, dishIds) " +
+                            "with orderCost: %f, dateTime: %s, userId: %d, dishIds size: %d",
+                    orderCost, dateTime, userId, dishIds.size()), e);
         } finally {
             try {
                 daoHelperImpl.endTransaction();
@@ -104,8 +104,7 @@ public class OrderServiceImpl implements OrderService {
             try {
                 daoHelperImpl.rollback();
             } catch (DaoException ex) {
-                throw new ServiceException(String.format("Can't rollback() in takeOrder with order: %s, user: %s",
-                        order, user), ex);
+                LOGGER.warn("Can't rollback() in takeOrder with order: {}, user: {}", order, user, ex);
             }
             throw new ServiceException(String.format("Can't takeOrder()  with order: %s", order), e);
         } finally {
@@ -151,15 +150,13 @@ public class OrderServiceImpl implements OrderService {
                 User newUser = builder.build();
                 userDao.save(newUser);
             }
-
             daoHelperImpl.commit();
 
         } catch (DaoException e) {
             try {
                 daoHelperImpl.rollback();
             } catch (DaoException ex) {
-                throw new ServiceException(String.format("Can't rollback() in blockOrder(order) with order: %s",
-                        order.toString()), ex);
+                LOGGER.warn("Can't rollback() in blockOrder(order) with order: {}", order, ex);
             }
             throw new ServiceException(String.format("Can't blockOrder(order)  with order: %s", order.toString()), e);
         } finally {
@@ -168,6 +165,7 @@ public class OrderServiceImpl implements OrderService {
             } catch (DaoException exception) {
                 LOGGER.warn("Can't endTransaction() in  blockOrder(order) with order: {}", order, exception);
             }
+
             daoHelperImpl.close();
         }
     }
@@ -201,8 +199,8 @@ public class OrderServiceImpl implements OrderService {
             try {
                 daoHelperImpl.rollback();
             } catch (DaoException ex) {
-                throw new ServiceException(String.format("Can't rollback() in cancelOrder(order, user) with" +
-                        " order: %s, user: %s", order, user), ex);
+                LOGGER.warn("Can't rollback() in cancelOrder(order, user) with order: {}, user: {}",
+                        order, user, ex);
             }
             throw new ServiceException(String.format("Can't cancelOrder(order, user)  with order: %s, user: %s",
                     order, user), e);
@@ -218,7 +216,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getAllActiveByUserIdAndStatus(Long userId, OrderSortType sortType) throws ServiceException {
+    public List<Order> getAllActiveByUserIdAndStatus(long userId, OrderSortType sortType) throws ServiceException {
         try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
             OrderDao orderDao = daoHelperImpl.createOrderDao();
             return sortType.getOrders(orderDao, userId);

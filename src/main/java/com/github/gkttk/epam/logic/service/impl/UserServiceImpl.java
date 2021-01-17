@@ -78,13 +78,11 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(String.format("Can't setUserStatus(userId, newStatus) with userId %d, newStatus: %b",
                     userId, newStatus), e);
         }
-
         return result;
     }
 
     @Override
     public boolean registration(String login, String password) throws ServiceException {
-
         try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
             UserDao userDao = daoHelperImpl.createUserDao();
             User user = new User(login, password);
@@ -95,7 +93,6 @@ public class UserServiceImpl implements UserService {
                     login, password), e);
         }
     }
-
 
     @Override
     public void changeAvatar(User user, String imageRef) throws ServiceException {
@@ -111,7 +108,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
     @Override
     public List<UserInfo> getByStatus(UserStatus userStatus) throws ServiceException {
         try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
@@ -122,7 +118,6 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(String.format("Can't getUsersByStatus() with userStatus: %s",
                     userStatus.name()), e);
         }
-
     }
 
     @Override

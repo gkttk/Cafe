@@ -6,7 +6,7 @@ import com.github.gkttk.epam.logic.command.Command;
 import com.github.gkttk.epam.logic.service.CommentService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.dto.CommentInfo;
-import com.github.gkttk.epam.model.enums.CommentSortTypes;
+import com.github.gkttk.epam.model.enums.CommentSortType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -59,7 +59,7 @@ public class DeleteCommentCommandTest {
         long dishId = 5L;
         int pageCount = 3;
         int currentPageAttr = 1;
-        CommentSortTypes type = CommentSortTypes.DATE;
+        CommentSortType type = CommentSortType.DATE;
 
         List<CommentInfo> newCommentInfos = new ArrayList<>(commentInfos);
         newCommentInfos.removeIf(commentInfo -> commentInfo.getId().equals(commentId));

@@ -6,7 +6,7 @@ import com.github.gkttk.epam.logic.command.Command;
 import com.github.gkttk.epam.logic.service.CommentService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.dto.CommentInfo;
-import com.github.gkttk.epam.model.enums.CommentSortTypes;
+import com.github.gkttk.epam.model.enums.CommentSortType;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class DeleteCommentCommand implements Command {
             requestDataHolder.putSessionAttribute(PAGE_COUNT_ATTR, newPageCount);
 
             int currentPageNumber = (int) requestDataHolder.getSessionAttribute(CURRENT_PAGE_PAGINATION_ATTR);
-            CommentSortTypes sortType = (CommentSortTypes) requestDataHolder.getSessionAttribute(SORT_TYPE_ATTR);
+            CommentSortType sortType = (CommentSortType) requestDataHolder.getSessionAttribute(SORT_TYPE_ATTR);
             List<CommentInfo> comments = commentService.getAllByDishIdPagination(dishId, currentPageNumber, sortType);
             requestDataHolder.putSessionAttribute(COMMENTS_ATTR, comments);
         }

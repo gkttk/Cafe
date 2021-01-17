@@ -8,7 +8,7 @@ import com.github.gkttk.epam.exceptions.DaoException;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.model.dto.CommentInfo;
 import com.github.gkttk.epam.model.entities.Comment;
-import com.github.gkttk.epam.model.enums.CommentSortTypes;
+import com.github.gkttk.epam.model.enums.CommentSortType;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -115,11 +115,11 @@ public class CommentServiceImplTest {
 
     @ParameterizedTest
     @MethodSource("parameterTestGetAllByDishIdPaginationShouldReturnCorrectSizeListProvider")
-    public void testGetAllByDishIdPaginationShouldReturnCorrectSizeList(long dishId, int currentPage, CommentSortTypes type, int expectedSize) throws DaoException, ServiceException {
+    public void testGetAllByDishIdPaginationShouldReturnCorrectSizeList(long dishId, int currentPage, CommentSortType type, int expectedSize) throws DaoException, ServiceException {
         //given
-        when(commentInfoDaoMock.findAllByDishIdOrderDatePagination(Mockito.eq(dishId), anyInt(), anyInt()))
+        when(commentInfoDaoMock.findAllByDishIdSortByDatePagination(Mockito.eq(dishId), anyInt(), anyInt()))
                 .thenReturn(Arrays.asList(null, null, null, null, null));
-        when(commentInfoDaoMock.findAllByDishIdOrderRatingPagination(Mockito.eq(dishId), anyInt(), anyInt()))
+        when(commentInfoDaoMock.findAllByDishIdSortByOrderPagination(Mockito.eq(dishId), anyInt(), anyInt()))
                 .thenReturn(Arrays.asList(null, null, null));
         //when
         List<CommentInfo> result = commentService.getAllByDishIdPagination(dishId, currentPage, type);
@@ -130,18 +130,18 @@ public class CommentServiceImplTest {
     @DataProvider
     public static Object[][] parameterTestGetAllByDishIdPaginationShouldReturnCorrectSizeListProvider() {
         return new Object[][]{
-                {5L, 2, CommentSortTypes.DATE, 5},
-                {10L, 1, CommentSortTypes.RATING, 3}
+                {5L, 2, CommentSortType.DATE, 5},
+                {10L, 1, CommentSortType.RATING, 3}
 
         };
     }
 
     @ParameterizedTest
     @MethodSource("parameterTestGetAllByDishIdPaginationShouldThrowExceptionWhenCantGetAccessToDbProvider")
-    public void testGetAllByDishIdPaginationShouldThrowExceptionWhenCantGetAccessToDb(long dishId, int currentPage, CommentSortTypes type) throws DaoException {
+    public void testGetAllByDishIdPaginationShouldThrowExceptionWhenCantGetAccessToDb(long dishId, int currentPage, CommentSortType type) throws DaoException {
         //given
-        when(commentInfoDaoMock.findAllByDishIdOrderRatingPagination(Mockito.eq(dishId), anyInt(), anyInt())).thenThrow(new DaoException());
-        when(commentInfoDaoMock.findAllByDishIdOrderDatePagination(Mockito.eq(dishId), anyInt(), anyInt())).thenThrow(new DaoException());
+        when(commentInfoDaoMock.findAllByDishIdSortByOrderPagination(Mockito.eq(dishId), anyInt(), anyInt())).thenThrow(new DaoException());
+        when(commentInfoDaoMock.findAllByDishIdSortByDatePagination(Mockito.eq(dishId), anyInt(), anyInt())).thenThrow(new DaoException());
         //when
         //then
         Assertions.assertThrows(ServiceException.class, () -> commentService.getAllByDishIdPagination(dishId, currentPage, type));
@@ -151,8 +151,8 @@ public class CommentServiceImplTest {
     @DataProvider
     public static Object[][] parameterTestGetAllByDishIdPaginationShouldThrowExceptionWhenCantGetAccessToDbProvider() {
         return new Object[][]{
-                {5L, 2, CommentSortTypes.DATE},
-                {10L, 1, CommentSortTypes.RATING}
+                {5L, 2, CommentSortType.DATE},
+                {10L, 1, CommentSortType.RATING}
         };
     }
 
@@ -163,7 +163,7 @@ public class CommentServiceImplTest {
         long dishId = 1L;
         int commentCount = 10;
         int expectedPageCount = 2;
-        when(commentDaoMock.rowCountForDishId(dishId)).thenReturn(commentCount);
+        when(commentDaoMock.rowCountByDishId(dishId)).thenReturn(commentCount);
         //when
         int result = commentService.getPageCount(dishId);
         //then
@@ -174,7 +174,7 @@ public class CommentServiceImplTest {
     public void testGetPageCountShouldThrowExceptionWhenCantGetAccessToDb() throws DaoException, ServiceException {
         //given
         long dishId = 1L;
-        when(commentDaoMock.rowCountForDishId(dishId)).thenThrow(new DaoException());
+        when(commentDaoMock.rowCountByDishId(dishId)).thenThrow(new DaoException());
         //when
         //then
         Assertions.assertThrows(ServiceException.class, () -> commentService.getPageCount(dishId));

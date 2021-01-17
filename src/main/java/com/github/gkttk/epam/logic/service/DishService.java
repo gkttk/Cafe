@@ -2,7 +2,7 @@ package com.github.gkttk.epam.logic.service;
 
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.model.entities.Dish;
-import com.github.gkttk.epam.model.enums.DishTypes;
+import com.github.gkttk.epam.model.enums.DishType;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -12,11 +12,11 @@ public interface DishService {
 
     List<Dish> getAllEnabled() throws ServiceException;
 
-    List<Dish> getByType(DishTypes type) throws ServiceException;
+    List<Dish> getByType(DishType type) throws ServiceException;
 
-    Optional<Dish> getDishById(Long dishId) throws ServiceException;
+    Optional<Dish> getDishById(long dishId) throws ServiceException;
 
-    void addDish(String dishName, BigDecimal dishCost, DishTypes dishType, String byteString) throws ServiceException;
+    void addDish(String dishName, BigDecimal dishCost, DishType dishType, String byteString) throws ServiceException;
 
     void disableDish(long dishId) throws ServiceException;
 }

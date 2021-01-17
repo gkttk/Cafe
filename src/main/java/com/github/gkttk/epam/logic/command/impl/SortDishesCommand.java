@@ -6,7 +6,7 @@ import com.github.gkttk.epam.logic.command.Command;
 import com.github.gkttk.epam.logic.service.DishService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Dish;
-import com.github.gkttk.epam.model.enums.DishTypes;
+import com.github.gkttk.epam.model.enums.DishType;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class SortDishesCommand implements Command {
 
         List<Dish> dishes;
         if (dishTypeParam != null) {
-            DishTypes dishType = DishTypes.valueOf(dishTypeParam);
+            DishType dishType = DishType.valueOf(dishTypeParam);
             dishes = dishService.getByType(dishType);
         } else {
             dishes = dishService.getAllEnabled();

@@ -1,34 +1,32 @@
-
-function showChangeAvatarForm(){
+function showChangeAvatarForm() {
     if (document.getElementById("changeAvatarForm").style.display === "none") {
         document.getElementById("changeAvatarForm").style.display = "block";
-    }else{
+    } else {
         document.getElementById("changeAvatarForm").style.display = "none";
     }
 }
 
-function showLoginDiv(){
+function showLoginDiv() {
     if (document.getElementById("myForm").style.display === "none") {
         document.getElementById("myForm").style.display = "contents";
-    }else{
+    } else {
         document.getElementById("myForm").style.display = "none";
     }
 }
 
 
-
-function showChangePointsDiv(idForChangePointsDiv){
+function showChangePointsDiv(idForChangePointsDiv) {
     if (document.getElementById("changePointsDiv" + idForChangePointsDiv).style.display === "none") {
         document.getElementById("changePointsDiv" + idForChangePointsDiv).style.display = "block";
-    }else{
+    } else {
         document.getElementById("changePointsDiv" + idForChangePointsDiv).style.display = "none";
     }
 }
 
-function showChangeCommentForm(dishCommentId){
+function showChangeCommentForm(dishCommentId) {
     if (document.getElementById("changeCommentForm" + dishCommentId).style.display === "none") {
         document.getElementById("changeCommentForm" + dishCommentId).style.display = "flex";
-    }else{
+    } else {
         document.getElementById("changeCommentForm" + dishCommentId).style.display = "none";
     }
 }

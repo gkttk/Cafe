@@ -6,7 +6,7 @@ import com.github.gkttk.epam.logic.command.Command;
 import com.github.gkttk.epam.logic.service.DishService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Dish;
-import com.github.gkttk.epam.model.enums.DishTypes;
+import com.github.gkttk.epam.model.enums.DishType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -40,8 +40,8 @@ public class SortDishesCommandTest {
     @Test
     void testExecuteShouldReturnCommandResultWithRedirectToMenuPageWhenDishTypeParamIsNotNull() throws ServiceException {
         //given
-        String dishTypeParam = DishTypes.SALAD.name();
-        DishTypes dishType = DishTypes.valueOf(dishTypeParam);
+        String dishTypeParam = DishType.SALAD.name();
+        DishType dishType = DishType.valueOf(dishTypeParam);
         List<Dish> dishes = Arrays.asList(null, null, null);
 
         CommandResult expectedResult = new CommandResult(MENU_PAGE, true);

@@ -9,7 +9,7 @@ import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.dto.CommentInfo;
 import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.entities.UserCommentRating;
-import com.github.gkttk.epam.model.enums.CommentSortTypes;
+import com.github.gkttk.epam.model.enums.CommentSortType;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +31,7 @@ public class DishCommentsCommand implements Command {
     private final static String ESTIMATES_ATTR = "estimates";
     private final static String SORT_TYPE_ATTR = "sortType";
     private final static String CURRENT_PAGE_PAGINATION_ATTR = "currentPagePagination";
-    private final static CommentSortTypes DEFAULT_SORT_TYPE = CommentSortTypes.DATE;
+    private final static CommentSortType DEFAULT_SORT_TYPE = CommentSortType.DATE;
     private final static int START_PAGE_NUMBER = 1;
 
     public DishCommentsCommand(CommentService commentService, UserCommentRatingService userCommentRatingService) {
@@ -59,7 +59,7 @@ public class DishCommentsCommand implements Command {
         int pageCount = commentService.getPageCount(dishId);
         requestDataHolder.putSessionAttribute(PAGE_COUNT_ATTR, pageCount);
 
-        CommentSortTypes sortType = getSortType(requestDataHolder);
+        CommentSortType sortType = getSortType(requestDataHolder);
 
         List<CommentInfo> comments = commentService.getAllByDishIdPagination(dishId, pageNumber, sortType);
 
@@ -70,10 +70,10 @@ public class DishCommentsCommand implements Command {
 
     }
 
-    private CommentSortTypes getSortType(RequestDataHolder requestDataHolder) {
-        CommentSortTypes sortType = DEFAULT_SORT_TYPE;
+    private CommentSortType getSortType(RequestDataHolder requestDataHolder) {
+        CommentSortType sortType = DEFAULT_SORT_TYPE;
         if (requestDataHolder.isSessionContainKey(SORT_TYPE_ATTR)) {
-            sortType = (CommentSortTypes) requestDataHolder.getSessionAttribute(SORT_TYPE_ATTR);
+            sortType = (CommentSortType) requestDataHolder.getSessionAttribute(SORT_TYPE_ATTR);
         } else {
             requestDataHolder.putSessionAttribute(SORT_TYPE_ATTR, DEFAULT_SORT_TYPE);
         }

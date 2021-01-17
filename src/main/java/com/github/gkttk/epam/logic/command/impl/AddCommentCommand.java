@@ -8,7 +8,7 @@ import com.github.gkttk.epam.logic.validator.Validator;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.dto.CommentInfo;
 import com.github.gkttk.epam.model.entities.User;
-import com.github.gkttk.epam.model.enums.CommentSortTypes;
+import com.github.gkttk.epam.model.enums.CommentSortType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -64,7 +64,7 @@ public class AddCommentCommand implements Command {
         requestDataHolder.putSessionAttribute(PAGE_COUNT_ATTR, newPageCount);
 
         requestDataHolder.putSessionAttribute(CURRENT_PAGE_PAGINATION_ATTR, START_PAGE_PAGINATION);
-        CommentSortTypes sortType = (CommentSortTypes) requestDataHolder.getSessionAttribute(SORT_TYPE_ATTR);
+        CommentSortType sortType = (CommentSortType) requestDataHolder.getSessionAttribute(SORT_TYPE_ATTR);
         List<CommentInfo> comments = commentService.getAllByDishIdPagination(dishId, START_PAGE_PAGINATION, sortType);
         requestDataHolder.putSessionAttribute(COMMENTS_ATTR, comments);
 

@@ -105,7 +105,7 @@ public class RateCommentCommandTest {
         verify(requestDataHolderMock).getSessionAttribute(AUTH_USER_ATTR);
         verify(requestDataHolderMock).getRequestParameter(COMMENT_ID_PARAM);
         verify(requestDataHolderMock).getRequestParameter(ESTIMATE_PARAM);
-        verify(userCommentRatingServiceMock).evaluateComment(userId, commentId, isLike);
+        verify(userCommentRatingServiceMock).rateComment(userId, commentId, isLike);
         verify(requestDataHolderMock).getSessionAttribute(DISH_COMMENTS_ATTR);
         verify(commentServiceMock).getById(1L);
         verify(commentServiceMock).getById(2L);

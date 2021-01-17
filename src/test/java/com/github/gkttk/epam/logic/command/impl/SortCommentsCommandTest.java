@@ -6,7 +6,7 @@ import com.github.gkttk.epam.logic.command.Command;
 import com.github.gkttk.epam.logic.service.CommentService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.dto.CommentInfo;
-import com.github.gkttk.epam.model.enums.CommentSortTypes;
+import com.github.gkttk.epam.model.enums.CommentSortType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -46,8 +46,8 @@ public class SortCommentsCommandTest {
         String currentPageParam = "1";
         int currentPage = Integer.parseInt(currentPageParam);
         long dishId = 2L;
-        String sortTypeParam = CommentSortTypes.RATING.name();
-        CommentSortTypes sortType = CommentSortTypes.valueOf(sortTypeParam);
+        String sortTypeParam = CommentSortType.RATING.name();
+        CommentSortType sortType = CommentSortType.valueOf(sortTypeParam);
         List<CommentInfo> comments = Arrays.asList(null, null, null);
 
         CommandResult expectedResult = new CommandResult(COMMENTS_PAGE, true);

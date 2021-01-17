@@ -6,7 +6,7 @@ import com.github.gkttk.epam.logic.command.Command;
 import com.github.gkttk.epam.logic.service.DishService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Dish;
-import com.github.gkttk.epam.model.enums.DishTypes;
+import com.github.gkttk.epam.model.enums.DishType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -49,7 +49,7 @@ public class AddToBasketCommandTest {
         String dishIdParam = "2";
         long dishId = Long.parseLong(dishIdParam);
 
-        Dish dish = new Dish(dishId, "name", DishTypes.SALAD, new BigDecimal(2), "imgBase64");
+        Dish dish = new Dish(dishId, "name", DishType.SALAD, new BigDecimal(2), "imgBase64");
 
         List<Dish> newBasket = new ArrayList<>(basket);
         newBasket.add(dish);

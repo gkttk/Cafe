@@ -6,9 +6,7 @@ import com.github.gkttk.epam.model.entities.Comment;
 
 public interface CommentDao extends Dao<Comment> {
 
-    void updateRating(int newRating, Long commentId) throws DaoException;
-
-    int rowCountForDishId(long dishId) throws DaoException;
+    int rowCountByDishId(long dishId) throws DaoException;
 
 
 }

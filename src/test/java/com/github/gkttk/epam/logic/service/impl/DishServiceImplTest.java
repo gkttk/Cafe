@@ -6,7 +6,7 @@ import com.github.gkttk.epam.dao.helper.factory.DaoHelperFactory;
 import com.github.gkttk.epam.exceptions.DaoException;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.model.entities.Dish;
-import com.github.gkttk.epam.model.enums.DishTypes;
+import com.github.gkttk.epam.model.enums.DishType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,22 +60,22 @@ public class DishServiceImplTest {
     public void testGetByTypeShouldReturnDishList() throws DaoException, ServiceException {
         //given
         int expectedSize = 2;
-        DishTypes type = DishTypes.SALAD;
+        DishType type = DishType.SALAD;
         String typeName = type.name();
-        when(dishDaoMock.findDishesByType(typeName)).thenReturn(Arrays.asList(null, null));
+        when(dishDaoMock.findAllByType(typeName)).thenReturn(Arrays.asList(null, null));
         //when
         List<Dish> result = dishService.getByType(type);
         //then
-        verify(dishDaoMock, times(1)).findDishesByType(typeName);
+        verify(dishDaoMock, times(1)).findAllByType(typeName);
         Assertions.assertEquals(expectedSize, result.size());
     }
 
     @Test
     public void testGetByTypeShouldThrowExceptionWhenFindDishesByTypeAndCantGetAccessToDb() throws DaoException {
         //given
-        DishTypes type = DishTypes.SALAD;
+        DishType type = DishType.SALAD;
         String typeName = type.name();
-        when(dishDaoMock.findDishesByType(typeName)).thenThrow(new DaoException());
+        when(dishDaoMock.findAllByType(typeName)).thenThrow(new DaoException());
         //when
         //then
         Assertions.assertThrows(ServiceException.class, () -> dishService.getByType(type));
@@ -85,7 +85,7 @@ public class DishServiceImplTest {
     public void testGetDishByIdShouldReturnNotEmptyOptional() throws DaoException, ServiceException {
         //given
         long dishId = 1L;
-        Optional<Dish> expectedOpt = Optional.of(new Dish(dishId, "testName", DishTypes.SALAD, new BigDecimal("0.1"),
+        Optional<Dish> expectedOpt = Optional.of(new Dish(dishId, "testName", DishType.SALAD, new BigDecimal("0.1"),
                 "imgBase64Test"));
         when(dishDaoMock.findById(dishId)).thenReturn(expectedOpt);
         //when
@@ -124,7 +124,7 @@ public class DishServiceImplTest {
         //given
         String dishName = "testName";
         BigDecimal dishCost = new BigDecimal("0.1");
-        DishTypes dishType = DishTypes.BEVERAGE;
+        DishType dishType = DishType.BEVERAGE;
         String dishImg = "imgBase64Test";
         Dish dishForDb = new Dish(dishName, dishType, dishCost, dishImg);
         //when
@@ -138,7 +138,7 @@ public class DishServiceImplTest {
         //given
         String dishName = "testName";
         BigDecimal dishCost = new BigDecimal("0.1");
-        DishTypes dishType = DishTypes.BEVERAGE;
+        DishType dishType = DishType.BEVERAGE;
         String dishImg = "imgBase64Test";
         Dish dishForDb = new Dish(dishName, dishType, dishCost, dishImg);
         when(dishDaoMock.save(dishForDb)).thenThrow(new DaoException());

@@ -16,9 +16,10 @@ import java.util.Optional;
 public class UserCommentRatingDaoImpl extends AbstractDao<UserCommentRating> implements UserCommentRatingDao {
 
     private final static String TABLE_NAME = "users_comments_rating";
-    private final static String FIND_ALL_BY_USER_ID = "SELECT * FROM " + TABLE_NAME + " WHERE user_id = ?";
-    private final static String REMOVE_BY_USER_ID_AND_COMMENT_ID_QUERY = "DELETE FROM " + TABLE_NAME + " WHERE user_id = ? AND comment_id = ?";
-    private final static String SELECT_BY_USER_ID_AND_COMMENT_ID_QUERY = "SELECT * FROM " + TABLE_NAME + " WHERE user_id = ? AND comment_id = ?";
+    private final static String REMOVE_BY_USER_ID_AND_COMMENT_ID_QUERY = "DELETE FROM " + TABLE_NAME +
+            " WHERE user_id = ? AND comment_id = ?";
+    private final static String SELECT_BY_USER_ID_AND_COMMENT_ID_QUERY = "SELECT * FROM " + TABLE_NAME +
+            " WHERE user_id = ? AND comment_id = ?";
     private final static String INSERT_QUERY = "INSERT INTO " + TABLE_NAME + " VALUES(?,?,?)";
 
     private final static String SELECT_BY_USER_ID_AND_DISH_ID_QUERY = "SELECT uc.user_id, uc.comment_id, uc.liked" +
@@ -37,18 +38,13 @@ public class UserCommentRatingDaoImpl extends AbstractDao<UserCommentRating> imp
 
 
     @Override
-    public List<UserCommentRating> findAllByUserIdAndDishId(Long userId, Long dishId) throws DaoException {
+    public List<UserCommentRating> findAllByUserIdAndDishId(long userId, long dishId) throws DaoException {
         return getAllResults(SELECT_BY_USER_ID_AND_DISH_ID_QUERY, userId, dishId);
     }
 
-    @Override
-    public List<UserCommentRating> findAllByUserId(Long userId) throws DaoException {
-        return getAllResults(FIND_ALL_BY_USER_ID, userId);
-    }
-
 
     @Override
-    public void removeByUserIdAndCommentId(Long userId, Long commentId) throws DaoException {
+    public void removeByUserIdAndCommentId(long userId, long commentId) throws DaoException {
         try (PreparedStatement statement = createPrepareStatement(REMOVE_BY_USER_ID_AND_COMMENT_ID_QUERY,
                 userId, commentId)) {
             statement.executeUpdate();
@@ -60,13 +56,13 @@ public class UserCommentRatingDaoImpl extends AbstractDao<UserCommentRating> imp
     }
 
     @Override
-    public Optional<UserCommentRating> getByUserIdAndCommentId(Long userId, Long commentId) throws DaoException {
+    public Optional<UserCommentRating> getByUserIdAndCommentId(long userId, long commentId) throws DaoException {
         return getSingleResult(SELECT_BY_USER_ID_AND_COMMENT_ID_QUERY, userId, commentId);
 
     }
-    
+
     @Override
-    public Long save(UserCommentRating entity) throws DaoException {
+    public long save(UserCommentRating entity) throws DaoException {
 
         Long userId = entity.getUserId();
         Long commentId = entity.getCommentId();

@@ -40,8 +40,8 @@
                         <button class="btn"><fmt:message key="user.menu.beverages.button"/></button>
                     </form>
                 </div>
-                <c:if test="${not empty requestScope.errorMessage}">
-                    <h4><fmt:message key="${requestScope.errorMessage}"/></h4>
+                <c:if test="${not empty requestScope.message}">
+                    <h4><fmt:message key="${requestScope.message}"/></h4>
                 </c:if>
                <c:if test="${not empty sessionScope.message}">
                     <h4><fmt:message key="${sessionScope.message}"/></h4>

@@ -9,7 +9,7 @@ import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.dto.CommentInfo;
 import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.entities.UserCommentRating;
-import com.github.gkttk.epam.model.enums.CommentSortTypes;
+import com.github.gkttk.epam.model.enums.CommentSortType;
 import com.github.gkttk.epam.model.enums.UserRole;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -74,7 +74,7 @@ public class DishCommentsCommandTest {
         String pageNumberParam = "2";
         int pageNumber = Integer.parseInt(pageNumberParam);
         int pageCount = 5;
-        CommentSortTypes sortType = CommentSortTypes.DATE;
+        CommentSortType sortType = CommentSortType.DATE;
 
         List<CommentInfo> comments = Arrays.asList(null, null, null);
 

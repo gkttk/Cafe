@@ -8,7 +8,7 @@ import com.github.gkttk.epam.logic.validator.Validator;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Dish;
 import com.github.gkttk.epam.model.entities.User;
-import com.github.gkttk.epam.model.enums.DishTypes;
+import com.github.gkttk.epam.model.enums.DishType;
 import com.github.gkttk.epam.model.enums.UserRole;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,6 @@ public class SaveOrderCommandTest {
     private final static String MESSAGE_ATTR = "message";
     private final static String MESSAGE = "order.message.accepted";
     private final static String CURRENT_PAGE_PARAM = "currentPage";
-    private final static String ERROR_MESSAGE_KEY = "errorMessage";
     private final static String ERROR_MESSAGE_VALUE = "error.message.wrong.date";
     private final static String MENU_PAGE = "/WEB-INF/view/user_menu.jsp";
 
@@ -62,9 +61,9 @@ public class SaveOrderCommandTest {
         LocalDateTime date = LocalDateTime.MIN;
         String dateParam = String.valueOf(date);
         List<Dish> basket = new ArrayList<>();
-        basket.add(new Dish(1L, "name1", DishTypes.SALAD, new BigDecimal(10), "img1Base64"));
-        basket.add(new Dish(2L, "name2", DishTypes.BEVERAGE, new BigDecimal(20), "img2Base64"));
-        basket.add(new Dish(3L, "name3", DishTypes.SOUP, new BigDecimal(30), "img3Base64"));
+        basket.add(new Dish(1L, "name1", DishType.SALAD, new BigDecimal(10), "img1Base64"));
+        basket.add(new Dish(2L, "name2", DishType.BEVERAGE, new BigDecimal(20), "img2Base64"));
+        basket.add(new Dish(3L, "name3", DishType.SOUP, new BigDecimal(30), "img3Base64"));
 
         List<Long> dishIds = basket.stream().map(Dish::getId).collect(Collectors.toList());
 
@@ -109,7 +108,7 @@ public class SaveOrderCommandTest {
         //then
         verify(requestDataHolderMock).getRequestParameter(DATE_PARAM);
         verify(dataValidatorMock).validate(dateParam);
-        verify(requestDataHolderMock).putRequestAttribute(ERROR_MESSAGE_KEY, ERROR_MESSAGE_VALUE);
+        verify(requestDataHolderMock).putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE_VALUE);
         verify(requestDataHolderMock).putSessionAttribute(CURRENT_PAGE_PARAM, MENU_PAGE);
 
         assertEquals(expectedResult, result);

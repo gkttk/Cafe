@@ -8,15 +8,13 @@ import java.util.Optional;
 
 public interface Dao<T extends Entity> {
 
-    List<T> findAll() throws DaoException; //+
+    List<T> findAll() throws DaoException;
 
-    Optional<T> findById(long id) throws DaoException; //+
+    Optional<T> findById(long id) throws DaoException;
 
-    Long save(T entity) throws DaoException;
+    long save(T entity) throws DaoException;
 
-    void removeById(Long id) throws DaoException;
-
-
+    void removeById(long id) throws DaoException;
 
 
 }

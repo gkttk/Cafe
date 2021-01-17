@@ -6,7 +6,7 @@ import com.github.gkttk.epam.logic.command.Command;
 import com.github.gkttk.epam.logic.service.CommentService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.dto.CommentInfo;
-import com.github.gkttk.epam.model.enums.CommentSortTypes;
+import com.github.gkttk.epam.model.enums.CommentSortType;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class SortCommentsCommand implements Command {
         long dishId = (long) requestDataHolder.getSessionAttribute(DISH_ID_ATTR);
 
         String sortTypeParam = requestDataHolder.getRequestParameter(SORT_TYPE_PARAM);
-        CommentSortTypes sortType = CommentSortTypes.valueOf(sortTypeParam);
+        CommentSortType sortType = CommentSortType.valueOf(sortTypeParam);
         requestDataHolder.putSessionAttribute(SORT_TYPE_PARAM, sortType);
 
         List<CommentInfo> comments = commentService.getAllByDishIdPagination(dishId, currentPage, sortType);

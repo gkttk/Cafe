@@ -39,7 +39,8 @@ public class RequestDataHolder {
 
     public void fillRequest(HttpServletRequest request) {
         requestAttributes.forEach(request::setAttribute);
-        sessionAttributes.forEach((key, value) -> request.getSession().setAttribute(key, value));
+        HttpSession session = request.getSession();
+        sessionAttributes.forEach(session::setAttribute);
     }
 
     public String[] getRequestParameters(String key) {
@@ -47,10 +48,7 @@ public class RequestDataHolder {
     }
 
     public String getRequestParameter(String key) {
-        if (requestParameters.get(key) != null) {
-            return requestParameters.get(key)[0];
-        }
-        return null;
+        return requestParameters.get(key) != null ? requestParameters.get(key)[0] : null;
     }
 
     public Object getRequestAttribute(String key) {

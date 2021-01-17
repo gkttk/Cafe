@@ -1,7 +1,7 @@
 package com.github.gkttk.epam.dao.extractors;
 
 import com.github.gkttk.epam.model.entities.Dish;
-import com.github.gkttk.epam.model.enums.DishTypes;
+import com.github.gkttk.epam.model.enums.DishType;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
@@ -24,7 +24,7 @@ public class DishFieldExtractor implements FieldExtractor<Dish> {
         String name = dish.getName();
         result.put(NAME_KEY, name);
 
-        DishTypes type = dish.getType();
+        DishType type = dish.getType();
         String typeName = type.toString();
         result.put(TYPE_KEY, typeName);
 

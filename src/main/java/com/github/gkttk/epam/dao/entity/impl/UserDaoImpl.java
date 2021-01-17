@@ -8,9 +8,6 @@ import com.github.gkttk.epam.exceptions.DaoException;
 import com.github.gkttk.epam.model.entities.User;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.List;
 import java.util.Optional;
 
 public class UserDaoImpl extends AbstractDao<User> implements UserDao {
@@ -27,13 +24,12 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     @Override
     public Optional<User> findByLoginAndPassword(String login, String password) throws DaoException {
         return getSingleResult(FIND_BY_LOGIN_AND_PASSWORD_QUERY, login, password);
-    }//+
+    }
 
     @Override
     public Optional<User> findByLogin(String login) throws DaoException {
         return getSingleResult(FIND_BY_LOGIN_QUERY, login);
     }
-
 
     @Override
     protected String getTableName() {

@@ -5,7 +5,7 @@ import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.command.Command;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.Dish;
-import com.github.gkttk.epam.model.enums.DishTypes;
+import com.github.gkttk.epam.model.enums.DishType;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,9 +44,9 @@ public class MakeOrderCommandTest {
     void testExecuteShouldReturnCommandResultWithRedirectToMakeOrderPageWhenBasketNotEmpty() throws ServiceException {
         //given
         List<Dish> basket = new ArrayList<>();
-        basket.add(new Dish(1L, "name1", DishTypes.SALAD, new BigDecimal(10), "img1Base64"));
-        basket.add(new Dish(2L, "name2", DishTypes.BEVERAGE, new BigDecimal(20), "img2Base64"));
-        basket.add(new Dish(3L, "name3", DishTypes.SOUP, new BigDecimal(30), "img3Base64"));
+        basket.add(new Dish(1L, "name1", DishType.SALAD, new BigDecimal(10), "img1Base64"));
+        basket.add(new Dish(2L, "name2", DishType.BEVERAGE, new BigDecimal(20), "img2Base64"));
+        basket.add(new Dish(3L, "name3", DishType.SOUP, new BigDecimal(30), "img3Base64"));
 
         BigDecimal orderCost = basket.stream().map(Dish::getCost).reduce(BigDecimal::add).get();
 
