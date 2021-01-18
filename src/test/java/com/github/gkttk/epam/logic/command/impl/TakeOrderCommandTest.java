@@ -35,7 +35,7 @@ public class TakeOrderCommandTest {
     private final static String ERROR_MESSAGE = "error.message.no.money";
     private final static OrderSortType ACTIVE_ORDER_SORT_TYPE = OrderSortType.ACTIVE;
 
-    private final static User TEST_USER = new User(1L, "testLogin", "testPassword", UserRole.USER,
+    private final static User TEST_USER = new User(1L, "testLogin", UserRole.USER,
             50, new BigDecimal(25), false, "imgBase64Test");
 
     private UserService userServiceMock;
@@ -70,7 +70,7 @@ public class TakeOrderCommandTest {
         List<Order> newOrders = Arrays.asList(null, null, null);
 
         BigDecimal newUserMoney = TEST_USER.getMoney().subtract(takenOrder.getCost());
-        User changedUser = new User(1L, "testLogin", "testPassword", UserRole.USER,
+        User changedUser = new User(1L, "testLogin", UserRole.USER,
                 50, newUserMoney, false, "imgBase64Test");
 
         when(requestDataHolderMock.getRequestParameter(ORDER_ID_PARAM)).thenReturn(orderIdParam);

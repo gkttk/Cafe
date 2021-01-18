@@ -26,7 +26,7 @@ public class AddMoneyCommandTest {
     private final static String MONEY_PARAM = "money";
     private final static String CURRENT_PAGE_PARAM = "currentPage";
 
-    private final static User TEST_USER = new User(1L, "testLogin", "testPassword", UserRole.USER,
+    private final static User TEST_USER = new User(1L, "testLogin", UserRole.USER,
             50, new BigDecimal(25), false, "imgBase64Test");
 
     private UserService userServiceMock;

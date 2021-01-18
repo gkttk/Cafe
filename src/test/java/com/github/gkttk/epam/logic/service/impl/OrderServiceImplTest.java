@@ -36,7 +36,7 @@ public class OrderServiceImplTest {
     private final static int DEFAULT_PENALTY = 10;
     private final static int DEFAULT_BONUS = 15;
 
-    private final static User TEST_USER = new User(3L, "testLogin", "testPassword", UserRole.USER,
+    private final static User TEST_USER = new User(3L, "testLogin", UserRole.USER,
             50, new BigDecimal(25), false, "imgBase64Test");
 
     private final static Order TEST_ORDER = new Order(1L, new BigDecimal(10), LocalDateTime.MAX,
@@ -107,7 +107,7 @@ public class OrderServiceImplTest {
         BigDecimal newUserMoney = userMoney.subtract(orderCost);
         int newUserPoints = TEST_USER.getPoints() + DEFAULT_BONUS;
 
-        User changedUser = new User(3L, "testLogin", "testPassword", UserRole.USER, newUserPoints,
+        User changedUser = new User(3L, "testLogin", UserRole.USER, newUserPoints,
                 newUserMoney, false, "imgBase64Test");
 
         Order changedOrder = new Order(1L, new BigDecimal(10), LocalDateTime.MAX, OrderStatus.RETRIEVED, 3L);
@@ -126,7 +126,7 @@ public class OrderServiceImplTest {
     @Test
     public void testTakeOrderShouldReturnFalseWhenUserDontHaveEnoughMoney() throws ServiceException {
         //given
-        User user = new User(3L, "testLogin", "testPassword", UserRole.USER, 50,
+        User user = new User(3L, "testLogin", UserRole.USER, 50,
                 new BigDecimal(1), false, "imgBase64Test");
         //when
         boolean result = orderService.takeOrder(TEST_ORDER, user);
@@ -176,7 +176,7 @@ public class OrderServiceImplTest {
         Long userId = TEST_ORDER.getUserId();
 
         int newUserPoints = TEST_USER.getPoints() - DEFAULT_PENALTY;
-        User changedUser = new User(3L, "testLogin", "testPassword", UserRole.USER, newUserPoints,
+        User changedUser = new User(3L, "testLogin", UserRole.USER, newUserPoints,
                 new BigDecimal(25), false, "imgBase64Test");
 
         when(userDaoMock.findById(userId)).thenReturn(Optional.of(TEST_USER));
@@ -207,7 +207,7 @@ public class OrderServiceImplTest {
         Order changedOrder = new Order(1L, new BigDecimal(10), LocalDateTime.MAX, OrderStatus.CANCELLED, 3L);
 
         int newUserPoints = TEST_USER.getPoints() - DEFAULT_PENALTY;
-        User changedUser = new User(3L, "testLogin", "testPassword", UserRole.USER, newUserPoints,
+        User changedUser = new User(3L, "testLogin", UserRole.USER, newUserPoints,
                 new BigDecimal(25), false, "imgBase64Test");
         //when
         orderService.cancelOrder(TEST_ORDER, TEST_USER);

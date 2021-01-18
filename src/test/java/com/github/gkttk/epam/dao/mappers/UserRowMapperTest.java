@@ -38,7 +38,7 @@ public class UserRowMapperTest {
         boolean isBlocked = false;
         String imgBase64 = "testImgBase64";
 
-        User expectedEntity = new User(userId, login, password, role, points, money, isBlocked, imgBase64);
+        User expectedEntity = new User(userId, login, role, points, money, isBlocked, imgBase64);
 
         when(resultSetMock.getLong(ID_KEY)).thenReturn(userId);
         when(resultSetMock.getString(LOGIN_KEY)).thenReturn(login);

@@ -12,6 +12,8 @@ import com.github.gkttk.epam.model.builder.UserInfoBuilder;
 import com.github.gkttk.epam.model.dto.UserInfo;
 import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.enums.UserStatus;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,7 +22,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final DaoHelperFactory daoHelperFactory;
-
+    private final static Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);
 
     public UserServiceImpl(DaoHelperFactory daoHelperFactory) {
         this.daoHelperFactory = daoHelperFactory;
@@ -83,14 +85,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean registration(String login, String password) throws ServiceException {
-        try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
+        DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper();
+        try {
             UserDao userDao = daoHelperImpl.createUserDao();
-            User user = new User(login, password);
-            userDao.save(user);
+            daoHelperImpl.startTransaction();
+            User user = new User(login);
+            long userId = userDao.save(user);
+            userDao.updatePassword(password, userId);
+            daoHelperImpl.commit();
             return true;
         } catch (DaoException e) {
-            throw new ServiceException(String.format("Can't registration(login, password) with login: %s and password: %s",
-                    login, password), e);
+            try {
+                daoHelperImpl.rollback();
+            } catch (DaoException ex) {
+                LOGGER.warn("Can't rollback() in registration with login: {}", login, ex);
+            }
+            throw new ServiceException(String.format("Can't registration(login, password) with login: %s", login), e);
+        } finally {
+            try {
+                daoHelperImpl.endTransaction();
+            } catch (DaoException exception) {
+                LOGGER.warn("Can't endTransaction() in registration with login: {}", login, exception);
+            }
+            daoHelperImpl.close();
         }
     }
 

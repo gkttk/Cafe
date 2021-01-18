@@ -11,7 +11,6 @@ public class UserRowMapper implements RowMapper<User> {
 
     private final static String ID_KEY = "id";
     private final static String LOGIN_KEY = "login";
-    private final static String PASSWORD_KEY = "password";
     private final static String ROLE_KEY = "role";
     private final static String POINTS_KEY = "points";
     private final static String MONEY_KEY = "money";
@@ -24,8 +23,6 @@ public class UserRowMapper implements RowMapper<User> {
 
         String login = resultSet.getString(LOGIN_KEY);
 
-        String password = resultSet.getString(PASSWORD_KEY);
-
         String roleName = resultSet.getString(ROLE_KEY);
         UserRole role = UserRole.valueOf(roleName);
 
@@ -37,6 +34,6 @@ public class UserRowMapper implements RowMapper<User> {
 
         String imgBase64 = resultSet.getString(IMG_BASE64_KEY);
 
-        return new User(id, login, password, role, points, money, isBlocked, imgBase64);
+        return new User(id, login, role, points, money, isBlocked, imgBase64);
     }
 }

@@ -1,6 +1,7 @@
 package com.github.gkttk.epam.logic.service.impl;
 
 import com.github.gkttk.epam.dao.dto.impl.UserInfoDaoImpl;
+import com.github.gkttk.epam.dao.entity.UserDao;
 import com.github.gkttk.epam.dao.entity.impl.UserDaoImpl;
 import com.github.gkttk.epam.dao.helper.DaoHelperImpl;
 import com.github.gkttk.epam.dao.helper.factory.DaoHelperFactory;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import java.math.BigDecimal;
@@ -28,11 +30,12 @@ import static org.mockito.Mockito.*;
 
 public class UserServiceImplTest {
 
-    private static UserServiceImpl userService;
-    private static UserDaoImpl userDaoMock;
-    private static UserInfoDaoImpl userInfoDaoMock;
+    private UserServiceImpl userService;
+    private UserDaoImpl userDaoMock;
+    private UserInfoDaoImpl userInfoDaoMock;
+    private DaoHelperImpl daoHelperMock;
 
-    private final static User TEST_USER = new User(1L, "testLogin", "testPassword", UserRole.USER,
+    private final static User TEST_USER = new User(1L, "testLogin", UserRole.USER,
             50, new BigDecimal(25), false, "imgBase64Test");
 
     private final static UserInfo TEST_USER_INFO = new UserInfo(TEST_USER.getId(), TEST_USER.getLogin(),
@@ -41,10 +44,11 @@ public class UserServiceImplTest {
     @BeforeEach
     void init() {
         DaoHelperFactory daoHelperFactoryMock = Mockito.mock(DaoHelperFactory.class);
-        DaoHelperImpl daoHelperMock = Mockito.mock(DaoHelperImpl.class);
-        userService = new UserServiceImpl(daoHelperFactoryMock);
-        userDaoMock = Mockito.mock(UserDaoImpl.class);
-        userInfoDaoMock = Mockito.mock(UserInfoDaoImpl.class);
+
+        this.userService = new UserServiceImpl(daoHelperFactoryMock);
+        this.userDaoMock = Mockito.mock(UserDaoImpl.class);
+        this.userInfoDaoMock = Mockito.mock(UserInfoDaoImpl.class);
+        this.daoHelperMock = Mockito.mock(DaoHelperImpl.class);
 
         when(daoHelperFactoryMock.createDaoHelper()).thenReturn(daoHelperMock);
         when(daoHelperMock.createUserDao()).thenReturn(userDaoMock);
@@ -56,7 +60,7 @@ public class UserServiceImplTest {
     public void testLoginShouldReturnOptionalWithUserWhenSuchUserExistsInDb() throws ServiceException, DaoException {
         //given
         String login = TEST_USER.getLogin();
-        String password = TEST_USER.getPassword();
+        String password = "password";
 
         when(userDaoMock.findByLoginAndPassword(login, password)).thenReturn(Optional.of(TEST_USER));
         //when
@@ -65,8 +69,7 @@ public class UserServiceImplTest {
         verify(userDaoMock).findByLoginAndPassword(login, password);
         Assertions.assertTrue(resultOpt.isPresent());
         resultOpt.ifPresent(user -> {
-            Assertions.assertEquals(login, user.getLogin());
-            Assertions.assertEquals(password, user.getPassword());
+            Assertions.assertEquals(TEST_USER, user);
         });
     }
 
@@ -74,7 +77,7 @@ public class UserServiceImplTest {
     public void testLoginShouldReturnEmptyOptionalWhenSuchUserDoesntExistInDb() throws ServiceException, DaoException {
         //given
         String login = TEST_USER.getLogin();
-        String password = TEST_USER.getPassword();
+        String password = "password";
         when(userDaoMock.findByLoginAndPassword(login, password)).thenReturn(Optional.empty());
         //when
         Optional<User> resultOpt = userService.login(login, password);
@@ -87,7 +90,7 @@ public class UserServiceImplTest {
     public void testLoginShouldThrowExceptionWhenCantGetAccessToDb() throws DaoException {
         //given
         String login = TEST_USER.getLogin();
-        String password = TEST_USER.getPassword();
+        String password = "password";
         when(userDaoMock.findByLoginAndPassword(login, password)).thenThrow(new DaoException());
         //when
         //then
@@ -202,13 +205,21 @@ public class UserServiceImplTest {
     @Test
     public void testRegistrationShouldReturnTrueWhenCouldSaveUser() throws DaoException, ServiceException {
         //given
+        long userId = 10L;
         String login = TEST_USER.getLogin();
-        String password = TEST_USER.getPassword();
-        User userForDb = new User(login, password);
+        String password = "password";
+        User userForDb = new User(login);
+
+        when(daoHelperMock.createUserDao()).thenReturn(userDaoMock);
+        when(userDaoMock.save(userForDb)).thenReturn(userId);
         //when
         boolean result = userService.registration(login, password);
         //then
+        verify(daoHelperMock).createUserDao();
+        verify(daoHelperMock).startTransaction();
         verify(userDaoMock).save(userForDb);
+        verify(userDaoMock).updatePassword(password, userId);
+        verify(daoHelperMock).commit();
         Assertions.assertTrue(result);
     }
 
@@ -216,7 +227,7 @@ public class UserServiceImplTest {
     public void testRegistrationShouldThrowExceptionWhenCantGetAccessToDb() throws DaoException {
         //given
         String login = TEST_USER.getLogin();
-        String password = TEST_USER.getPassword();
+        String password = "password";
         when(userDaoMock.save(any())).thenThrow(new DaoException());
         //when
         //then
@@ -228,7 +239,7 @@ public class UserServiceImplTest {
     public void testChangeAvatarShouldChangeUserAvatarAndInvokeMethods() throws DaoException, ServiceException {
         //given
         String newAvatarBase64 = "newAvatarTest";
-        User changedUser = new User(1L, "testLogin", "testPassword", UserRole.USER,
+        User changedUser = new User(1L, "testLogin", UserRole.USER,
                 50, new BigDecimal(25), false, newAvatarBase64);
         //when
         userService.changeAvatar(TEST_USER, newAvatarBase64);
@@ -345,7 +356,7 @@ public class UserServiceImplTest {
         BigDecimal extraMoney = new BigDecimal(20);
 
         BigDecimal newUserMoney = TEST_USER.getMoney().add(extraMoney);
-        User changedUser = new User(TEST_USER.getId(), TEST_USER.getLogin(), TEST_USER.getPassword(), TEST_USER.getRole(),
+        User changedUser = new User(TEST_USER.getId(), TEST_USER.getLogin(), TEST_USER.getRole(),
                 TEST_USER.getPoints(), newUserMoney, TEST_USER.isBlocked(), TEST_USER.getImgBase64());
         when(userDaoMock.findById(userId)).thenReturn(Optional.of(TEST_USER));
         //when

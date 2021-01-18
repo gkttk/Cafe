@@ -46,8 +46,7 @@ public class UserLoginValidatorTest {
     public void testValidateShouldReturnFalseIfGivenStringMatchesPatternAndSuchLoginIsExistInDb() throws ServiceException, DaoException {
         //given
         String login = "testLogin";
-        String password = "testPassword";
-        Optional<User> userOpt = Optional.of(new User(login, password));
+        Optional<User> userOpt = Optional.of(new User(login));
         when(userDaoMock.findByLogin(login)).thenReturn(userOpt);
         //when
         boolean result = userLoginValidator.validate(login);
@@ -76,10 +75,10 @@ public class UserLoginValidatorTest {
     }
 
     @Test
-    public void testValidateShouldThrowAnExceptionWhenCantGetUserFromDb() throws ServiceException, DaoException {
+    public void testValidateShouldThrowAnExceptionWhenCantGetUserFromDb() throws DaoException {
         //given
         String login = "testLogin";
-        when(userDaoMock.findByLogin(login)).thenThrow(DaoException.class);
+        when(userDaoMock.findByLogin(login)).thenThrow(new DaoException());
         //when
         //then
         Assertions.assertThrows(ServiceException.class, () -> userLoginValidator.validate(login));

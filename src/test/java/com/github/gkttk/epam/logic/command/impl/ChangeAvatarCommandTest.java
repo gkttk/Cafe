@@ -33,7 +33,7 @@ public class ChangeAvatarCommandTest {
     private final static String MAIN_PAGE_ATTR = "index.jsp";
     private final static String CURRENT_PAGE_ATTR = "currentPage";
 
-    private final static User TEST_USER = new User(1L, "testLogin", "testPassword", UserRole.USER,
+    private final static User TEST_USER = new User(1L, "testLogin", UserRole.USER,
             50, new BigDecimal(25), false, "imgBase64Test");
 
     private UserService userServiceMock;

@@ -12,4 +12,6 @@ public interface UserDao extends Dao<User> {
 
     Optional<User> findByLogin(String login) throws DaoException;
 
+    void updatePassword(String password, long userId) throws DaoException;
+
 }

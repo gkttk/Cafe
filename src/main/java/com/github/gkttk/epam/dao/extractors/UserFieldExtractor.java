@@ -11,7 +11,6 @@ public class UserFieldExtractor implements FieldExtractor<User> {
 
     private final static String ID_KEY = "id";
     private final static String LOGIN_KEY = "login";
-    private final static String PASSWORD_KEY = "password";
     private final static String ROLE_KEY = "role";
     private final static String POINTS_KEY = "points";
     private final static String MONEY_KEY = "money";
@@ -28,9 +27,6 @@ public class UserFieldExtractor implements FieldExtractor<User> {
         String login = user.getLogin();
         result.put(LOGIN_KEY, login);
 
-        String password = user.getPassword();
-        result.put(PASSWORD_KEY, password);
-
         UserRole role = user.getRole();
         String roleName = role.name();
         result.put(ROLE_KEY, roleName);
@@ -43,7 +39,6 @@ public class UserFieldExtractor implements FieldExtractor<User> {
 
         boolean isBlocked = user.isBlocked();
         result.put(BLOCKED_KEY, isBlocked);
-
 
         String imageRef = user.getImgBase64();
         result.put(IMG_BASE64_KEY, imageRef);

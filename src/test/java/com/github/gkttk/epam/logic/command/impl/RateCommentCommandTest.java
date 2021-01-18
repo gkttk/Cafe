@@ -36,7 +36,7 @@ public class RateCommentCommandTest {
     private final static String ESTIMATES_ATTR = "estimates";
     private final static String DISH_ID_ATTR = "dishId";
 
-    private final static User TEST_USER = new User(1L, "testLogin", "testPassword", UserRole.USER,
+    private final static User TEST_USER = new User(1L, "testLogin", UserRole.USER,
             50, new BigDecimal(25), false, "imgBase64Test");
 
     private CommentService commentServiceMock;

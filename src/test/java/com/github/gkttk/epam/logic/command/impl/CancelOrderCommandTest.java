@@ -32,7 +32,7 @@ public class CancelOrderCommandTest {
     private final static String MY_ORDERS_PAGE = "/WEB-INF/view/my_orders_page.jsp";
     private final static OrderSortType ACTIVE_ORDER_SORT_TYPE = OrderSortType.ACTIVE;
 
-    private final static User TEST_USER = new User(1L, "testLogin", "testPassword", UserRole.USER,
+    private final static User TEST_USER = new User(1L, "testLogin"/*, "testPassword"*/, UserRole.USER,
             50, new BigDecimal(25), false, "imgBase64Test");
 
     private OrderService orderServiceMock;

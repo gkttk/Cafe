@@ -13,7 +13,6 @@ public class UserFieldExtractorTest {
 
     private final static String ID_KEY = "id";
     private final static String LOGIN_KEY = "login";
-    private final static String PASSWORD_KEY = "password";
     private final static String ROLE_KEY = "role";
     private final static String POINTS_KEY = "points";
     private final static String MONEY_KEY = "money";
@@ -27,7 +26,6 @@ public class UserFieldExtractorTest {
         //given
         long userId = 1L;
         String login = "testLogin";
-        String password = "testPassword";
         UserRole role = UserRole.USER;
         int points = 50;
         BigDecimal money = BigDecimal.TEN;
@@ -37,14 +35,13 @@ public class UserFieldExtractorTest {
         Map<String, Object> expectedMap = new LinkedHashMap<>();
         expectedMap.put(ID_KEY, userId);
         expectedMap.put(LOGIN_KEY, login);
-        expectedMap.put(PASSWORD_KEY, password);
         expectedMap.put(ROLE_KEY, role.name());
         expectedMap.put(POINTS_KEY, points);
         expectedMap.put(MONEY_KEY, money);
         expectedMap.put(BLOCKED_KEY, isBlocked);
         expectedMap.put(IMG_BASE64_KEY, imgBase64);
 
-        User user = new User(userId, login, password, role, points, money, isBlocked, imgBase64);
+        User user = new User(userId, login, role, points, money, isBlocked, imgBase64);
         //when
         Map<String, Object> result = fieldExtractor.extractFields(user);
         //then

@@ -29,7 +29,7 @@ public class OrderHistoryCommandTest {
     private final static String ORDERS_ATTR = "orders";
     private final static OrderSortType NOT_ACTIVE_ORDER_SORT_TYPE = OrderSortType.EXPIRED;
 
-    private final static User TEST_USER = new User(1L, "testLogin", "testPassword", UserRole.USER,
+    private final static User TEST_USER = new User(1L, "testLogin", UserRole.USER,
             50, new BigDecimal(25), false, "imgBase64Test");
 
     private OrderService orderServiceMock;

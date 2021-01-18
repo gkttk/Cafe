@@ -35,10 +35,10 @@ public class LoginCommandTest {
     private final static String MESSAGE_ATTR = "message";
     private final static String ERROR_MESSAGE_BLOCKED = "error.message.blocked";
 
-    private final static User TEST_USER = new User(1L, "testLogin", "testPassword", UserRole.USER,
+    private final static User TEST_USER = new User(1L, "testLogin"/*, "testPassword"*/, UserRole.USER,
             50, new BigDecimal(25), false, "imgBase64Test");
 
-    private final static User BLOCKED_TEST_USER = new User(1L, "testLogin", "testPassword", UserRole.USER,
+    private final static User BLOCKED_TEST_USER = new User(1L, "testLogin"/*, "testPassword"*/, UserRole.USER,
             50, new BigDecimal(25), true, "imgBase64Test");
 
     private UserService userServiceMock;
@@ -60,7 +60,7 @@ public class LoginCommandTest {
     void testExecuteShouldReturnCommandResultWithForwardToStartPageWhenUserDoesNotInDb() throws ServiceException {
         //given
         String login = TEST_USER.getLogin();
-        String password = TEST_USER.getPassword();
+        String password = "password";
 
         when(requestDataHolderMock.getRequestParameter(LOGIN_PARAM)).thenReturn(login);
         when(requestDataHolderMock.getRequestParameter(PASSWORD_PARAM)).thenReturn(password);
@@ -82,7 +82,7 @@ public class LoginCommandTest {
     void testExecuteShouldReturnCommandResultWithRedirectToUserPageWhenUserExistsInDb() throws ServiceException {
         //given
         String login = TEST_USER.getLogin();
-        String password = TEST_USER.getPassword();
+        String password = "password";
         List<Dish> dishes = Arrays.asList(null, null, null);
 
         when(requestDataHolderMock.getRequestParameter(LOGIN_PARAM)).thenReturn(login);
@@ -109,7 +109,7 @@ public class LoginCommandTest {
     void testExecuteShouldReturnCommandResultWithRedirectToStartPageWhenUserIsBlocked() throws ServiceException {
         //given
         String login = TEST_USER.getLogin();
-        String password = TEST_USER.getPassword();
+        String password = "password";
 
         when(requestDataHolderMock.getRequestParameter(LOGIN_PARAM)).thenReturn(login);
         when(requestDataHolderMock.getRequestParameter(PASSWORD_PARAM)).thenReturn(password);

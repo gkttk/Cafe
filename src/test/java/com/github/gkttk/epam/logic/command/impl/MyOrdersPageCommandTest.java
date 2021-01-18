@@ -29,7 +29,7 @@ public class MyOrdersPageCommandTest {
     private final static String ORDERS_ATTR = "orders";
     private final static String SORT_TYPE_PARAM = "sortType";
 
-    private final static User TEST_USER = new User(1L, "testLogin", "testPassword", UserRole.USER,
+    private final static User TEST_USER = new User(1L, "testLogin", UserRole.USER,
             50, new BigDecimal(25), false, "imgBase64Test");
 
     private OrderService orderServiceMock;
