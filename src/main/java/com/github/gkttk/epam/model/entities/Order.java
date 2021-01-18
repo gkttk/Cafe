@@ -7,6 +7,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * Current class represents data from order table.
+ */
 public class Order extends Entity {
     private final BigDecimal cost;
     private final LocalDateTime date;

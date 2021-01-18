@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Base64;
 
+/**
+ * Class interprets given InputStream to Base64String. Return null if InputStream has 0 available bytes for reading.
+ */
 public class Base64Interpreter {
 
     public static String interpret(InputStream file) throws ServiceException {

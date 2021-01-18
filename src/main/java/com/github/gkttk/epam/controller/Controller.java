@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Main controller.
+ */
 public class Controller extends HttpServlet {
 
     private final static Logger LOGGER = LogManager.getLogger(Controller.class);

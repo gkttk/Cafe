@@ -7,6 +7,10 @@ import com.github.gkttk.epam.model.entities.UserCommentRating;
 import java.util.List;
 import java.util.Optional;
 
+
+/**
+ * Dao for working with UserCommentRating entity.
+ */
 public interface UserCommentRatingDao extends Dao<UserCommentRating> {
 
 

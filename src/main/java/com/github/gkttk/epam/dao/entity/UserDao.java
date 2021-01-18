@@ -6,6 +6,10 @@ import com.github.gkttk.epam.model.entities.User;
 
 import java.util.Optional;
 
+
+/**
+ * Dao for working with User entity.
+ */
 public interface UserDao extends Dao<User> {
 
     Optional<User> findByLoginAndPassword(String login, String password) throws DaoException;

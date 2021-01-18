@@ -5,6 +5,9 @@ import com.github.gkttk.epam.model.entities.UserCommentRating;
 
 import java.util.List;
 
+/**
+ * Service for working with UserCommentRating entity.
+ */
 public interface UserCommentRatingService {
 
     List<UserCommentRating> getAllByUserIdAndDishId(long userId, long dishId) throws ServiceException;

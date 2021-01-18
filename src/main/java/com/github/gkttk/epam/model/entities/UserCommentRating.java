@@ -2,6 +2,10 @@ package com.github.gkttk.epam.model.entities;
 
 import java.util.Objects;
 
+/**
+ * Current class contains data of some comment which was liked/disliked by some user. This is necessary to control
+ * multiple evaluations of the comment.
+ */
 public class UserCommentRating extends Entity {
 
     private final Long userId;

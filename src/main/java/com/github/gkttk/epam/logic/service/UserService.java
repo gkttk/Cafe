@@ -9,7 +9,11 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service for working with User entity.
+ */
 public interface UserService {
+
     Optional<User> login(String login, String password) throws ServiceException;
 
     Optional<User> getById(long id) throws ServiceException;

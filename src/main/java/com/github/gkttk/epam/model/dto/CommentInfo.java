@@ -6,6 +6,9 @@ import com.github.gkttk.epam.model.entities.Entity;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * Current class represents data from comments and users table.
+ */
 public class CommentInfo extends Entity {
     private final String text;
     private final int rating;

@@ -6,6 +6,11 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/**
+ * Class contains data from request.
+ */
+
 public class RequestDataHolder {
 
     private final Map<String, String[]> requestParameters = new HashMap<>();

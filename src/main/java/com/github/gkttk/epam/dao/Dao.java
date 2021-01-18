@@ -6,6 +6,9 @@ import com.github.gkttk.epam.model.entities.Entity;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Common dao interface with default CRUD operations.
+ */
 public interface Dao<T extends Entity> {
 
     List<T> findAll() throws DaoException;

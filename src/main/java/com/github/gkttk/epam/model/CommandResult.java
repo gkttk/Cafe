@@ -2,6 +2,9 @@ package com.github.gkttk.epam.model;
 
 import java.util.Objects;
 
+/**
+ * Result of executing any command. Contains url for redirect/forward.
+ */
 public class CommandResult {
 
     private final String url;

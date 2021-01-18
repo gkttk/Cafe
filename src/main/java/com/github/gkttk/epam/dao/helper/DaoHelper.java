@@ -7,6 +7,9 @@ import com.github.gkttk.epam.dao.entity.DishDao;
 import com.github.gkttk.epam.dao.entity.OrderDao;
 import com.github.gkttk.epam.dao.entity.UserDao;
 
+/**
+ * Implementations of the interface can create different daos with the same connection for transaction management.
+ */
 public interface DaoHelper {
 
     UserInfoDao createUserInfoDao();

@@ -6,6 +6,9 @@ import com.github.gkttk.epam.model.enums.UserRole;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+/**
+ * Current class represents data from user table.
+ */
 public class User extends Entity {
 
 

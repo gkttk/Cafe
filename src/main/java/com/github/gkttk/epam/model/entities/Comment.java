@@ -5,6 +5,9 @@ import com.github.gkttk.epam.model.builder.CommentBuilder;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * Current class represents data from comments table.
+ */
 public class Comment extends Entity {
     private final String text;
     private final int rating;

@@ -6,6 +6,9 @@ import com.github.gkttk.epam.model.enums.UserRole;
 
 import java.util.Objects;
 
+/**
+ * Current class represents data from users table. Contain not all user data. For admin page.
+ */
 public class UserInfo extends Entity {
 
     private final String login;

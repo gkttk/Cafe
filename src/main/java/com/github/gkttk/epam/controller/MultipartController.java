@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
 
+/**
+ * Controller for images.
+ */
 public class MultipartController extends HttpServlet {
 
     private final static Logger LOGGER = LogManager.getLogger(MultipartController.class);

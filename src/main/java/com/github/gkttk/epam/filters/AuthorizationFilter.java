@@ -9,6 +9,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Filter checks user rights to use commands.
+ */
 public class AuthorizationFilter implements Filter {
 
     private final static String AUTH_USER_ATTR = "authUser";

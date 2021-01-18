@@ -8,6 +8,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service for working with Dish entity.
+ */
 public interface DishService {
 
     List<Dish> getAllEnabled() throws ServiceException;

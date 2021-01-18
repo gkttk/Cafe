@@ -6,6 +6,9 @@ import com.github.gkttk.epam.model.entities.Dish;
 
 import java.util.List;
 
+/**
+ * Dao for working with Dish entity.
+ */
 public interface DishDao extends Dao<Dish> {
 
     List<Dish> findAllByType(String dishType) throws DaoException;

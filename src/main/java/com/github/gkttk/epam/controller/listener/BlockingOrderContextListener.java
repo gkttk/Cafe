@@ -15,6 +15,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Listener periodically checks db for existing of orders with expired date and block them.
+ */
 public class BlockingOrderContextListener implements ServletContextListener {
 
     private OrderService orderService;

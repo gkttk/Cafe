@@ -6,6 +6,10 @@ import com.github.gkttk.epam.model.entities.Order;
 
 import java.util.List;
 
+
+/**
+ * Dao for working with Order entity.
+ */
 public interface OrderDao extends Dao<Order> {
 
     void saveOrderDish(long orderId, long dishId) throws DaoException;

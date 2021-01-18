@@ -7,6 +7,10 @@ import com.github.gkttk.epam.model.dto.CommentInfo;
 import java.util.List;
 import java.util.Optional;
 
+
+/**
+ * Dao for working with CommendInfo entity.
+ */
 public interface CommentInfoDao extends Dao<CommentInfo> {
 
     Optional<CommentInfo> findByCommentId(long commentId) throws DaoException;

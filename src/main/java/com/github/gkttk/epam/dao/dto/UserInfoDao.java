@@ -6,6 +6,10 @@ import com.github.gkttk.epam.model.dto.UserInfo;
 
 import java.util.List;
 
+
+/**
+ * Dao for working with UserInfo entity.
+ */
 public interface UserInfoDao extends Dao<UserInfo> {
 
     List<UserInfo> findAllByStatus(boolean isBlocked) throws DaoException;

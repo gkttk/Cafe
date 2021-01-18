@@ -7,6 +7,9 @@ import com.github.gkttk.epam.model.enums.CommentSortType;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service for working with Comment entity.
+ */
 public interface CommentService {
 
 
