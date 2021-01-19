@@ -28,12 +28,12 @@
         </p>
 
         <main>
-
         </main>
         <%@ include file="WEB-INF/view/parts/footer.jsp" %>
     </div>
     </body>
 
 </fmt:bundle>
+
 
 </html>

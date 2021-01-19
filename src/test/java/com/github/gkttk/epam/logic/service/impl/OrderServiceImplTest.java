@@ -1,11 +1,14 @@
 package com.github.gkttk.epam.logic.service.impl;
 
+import com.github.gkttk.epam.dao.entity.DishDao;
+import com.github.gkttk.epam.dao.entity.impl.DishDaoImpl;
 import com.github.gkttk.epam.dao.entity.impl.OrderDaoImpl;
 import com.github.gkttk.epam.dao.entity.impl.UserDaoImpl;
 import com.github.gkttk.epam.dao.helper.DaoHelperImpl;
 import com.github.gkttk.epam.dao.helper.factory.DaoHelperFactory;
 import com.github.gkttk.epam.exceptions.DaoException;
 import com.github.gkttk.epam.exceptions.ServiceException;
+import com.github.gkttk.epam.model.dto.OrderInfo;
 import com.github.gkttk.epam.model.entities.Order;
 import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.enums.OrderSortType;
@@ -32,6 +35,7 @@ public class OrderServiceImplTest {
     private static OrderServiceImpl orderService;
     private static OrderDaoImpl orderDaoMock;
     private static UserDaoImpl userDaoMock;
+    private static DishDao dishDaoMock;
 
     private final static int DEFAULT_PENALTY = 10;
     private final static int DEFAULT_BONUS = 15;
@@ -49,10 +53,65 @@ public class OrderServiceImplTest {
         orderService = new OrderServiceImpl(daoHelperFactoryMock);
         orderDaoMock = Mockito.mock(OrderDaoImpl.class);
         userDaoMock = Mockito.mock(UserDaoImpl.class);
+        dishDaoMock = Mockito.mock(DishDaoImpl.class);
 
         when(daoHelperFactoryMock.createDaoHelper()).thenReturn(daoHelperMock);
         when(daoHelperMock.createOrderDao()).thenReturn(orderDaoMock);
         when(daoHelperMock.createUserDao()).thenReturn(userDaoMock);
+        when(daoHelperMock.createDishDao()).thenReturn(dishDaoMock);
+    }
+
+
+    @Test
+    public void testGetOrderInfoShouldReturnOptionalWithOrderInfoIfOrderWithGivenIdExistsInDb() throws DaoException, ServiceException {
+        //given
+        long orderId = 1L;
+        BigDecimal orderCost = new BigDecimal(10);
+        LocalDateTime orderDate = LocalDateTime.MIN;
+        List<String> dishNames = Arrays.asList("name1", "name2");
+        Order expectedOrder = new Order(orderId, orderCost, orderDate, 2L);
+        OrderInfo expectedOrderInfo = new OrderInfo(orderCost, orderDate, dishNames);
+
+        when(orderDaoMock.findById(orderId)).thenReturn(Optional.of(expectedOrder));
+        when(dishDaoMock.findDishNamesByOrderId(orderId)).thenReturn(dishNames);
+        //when
+        Optional<OrderInfo> resultOpt = orderService.getOrderInfo(orderId);
+        //then
+        verify(daoHelperMock).createOrderDao();
+        verify(daoHelperMock).createDishDao();
+        verify(orderDaoMock).findById(orderId);
+        verify(dishDaoMock).findDishNamesByOrderId(orderId);
+
+        Assertions.assertTrue(resultOpt.isPresent());
+        resultOpt.ifPresent(result -> Assertions.assertEquals(result, expectedOrderInfo));
+    }
+
+    @Test
+    public void testGetOrderInfoShouldReturnOptionalWithOrderInfoIfOrderWithGivenIdDoesNotExistInDb() throws DaoException, ServiceException {
+        //given
+        long incorrectId = 1L;
+        when(orderDaoMock.findById(incorrectId)).thenReturn(Optional.empty());
+        //when
+        Optional<OrderInfo> resultOpt = orderService.getOrderInfo(incorrectId);
+        //then
+        verify(daoHelperMock).createOrderDao();
+        verify(daoHelperMock).createDishDao();
+        verify(orderDaoMock).findById(incorrectId);
+
+        Assertions.assertFalse(resultOpt.isPresent());
+    }
+
+    @Test
+    public void testGetOrderInfoShouldThrowExceptionWhenCantGetAccessToDb() throws DaoException {
+        //given
+        long orderId = 1L;
+        when(orderDaoMock.findById(orderId)).thenThrow(new DaoException());
+        //when
+        //then
+        Assertions.assertThrows(ServiceException.class, () -> orderService.getOrderInfo(orderId));
+        verify(daoHelperMock).createOrderDao();
+        verify(daoHelperMock).createDishDao();
+        verify(orderDaoMock).findById(orderId);
     }
 
 

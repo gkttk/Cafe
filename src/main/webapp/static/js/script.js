@@ -1,3 +1,39 @@
+function getOrderInfo(orderId) {
+    let div = document.getElementById('ajaxDiv');
+    if (div.style.display === "flex") {
+        div.style.display = "none";
+        return;
+    }
+
+    let request = new XMLHttpRequest();
+
+    request.open('GET', ctx + '/ajax?orderId=' + orderId, true);
+    request.addEventListener('readystatechange', function () {
+        if ((request.readyState === 4) && (request.status === 200)) {
+            let result = JSON.parse(request.responseText);
+            document.getElementById("cost").innerHTML = result.cost;
+
+            var strDate = result.date.date.day + '/' + result.date.date.month + '/' + result.date.date.year;
+            strDate += ' ' + result.date.time.hour + ':' + result.date.time.minute;
+            document.getElementById("date").innerHTML = strDate;
+
+            let dishNames = result.dishNames;
+            let str = ' ';
+            for (var index in dishNames) {
+                str += dishNames[index];
+                str += '<br>'
+            }
+
+            document.getElementById("dishNames").innerHTML = str;
+            div.style.display = "flex";
+        }
+    });
+    request.send();
+
+
+}
+
+
 function showChangeAvatarForm() {
     if (document.getElementById("changeAvatarForm").style.display === "none") {
         document.getElementById("changeAvatarForm").style.display = "block";

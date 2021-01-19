@@ -69,6 +69,15 @@
         <url-pattern>/controller</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>AjaxController</servlet-name>
+        <servlet-class>com.github.gkttk.epam.controller.AjaxController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AjaxController</servlet-name>
+        <url-pattern>/ajax</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>Multipart</servlet-name>

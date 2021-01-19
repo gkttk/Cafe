@@ -82,21 +82,39 @@
                                     </c:if>
                                 </td>
                                 <td>
-                                    <c:if test="${order.status == 'ACTIVE'}">
-                                        <form method="POST" action="${pageContext.request.contextPath}/controller">
-                                            <input type="hidden" name="command" value="CANCEL_ORDER"/>
-                                            <input type="hidden" name="orderId" value="${order.id}"/>
-                                            <button type="submit">
-                                                <fmt:message key="my.orders.cancel"/>
+                                    <c:choose>
+                                        <c:when test="${order.status == 'ACTIVE'}">
+                                            <form method="POST" action="${pageContext.request.contextPath}/controller">
+                                                <input type="hidden" name="command" value="CANCEL_ORDER"/>
+                                                <input type="hidden" name="orderId" value="${order.id}"/>
+                                                <button type="submit">
+                                                    <fmt:message key="my.orders.cancel"/>
+                                                </button>
+                                            </form>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <button onclick="getOrderInfo(${order.id})">
+                                                <fmt:message key="my.orders.order.details"/>
                                             </button>
-                                        </form>
-                                    </c:if>
+                                            <div id="ajaxDiv">
+                                                <div><span> <fmt:message key="my.orders.cost"/> : </span><span
+                                                        id="cost"></span></div>
+                                                <div><span><fmt:message key="my.orders.date"/> : </span><span
+                                                        id="date"></span></div>
+                                                <div class="dish_list_div"><span><fmt:message
+                                                        key="my.orders.dish.list"/> : </span><span
+                                                        id="dishNames"></span></div>
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>
+
                                 </td>
                             </tr>
                         </c:forEach>
                     </table>
                 </div>
             </div>
+            <script>var ctx = "${pageContext.request.contextPath}"</script>
         </main>
         <%@ include file="parts/footer.jsp" %>
     </div>

@@ -1,5 +1,6 @@
 package com.github.gkttk.epam.logic.service.impl;
 
+import com.github.gkttk.epam.dao.entity.DishDao;
 import com.github.gkttk.epam.dao.entity.OrderDao;
 import com.github.gkttk.epam.dao.entity.UserDao;
 import com.github.gkttk.epam.dao.helper.DaoHelperImpl;
@@ -9,6 +10,7 @@ import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.service.OrderService;
 import com.github.gkttk.epam.model.builder.OrderBuilder;
 import com.github.gkttk.epam.model.builder.UserBuilder;
+import com.github.gkttk.epam.model.dto.OrderInfo;
 import com.github.gkttk.epam.model.entities.Order;
 import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.enums.OrderSortType;
@@ -224,6 +226,27 @@ public class OrderServiceImpl implements OrderService {
             throw new ServiceException(String.format("Can't getAllActiveByUserIdAndStatus(userId, sortType)  with" +
                     " userId: %d, sortType: %s", userId, sortType.name()), e);
         }
+    }
+
+    @Override
+    public Optional<OrderInfo> getOrderInfo(long orderId) throws ServiceException {
+        Optional<OrderInfo> result = Optional.empty();
+        try (DaoHelperImpl daoHelperImpl = daoHelperFactory.createDaoHelper()) {
+            OrderDao orderDao = daoHelperImpl.createOrderDao();
+            DishDao dishDao = daoHelperImpl.createDishDao();
+            Optional<Order> orderOpt = orderDao.findById(orderId);
+            if (orderOpt.isPresent()) {
+                List<String> dishNames = dishDao.findDishNamesByOrderId(orderId);
+                Order order = orderOpt.get();
+                BigDecimal orderCost = order.getCost();
+                LocalDateTime orderDate = order.getDate();
+                OrderInfo orderInfo = new OrderInfo(orderCost, orderDate, dishNames);
+                result = Optional.of(orderInfo);
+            }
+        } catch (DaoException e) {
+            throw new ServiceException(String.format("Can't getOrderInfo(orderId)  with" + " orderId: %d", orderId), e);
+        }
+        return result;
     }
 
 }
