@@ -5,7 +5,7 @@ import com.github.gkttk.epam.model.enums.UserRole;
 
 public class UserInfoBuilder implements Builder<UserInfo> {
 
-    private final Long id; //immutable even here
+    private final Long id;
     private String login;
     private UserRole role;
     private int points;

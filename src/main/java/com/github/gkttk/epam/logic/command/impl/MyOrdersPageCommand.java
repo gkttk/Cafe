@@ -44,7 +44,7 @@ public class MyOrdersPageCommand implements Command {
         requestDataHolder.putSessionAttribute(ORDERS_ATTR, orders);
         requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, MY_ORDERS_PAGE);
 
-        return new CommandResult(MY_ORDERS_PAGE, true);
+        return new CommandResult(MY_ORDERS_PAGE, false);
 
     }
 }

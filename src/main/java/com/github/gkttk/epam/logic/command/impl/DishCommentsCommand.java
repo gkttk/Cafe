@@ -66,7 +66,7 @@ public class DishCommentsCommand implements Command {
         requestDataHolder.putSessionAttribute(COMMENTS_ATTR, comments);
 
         requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, COMMENTS_PAGE);
-        return new CommandResult(COMMENTS_PAGE, true);
+        return new CommandResult(COMMENTS_PAGE, false);
 
     }
 

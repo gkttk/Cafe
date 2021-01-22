@@ -41,7 +41,7 @@
                     <div id="commentBlock">
                         <button class="littleButton" onclick="openCommentForm()"><fmt:message key="comments.comment"/></button>
                         <div id="commentDiv">
-                            <form action="#" method="POST">
+                            <form action="${pageContext.request.contextPath}/controller" method="POST">
                                 <input type="hidden" name="command" value="ADD_COMMENT"/>
                                 <textarea name="commentText"></textarea>
                                 <button class="littleButton" type="submit"><fmt:message key="comments.send"/></button>

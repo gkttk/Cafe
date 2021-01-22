@@ -9,9 +9,9 @@ import java.util.Base64;
 /**
  * Class interprets given InputStream to Base64String. Return null if InputStream has 0 available bytes for reading.
  */
-public class Base64Interpreter {
+public class Base64Encoder {
 
-    public static String interpret(InputStream file) throws ServiceException {
+    public static String encode(InputStream file) throws ServiceException {
         try {
             int availableBytes = file.available();
             if (availableBytes == 0) {

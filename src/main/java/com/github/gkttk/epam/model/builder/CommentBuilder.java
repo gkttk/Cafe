@@ -6,12 +6,12 @@ import java.time.LocalDateTime;
 
 public class CommentBuilder implements Builder<Comment> {
 
-    private final Long id; //immutable even here
+    private final Long id;
     private String text;
     private int rating;
     private LocalDateTime creationDate;
-    private final long userId; //immutable even here
-    private final long dishId; //immutable even here
+    private final long userId;
+    private final long dishId;
 
 
     public CommentBuilder(Comment comment) {

@@ -43,7 +43,7 @@
                 <c:if test="${not empty requestScope.message}">
                     <h4><fmt:message key="${requestScope.message}"/></h4>
                 </c:if>
-               <c:if test="${not empty sessionScope.message}">
+                <c:if test="${not empty sessionScope.message}">
                     <h4><fmt:message key="${sessionScope.message}"/></h4>
                 </c:if>
 
@@ -136,14 +136,16 @@
                                                     <fmt:message key="user.menu.to.bucket"/></button>
                                             </form>
                                         </c:when>
-                                       <c:otherwise>
-                                           <form method="POST" action="${pageContext.request.contextPath}/controller">
-                                               <input type="hidden" name="command" value="REMOVE_DISH"/>
-                                               <input type="hidden" name="dishId" value="${dish.id}"/>
-                                               <button class="littleButton" type="submit">
-                                                   <fmt:message key="user.menu.disable.dish"/>
-                                           </form>
-                                       </c:otherwise>
+                                        <c:otherwise>
+                                            <button class="littleButton" type="submit" onclick="deleteDish(${dish.id})">
+                                                <fmt:message key="user.menu.delete.dish"/>
+                                            </button>
+                                            <form id="deleteForm${dish.id}" style="display: none" method="POST"
+                                                  action="${pageContext.request.contextPath}/controller">
+                                                <input type="hidden" name="command" value="REMOVE_DISH"/>
+                                                <input type="hidden" name="dishId" value="${dish.id}"/>
+                                            </form>
+                                        </c:otherwise>
                                     </c:choose>
                                 </td>
                                 <td>
@@ -164,6 +166,7 @@
         <%@ include file="parts/footer.jsp" %>
 
     </div>
+    <script>var ctx = "${pageContext.request.contextPath}"</script>
     </body>
 </fmt:bundle>
 </html>

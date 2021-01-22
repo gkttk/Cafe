@@ -23,6 +23,6 @@ public class LocaleCommand implements Command {
         }
         requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, redirectPage);
 
-        return new CommandResult(redirectPage, true);
+        return new CommandResult(redirectPage, false);
     }
 }

@@ -7,9 +7,8 @@ import java.math.BigDecimal;
 
 public class UserBuilder implements Builder<User> {
 
-    private final Long id; //immutable even here
+    private final Long id;
     private String login;
-  //  private String password;
     private UserRole role;
     private int points;
     private BigDecimal money;
@@ -20,7 +19,6 @@ public class UserBuilder implements Builder<User> {
     public UserBuilder(User user) {
         this.id = user.getId();
         this.login = user.getLogin();
-        //this.password = user.getPassword();
         this.role = user.getRole();
         this.points = user.getPoints();
         this.money = user.getMoney();
@@ -34,10 +32,6 @@ public class UserBuilder implements Builder<User> {
         return this;
     }
 
-   /* public UserBuilder setPassword(String password) {
-        this.password = password;
-        return this;
-    }*/
 
     public UserBuilder setRole(UserRole role) {
         this.role = role;
@@ -69,7 +63,6 @@ public class UserBuilder implements Builder<User> {
         return new User(
                 this.id,
                 this.login,
-              //  this.password,
                 this.role,
                 this.points,
                 this.money,

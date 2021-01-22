@@ -3,7 +3,7 @@ package com.github.gkttk.epam.logic.command.impl;
 import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.command.Command;
-import com.github.gkttk.epam.logic.interpreter.Base64Interpreter;
+import com.github.gkttk.epam.logic.interpreter.Base64Encoder;
 import com.github.gkttk.epam.logic.service.UserService;
 import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.User;
@@ -29,7 +29,7 @@ public class ChangeAvatarCommand implements Command {
         try {
             Part newAvatar = (Part) requestDataHolder.getRequestAttribute(FILE_ATTR);
             InputStream inputStream = newAvatar.getInputStream();
-            String byteString = Base64Interpreter.interpret(inputStream);
+            String byteString = Base64Encoder.encode(inputStream);
             User authUser = (User) requestDataHolder.getSessionAttribute(AUTH_USER_ATTR);
             Long userId = authUser.getId();
             userService.changeAvatar(authUser, byteString);

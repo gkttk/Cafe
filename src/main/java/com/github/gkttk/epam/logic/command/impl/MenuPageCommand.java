@@ -12,6 +12,6 @@ public class MenuPageCommand implements Command {
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) {
         requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, MENU_PAGE);
-        return new CommandResult(MENU_PAGE, true);
+        return new CommandResult(MENU_PAGE, false);
     }
 }

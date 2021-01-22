@@ -12,7 +12,7 @@ import java.util.Random;
 
 import static org.mockito.Mockito.when;
 
-public class Base64InterpreterTest {
+public class Base64EncoderTest {
 
     @Test
     public void testInterpretShouldReturnStringWhenGetNotEmptyInputStream() throws ServiceException {
@@ -21,7 +21,7 @@ public class Base64InterpreterTest {
         new Random().nextBytes(bytes);
         InputStream filledInputStream = new ByteArrayInputStream(bytes);
         //when
-        String result = Base64Interpreter.interpret(filledInputStream);
+        String result = Base64Encoder.encode(filledInputStream);
         //then
         Assertions.assertNotNull(result);
 
@@ -32,7 +32,7 @@ public class Base64InterpreterTest {
         //given
         InputStream emptyInputStream = new ByteArrayInputStream(new byte[0]);
         //when
-        String result = Base64Interpreter.interpret(emptyInputStream);
+        String result = Base64Encoder.encode(emptyInputStream);
         //then
         Assertions.assertNull(result);
     }
@@ -44,7 +44,7 @@ public class Base64InterpreterTest {
         when(inputStreamMock.available()).thenThrow(new IOException());
         //when
         //then
-        Assertions.assertThrows(ServiceException.class, () -> Base64Interpreter.interpret(inputStreamMock));
+        Assertions.assertThrows(ServiceException.class, () -> Base64Encoder.encode(inputStreamMock));
     }
 
 

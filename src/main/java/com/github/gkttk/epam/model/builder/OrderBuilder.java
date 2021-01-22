@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 public class OrderBuilder implements Builder<Order> {
 
-    private final Long id; //immutable even here
+    private final Long id;
     private  BigDecimal cost;
     private  LocalDateTime date;
     private  OrderStatus status;

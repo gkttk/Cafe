@@ -41,7 +41,7 @@ public class LoginCommand implements Command {
         Optional<User> userOpt = userService.login(login, password);
 
         if (userOpt.isPresent()) {
-            User user = userOpt.get();  //todo maybe set password = null?
+            User user = userOpt.get();
             if(user.isBlocked()){
                 requestDataHolder.putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE_BLOCKED);
                 return new CommandResult(START_PAGE, false);

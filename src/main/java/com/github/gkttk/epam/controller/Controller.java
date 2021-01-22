@@ -25,6 +25,7 @@ public class Controller extends HttpServlet {
     private final static Logger LOGGER = LogManager.getLogger(Controller.class);
     private final static ConnectionPool CONNECTION_POOL = ConnectionPool.getInstance();
 
+    private final static String MESSAGE_ATTR = "message";
     private final static String CURRENT_PAGE_ATTR = "currentPage";
     private final static String COMMAND_PARAM = "command";
     private final static String START_PAGE = "index.jsp";
@@ -56,6 +57,11 @@ public class Controller extends HttpServlet {
             page = START_PAGE;
             session.setAttribute(CURRENT_PAGE_ATTR, page);
         }
+        String message = (String) session.getAttribute(MESSAGE_ATTR);
+        if (message != null) {
+            request.setAttribute(MESSAGE_ATTR, message);
+            session.removeAttribute(MESSAGE_ATTR);
+        }
         doCommand(request, response);
 
     }
@@ -82,7 +88,9 @@ public class Controller extends HttpServlet {
         }//todo invalidate only for redirect
         request.getSession().setAttribute(CURRENT_PAGE_ATTR, url);
         try {
-            response.sendRedirect(request.getRequestURL().toString());
+            String redirectUrl = request.getRequestURL().toString();
+          //  String redirectUrl = request.getHeader("referer");
+            response.sendRedirect(redirectUrl);
         } catch (IOException e) {
             LOGGER.warn("Can't forward/redirect from doPost()", e);
             response.sendError(500);

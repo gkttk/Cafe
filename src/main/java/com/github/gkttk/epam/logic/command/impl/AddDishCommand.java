@@ -3,7 +3,7 @@ package com.github.gkttk.epam.logic.command.impl;
 import com.github.gkttk.epam.controller.holder.RequestDataHolder;
 import com.github.gkttk.epam.exceptions.ServiceException;
 import com.github.gkttk.epam.logic.command.Command;
-import com.github.gkttk.epam.logic.interpreter.Base64Interpreter;
+import com.github.gkttk.epam.logic.interpreter.Base64Encoder;
 import com.github.gkttk.epam.logic.service.DishService;
 import com.github.gkttk.epam.logic.validator.Validator;
 import com.github.gkttk.epam.model.CommandResult;
@@ -72,7 +72,7 @@ public class AddDishCommand implements Command {
             Part dishImg = (Part) requestDataHolder.getRequestAttribute(FILE_ATTR);
             InputStream inputStream = dishImg.getInputStream();
 
-            String byteString = Base64Interpreter.interpret(inputStream);
+            String byteString = Base64Encoder.encode(inputStream);
 
             dishService.addDish(dishName, dishCost, dishType,byteString);
 

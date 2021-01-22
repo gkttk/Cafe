@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public class CommentInfoBuilder implements Builder<CommentInfo> {
 
-    private final Long id; //immutable even here
+    private final Long id;
     private String text;
     private int rating;
     private LocalDateTime creationDate;

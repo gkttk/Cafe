@@ -27,6 +27,6 @@ public class UsersPageCommand implements Command {
         List<UserInfo> users = userService.getAll();
         requestDataHolder.putSessionAttribute(USERS_ATTR, users);
         requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, USERS_PAGE);
-        return new CommandResult(USERS_PAGE, true);
+        return new CommandResult(USERS_PAGE, false);
     }
 }

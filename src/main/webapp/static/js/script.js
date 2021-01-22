@@ -1,3 +1,15 @@
+function deleteDish(dishId) {
+    let result = confirm("Want to delete?");
+    if (result) {
+        let form = document.getElementById('deleteForm' + dishId);
+        form.submit();
+    }
+
+}
+
+
+
+
 function getOrderInfo(orderId) {
     let div = document.getElementById('ajaxDiv');
     if (div.style.display === "flex") {

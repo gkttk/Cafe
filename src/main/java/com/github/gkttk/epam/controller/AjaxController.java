@@ -47,7 +47,7 @@ public class AjaxController extends HttpServlet {
             response.getWriter().write(result);
 
         } catch (ServiceException e) {
-            e.printStackTrace();
+            e.printStackTrace();//todo
         }
 
     }
