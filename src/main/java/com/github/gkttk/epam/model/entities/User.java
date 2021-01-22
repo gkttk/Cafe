@@ -38,7 +38,7 @@ public class User extends Entity {
         this.points = points;
         this.money = money;
         this.blocked = blocked;
-        if (imgBase64 != null) {
+        if (imgBase64 != null && !imgBase64.isEmpty()) {
             this.imgBase64 = imgBase64;
         } else {
             this.imgBase64 = DEFAULT_AVATAR_BASE64;

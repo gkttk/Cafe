@@ -14,14 +14,14 @@ import java.util.Optional;
 public class CommentInfoDaoImpl extends AbstractDao<CommentInfo> implements CommentInfoDao {
 
     private final static String FIND_BY_COMMENT_ID_QUERY = "SELECT c.id, c.text, c.rating, c.creation_date, u.login," +
-            " u.img_base64 from comments AS c JOIN users AS u ON c.user_id = u.id WHERE c.id = ?";
+            " u.avatar from comments AS c JOIN users AS u ON c.user_id = u.id WHERE c.id = ?";
 
     private final static String FIND_BY_DISH_ID_PAGINATION_ORDER_RATING_QUERY = "SELECT c.id, c.text, c.rating," +
-            " c.creation_date, u.login, u.img_base64 FROM comments AS c JOIN users AS u on c.user_id = u.id WHERE" +
+            " c.creation_date, u.login, u.avatar FROM comments AS c JOIN users AS u on c.user_id = u.id WHERE" +
             " dish_id = ? ORDER BY c.rating DESC LIMIT ? OFFSET ?";
 
     private final static String FIND_BY_DISH_ID_PAGINATION_ORDER_DATE_QUERY = "SELECT c.id, c.text, c.rating," +
-            " c.creation_date, u.login, u.img_base64 FROM comments AS c JOIN users AS u on c.user_id = u.id" +
+            " c.creation_date, u.login, u.avatar FROM comments AS c JOIN users AS u on c.user_id = u.id" +
             " WHERE dish_id = ? ORDER BY c.creation_date DESC LIMIT ? OFFSET ?";
 
     private final static String TABLE_NAME = "user_comments_rating";

@@ -25,4 +25,11 @@ public class Base64Encoder {
         }
 
     }
+
+    public static byte[] decode(String base64Img) {
+        return Base64.getDecoder().decode(base64Img);
+
+    }
+
+
 }

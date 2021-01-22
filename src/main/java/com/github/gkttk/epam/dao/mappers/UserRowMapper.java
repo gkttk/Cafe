@@ -4,8 +4,10 @@ import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.enums.UserRole;
 
 import java.math.BigDecimal;
+import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Base64;
 
 public class UserRowMapper implements RowMapper<User> {
 
@@ -15,7 +17,7 @@ public class UserRowMapper implements RowMapper<User> {
     private final static String POINTS_KEY = "points";
     private final static String MONEY_KEY = "money";
     private final static String BLOCKED_KEY = "blocked";
-    private final static String IMG_BASE64_KEY = "img_base64";
+    private final static String AVATAR_KEY = "avatar";
 
     @Override
     public User map(ResultSet resultSet) throws SQLException {
@@ -32,8 +34,11 @@ public class UserRowMapper implements RowMapper<User> {
 
         boolean isBlocked = resultSet.getBoolean(BLOCKED_KEY);
 
-        String imgBase64 = resultSet.getString(IMG_BASE64_KEY);
+        Blob blob = resultSet.getBlob(AVATAR_KEY);
+        byte[] avatar = blob.getBytes(1, (int) blob.length());
+        String avatarBase64 = Base64.getEncoder().encodeToString(avatar);
+        return new User(id, login, role, points, money, isBlocked, avatarBase64);
 
-        return new User(id, login, role, points, money, isBlocked, imgBase64);
+
     }
 }

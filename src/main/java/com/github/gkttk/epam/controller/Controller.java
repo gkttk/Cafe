@@ -90,7 +90,7 @@ public class Controller extends HttpServlet {
         try {
             String redirectUrl = request.getRequestURL().toString();
           //  String redirectUrl = request.getHeader("referer");
-            response.sendRedirect(redirectUrl);
+            response.sendRedirect(redirectUrl);//todo check filters
         } catch (IOException e) {
             LOGGER.warn("Can't forward/redirect from doPost()", e);
             response.sendError(500);

@@ -7,6 +7,8 @@ import com.github.gkttk.epam.logic.service.OrderService;
 import com.github.gkttk.epam.logic.service.impl.OrderServiceImpl;
 import com.github.gkttk.epam.model.dto.OrderInfo;
 import com.google.gson.Gson;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +20,7 @@ import java.util.Optional;
 
 public class AjaxController extends HttpServlet {
 
-
+    private final static Logger LOGGER = LogManager.getLogger(AjaxController.class);
     private final static String MESSAGE = "Incorrect data";
     private final static String ORDER_ID_PARAM = "orderId";
 
@@ -47,7 +49,8 @@ public class AjaxController extends HttpServlet {
             response.getWriter().write(result);
 
         } catch (ServiceException e) {
-            e.printStackTrace();//todo
+            LOGGER.warn("Can't get order info from ajax controller", e);
+            response.sendError(500);
         }
 
     }

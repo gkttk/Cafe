@@ -45,6 +45,9 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
         }
     }
 
+
+
+
     @Override
     protected String getTableName() {
         return TABLE_NAME;

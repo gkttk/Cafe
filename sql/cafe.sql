@@ -24,7 +24,7 @@ create table if not exists users
     points     int                    default 0      null,
     money      decimal(10, 2)         default 0.00   not null,
     blocked    tinyint                default 0      null,
-    img_base64 longtext                              null,
+    avatar blob                              null,
     constraint LOGIN_UNIQUE
         unique (login)
 );
