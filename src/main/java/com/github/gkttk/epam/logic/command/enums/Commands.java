@@ -2,6 +2,7 @@ package com.github.gkttk.epam.logic.command.enums;
 
 import com.github.gkttk.epam.dao.helper.factory.DaoHelperFactoryImpl;
 import com.github.gkttk.epam.logic.command.Command;
+import com.github.gkttk.epam.logic.command.impl.RedirectCommand;
 import com.github.gkttk.epam.logic.command.impl.*;
 import com.github.gkttk.epam.logic.service.impl.*;
 import com.github.gkttk.epam.logic.validator.*;
@@ -36,7 +37,8 @@ public enum Commands {
     ADD_MONEY(new AddMoneyCommand(new UserServiceImpl(new DaoHelperFactoryImpl()), new MoneyValidator())),
     CHANGE_AVATAR(new ChangeAvatarCommand(new UserServiceImpl(new DaoHelperFactoryImpl()))),
     ADD_DISH(new AddDishCommand(new DishServiceImpl(new DaoHelperFactoryImpl()), new DishNameValidator(), new DishCostValidator())),
-    REMOVE_DISH(new DisableDishCommand(new DishServiceImpl(new DaoHelperFactoryImpl())));
+    REMOVE_DISH(new RemoveDishCommand(new DishServiceImpl(new DaoHelperFactoryImpl()))),
+    REDIRECT(new RedirectCommand());
 
 
     Commands(Command command) {

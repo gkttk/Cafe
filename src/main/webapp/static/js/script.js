@@ -1,5 +1,5 @@
 function deleteDish(dishId) {
-    let result = confirm("Want to delete?");
+    let result = confirm("Are you really want to delete the dish?");
     if (result) {
         let form = document.getElementById('deleteForm' + dishId);
         form.submit();

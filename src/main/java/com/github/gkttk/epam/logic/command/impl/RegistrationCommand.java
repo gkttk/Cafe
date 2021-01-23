@@ -45,7 +45,7 @@ public class RegistrationCommand implements Command {
         boolean isRegistered = userService.registration(login, password);
 
         if (isRegistered) {
-           requestDataHolder.putSessionAttribute(MESSAGE_ATTR, SUCCESS_MSG);//todo attr in session
+           requestDataHolder.putSessionAttribute(MESSAGE_ATTR, SUCCESS_MSG);
             return new CommandResult(START_PAGE, true);
 
         } else {

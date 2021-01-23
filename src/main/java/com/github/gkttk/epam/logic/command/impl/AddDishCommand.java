@@ -13,8 +13,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.Part;
-import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -24,6 +22,7 @@ public class AddDishCommand implements Command {
     private final static String MESSAGE_ATTR = "message";
     private final static String ERROR_MESSAGE_DISH_NAME = "error.message.dish.name";
     private final static String ERROR_MESSAGE_DISH_COST = "error.message.dish.cost";
+    private final static String SUCCESSFUL_MESSAGE = "user.menu.add.dish.successful";
 
     private final static String FILE_ATTR = "file";
     private final static String DISH_NAME_PARAM = "name";
@@ -45,41 +44,37 @@ public class AddDishCommand implements Command {
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
-        try {
-            String dishName = requestDataHolder.getRequestParameter(DISH_NAME_PARAM);
-            boolean isDishNameValid = dishNameValidator.validate(dishName);
 
-            if (!isDishNameValid) {
-                LOGGER.info("Incorrect  dishNameParam format: {}", dishName);
-                requestDataHolder.putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE_DISH_NAME);
-                return new CommandResult(MENU_PAGE, false);
-            }
+        String dishName = requestDataHolder.getRequestParameter(DISH_NAME_PARAM);
+        boolean isDishNameValid = dishNameValidator.validate(dishName);
 
-            String costParam = requestDataHolder.getRequestParameter(DISH_COST_PARAM);
-            boolean isDishCostValid = dishCostValidator.validate(costParam);
-
-            if (!isDishCostValid) {
-                LOGGER.info("Incorrect  costParam format: {}", costParam);
-                requestDataHolder.putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE_DISH_COST);
-                return new CommandResult(MENU_PAGE, false);
-            }
-
-            BigDecimal dishCost = new BigDecimal(costParam);
-
-            String typeParam = requestDataHolder.getRequestParameter(DISH_TYPE_PARAM);
-            DishType dishType = DishType.valueOf(typeParam);
-
-            Part dishImg = (Part) requestDataHolder.getRequestAttribute(FILE_ATTR);
-            InputStream inputStream = dishImg.getInputStream();
-
-            String byteString = Base64Encoder.encode(inputStream);
-
-            dishService.addDish(dishName, dishCost, dishType,byteString);
-
-            renewSession(requestDataHolder);
-        } catch (IOException e) {
-            throw new ServiceException("Can't get input stream from part", e);//todo
+        if (!isDishNameValid) {
+            LOGGER.info("Incorrect  dishNameParam format: {}", dishName);
+            requestDataHolder.putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE_DISH_NAME);
+            return new CommandResult(MENU_PAGE, false);
         }
+
+        String costParam = requestDataHolder.getRequestParameter(DISH_COST_PARAM);
+        boolean isDishCostValid = dishCostValidator.validate(costParam);
+
+        if (!isDishCostValid) {
+            LOGGER.info("Incorrect  costParam format: {}", costParam);
+            requestDataHolder.putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE_DISH_COST);
+            return new CommandResult(MENU_PAGE, false);
+        }
+
+        BigDecimal dishCost = new BigDecimal(costParam);
+
+        String typeParam = requestDataHolder.getRequestParameter(DISH_TYPE_PARAM);
+        DishType dishType = DishType.valueOf(typeParam);
+
+        Part dishImg = (Part) requestDataHolder.getRequestAttribute(FILE_ATTR);
+
+        String byteString = Base64Encoder.encode(dishImg);
+
+        dishService.addDish(dishName, dishCost, dishType, byteString);
+
+        renewSession(requestDataHolder);
 
         return new CommandResult(MENU_PAGE, true);
 
@@ -89,6 +84,8 @@ public class AddDishCommand implements Command {
     private void renewSession(RequestDataHolder requestDataHolder) throws ServiceException {
         List<Dish> dishes = dishService.getAllEnabled();
         requestDataHolder.putSessionAttribute(DISHES_ATTR, dishes);
+        requestDataHolder.putSessionAttribute(MESSAGE_ATTR, SUCCESSFUL_MESSAGE);
+
     }
 
 }

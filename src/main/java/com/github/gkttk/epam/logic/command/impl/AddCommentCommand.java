@@ -27,7 +27,7 @@ public class AddCommentCommand implements Command {
     private final static String PAGE_COUNT_ATTR = "pageCount";
     private final static String CURRENT_PAGE_PAGINATION_ATTR = "currentPagePagination";
     private final static String SORT_TYPE_ATTR = "sortType";
-    private final static String ERROR_MESSAGE_KEY = "errorMessage";
+    private final static String MESSAGE_KEY = "message";
     private final static String ERROR_MESSAGE_VALUE = "error.message.wrong.comment";
 
     private final static int START_PAGE_PAGINATION = 1;
@@ -43,7 +43,7 @@ public class AddCommentCommand implements Command {
         boolean isCommentValid = commentValidator.validate(commentText);
         if (!isCommentValid) {
             LOGGER.info("Incorrect comment length: {}", commentText.length());
-            requestDataHolder.putRequestAttribute(ERROR_MESSAGE_KEY, ERROR_MESSAGE_VALUE);
+            requestDataHolder.putRequestAttribute(MESSAGE_KEY, ERROR_MESSAGE_VALUE);
             return new CommandResult(COMMENTS_PAGE, false);
         }
 

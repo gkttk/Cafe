@@ -22,9 +22,6 @@
             <c:if test="${not empty requestScope.message}">
                 <fmt:message key="${requestScope.message}"/>
             </c:if>
-            <c:if test="${not empty sessionScope.message}">
-                <fmt:message key="${sessionScope.message}"/>
-            </c:if>
         </p>
 
         <main>

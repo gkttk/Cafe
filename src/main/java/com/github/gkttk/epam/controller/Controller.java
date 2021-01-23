@@ -29,6 +29,7 @@ public class Controller extends HttpServlet {
     private final static String CURRENT_PAGE_ATTR = "currentPage";
     private final static String COMMAND_PARAM = "command";
     private final static String START_PAGE = "index.jsp";
+    private final static String REDIRECT_TALE = "?command=REDIRECT";
 
     private void doCommand(HttpServletRequest request, HttpServletResponse response) throws IOException {
         RequestDataHolder requestDataHolder = new RequestDataHolder(request);
@@ -88,9 +89,8 @@ public class Controller extends HttpServlet {
         }//todo invalidate only for redirect
         request.getSession().setAttribute(CURRENT_PAGE_ATTR, url);
         try {
-            String redirectUrl = request.getRequestURL().toString();
-          //  String redirectUrl = request.getHeader("referer");
-            response.sendRedirect(redirectUrl);//todo check filters
+            String redirectUrl = request.getRequestURL() + REDIRECT_TALE;
+            response.sendRedirect(redirectUrl);
         } catch (IOException e) {
             LOGGER.warn("Can't forward/redirect from doPost()", e);
             response.sendError(500);

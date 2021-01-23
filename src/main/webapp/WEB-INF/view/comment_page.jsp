@@ -33,8 +33,8 @@
                     </form>
 
                 </div>
-                <c:if test="${not empty requestScope.errorMessage}">
-                    <h4><fmt:message key="${requestScope.errorMessage}"/></h4>
+                <c:if test="${not empty requestScope.message}">
+                    <h4><fmt:message key="${requestScope.message}"/></h4>
                 </c:if>
                 <div class="menu_content">
 

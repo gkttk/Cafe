@@ -9,14 +9,16 @@ import com.github.gkttk.epam.model.entities.Dish;
 
 import java.util.List;
 
-public class DisableDishCommand implements Command {
+public class RemoveDishCommand implements Command {
 
     private final DishService dishService;
     private final static String DISH_ID_PARAM = "dishId";
     private final static String MENU_PAGE = "/WEB-INF/view/user_menu.jsp";
     private final static String DISHES_ATTR = "dishes";
+    private final static String MESSAGE_ATTR = "message";
+    private final static String MESSAGE = "user.menu.delete.dish.successful";
 
-    public DisableDishCommand(DishService dishService) {
+    public RemoveDishCommand(DishService dishService) {
         this.dishService = dishService;
     }
 
@@ -35,5 +37,6 @@ public class DisableDishCommand implements Command {
     private void renewSession(RequestDataHolder requestDataHolder) throws ServiceException {
         List<Dish> dishes = dishService.getAllEnabled();
         requestDataHolder.putSessionAttribute(DISHES_ATTR, dishes);
+        requestDataHolder.putSessionAttribute(MESSAGE_ATTR, MESSAGE);
     }
 }

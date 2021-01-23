@@ -43,9 +43,6 @@
                 <c:if test="${not empty requestScope.message}">
                     <h4><fmt:message key="${requestScope.message}"/></h4>
                 </c:if>
-                <c:if test="${not empty sessionScope.message}">
-                    <h4><fmt:message key="${sessionScope.message}"/></h4>
-                </c:if>
 
                 <div class="menu_content">
                     <table id="customers">

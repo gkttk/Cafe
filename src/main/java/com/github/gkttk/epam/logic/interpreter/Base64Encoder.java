@@ -2,6 +2,7 @@ package com.github.gkttk.epam.logic.interpreter;
 
 import com.github.gkttk.epam.exceptions.ServiceException;
 
+import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Base64;
@@ -11,14 +12,15 @@ import java.util.Base64;
  */
 public class Base64Encoder {
 
-    public static String encode(InputStream file) throws ServiceException {
+    public static String encode(Part part) throws ServiceException {
         try {
-            int availableBytes = file.available();
+            InputStream inputStream = part.getInputStream();
+            int availableBytes = inputStream.available();
             if (availableBytes == 0) {
                 return null;
             }
             byte[] buffer = new byte[availableBytes];
-            file.read(buffer);
+            inputStream.read(buffer);
             return Base64.getEncoder().encodeToString(buffer);
         } catch (IOException e) {
             throw new ServiceException("Base64Interpreter can't interpret given Input Stream into String", e);
@@ -26,10 +28,6 @@ public class Base64Encoder {
 
     }
 
-    public static byte[] decode(String base64Img) {
-        return Base64.getDecoder().decode(base64Img);
-
-    }
 
 
 }

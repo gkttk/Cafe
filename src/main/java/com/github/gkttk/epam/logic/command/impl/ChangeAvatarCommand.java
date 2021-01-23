@@ -26,17 +26,15 @@ public class ChangeAvatarCommand implements Command {
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
-        try {
+
             Part newAvatar = (Part) requestDataHolder.getRequestAttribute(FILE_ATTR);
-            InputStream inputStream = newAvatar.getInputStream();
-            String byteString = Base64Encoder.encode(inputStream);
+            String byteString = Base64Encoder.encode(newAvatar);
+
             User authUser = (User) requestDataHolder.getSessionAttribute(AUTH_USER_ATTR);
             Long userId = authUser.getId();
             userService.changeAvatar(authUser, byteString);
             renewSession(userId, requestDataHolder);
-        } catch (IOException e) {
-            throw new ServiceException("Can't get input stream from part", e);
-        }
+
         String redirectPage = (String) requestDataHolder.getSessionAttribute(CURRENT_PAGE_ATTR);
         return redirectPage != null ? new CommandResult(redirectPage, true) : new CommandResult(MAIN_PAGE_ATTR, true);
 

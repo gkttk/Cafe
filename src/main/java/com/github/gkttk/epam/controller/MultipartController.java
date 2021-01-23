@@ -22,7 +22,7 @@ public class MultipartController extends HttpServlet {
 
     private final static Logger LOGGER = LogManager.getLogger(MultipartController.class);
     private final static String FILE_ATTR = "file";
-    private final static String TAIL_FOR_REDIRECT = "/controller";
+    private final static String TAIL_FOR_REDIRECT = "/controller?command=REDIRECT";
     private final static String COMMAND_PARAM = "command";
 
 

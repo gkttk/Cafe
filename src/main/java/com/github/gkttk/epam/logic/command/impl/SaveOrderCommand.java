@@ -37,11 +37,11 @@ public class SaveOrderCommand implements Command {
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
+        requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, MENU_PAGE);
         String dateParam = requestDataHolder.getRequestParameter(DATE_PARAM);
         boolean isDateValid = dataValidator.validate(dateParam);
         if (!isDateValid) {
             requestDataHolder.putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE_VALUE);
-            requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, MENU_PAGE);
             return new CommandResult(MENU_PAGE, false);
         }
 
@@ -57,10 +57,9 @@ public class SaveOrderCommand implements Command {
 
         requestDataHolder.putSessionAttribute(BASKET_ATTR, null);
         requestDataHolder.putSessionAttribute(MESSAGE_ATTR, MESSAGE);
-        requestDataHolder.putSessionAttribute(CURRENT_PAGE_PARAM, MENU_PAGE);
 
         return new CommandResult(MENU_PAGE, true);
-    }
+}
 
 
     private List<Long> getDishIds(RequestDataHolder requestDataHolder) {

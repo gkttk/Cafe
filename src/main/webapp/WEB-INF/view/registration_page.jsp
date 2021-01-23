@@ -18,9 +18,6 @@
             <c:if test="${not empty requestScope.message}">
                 <fmt:message key="${requestScope.message}"/>
             </c:if>
-          <%--  <c:if test="${not empty requestScope.errorMessage}">
-                <fmt:message key="${requestScope.errorMessage}"/>
-            </c:if>--%>
         </p>
         <main>
             <div id="registrationContent">
