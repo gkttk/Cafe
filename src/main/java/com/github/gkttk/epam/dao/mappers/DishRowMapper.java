@@ -4,8 +4,10 @@ import com.github.gkttk.epam.model.entities.Dish;
 import com.github.gkttk.epam.model.enums.DishType;
 
 import java.math.BigDecimal;
+import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Base64;
 
 public class DishRowMapper implements RowMapper<Dish> {
 
@@ -13,7 +15,7 @@ public class DishRowMapper implements RowMapper<Dish> {
     private final static String NAME_KEY = "name";
     private final static String TYPE_KEY = "type";
     private final static String COST_KEY = "cost";
-    private final static String IMG_BASE64_KEY = "img_base64";
+    private final static String IMG_KEY = "img";
 
     @Override
     public Dish map(ResultSet resultSet) throws SQLException {
@@ -22,7 +24,11 @@ public class DishRowMapper implements RowMapper<Dish> {
         String typeName = resultSet.getString(TYPE_KEY);
         DishType type = DishType.valueOf(typeName);
         BigDecimal cost = resultSet.getBigDecimal(COST_KEY);
-        String imgBase64 = resultSet.getString(IMG_BASE64_KEY);
+
+
+        Blob imgBlob = resultSet.getBlob(IMG_KEY);
+        byte[] img = imgBlob.getBytes(1, (int) imgBlob.length());
+        String imgBase64 = Base64.getEncoder().encodeToString(img);
 
         return new Dish(id, name, type, cost, imgBase64);
 

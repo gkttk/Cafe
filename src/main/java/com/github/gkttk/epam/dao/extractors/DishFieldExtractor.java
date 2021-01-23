@@ -4,6 +4,7 @@ import com.github.gkttk.epam.model.entities.Dish;
 import com.github.gkttk.epam.model.enums.DishType;
 
 import java.math.BigDecimal;
+import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ public class DishFieldExtractor implements FieldExtractor<Dish> {
     private final static String NAME_KEY = "name";
     private final static String TYPE_KEY = "type";
     private final static String COST_KEY = "cost";
-    private final static String IMG_BASE64_KEY = "img_base64";
+    private final static String IMG_KEY = "img";
 
     @Override
     public Map<String, Object> extractFields(Dish dish) {
@@ -32,7 +33,8 @@ public class DishFieldExtractor implements FieldExtractor<Dish> {
         result.put(COST_KEY, cost);
 
         String imgBase64 = dish.getImgBase64();
-        result.put(IMG_BASE64_KEY, imgBase64);
+        byte[] img = Base64.getDecoder().decode(imgBase64);
+        result.put(IMG_KEY, img);
 
         return result;
 
