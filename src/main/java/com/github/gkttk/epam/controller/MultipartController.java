@@ -43,7 +43,7 @@ public class MultipartController extends HttpServlet {
             if (commandResult.isRedirect()) {
                 if (!requestDataHolder.isSessionValid()) {
                     request.getSession().invalidate();
-                }//todo invalidate only for redirect
+                }
                 response.sendRedirect(getServletContext().getContextPath() + TAIL_FOR_REDIRECT);
             } else {
                 request.getRequestDispatcher(url).forward(request, response);

@@ -13,7 +13,7 @@ public class UserCommentRating extends Entity {
     private final boolean liked;
 
     public UserCommentRating(Long userId, Long commentId, boolean liked) {
-        super(3 * userId + commentId);//todo stub
+        super(3 * userId + commentId);
         this.userId = userId;
         this.commentId = commentId;
         this.liked = liked;

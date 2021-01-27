@@ -86,7 +86,7 @@ public class Controller extends HttpServlet {
                           String url) throws IOException {
         if (!requestDataHolder.isSessionValid()) {
             request.getSession().invalidate();
-        }//todo invalidate only for redirect
+        }
         request.getSession().setAttribute(CURRENT_PAGE_ATTR, url);
         try {
             String redirectUrl = request.getRequestURL() + REDIRECT_TALE;
