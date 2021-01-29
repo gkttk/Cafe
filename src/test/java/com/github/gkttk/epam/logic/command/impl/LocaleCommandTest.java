@@ -32,11 +32,11 @@ public class LocaleCommandTest {
     }
 
     @ParameterizedTest
-    @MethodSource("parameterTestExecuteShouldReturnCommandResultWithRedirectToCurrentPageProvider")
-    void testExecuteShouldReturnCommandResultWithRedirectToCurrentPage(String currentPageParam, String redirectPage) throws ServiceException {
+    @MethodSource("parameterTestExecuteShouldReturnCommandResultWithForwardToCurrentPageProvider")
+    void testExecuteShouldReturnCommandResultWithForwardToCurrentPage(String currentPageParam, String redirectPage) throws ServiceException {
         //given
         String languageParam = "by";
-        CommandResult expectedResult = new CommandResult(redirectPage, true);
+        CommandResult expectedResult = new CommandResult(redirectPage, false);
 
         when(requestDataHolderMock.getRequestParameter(LANGUAGE_PARAM)).thenReturn(languageParam);
         when(requestDataHolderMock.getSessionAttribute(CURRENT_PAGE_PARAM)).thenReturn(currentPageParam);
@@ -52,7 +52,7 @@ public class LocaleCommandTest {
     }
 
     @DataProvider
-    public static Object[][] parameterTestExecuteShouldReturnCommandResultWithRedirectToCurrentPageProvider() {
+    public static Object[][] parameterTestExecuteShouldReturnCommandResultWithForwardToCurrentPageProvider() {
         return new Object[][]{
                 {null, START_PAGE},
                 {"wwwTestCom", "wwwTestCom"}

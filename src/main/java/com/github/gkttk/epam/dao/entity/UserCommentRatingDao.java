@@ -13,7 +13,6 @@ import java.util.Optional;
  */
 public interface UserCommentRatingDao extends Dao<UserCommentRating> {
 
-
     List<UserCommentRating> findAllByUserIdAndDishId(long userId, long dishId) throws DaoException;
 
     void removeByUserIdAndCommentId(long userId, long comment_id) throws DaoException;

@@ -16,10 +16,13 @@ import java.util.Optional;
 public class UserCommentRatingDaoImpl extends AbstractDao<UserCommentRating> implements UserCommentRatingDao {
 
     private final static String TABLE_NAME = "users_comments_rating";
+
     private final static String REMOVE_BY_USER_ID_AND_COMMENT_ID_QUERY = "DELETE FROM " + TABLE_NAME +
             " WHERE user_id = ? AND comment_id = ?";
+
     private final static String SELECT_BY_USER_ID_AND_COMMENT_ID_QUERY = "SELECT * FROM " + TABLE_NAME +
             " WHERE user_id = ? AND comment_id = ?";
+
     private final static String INSERT_QUERY = "INSERT INTO " + TABLE_NAME + " VALUES(?,?,?)";
 
     private final static String SELECT_BY_USER_ID_AND_DISH_ID_QUERY = "SELECT uc.user_id, uc.comment_id, uc.liked" +
@@ -30,18 +33,10 @@ public class UserCommentRatingDaoImpl extends AbstractDao<UserCommentRating> imp
         super(connection, new UserCommentRatingRowMapper(), new UserCommentRatingFieldExtractor());
     }
 
-
-    @Override
-    protected String getTableName() {
-        return TABLE_NAME;
-    }
-
-
     @Override
     public List<UserCommentRating> findAllByUserIdAndDishId(long userId, long dishId) throws DaoException {
         return getAllResults(SELECT_BY_USER_ID_AND_DISH_ID_QUERY, userId, dishId);
     }
-
 
     @Override
     public void removeByUserIdAndCommentId(long userId, long commentId) throws DaoException {
@@ -52,13 +47,11 @@ public class UserCommentRatingDaoImpl extends AbstractDao<UserCommentRating> imp
             throw new DaoException(String.format("Can't remove with userId: %d, commentId: %d",
                     userId, commentId), e);
         }
-
     }
 
     @Override
     public Optional<UserCommentRating> getByUserIdAndCommentId(long userId, long commentId) throws DaoException {
         return getSingleResult(SELECT_BY_USER_ID_AND_COMMENT_ID_QUERY, userId, commentId);
-
     }
 
     @Override
@@ -75,6 +68,10 @@ public class UserCommentRatingDaoImpl extends AbstractDao<UserCommentRating> imp
         } catch (SQLException e) {
             throw new DaoException("Can't save with entity: " + entity.toString(), e);
         }
+    }
 
+    @Override
+    protected String getTableName() {
+        return TABLE_NAME;
     }
 }

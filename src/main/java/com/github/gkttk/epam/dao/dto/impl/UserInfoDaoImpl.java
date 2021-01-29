@@ -21,12 +21,12 @@ public class UserInfoDaoImpl extends AbstractDao<UserInfo> implements UserInfoDa
     }
 
     @Override
-    protected String getTableName() {
-        return TABLE_NAME;
+    public List<UserInfo> findAllByStatus(boolean isBlocked) throws DaoException {
+        return getAllResults(FIND_ALL_BY_STATUS, isBlocked);
     }
 
     @Override
-    public List<UserInfo> findAllByStatus(boolean isBlocked) throws DaoException {
-        return getAllResults(FIND_ALL_BY_STATUS, isBlocked);
+    protected String getTableName() {
+        return TABLE_NAME;
     }
 }

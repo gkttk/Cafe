@@ -5,10 +5,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Base64;
 
 import static org.mockito.Mockito.when;
 
@@ -19,7 +21,7 @@ public class CommentInfoRowMapperTest {
     private final static String RATING_KEY = "rating";
     private final static String DATE_KEY = "creation_date";
     private final static String LOGIN_KEY = "login";
-    private final static String IMG_BASE64_KEY = "img_base64";
+    private final static String AVATAR_KEY = "avatar";
 
     private final RowMapper<CommentInfo> rowMapper = new CommentInfoRowMapper();
     private final ResultSet resultSetMock = Mockito.mock(ResultSet.class);
@@ -35,16 +37,20 @@ public class CommentInfoRowMapperTest {
         Timestamp timestamp = Timestamp.valueOf(creationDate);
 
         String userLogin = "loginTest";
-        String base64Img = "imgBase64Test";
+        String imgBase64 = "dGVzdEltZ0Jhc2U2NA==";
+        byte[] img = Base64.getDecoder().decode(imgBase64);
+        Blob blobMock = Mockito.mock(Blob.class);
 
-        CommentInfo expectedEntity = new CommentInfo(id, text, rating, creationDate, userLogin, base64Img);
+        CommentInfo expectedEntity = new CommentInfo(id, text, rating, creationDate, userLogin, imgBase64);
 
         when(resultSetMock.getLong(ID_KEY)).thenReturn(id);
         when(resultSetMock.getString(TEXT_KEY)).thenReturn(text);
         when(resultSetMock.getInt(RATING_KEY)).thenReturn(rating);
         when(resultSetMock.getTimestamp(DATE_KEY)).thenReturn(timestamp);
         when(resultSetMock.getString(LOGIN_KEY)).thenReturn(userLogin);
-        when(resultSetMock.getString(IMG_BASE64_KEY)).thenReturn(base64Img);
+        when(resultSetMock.getBlob(AVATAR_KEY)).thenReturn(blobMock);
+        when(blobMock.length()).thenReturn((long) img.length);
+        when(blobMock.getBytes(1, img.length)).thenReturn(img);
 
         //when
         CommentInfo result = rowMapper.map(resultSetMock);

@@ -10,7 +10,7 @@ public class RedirectCommand implements Command {
 
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
-        String redirectPage = (String)requestDataHolder.getSessionAttribute(CURRENT_PAGE_ATTR);
+        String redirectPage = (String) requestDataHolder.getSessionAttribute(CURRENT_PAGE_ATTR);
         return new CommandResult(redirectPage, false);
     }
 }

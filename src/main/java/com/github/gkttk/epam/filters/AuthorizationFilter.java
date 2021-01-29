@@ -24,7 +24,8 @@ public class AuthorizationFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+            throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpSession session = request.getSession();
 
@@ -41,7 +42,6 @@ public class AuthorizationFilter implements Filter {
 
         if (!isAuthenticated) {
             forward(servletRequest, servletResponse);
-
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
         }

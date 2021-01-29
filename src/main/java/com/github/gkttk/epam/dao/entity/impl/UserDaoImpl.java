@@ -38,15 +38,12 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
     @Override
     public void updatePassword(String password, long userId) throws DaoException {
-        try (PreparedStatement preparedStatement = createPrepareStatement(UPDATE_PASSWORD_QUERY,password, userId)) {
+        try (PreparedStatement preparedStatement = createPrepareStatement(UPDATE_PASSWORD_QUERY, password, userId)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DaoException(String.format("Can't updatePassword(userId, password) with userId: %d", userId), e);
         }
     }
-
-
-
 
     @Override
     protected String getTableName() {

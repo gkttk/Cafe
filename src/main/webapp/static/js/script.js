@@ -8,8 +8,6 @@ function deleteDish(dishId) {
 }
 
 
-
-
 function getOrderInfo(orderId) {
     let div = document.getElementById('ajaxDiv');
     if (div.style.display === "flex") {

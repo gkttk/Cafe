@@ -29,7 +29,6 @@ public class CommentInfoDaoImpl extends AbstractDao<CommentInfo> implements Comm
 
     public CommentInfoDaoImpl(Connection connection) {
         super(connection, new CommentInfoRowMapper(), new CommentInfoFieldExtractor());
-
     }
 
     @Override

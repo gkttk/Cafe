@@ -14,7 +14,6 @@ public class UserInfoFieldExtractor implements FieldExtractor<UserInfo> {
     private final static String ROLE_KEY = "role";
     private final static String BLOCKED_KEY = "blocked";
 
-
     @Override
     public Map<String, Object> extractFields(UserInfo userInfo) {
         Map<String, Object> result = new LinkedHashMap<>();

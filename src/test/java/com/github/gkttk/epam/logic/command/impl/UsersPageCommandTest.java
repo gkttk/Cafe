@@ -37,13 +37,13 @@ public class UsersPageCommandTest {
     }
 
     @Test
-    void testExecuteShouldReturnCommandResultWithRedirectToUsersPage() throws ServiceException {
+    void testExecuteShouldReturnCommandResultWithForwardToUsersPage() throws ServiceException {
         //given
         List<UserInfo> users = Arrays.asList(null, null, null);
 
         when(userServiceMock.getAll()).thenReturn(users);
 
-        CommandResult expectedResult = new CommandResult(USERS_PAGE, true);
+        CommandResult expectedResult = new CommandResult(USERS_PAGE, false);
         //when
         CommandResult result = usersPageCommand.execute(requestDataHolderMock);
         //then

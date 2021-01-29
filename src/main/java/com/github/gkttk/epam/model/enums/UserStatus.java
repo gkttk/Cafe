@@ -10,7 +10,6 @@ public enum UserStatus {
         this.isBlocked = isBlocked;
     }
 
-
     public boolean isBlocked() {
         return isBlocked;
     }

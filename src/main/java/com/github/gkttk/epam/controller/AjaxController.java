@@ -37,22 +37,19 @@ public class AjaxController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String orderIdParam = request.getParameter(ORDER_ID_PARAM);
         long orderId = Long.parseLong(orderIdParam);
-
+        Gson gson = new Gson();
+        String result = gson.toJson(MESSAGE);
         try {
             Optional<OrderInfo> orderInfoOpt = orderService.getOrderInfo(orderId);
-            String result = MESSAGE;
             if (orderInfoOpt.isPresent()) {
-                Gson gson = new Gson();
                 OrderInfo orderInfo = orderInfoOpt.get();
                 result = gson.toJson(orderInfo);
             }
-            response.getWriter().write(result);
-
         } catch (ServiceException e) {
             LOGGER.warn("Can't get order info from ajax controller", e);
-            response.sendError(500);
+        } finally {
+            response.getWriter().write(result);
         }
-
     }
 
 

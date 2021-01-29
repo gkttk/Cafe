@@ -36,7 +36,7 @@ public class AddCommentCommandTest {
     private final static String COMMENTS_PAGE = "/WEB-INF/view/comment_page.jsp";
     private final static String COMMENTS_ATTR = "dishComments";
     private final static String SORT_TYPE_ATTR = "sortType";
-    private final static String ERROR_MESSAGE_KEY = "errorMessage";
+    private final static String MESSAGE_KEY = "message";
     private final static String ERROR_MESSAGE_VALUE = "error.message.wrong.comment";
     private final static int START_PAGE_PAGINATION = 1;
 
@@ -109,7 +109,7 @@ public class AddCommentCommandTest {
         //then
         verify(requestDataHolderMock).getRequestParameter(COMMENT_TEXT_PARAM);
         verify(commentValidatorMock).validate(incorrectCommentText);
-        verify(requestDataHolderMock).putRequestAttribute(ERROR_MESSAGE_KEY, ERROR_MESSAGE_VALUE);
+        verify(requestDataHolderMock).putRequestAttribute(MESSAGE_KEY, ERROR_MESSAGE_VALUE);
         assertEquals(expectedResult, result);
     }
 

@@ -11,8 +11,7 @@ import java.util.Optional;
  * Service for working with Comment entity.
  */
 public interface CommentService {
-
-
+    
     Optional<CommentInfo> getById(long commentId) throws ServiceException;
 
     long addComment(String text, long userId, long dishId) throws ServiceException;

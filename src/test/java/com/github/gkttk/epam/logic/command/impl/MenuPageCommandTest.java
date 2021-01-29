@@ -27,9 +27,9 @@ public class MenuPageCommandTest {
     }
 
     @Test
-    void testExecuteShouldReturnCommandResultWithRedirectToMenuPage() throws ServiceException {
+    void testExecuteShouldReturnCommandResultWithForwardToMenuPage() throws ServiceException {
         //given
-        CommandResult expectedResult = new CommandResult(MENU_PAGE, true);
+        CommandResult expectedResult = new CommandResult(MENU_PAGE, false);
         //when
         CommandResult result = menuPageCommand.execute(requestDataHolderMock);
         //then

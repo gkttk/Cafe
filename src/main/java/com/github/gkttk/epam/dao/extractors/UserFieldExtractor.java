@@ -1,6 +1,5 @@
 package com.github.gkttk.epam.dao.extractors;
 
-import com.github.gkttk.epam.logic.interpreter.Base64Encoder;
 import com.github.gkttk.epam.model.entities.User;
 import com.github.gkttk.epam.model.enums.UserRole;
 
@@ -41,7 +40,6 @@ public class UserFieldExtractor implements FieldExtractor<User> {
 
         boolean isBlocked = user.isBlocked();
         result.put(BLOCKED_KEY, isBlocked);
-
 
 
         String imageRef = user.getImgBase64();

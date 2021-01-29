@@ -9,8 +9,6 @@ import com.github.gkttk.epam.model.CommandResult;
 import com.github.gkttk.epam.model.entities.User;
 
 import javax.servlet.http.Part;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Optional;
 
 public class ChangeAvatarCommand implements Command {
@@ -27,13 +25,13 @@ public class ChangeAvatarCommand implements Command {
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
 
-            Part newAvatar = (Part) requestDataHolder.getRequestAttribute(FILE_ATTR);
-            String byteString = Base64Encoder.encode(newAvatar);
+        Part newAvatar = (Part) requestDataHolder.getRequestAttribute(FILE_ATTR);
+        String byteString = Base64Encoder.encode(newAvatar);
 
-            User authUser = (User) requestDataHolder.getSessionAttribute(AUTH_USER_ATTR);
-            Long userId = authUser.getId();
-            userService.changeAvatar(authUser, byteString);
-            renewSession(userId, requestDataHolder);
+        User authUser = (User) requestDataHolder.getSessionAttribute(AUTH_USER_ATTR);
+        Long userId = authUser.getId();
+        userService.changeAvatar(authUser, byteString);
+        renewSession(userId, requestDataHolder);
 
         String redirectPage = (String) requestDataHolder.getSessionAttribute(CURRENT_PAGE_ATTR);
         return redirectPage != null ? new CommandResult(redirectPage, true) : new CommandResult(MAIN_PAGE_ATTR, true);

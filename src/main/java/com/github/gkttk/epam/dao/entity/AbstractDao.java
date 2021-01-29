@@ -19,6 +19,7 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
 
     private final static Logger LOGGER = LogManager.getLogger(AbstractDao.class);
     private final static String COMMON_ID_KEY = "id";
+
     private final Connection connection;
     private final RowMapper<T> rowMapper;
     private final FieldExtractor<T> fieldExtractor;
@@ -28,7 +29,6 @@ public abstract class AbstractDao<T extends Entity> implements Dao<T> {
         this.rowMapper = rowMapper;
         this.fieldExtractor = fieldExtractor;
     }
-
 
     /**
      * Return list of results depending on the query and parameters.

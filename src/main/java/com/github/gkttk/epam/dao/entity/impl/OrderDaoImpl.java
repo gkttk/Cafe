@@ -5,15 +5,12 @@ import com.github.gkttk.epam.dao.entity.OrderDao;
 import com.github.gkttk.epam.dao.extractors.OrderFieldExtractor;
 import com.github.gkttk.epam.dao.mappers.OrderRowMapper;
 import com.github.gkttk.epam.exceptions.DaoException;
-import com.github.gkttk.epam.model.dto.OrderInfo;
 import com.github.gkttk.epam.model.entities.Order;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
 
@@ -26,9 +23,6 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
             "AND user_id = ?";
     private final static String FIND_ALL_NOT_ACTIVE_BY_USER_ID_QUERY = "SELECT * FROM orders WHERE status" +
             " NOT LIKE 'ACTIVE' AND user_id = ?";
-
-
-
 
     public OrderDaoImpl(Connection connection) {
         super(connection, new OrderRowMapper(), new OrderFieldExtractor());
@@ -58,8 +52,6 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
     public List<Order> findAllNotActiveByUserId(long userId) throws DaoException {
         return getAllResults(FIND_ALL_NOT_ACTIVE_BY_USER_ID_QUERY, userId);
     }
-
-
 
 
     @Override

@@ -48,5 +48,4 @@ public class UserInfoBuilder implements Builder<UserInfo> {
     }
 
 
-
 }

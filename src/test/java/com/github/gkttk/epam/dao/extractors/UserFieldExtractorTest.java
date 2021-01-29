@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ public class UserFieldExtractorTest {
     private final static String POINTS_KEY = "points";
     private final static String MONEY_KEY = "money";
     private final static String BLOCKED_KEY = "blocked";
-    private final static String IMG_BASE64_KEY = "img_base64";
+    private final static String AVATAR_KEY = "avatar";
 
     private final FieldExtractor<User> fieldExtractor = new UserFieldExtractor();
 
@@ -30,7 +31,8 @@ public class UserFieldExtractorTest {
         int points = 50;
         BigDecimal money = BigDecimal.TEN;
         boolean isBlocked = false;
-        String imgBase64 = "testImgBase64";
+        String imgBase64 = "dGVzdEltZ0Jhc2U2NA==";
+        byte[] avatar = Base64.getDecoder().decode(imgBase64);
 
         Map<String, Object> expectedMap = new LinkedHashMap<>();
         expectedMap.put(ID_KEY, userId);
@@ -39,13 +41,21 @@ public class UserFieldExtractorTest {
         expectedMap.put(POINTS_KEY, points);
         expectedMap.put(MONEY_KEY, money);
         expectedMap.put(BLOCKED_KEY, isBlocked);
-        expectedMap.put(IMG_BASE64_KEY, imgBase64);
+        expectedMap.put(AVATAR_KEY, avatar);
 
         User user = new User(userId, login, role, points, money, isBlocked, imgBase64);
         //when
         Map<String, Object> result = fieldExtractor.extractFields(user);
         //then
-        Assertions.assertEquals(expectedMap, result);
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(result.get(ID_KEY), userId),
+                () -> Assertions.assertEquals(result.get(LOGIN_KEY), login),
+                () -> Assertions.assertEquals(result.get(ROLE_KEY), role.name()),
+                () -> Assertions.assertEquals(result.get(POINTS_KEY), points),
+                () -> Assertions.assertEquals(result.get(MONEY_KEY), money),
+                () -> Assertions.assertEquals(result.get(BLOCKED_KEY), isBlocked),
+                () -> Assertions.assertArrayEquals((byte[]) result.get(AVATAR_KEY), avatar)
+        );
 
     }
 }

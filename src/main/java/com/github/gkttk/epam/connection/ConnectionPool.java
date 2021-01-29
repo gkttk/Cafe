@@ -21,15 +21,18 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ConnectionPool {
 
     private static ConnectionPool instance;
+
     private final static Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
-    private final static AtomicBoolean isCreated = new AtomicBoolean(false);
+    private final static AtomicBoolean IS_CREATED = new AtomicBoolean(false);
     private final static Lock INSTANCE_LOCK = new ReentrantLock();
 
     private final static String CONFIG_LOCATION = "config/connection_pool.properties";
     private final static String MAX_INIT_CONNECTIONS_KEY = "pool.init.connection";
 
+
     private final ConnectionFactory connectionFactory;
     private final Semaphore connectionSemaphore;
+
     private Queue<ConnectionProxy> availableConnections;
     private Queue<ConnectionProxy> usedConnections;
     private int maxInitConnections;
@@ -49,12 +52,12 @@ public class ConnectionPool {
     }
 
     public static ConnectionPool getInstance() {
-        if (!isCreated.get()) {
+        if (!IS_CREATED.get()) {
             try {
                 INSTANCE_LOCK.lock();
-                if (!isCreated.get()) {
+                if (!IS_CREATED.get()) {
                     instance = new ConnectionPool();
-                    isCreated.compareAndSet(false, true);
+                    IS_CREATED.compareAndSet(false, true);
                 }
             } finally {
                 INSTANCE_LOCK.unlock();

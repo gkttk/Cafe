@@ -38,13 +38,13 @@ public class SortUsersCommandTest {
     }
 
     @Test
-    void testExecuteShouldReturnCommandResultWithRedirectToUsersPageWhenUserStatusParamIsNotNull() throws ServiceException {
+    void testExecuteShouldReturnCommandResultWithForwardToUsersPageWhenUserStatusParamIsNotNull() throws ServiceException {
         //given
         String userStatusParam = UserStatus.BLOCKED.name();
         UserStatus userStatus = UserStatus.valueOf(userStatusParam);
         List<UserInfo> users = Arrays.asList(null, null, null);
 
-        CommandResult expectedResult = new CommandResult(USERS_PAGE, true);
+        CommandResult expectedResult = new CommandResult(USERS_PAGE, false);
 
         when(requestDataHolderMock.getRequestParameter(USER_STATUS_PARAM)).thenReturn(userStatusParam);
         when(userServiceMock.getByStatus(userStatus)).thenReturn(users);
@@ -59,12 +59,12 @@ public class SortUsersCommandTest {
     }
 
     @Test
-    void testExecuteShouldReturnCommandResultWithRedirectToUsersPageWhenUserStatusParamIsNull() throws ServiceException {
+    void testExecuteShouldReturnCommandResultWithForwardToUsersPageWhenUserStatusParamIsNull() throws ServiceException {
         //given
         String userStatusParam = null;
         List<UserInfo> users = Arrays.asList(null, null, null);
 
-        CommandResult expectedResult = new CommandResult(USERS_PAGE, true);
+        CommandResult expectedResult = new CommandResult(USERS_PAGE, false);
 
         when(requestDataHolderMock.getRequestParameter(USER_STATUS_PARAM)).thenReturn(userStatusParam);
         when(userServiceMock.getAll()).thenReturn(users);

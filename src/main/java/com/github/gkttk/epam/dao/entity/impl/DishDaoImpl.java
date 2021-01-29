@@ -24,9 +24,6 @@ public class DishDaoImpl extends AbstractDao<Dish> implements DishDao {
     private final static String GET_DISH_NAMES_BY_ORDER_ID_QUERY = "SELECT d.name FROM " + TABLE_NAME +
             " d JOIN orders_dishes od on d.id = od.dish_id WHERE od.order_id = ?";
 
-
-
-
     public DishDaoImpl(Connection connection) {
         super(connection, new DishRowMapper(), new DishFieldExtractor());
     }
@@ -54,7 +51,7 @@ public class DishDaoImpl extends AbstractDao<Dish> implements DishDao {
     public List<String> findDishNamesByOrderId(long orderId) throws DaoException {
         try (PreparedStatement prepareStatement = createPrepareStatement(GET_DISH_NAMES_BY_ORDER_ID_QUERY, orderId)) {
             ResultSet resultSet = prepareStatement.executeQuery();
-           return getDishNames(resultSet);
+            return getDishNames(resultSet);
         } catch (SQLException e) {
             throw new DaoException(String.format("Can't findDishNamesByOrderId(orderId) with orderId: %d", orderId));
         }
@@ -62,7 +59,7 @@ public class DishDaoImpl extends AbstractDao<Dish> implements DishDao {
 
     private List<String> getDishNames(ResultSet resultSet) throws SQLException {
         List<String> dishNames = new ArrayList<>();
-        while (resultSet.next()){
+        while (resultSet.next()) {
             String dishName = resultSet.getString(NAME_COLUMN_KEY);
             dishNames.add(dishName);
         }

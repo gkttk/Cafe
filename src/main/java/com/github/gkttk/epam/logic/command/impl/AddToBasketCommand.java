@@ -18,7 +18,6 @@ public class AddToBasketCommand implements Command {
     private final static String DISH_ID_PARAM = "dishId";
     private final static String MENU_PAGE = "/WEB-INF/view/user_menu.jsp";
 
-
     public AddToBasketCommand(DishService dishService) {
         this.dishService = dishService;
     }

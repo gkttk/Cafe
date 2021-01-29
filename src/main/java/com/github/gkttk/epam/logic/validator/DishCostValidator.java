@@ -7,7 +7,7 @@ public class DishCostValidator implements Validator {
     private final static double MAX_VALUE = 25;
 
     @Override
-    public boolean validate(String line){
+    public boolean validate(String line) {
         try {
             Double value = Double.parseDouble(line);
             return value.compareTo(MIN_VALUE) >= 0 && value.compareTo(MAX_VALUE) <= 0;

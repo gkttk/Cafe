@@ -42,26 +42,24 @@ public class BlockingOrderContextListener implements ServletContextListener {
         this.scheduledExecutorService.shutdown();
     }
 
-    private void blockOrders(List<Order> orders) throws ServiceException {
-        for (Order order : orders) {
-            orderService.blockOrder(order);
-            LOGGER.info("Block order {}", order);
-        }
-    }
-
-
     private Runnable initRunnable() {
         return () -> {
             try {
                 List<Order> ordersWithExpiredDate = orderService.getAllActiveWithExpiredDate();
                 if (!ordersWithExpiredDate.isEmpty()) {
                     blockOrders(ordersWithExpiredDate);
-
                 }
             } catch (ServiceException e) {
                 LOGGER.error("Can't init runnable in listener", e);
             }
         };
+    }
+
+    private void blockOrders(List<Order> orders) throws ServiceException {
+        for (Order order : orders) {
+            orderService.blockOrder(order);
+            LOGGER.info("Block order {}", order);
+        }
     }
 
 

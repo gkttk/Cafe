@@ -31,6 +31,28 @@ public class Controller extends HttpServlet {
     private final static String START_PAGE = "index.jsp";
     private final static String REDIRECT_TALE = "?command=REDIRECT";
 
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        String page = (String) session.getAttribute(CURRENT_PAGE_ATTR);
+        if (page == null) {
+            page = START_PAGE;
+            session.setAttribute(CURRENT_PAGE_ATTR, page);
+        }
+        String message = (String) session.getAttribute(MESSAGE_ATTR);
+        if (message != null) {
+            request.setAttribute(MESSAGE_ATTR, message);
+            session.removeAttribute(MESSAGE_ATTR);
+        }
+        doCommand(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        doCommand(request, response);
+    }
+
     private void doCommand(HttpServletRequest request, HttpServletResponse response) throws IOException {
         RequestDataHolder requestDataHolder = new RequestDataHolder(request);
         try {
@@ -50,34 +72,11 @@ public class Controller extends HttpServlet {
     }
 
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        HttpSession session = request.getSession();
-        String page = (String) session.getAttribute(CURRENT_PAGE_ATTR);
-        if (page == null) {
-            page = START_PAGE;
-            session.setAttribute(CURRENT_PAGE_ATTR, page);
-        }
-        String message = (String) session.getAttribute(MESSAGE_ATTR);
-        if (message != null) {
-            request.setAttribute(MESSAGE_ATTR, message);
-            session.removeAttribute(MESSAGE_ATTR);
-        }
-        doCommand(request, response);
-
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        doCommand(request, response);
-
-    }
-
     private void forward(HttpServletRequest request, HttpServletResponse response, String url) throws IOException {
         try {
             request.getRequestDispatcher(url).forward(request, response);
         } catch (ServletException ex) {
-            LOGGER.warn("Can't forward from doPost()", ex);
+            LOGGER.warn("Can't forward from to url:{}", url, ex);
             response.sendError(500);
         }
     }
@@ -88,11 +87,11 @@ public class Controller extends HttpServlet {
             request.getSession().invalidate();
         }
         request.getSession().setAttribute(CURRENT_PAGE_ATTR, url);
+        String redirectUrl = request.getRequestURL() + REDIRECT_TALE;
         try {
-            String redirectUrl = request.getRequestURL() + REDIRECT_TALE;
             response.sendRedirect(redirectUrl);
         } catch (IOException e) {
-            LOGGER.warn("Can't forward/redirect from doPost()", e);
+            LOGGER.warn("Can't redirect to url:{}", redirectUrl, e);
             response.sendError(500);
         }
     }

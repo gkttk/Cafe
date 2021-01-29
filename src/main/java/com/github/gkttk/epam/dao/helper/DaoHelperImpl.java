@@ -19,17 +19,15 @@ public class DaoHelperImpl implements AutoCloseable, DaoHelper {
         this.connection = connection;
     }
 
-
     public UserCommentRatingDao createUserCommentRatingDao() {
         return new UserCommentRatingDaoImpl(connection);
     }
 
-
-    public UserInfoDao createUserInfoDao(){
+    public UserInfoDao createUserInfoDao() {
         return new UserInfoDaoImpl(connection);
     }
 
-    public CommentInfoDao createCommentInfoDao(){
+    public CommentInfoDao createCommentInfoDao() {
         return new CommentInfoDaoImpl(connection);
     }
 

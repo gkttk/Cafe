@@ -89,7 +89,7 @@ public class DishCommentsCommandTest {
         when(requestDataHolderMock.getSessionAttribute(SORT_TYPE_ATTR)).thenReturn(sortType);
         when(commentServiceMock.getAllByDishIdPagination(dishId, pageNumber, sortType)).thenReturn(comments);
 
-        CommandResult expectedResult = new CommandResult(COMMENTS_PAGE, true);
+        CommandResult expectedResult = new CommandResult(COMMENTS_PAGE, false);
         //when
         CommandResult result = dishCommentsCommand.execute(requestDataHolderMock);
         //then
@@ -109,7 +109,7 @@ public class DishCommentsCommandTest {
         verify(commentServiceMock).getAllByDishIdPagination(dishId, pageNumber, sortType);
         verify(requestDataHolderMock).putSessionAttribute(COMMENTS_ATTR, comments);
         verify(requestDataHolderMock).putSessionAttribute(CURRENT_PAGE_PARAM, COMMENTS_PAGE);
-        
+
         assertEquals(expectedResult, result);
     }
 

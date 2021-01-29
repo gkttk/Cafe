@@ -596,7 +596,7 @@ h4 {
 }
 
 
-#deleteForm*{
+#deleteForm * {
     display: none;
 }
 

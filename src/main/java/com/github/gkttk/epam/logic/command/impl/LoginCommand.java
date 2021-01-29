@@ -42,7 +42,7 @@ public class LoginCommand implements Command {
 
         if (userOpt.isPresent()) {
             User user = userOpt.get();
-            if(user.isBlocked()){
+            if (user.isBlocked()) {
                 requestDataHolder.putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE_BLOCKED);
                 return new CommandResult(START_PAGE, false);
             }
@@ -58,8 +58,6 @@ public class LoginCommand implements Command {
             requestDataHolder.putRequestAttribute(MESSAGE_ATTR, ERROR_MESSAGE_CREDENTIALS);
             return new CommandResult(START_PAGE, false);
         }
-
-
 
 
     }

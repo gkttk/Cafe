@@ -46,7 +46,7 @@ public class MyOrdersPageCommandTest {
     }
 
     @Test
-    void testExecuteShouldReturnCommandResultWithRedirectToMyOrdersPage() throws ServiceException {
+    void testExecuteShouldReturnCommandResultWithForwardToMyOrdersPage() throws ServiceException {
         //given
         long userId = TEST_USER.getId();
 
@@ -60,7 +60,7 @@ public class MyOrdersPageCommandTest {
         when(requestDataHolderMock.getRequestParameter(SORT_TYPE_PARAM)).thenReturn(sortTypeParam);
         when(orderServiceMock.getAllActiveByUserIdAndStatus(userId, sortType)).thenReturn(orders);
 
-        CommandResult expectedResult = new CommandResult(MY_ORDERS_PAGE, true);
+        CommandResult expectedResult = new CommandResult(MY_ORDERS_PAGE, false);
         //when
         CommandResult result = myOrdersPageCommand.execute(requestDataHolderMock);
         //then

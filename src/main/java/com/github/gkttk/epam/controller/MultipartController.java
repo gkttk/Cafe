@@ -32,8 +32,8 @@ public class MultipartController extends HttpServlet {
         try {
             Part file = request.getPart(FILE_ATTR);
             if (file == null) {
-                response.sendRedirect(getServletContext().getContextPath() + TAIL_FOR_REDIRECT);
                 LOGGER.info("There is no file in request");
+                response.sendRedirect(getServletContext().getContextPath() + TAIL_FOR_REDIRECT);
             }
             requestDataHolder.putRequestAttribute(FILE_ATTR, file);
             Command command = getCommand(requestDataHolder);

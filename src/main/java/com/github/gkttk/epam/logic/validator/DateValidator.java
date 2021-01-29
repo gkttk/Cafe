@@ -5,12 +5,12 @@ import java.time.LocalDateTime;
 
 public class DateValidator implements Validator {
     @Override
-    public boolean validate(String line){
-        if(line != null && !line.isEmpty()){
+    public boolean validate(String line) {
+        if (line != null && !line.isEmpty()) {
             LocalDateTime orderDateTime = LocalDateTime.parse(line);
             LocalDateTime currentDateTime = LocalDateTime.now();
             return currentDateTime.isBefore(orderDateTime);
-        }else {
+        } else {
             return false;
         }
 

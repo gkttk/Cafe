@@ -27,13 +27,13 @@ public class DisableDishCommandTest {
 
     private RequestDataHolder requestDataHolderMock;
 
-    private Command disableDishCommand;
+    private Command removeDishCommand;
 
     @BeforeEach
     void init() {
         this.requestDataHolderMock = Mockito.mock(RequestDataHolder.class);
         this.dishServiceMock = Mockito.mock(DishService.class);
-        this.disableDishCommand = new DisableDishCommand(dishServiceMock);
+        this.removeDishCommand = new RemoveDishCommand(dishServiceMock);
     }
 
     @Test
@@ -48,7 +48,7 @@ public class DisableDishCommandTest {
 
         CommandResult expectedResult = new CommandResult(MENU_PAGE, true);
         //when
-        CommandResult result = disableDishCommand.execute(requestDataHolderMock);
+        CommandResult result = removeDishCommand.execute(requestDataHolderMock);
         //then
         verify(requestDataHolderMock).getRequestParameter(DISH_ID_PARAM);
         verify(dishServiceMock).disableDish(dishId);

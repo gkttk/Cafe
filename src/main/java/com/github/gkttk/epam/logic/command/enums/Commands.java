@@ -2,7 +2,6 @@ package com.github.gkttk.epam.logic.command.enums;
 
 import com.github.gkttk.epam.dao.helper.factory.DaoHelperFactoryImpl;
 import com.github.gkttk.epam.logic.command.Command;
-import com.github.gkttk.epam.logic.command.impl.RedirectCommand;
 import com.github.gkttk.epam.logic.command.impl.*;
 import com.github.gkttk.epam.logic.service.impl.*;
 import com.github.gkttk.epam.logic.validator.*;

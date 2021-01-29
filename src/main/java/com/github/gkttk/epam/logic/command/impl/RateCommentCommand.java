@@ -33,8 +33,7 @@ public class RateCommentCommand implements Command {
         this.commentService = commentService;
         this.userCommentRatingService = userCommentRatingService;
     }
-
-
+    
     @Override
     public CommandResult execute(RequestDataHolder requestDataHolder) throws ServiceException {
 

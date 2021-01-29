@@ -7,7 +7,7 @@ public class DishNameValidator implements Validator {
     @Override
     public boolean validate(String dishName) {
         return dishName != null && dishName.matches(DISH_NAME_REGEX);
-}
+    }
 
 
 }

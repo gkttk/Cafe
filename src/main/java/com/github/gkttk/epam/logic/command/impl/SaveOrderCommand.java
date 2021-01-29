@@ -29,7 +29,6 @@ public class SaveOrderCommand implements Command {
     private final static String ERROR_MESSAGE_VALUE = "error.message.wrong.date";
     private final static String MENU_PAGE = "/WEB-INF/view/user_menu.jsp";
 
-
     public SaveOrderCommand(OrderService orderService, Validator dataValidator) {
         this.orderService = orderService;
         this.dataValidator = dataValidator;
@@ -59,8 +58,7 @@ public class SaveOrderCommand implements Command {
         requestDataHolder.putSessionAttribute(MESSAGE_ATTR, MESSAGE);
 
         return new CommandResult(MENU_PAGE, true);
-}
-
+    }
 
     private List<Long> getDishIds(RequestDataHolder requestDataHolder) {
         List<Dish> basket = (List<Dish>) requestDataHolder.getSessionAttribute(BASKET_ATTR);
