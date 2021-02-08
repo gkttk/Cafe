@@ -25,6 +25,9 @@
         </p>
 
         <main>
+            <p class="welcome_text">
+                <fmt:message key="index.welcome"/>
+            </p>
         </main>
         <%@ include file="WEB-INF/view/parts/footer.jsp" %>
     </div>

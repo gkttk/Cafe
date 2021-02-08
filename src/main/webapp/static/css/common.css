@@ -246,6 +246,17 @@ main * input[type="password"] {
 }
 
 
+main p.welcome_text{
+    width: 100%;
+    text-align: center;
+    font-style: italic;
+    font-family: none;
+    font-weight: 700;
+    font-size: xx-large;
+    color: crimson;
+
+}
+
 main div.side_menu {
     flex-basis: 20%;
     border-radius: 10px;
